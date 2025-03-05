@@ -1,3 +1,12 @@
-[gd_scene format=3 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=3 format=3 uid="uid://drndiygpgjsov"]
+
+[ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
+[ext_resource type="PackedScene" uid="uid://cdh5j6xouytoi" path="res://scenes/Ghost.tscn" id="2_wxa4i"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_s5xc4")]
+position = Vector2(400, 400)
+
+[node name="Ghost" parent="." instance=ExtResource("2_wxa4i")]
+position = Vector2(150, 150)
