@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxlq6i3gdrfuy"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_y0jdu"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_y0jdu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Player hitbox" type="CollisionShape2D" parent="."]
+
+[node name="Melee hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Melee hitbox"]
+
+[node name="Bullet spawn" type="Marker2D" parent="."]
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StunTimer" type="Timer" parent="."]
+one_shot = true
