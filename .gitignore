@@ -1,0 +1,24 @@
+# Godot cache & temporary files
+.import/                    # Godot import metadata (rebuilds automatically)
+.export/                    # Exported builds
+.mono/                      # Mono/.NET (if using C#)
+*.godot                      # Godot temporary lock files
+
+# OS-generated files
+.DS_Store                    # macOS
+Thumbs.db                    # Windows
+desktop.ini                  # Windows
+
+# Logs & backups
+*.log                        # Log files
+*.tmp                        # Temporary files
+*.bak                        # Godot backup files
+
+# Compiled files & binaries
+*.rsc                        # Cached compiled resources
+*.mtr                        # Cached materials
+*.pck                        # Godot package files
+*.zip                        # Zip exports
+
+# Exclude compiled binaries but NOT source code
+bin/
