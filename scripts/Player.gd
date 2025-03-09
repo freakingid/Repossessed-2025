@@ -49,8 +49,16 @@ func _process(delta):
 
 ## Fire player shot
 func shoot(direction: Vector2):
+	if bullet_scene == null:
+		print("Error: bullet_scene is NULL")
+		return  # Prevent crash
+
 	var bullet = bullet_scene.instantiate()
-	bullet.position = $Marker2D.global_position
+	if bullet == null:
+		print("Error: Bullet instantiation failed")
+		return
+
+	bullet.position = $Marker2D.global_position  # ERROR LINE
 	bullet.direction = direction
 	get_tree().current_scene.add_child(bullet)
 

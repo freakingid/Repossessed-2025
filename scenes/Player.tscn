@@ -8,7 +8,7 @@
 radius = 12.0
 height = 52.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_y0jdu")
 bullet_scene = ExtResource("2_pqtk7")
 
@@ -23,7 +23,7 @@ shape = SubResource("CapsuleShape2D_vlpuv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Melee hitbox"]
 
-[node name="Bullet spawn" type="Marker2D" parent="."]
+[node name="Marker2D" type="Marker2D" parent="."]
 
 [node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true
