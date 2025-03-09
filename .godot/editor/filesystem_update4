@@ -1,7 +1,0 @@
-res://scenes/Player.tscn
-res://scripts/Player.gd
-res://scenes/Bullet.tscn
-res://scripts/Bullet.gd
-res://scenes/Ghost.tscn
-res://scripts/Ghost.gd
-res://scenes/Main.tscn

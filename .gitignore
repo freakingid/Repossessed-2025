@@ -1,24 +1,29 @@
-# Godot cache & temporary files
-.import/                    # Godot import metadata (rebuilds automatically)
+# Godot Engine auto-generated files (DO NOT COMMIT)
+.import/                    # Godot import metadata (regenerates automatically)
 .export/                    # Exported builds
-.mono/                      # Mono/.NET (if using C#)
-*.godot                      # Godot temporary lock files
+.mono/                      # Mono/.NET files
+*.godot                     # Temporary lock files
+.godot/
 
-# OS-generated files
-.DS_Store                    # macOS
-Thumbs.db                    # Windows
-desktop.ini                  # Windows
+
+# Operating System junk files
+.DS_Store                   # macOS
+Thumbs.db                   # Windows thumbnail cache
+desktop.ini                 # Windows
 
 # Logs & backups
-*.log                        # Log files
-*.tmp                        # Temporary files
-*.bak                        # Godot backup files
+*.log                       # Log files
+*.tmp                       # Temporary files
+*.bak                       # Godot editor backup files
 
-# Compiled files & binaries
-*.rsc                        # Cached compiled resources
-*.mtr                        # Cached materials
-*.pck                        # Godot package files
-*.zip                        # Zip exports
+# Godot cache files
+*.rsc                       # Cached compiled resources
+*.mtr                       # Cached materials
+*.pck                       # Godot package files
+*.zip                       # Zip exports
 
-# Exclude compiled binaries but NOT source code
-bin/
+# Ignoring large binaries but keeping them in Git LFS
+bin/                        # Ignore compiled binaries but NOT source code
+
+# Ignore .cfg and .editor_settings (Personal settings)
+.editor_settings-4.tres
