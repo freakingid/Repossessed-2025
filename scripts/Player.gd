@@ -114,6 +114,7 @@ func _on_MeleeArea_body_entered(body):
 ## Player taking damage
 func take_damage(amount):
 	if invincible:
+		print("Player is invincible! No damage taken.")
 		return  # Ignore damage if already invincible
 
 	health -= amount
