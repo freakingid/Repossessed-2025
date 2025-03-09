@@ -3,16 +3,26 @@ extends CharacterBody2D
 @export var speed: float = 200.0  # Movement speed
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
 @export var fire_rate: float = 0.2  # Delay between shots
+@export var max_health: int = 3  # Max health (can be modified in Inspector)
 # lightning parameters
 @export var lightning_radius: float = 200.0
 @export var lightning_cooldown: float = 10.0
 @export var stun_duration: float = 3.0
+# melee management
+@export var invincibility_duration: float = 0.5  # 0.5 seconds of invincibility
 
+var health: int  # Current health
+var invincible: bool = false # can player be damaged?
 # normal shooting
 var can_shoot = true # Is player shot cooldown period past?
 # lightning flags
 var can_use_lightning = true # Is lightning cooldown period past?
 var stunned = false # Is player currently stunned from lightning use?
+
+@onready var sprite = $Sprite2D  # Ensure your Player has a Sprite2D node
+
+func _ready():
+	health = max_health  # Initialize health
 
 ## Process player movement
 func _physics_process(delta):
@@ -91,6 +101,59 @@ func _on_CooldownTimer_timeout():
 	can_use_lightning = true  # Ability ready again
 
 func _on_MeleeArea_body_entered(body):
+	print("Melee collision detected with:", body.name)  # Debugging output
+
+	if invincible:
+		print("Player is invincible, bye.")
+		return  # Player cannot damage anyone while invincible
+
 	if body.is_in_group("enemies"):
 		print("Melee hit:", body.name)
 		body.take_damage(1)
+
+## Player taking damage
+func take_damage(amount):
+	if invincible:
+		return  # Ignore damage if already invincible
+
+	health -= amount
+	print("Player took damage! Health:", health)
+
+	# Start invincibility
+	invincible = true
+	$InvincibilityTimer.start()
+	
+	# Make Player sprite blink (optional, add later)
+	start_blinking_effect()
+
+	if health <= 0:
+		die()
+
+## Make player vulnerable to attack again
+func _on_InvincibilityTimer_timeout():
+	invincible = false
+	print("Player is no longer invincible.")
+
+func start_blinking_effect():
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.1)  # Invisible
+	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.1)  # Visible
+	tween.set_loops(5)  # Blink 5 times over 0.5s
+
+func _on_invincibility_timer_timeout() -> void:
+	pass # Replace with function body.
+
+func die():
+	print("Player has died!")  # Debugging message
+	
+	# Optional: Play a death animation or sound
+	# Example: $AnimationPlayer.play("death")
+
+	# Optional: Respawn the player (if needed)
+	# Example: position = Vector2(START_X, START_Y)
+
+	# For now, remove the Player from the scene
+	queue_free()  # Deletes the player
+
+	# Optional: Restart the level
+	# get_tree().reload_current_scene()

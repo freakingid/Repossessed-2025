@@ -19,6 +19,9 @@ func _physics_process(delta):
 func _on_body_entered(body):
 	if body.is_in_group("player_projectiles"):
 		take_damage(1)
+	elif body.is_in_group("player") and not body.invincible:
+		print("Ghost hit Player!")  # Debugging message
+		body.take_damage(1)  # Damage the Player
 
 func take_damage(amount):
 	health -= amount
