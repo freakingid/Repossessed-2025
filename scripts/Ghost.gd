@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var speed: float = 100.0
+@export var health: int = 2
 var player = null
 
 func _ready():
@@ -14,5 +15,14 @@ func _physics_process(delta):
 		velocity = direction * speed
 		move_and_slide()
 
+## Only take damage from bullets the player shot
+func _on_body_entered(body):
+	if body.is_in_group("player_projectiles"):
+		take_damage(1)
+
 func take_damage(amount):
-	queue_free()  # Ghosts die instantly
+	health -= amount
+	print(name, "took damage! Remaining health:", health)
+	
+	if health <= 0:
+		queue_free()  # Destroy the ghost

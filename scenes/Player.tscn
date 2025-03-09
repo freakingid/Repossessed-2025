@@ -9,6 +9,7 @@ radius = 12.0
 height = 52.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 4
 script = ExtResource("1_y0jdu")
 bullet_scene = ExtResource("2_pqtk7")
 
@@ -16,12 +17,14 @@ bullet_scene = ExtResource("2_pqtk7")
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_1dqu5")
 
-[node name="Player hitbox" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_vlpuv")
 
-[node name="Melee hitbox" type="Area2D" parent="."]
+[node name="MeleeArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Melee hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeArea"]
 
 [node name="Marker2D" type="Marker2D" parent="."]
 
@@ -30,3 +33,5 @@ one_shot = true
 
 [node name="StunTimer" type="Timer" parent="."]
 one_shot = true
+
+[connection signal="body_entered" from="MeleeArea" to="." method="_on_melee_area_body_entered"]

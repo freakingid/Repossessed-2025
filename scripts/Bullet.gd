@@ -7,6 +7,9 @@ func _process(delta):
 	position += direction * speed * delta
 
 func _on_body_entered(body):
+	print("Bullet collision detected with:", body.name)  # Debugging output
+
 	if body.is_in_group("enemies"):
-		body.take_damage(1)
-		queue_free()  # Destroy bullet upon hit
+		print("Bullet hit:", body.name)  # Debugging
+		body.take_damage(1)  # Ghost should lose health
+		queue_free()  # Destroy the bullet on impact

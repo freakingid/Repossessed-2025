@@ -89,3 +89,8 @@ func _on_StunTimer_timeout():
 
 func _on_CooldownTimer_timeout():
 	can_use_lightning = true  # Ability ready again
+
+func _on_MeleeArea_body_entered(body):
+	if body.is_in_group("enemies"):
+		print("Melee hit:", body.name)
+		body.take_damage(1)
