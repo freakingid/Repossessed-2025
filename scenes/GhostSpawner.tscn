@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://53tpqj34abuj"]
+
+[ext_resource type="Script" path="res://scripts/GhostSpawner.gd" id="1_cw5cl"]
+[ext_resource type="Texture2D" uid="uid://ld7fgrmwu01k" path="res://assets/sprites/fpo-bone-pile-128.png" id="1_i1ifj"]
+[ext_resource type="PackedScene" uid="uid://cdh5j6xouytoi" path="res://scenes/Ghost.tscn" id="2_1l2pp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_34ym8"]
+size = Vector2(110, 57)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j6e"]
+size = Vector2(110, 57)
+
+[node name="GhostSpawner" type="Node2D" groups=["spawners"]]
+script = ExtResource("1_cw5cl")
+ghost_scene = ExtResource("2_1l2pp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_i1ifj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_34ym8")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_a6j6e")
+debug_color = Color(0.968648, 0, 0.466513, 0.42)
+
+[connection signal="area_entered" from="DamageArea" to="." method="_on_DamageArea_area_entered"]

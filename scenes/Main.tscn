@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=4 format=3 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://cdh5j6xouytoi" path="res://scenes/Ghost.tscn" id="2_wxa4i"]
+[ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/GhostSpawner.tscn" id="3_u8uhy"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -10,3 +11,6 @@ position = Vector2(400, 400)
 
 [node name="Ghost" parent="." instance=ExtResource("2_wxa4i")]
 position = Vector2(150, 150)
+
+[node name="GhostSpawner" parent="." instance=ExtResource("3_u8uhy")]
+position = Vector2(777, 300)
