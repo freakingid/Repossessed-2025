@@ -5,6 +5,7 @@ extends CharacterBody2D
 var player = null
 var hit_player_recently = false  # Prevents continuous attacks, but NOT melee damage
 var speed: float  # Each ghost will have its own unique speed
+var room_bounds = Rect2(Vector2.ZERO, Vector2.ZERO)  # Stores room size
 
 
 func _ready():
@@ -15,6 +16,15 @@ func _ready():
 	# Randomize ghost speed by ±20%
 	speed = base_speed * randf_range(0.8, 1.2)  # Between 80% and 120% of base speed
 	print("Ghost spawned with speed:", speed)  # Debugging output
+	
+	# Get the room size from the TileMap in Main.tscn
+	var tilemap = get_tree().get_first_node_in_group("room_tilemap")
+	if tilemap:
+		room_bounds = tilemap.get_used_rect()  # Gets the used tile area
+		var tile_size = tilemap.tile_set.tile_size
+		room_bounds.position *= tile_size
+		room_bounds.size *= tile_size
+		print("Room Bounds:", room_bounds)
 		
 func _physics_process(delta):
 	if player and is_instance_valid(player):  # Ensure the player still exists
@@ -41,6 +51,16 @@ func _physics_process(delta):
 	else:
 		player = null  # Prevent further errors if the Player is removed
 		velocity = Vector2.ZERO  # Stop moving if Player is gone
+
+	# Dynamically clamp position inside the full room
+	if Vector2(room_bounds.size) != Vector2.ZERO:
+		var min_x = room_bounds.position.x
+		var max_x = room_bounds.position.x + room_bounds.size.x  # Corrected calculation
+		var min_y = room_bounds.position.y
+		var max_y = room_bounds.position.y + room_bounds.size.y  # Corrected calculation
+
+		position.x = clamp(position.x, min_x, max_x)
+		position.y = clamp(position.y, min_y, max_y)
 
 ## Only take damage from bullets the player shot
 func _on_body_entered(body):
