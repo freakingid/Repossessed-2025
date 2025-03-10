@@ -11,6 +11,7 @@ size = Vector2(110, 57)
 size = Vector2(110, 57)
 
 [node name="GhostSpawner" type="Node2D" groups=["spawners"]]
+z_index = 1
 script = ExtResource("1_cw5cl")
 ghost_scene = ExtResource("2_1l2pp")
 
