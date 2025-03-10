@@ -1,15 +1,20 @@
 extends CharacterBody2D
 
-@export var speed: float = 100.0
+@export var base_speed: float = 100  # Default speed of a ghost
 @export var health: int = 2
 var player = null
 var hit_player_recently = false  # Prevents continuous attacks, but NOT melee damage
+var speed: float  # Each ghost will have its own unique speed
 
 
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
 	if player == null:
 		print("Error: No player found!")
+		
+	# Randomize ghost speed by ±20%
+	speed = base_speed * randf_range(0.8, 1.2)  # Between 80% and 120% of base speed
+	print("Ghost spawned with speed:", speed)  # Debugging output
 		
 func _physics_process(delta):
 	if player and is_instance_valid(player):  # Ensure the player still exists
