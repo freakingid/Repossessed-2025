@@ -103,11 +103,7 @@ func _on_CooldownTimer_timeout():
 func _on_MeleeArea_body_entered(body):
 	print("Melee collision detected with:", body.name)  # Debugging output
 
-	if invincible:
-		print("Player is invincible, bye.")
-		return  # Player cannot damage anyone while invincible
-
-	if body.is_in_group("enemies"):
+	if body.is_in_group("enemies") and not invincible:
 		print("Melee hit:", body.name)
 		body.take_damage(1)
 
@@ -130,19 +126,17 @@ func take_damage(amount):
 	if health <= 0:
 		die()
 
-## Make player vulnerable to attack again
-func _on_InvincibilityTimer_timeout():
-	invincible = false
-	print("Player is no longer invincible.")
-
 func start_blinking_effect():
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.1)  # Invisible
 	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.1)  # Visible
 	tween.set_loops(5)  # Blink 5 times over 0.5s
 
+## Make player vulnerable to attack again
 func _on_invincibility_timer_timeout() -> void:
-	pass # Replace with function body.
+	print("invincibility timer timeout, player should take damage")
+	invincible = false
+	print("Player is no longer invincible.")
 
 func die():
 	print("Player has died!")  # Debugging message
