@@ -1,5 +1,8 @@
+20250311
+DONE * Next thing to do is make bullets die when they hit walls in the room.
+
+
 20250310
-* Next thing to do is make bullets die when they hit walls in the room.
 * Good tilesetlayer video, including z-index so you can walk behind top of trees:
 https://www.youtube.com/watch?v=43sJIWaj2Yw
 
