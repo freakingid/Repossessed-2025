@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var base_speed: float = 100  # Default speed of a ghost
 @export var health: int = 2
+@export var score_value: int = 1
 var player = null
 var hit_player_recently = false  # Prevents continuous attacks, but NOT melee damage
 var speed: float  # Each ghost will have its own unique speed
@@ -54,8 +55,12 @@ func _on_body_entered(body):
 
 func take_damage(amount):
 	health -= amount
-	print(name, "took damage! Remaining health:", health)  # Debugging output
+	print(name, "Ghost took damage! Remaining health: ", health)  # Debugging output
 	
 	if health <= 0:
 		print(name, "has died!")
+		# Grant score to player upon death
+		var player = get_tree().get_first_node_in_group("player")
+		if player:
+			player.add_score(score_value)  # Or any value you want
 		queue_free()  # Destroy the ghost

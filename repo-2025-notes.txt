@@ -1,6 +1,8 @@
 20250311
 DONE * Next thing to do is make bullets die when they hit walls in the room.
-
+DONE * 2. Displaying Player Score in the GUI
+* Show healthbar above player
+** Next thing is to fix display of the Healthbar, by adding texture or color.
 
 20250310
 * Good tilesetlayer video, including z-index so you can walk behind top of trees:

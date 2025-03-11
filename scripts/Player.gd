@@ -11,7 +11,7 @@ extends CharacterBody2D
 # melee management
 @export var invincibility_duration: float = 0.5  # 0.5 seconds of invincibility
 
-var health: int  # Current health
+var health: int = max_health  # Current health
 var invincible: bool = false # can player be damaged?
 # normal shooting
 var can_shoot = true # Is player shot cooldown period past?
@@ -20,9 +20,20 @@ var can_use_lightning = true # Is lightning cooldown period past?
 var stunned = false # Is player currently stunned from lightning use?
 
 @onready var sprite = $Sprite2D  # Ensure your Player has a Sprite2D node
+@onready var hud = get_tree().get_first_node_in_group("hud")
+@onready var health_bar = $HealthBar  # Ensure a ProgressBar exists as a child node
 
 func _ready():
-	health = max_health  # Initialize health
+	if health_bar:
+		print("HUD Node:", hud)  # Debugging output
+		print("HealthBar found!")  # Debugging output	health = max_health  # Initialize health
+		health_bar.max_value = max_health
+		health_bar.value = health
+	else:
+		print("Error: HealthBar node not found!")
+
+	print("HUD Node:", hud) # Debug HUD
+
 
 ## Process player movement
 func _physics_process(delta):
@@ -72,6 +83,14 @@ func shoot(direction: Vector2):
 	bullet.direction = direction
 	get_tree().current_scene.add_child(bullet)
 
+func add_score(points: int):
+	if hud:
+		print("Adding score:", points)  # Debugging output
+		hud.add_score(points)
+		print("Score increased! New score:", Global.score)  # Debugging output
+	else:
+		print("HUD not found in add_score()!")
+
 ## Melee attack for player
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("enemies"):
@@ -114,7 +133,13 @@ func take_damage(amount):
 		return  # Ignore damage if already invincible
 
 	health -= amount
+	health = max(health, 0)  # Ensure it doesn't go below 0
 	print("Player took damage! Health:", health)
+	if health_bar:
+		print("Updating HealthBar. New Value:", health)  # Debugging output
+		health_bar.value = health  # Update the health bar
+	else:
+		print("HealthBar not found!")
 
 	# Start invincibility
 	invincible = true

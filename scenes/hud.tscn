@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgw312ex8eet8"]
+
+[ext_resource type="Script" path="res://scripts/HUD.gd" id="1_k5ygi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_in72c"]
+
+[node name="HUD" type="CanvasLayer" groups=["hud"]]
+script = ExtResource("1_k5ygi")
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_in72c")
