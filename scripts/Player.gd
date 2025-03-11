@@ -19,21 +19,10 @@ var can_shoot = true # Is player shot cooldown period past?
 var can_use_lightning = true # Is lightning cooldown period past?
 var stunned = false # Is player currently stunned from lightning use?
 
-var room_bounds = Rect2(Vector2.ZERO, Vector2.ZERO)  # Stores room size
-
 @onready var sprite = $Sprite2D  # Ensure your Player has a Sprite2D node
 
 func _ready():
 	health = max_health  # Initialize health
-
-	# Get the room size from the TileMap in Main.tscn
-	var tilemap = get_tree().get_first_node_in_group("room_tilemap")
-	if tilemap:
-		room_bounds = tilemap.get_used_rect()  # Gets the used tile area
-		var tile_size = tilemap.tile_set.tile_size
-		room_bounds.position *= tile_size
-		room_bounds.size *= tile_size
-		print("Room Bounds:", room_bounds)
 
 ## Process player movement
 func _physics_process(delta):
@@ -55,16 +44,6 @@ func _physics_process(delta):
 
 	velocity = move_direction.normalized() * speed
 	move_and_slide()
-
-	# Dynamically clamp position inside the full room
-	if Vector2(room_bounds.size) != Vector2.ZERO:
-		var min_x = room_bounds.position.x
-		var max_x = room_bounds.position.x + room_bounds.size.x  # Corrected calculation
-		var min_y = room_bounds.position.y
-		var max_y = room_bounds.position.y + room_bounds.size.y  # Corrected calculation
-
-		position.x = clamp(position.x, min_x, max_x)
-		position.y = clamp(position.y, min_y, max_y)
 
 ## Process player shot direction
 func _process(delta):
