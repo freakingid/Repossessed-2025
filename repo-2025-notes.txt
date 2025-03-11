@@ -1,2 +1,11 @@
 20250310
 * Next thing to do is make bullets die when they hit walls in the room.
+* Good tilesetlayer video, including z-index so you can walk behind top of trees:
+https://www.youtube.com/watch?v=43sJIWaj2Yw
+
+Layers:
+1: Player
+2: Player bullet
+3: Ghost (presumably most enemies)
+4: Spawners
+5: Walls (blockers in general?)
