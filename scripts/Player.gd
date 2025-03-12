@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var speed: float = 200.0  # Movement speed
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
 @export var fire_rate: float = 0.2  # Delay between shots
+@export var max_shots_in_level: int = 3 # Total player shots allowed in level at once
 @export var max_health: int = 50  # Max health (can be modified in Inspector)
 # lightning parameters
 @export var lightning_radius: float = 200.0
@@ -70,6 +71,7 @@ func _process(delta):
 
 ## Fire player shot
 func shoot(direction: Vector2):
+	# TODO we need to see if `max_shots_in_level` num of bullets exist and possibly disallow shooting
 	if bullet_scene == null:
 		print("Error: bullet_scene is NULL")
 		return  # Prevent crash
@@ -90,11 +92,6 @@ func add_score(points: int):
 		print("Score increased! New score:", Global.score)  # Debugging output
 	else:
 		print("HUD not found in add_score()!")
-
-## Melee attack for player
-func _on_Area2D_body_entered(body):
-	if body.is_in_group("enemies"):
-		body.take_damage(1)  # Deal melee damage on collision
 
 ## Lightning attack for player
 func use_lightning():
@@ -119,11 +116,13 @@ func _on_StunTimer_timeout():
 func _on_CooldownTimer_timeout():
 	can_use_lightning = true  # Ability ready again
 
+## Melee attack for player
 func _on_MeleeArea_body_entered(body):
 	print("Melee collision detected with:", body.name)  # Debugging output
 
 	if body.is_in_group("enemies") and not invincible:
 		print("Melee hit:", body.name)
+		print("Player is damaging enemy by hard-coded value")
 		body.take_damage(1)
 
 ## Player taking damage

@@ -1,12 +1,38 @@
+20250312
+WORK * Need to make sure player is damaging ghost enemies during melee.
+** First, it is a hard-coded "1" of damage, but should be "melee_power" property we need to set up in all characters, Player and Enemies alike.
+** Second, it is only dealing damage on the first hit to a Ghost. There is possibly a problem with the "invincible" flag not changing? YES that is the issue, if the player is right next to the ghost, gets hit, gets invincible flag set, but then the ghost is not damaged by the Melee Area but the ghost does do damage to the Player themselves (a different collision, technically.)
+
+WORK * Add more walls into the demo room for testing.
+** I added some, and a vertical pattern, but need some more.
+
+WORK * What is limit of total player shots?
+
+* Need animated player sprite
+
+* Need animated ghost sprite
+
+* Need to plan ahead for multiple enemies that might benefit from inheritance
+
+* Need to add other enemies and their spawners
+
+* Need to drop gems from destroyed enemies
+
+* Need to allow player to pick up gems
+
+* Need gems to go away after a time. Blink during the last 33% of life?
+
+* Need to track gems carried by player, globally between levels??
+
+* Need to track gems in the HUD near the score.
+
 20250311
 DONE * Next thing to do is make bullets die when they hit walls in the room.
 DONE * 2. Displaying Player Score in the GUI
 DONE * Show healthbar above player
-* Need to make sure player is damaging ghost enemies during melee.
-* Add more walls into the demo room for testing.
-* Allow more ghosts at one time.
-* What is limit of total player shots?
-
+DONE * Allow more ghosts at one time.
+** I set it to 15 or 25
+DONE * I don't think destroying the ghost spawner actually awarded the points to the player
 
 20250310
 * Good tilesetlayer video, including z-index so you can walk behind top of trees:

@@ -2,7 +2,7 @@ extends Node2D
 
 @export var ghost_scene: PackedScene  # Assign Ghost.tscn in the Inspector
 @export var spawn_interval: float = 3.0  # Time between spawns
-@export var max_ghosts: int = 5  # Maximum number of ghosts at one time
+@export var max_ghosts: int = 15  # Maximum number of ghosts at one time
 @export var health: int = 3  # How much damage it can take before being destroyed
 @export var score_value: int = 100  # Score awarded when destroyed
 
@@ -38,6 +38,10 @@ func take_damage(amount):
 
 	if health <= 0:
 		print("Spawner destroyed! +", score_value, "points")
+		# Grant score to player upon death
+		var player = get_tree().get_first_node_in_group("player")
+		if player:
+			player.add_score(score_value)  # Or any value you want
 		queue_free()  # Destroy spawner
 
 func _on_DamageArea_area_entered(area):

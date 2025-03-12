@@ -28,7 +28,7 @@ func _physics_process(delta):
 				var body = collision.get_collider()
 				if body:  # Ensure the collider exists
 					if body.is_in_group("player") and not body.invincible:
-						print("Ghost hit Player!")
+						print("Ghost hit Player! Dealing hard-coded damage to Player")
 						body.take_damage(1)
 						# Apply Knockback (push the Ghost slightly away)
 						var knockback_direction = -(player.global_position - global_position).normalized() * 20
