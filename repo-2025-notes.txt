@@ -1,8 +1,12 @@
 20250311
 DONE * Next thing to do is make bullets die when they hit walls in the room.
 DONE * 2. Displaying Player Score in the GUI
-* Show healthbar above player
-** Next thing is to fix display of the Healthbar, by adding texture or color.
+DONE * Show healthbar above player
+* Need to make sure player is damaging ghost enemies during melee.
+* Add more walls into the demo room for testing.
+* Allow more ghosts at one time.
+* What is limit of total player shots?
+
 
 20250310
 * Good tilesetlayer video, including z-index so you can walk behind top of trees:
@@ -14,3 +18,10 @@ Layers:
 3: Ghost (presumably most enemies)
 4: Spawners
 5: Walls (blockers in general?)
+
+=========================================================
+== Optimizations
+=========================================================
+1. Using a pool of instances that is initialized at game startup, then moved off screen or whatever rather than deleted when the ghost / etc is destroyed. Idea is to save the overhead of allocating new instances. Is this helpful?
+
+2. Something with Tile collisions. Instead of a collision box for every 64x64 tile, can we have a collision box, and stretch it into a rectangle over a long span of boxes? Is this helpful?

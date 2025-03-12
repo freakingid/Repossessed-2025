@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var speed: float = 200.0  # Movement speed
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
 @export var fire_rate: float = 0.2  # Delay between shots
-@export var max_health: int = 3  # Max health (can be modified in Inspector)
+@export var max_health: int = 50  # Max health (can be modified in Inspector)
 # lightning parameters
 @export var lightning_radius: float = 200.0
 @export var lightning_cooldown: float = 10.0
