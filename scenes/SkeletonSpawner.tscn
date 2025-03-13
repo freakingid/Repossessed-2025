@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://53tpqj34abuj"]
+[gd_scene load_steps=6 format=3 uid="uid://dhvyqog8u4031"]
 
-[ext_resource type="Texture2D" uid="uid://ld7fgrmwu01k" path="res://assets/sprites/fpo-bone-pile-128.png" id="1_i1ifj"]
-[ext_resource type="Script" path="res://scripts/GhostSpawner.gd" id="1_wdq2b"]
-[ext_resource type="PackedScene" uid="uid://cdh5j6xouytoi" path="res://scenes/Ghost.tscn" id="2_oco82"]
+[ext_resource type="Script" path="res://scripts/SkeletonSpawner.gd" id="1_y4i15"]
+[ext_resource type="PackedScene" uid="uid://dg5t7fo0bchwm" path="res://scenes/Skeleton.tscn" id="2_ymnei"]
+[ext_resource type="Texture2D" uid="uid://ld7fgrmwu01k" path="res://assets/sprites/fpo-bone-pile-128.png" id="3_eri5y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_34ym8"]
 size = Vector2(110, 57)
@@ -10,13 +10,13 @@ size = Vector2(110, 57)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j6e"]
 size = Vector2(110, 57)
 
-[node name="GhostSpawner" type="Node2D" groups=["spawners"]]
+[node name="SkeletonSpawner" type="Node2D" groups=["spawners"]]
 z_index = 1
-script = ExtResource("1_wdq2b")
-ghost_scene = ExtResource("2_oco82")
+script = ExtResource("1_y4i15")
+skeleton_scene = ExtResource("2_ymnei")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_i1ifj")
+texture = ExtResource("3_eri5y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)

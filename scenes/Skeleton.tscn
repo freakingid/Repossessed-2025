@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dg5t7fo0bchwm"]
+
+[ext_resource type="Script" path="res://scripts/Skeleton.gd" id="1_xjgru"]
+
+[node name="Skeleton" type="CharacterBody2D"]
+script = ExtResource("1_xjgru")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+script = ExtResource("1_xjgru")

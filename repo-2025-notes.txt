@@ -2,7 +2,8 @@
 DONE * Implement BaseClass for enemies.
 DONE * Subclass existing Ghost enemy.
 
-* Add Skeleton enemy and SkeletonSpawner
+WORK * Add Skeleton enemy and SkeletonSpawner
+** Some issues with extending scripts of wrong type
 
 * Add Zombie enemy and ZombieSpawner
 

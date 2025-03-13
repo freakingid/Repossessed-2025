@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=6 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/GhostSpawner.tscn" id="3_u8uhy"]
+[ext_resource type="PackedScene" uid="uid://dhvyqog8u4031" path="res://scenes/SkeletonSpawner.tscn" id="4_usktm"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -14,6 +15,9 @@ position = Vector2(400, 400)
 
 [node name="GhostSpawner" parent="." instance=ExtResource("3_u8uhy")]
 position = Vector2(777, 300)
+
+[node name="SkeletonSpawner" parent="." instance=ExtResource("4_usktm")]
+position = Vector2(-600, -200)
 
 [node name="MyMap" type="Node" parent="."]
 
