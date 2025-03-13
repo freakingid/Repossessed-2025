@@ -1,8 +1,13 @@
 20250313
-WORK * Add Skeleton enemy and SkeletonSpawner
-** Some issues with extending scripts of wrong type
+DONE * Add Skeleton enemy and SkeletonSpawner
 
-* Add Zombie enemy and ZombieSpawner
+DONE * Add Zombie enemy and ZombieSpawner
+
+* Skeleton needs AI that lets it find player around walls.
+
+* I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
+
+* I think player bullets are only hitting with "1" hard-coded amount of damage.
 
 WORK * Need to make sure player is damaging ghost enemies during melee.
 ** First, it is a hard-coded "1" of damage, but should be "melee_power" property we need to set up in all characters, Player and Enemies alike.
@@ -13,14 +18,16 @@ WORK * Add more walls into the demo room for testing.
 
 WORK * What is limit of total player shots?
 
+## Animations
 * Need animated player sprite
 
 * Need animated ghost sprite
 
-* Need to plan ahead for multiple enemies that might benefit from inheritance
+* Need animated skeleton sprite
 
-* Need to add other enemies and their spawners
+* Need animated zombie sprite
 
+## Gems
 * Need to drop gems from destroyed enemies
 
 * Need to allow player to pick up gems
