@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-@export var speed: float = 200.0  # Movement speed
+@export var base_speed: float = 200.0 # Initial movement speed
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
-@export var fire_rate: float = 0.2  # Delay between shots
+@export var base_fire_rate: float = 0.2  # Delay between shots
 @export var max_shots_in_level: int = 3 # Total player shots allowed in level at once
 @export var max_health: int = 50  # Max health (can be modified in Inspector)
 # lightning parameters
@@ -14,6 +14,8 @@ extends CharacterBody2D
 
 var health: int = max_health  # Current health
 var invincible: bool = false # can player be damaged?
+var speed: float = base_speed
+var fire_rate: float = base_fire_rate
 # normal shooting
 var can_shoot = true # Is player shot cooldown period past?
 # lightning flags

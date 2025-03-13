@@ -1,9 +1,10 @@
 extends Area2D
 
-@export var speed: float = 500.0
+@export var base_speed: float = 500.0
 @export var bounce_shot: bool = false  # Determines if bullets should bounce
 @export var lifespan: float = 2.0  # Bullet will last for 2 seconds
 var direction = Vector2.ZERO
+var speed = base_speed
 
 func _ready():
 	# Start a timer to delete the bullet after lifespan duration

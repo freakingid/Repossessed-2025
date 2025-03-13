@@ -1,4 +1,11 @@
 20250312
+DONE * Implement BaseClass for enemies.
+DONE * Subclass existing Ghost enemy.
+
+* Add Skeleton enemy and SkeletonSpawner
+
+* Add Zombie enemy and ZombieSpawner
+
 WORK * Need to make sure player is damaging ghost enemies during melee.
 ** First, it is a hard-coded "1" of damage, but should be "melee_power" property we need to set up in all characters, Player and Enemies alike.
 ** Second, it is only dealing damage on the first hit to a Ghost. There is possibly a problem with the "invincible" flag not changing? YES that is the issue, if the player is right next to the ghost, gets hit, gets invincible flag set, but then the ghost is not damaged by the Melee Area but the ghost does do damage to the Player themselves (a different collision, technically.)
@@ -44,6 +51,38 @@ Layers:
 3: Ghost (presumably most enemies)
 4: Spawners
 5: Walls (blockers in general?)
+
+=========================================================
+Character and object properties:
+
+Characters (Player, Enemies)
+* base_speed: how fast can the object normally move. This is a property set for the object at instantiation. Actual speed at any given point in the game can be affected by other factors, such as slowing down while walking through mud, or speeding up when possessing a speed-boosting powerup.
+* base_fire_rate: affects cooldown between each bullet fired from ranged weapon
+* max_shots_in_level: determines how many bullets fired from the player can exist in the game level at any given time.
+* power: how much damage does the object do during a collision with another object
+* max_health: how much health the object starts out with
+* health: tracks current health of the object. At 0, the object dies. Starts out at max_health.
+
+Characters (Enemies Only)
+* score_value: how much score is awarded to the player when the object is destroyed
+
+Bullets
+* lifespan: how long does the object live before automatic destruction
+* power: how much damage does the object do during a collision with another object
+* max_health: how much health the object starts out with
+* health: tracks current health of the object. At 0, the object dies. Starts out at max_health.
+* base_speed: how fast can the object normally move. This is a property set for the object at instantiation. Actual speed at any given point in the game can be affected by other factors, such as slowing down while walking through mud, or speeding up when possessing a speed-boosting powerup.
+
+Enemy Spawners
+* spawn_interval: how frequently does the spawner attempt a roll of the dice to potentially spawn a new enemy
+* max_health: how much health the object starts out with
+* health: tracks current health of the object. At 0, the object dies. Starts out at max_health.
+* score_value: how much score is awarded to the player when the object is destroyed
+
+Global
+* max_ghosts
+* max_skeletons
+* max_{enemy_type}
 
 =========================================================
 == Optimizations
