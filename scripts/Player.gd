@@ -89,9 +89,7 @@ func shoot(direction: Vector2):
 
 func add_score(points: int):
 	if hud:
-		print("Adding score:", points)  # Debugging output
 		hud.add_score(points)
-		print("Score increased! New score:", Global.score)  # Debugging output
 	else:
 		print("HUD not found in add_score()!")
 
@@ -120,24 +118,17 @@ func _on_CooldownTimer_timeout():
 
 ## Melee attack for player
 func _on_MeleeArea_body_entered(body):
-	print("Melee collision detected with:", body.name)  # Debugging output
-
 	if body.is_in_group("enemies") and not invincible:
-		print("Melee hit:", body.name)
-		print("Player is damaging enemy by hard-coded value")
 		body.take_damage(1)
 
 ## Player taking damage
 func take_damage(amount):
 	if invincible:
-		print("Player is invincible! No damage taken.")
 		return  # Ignore damage if already invincible
 
 	health -= amount
 	health = max(health, 0)  # Ensure it doesn't go below 0
-	print("Player took damage! Health:", health)
 	if health_bar:
-		print("Updating HealthBar. New Value:", health)  # Debugging output
 		health_bar.value = health  # Update the health bar
 	else:
 		print("HealthBar not found!")
@@ -160,9 +151,7 @@ func start_blinking_effect():
 
 ## Make player vulnerable to attack again
 func _on_invincibility_timer_timeout() -> void:
-	print("invincibility timer timeout, player should take damage")
 	invincible = false
-	print("Player is no longer invincible.")
 
 func die():
 	print("Player has died!")  # Debugging message

@@ -14,11 +14,8 @@ func _ready():
 func _process(delta):
 	position += direction * speed * delta
 
-func _on_body_entered(body):
-	print("Bullet collision detected with:", body.name, "| Groups:", body.get_groups())  # Debugging output
-	
+func _on_body_entered(body):	
 	if body.is_in_group("walls"):
-		print("Bullet hit a wall!")
 		if bounce_shot:
 			# Reverse direction on bounce (this might need tweaking for better physics)
 			direction = direction.reflect(Vector2(1, 1))
@@ -26,11 +23,9 @@ func _on_body_entered(body):
 			queue_free()  # Destroy the bullet if no bounce ability
 
 	elif body.is_in_group("enemies"):
-		print("Bullet hit an enemy!")
 		body.take_damage(1)
 		queue_free()  # Destroy the bullet
 
 	elif body.is_in_group("spawners"):
-		print("Bullet hit a spawner!")
 		body.take_damage(1)
 		queue_free()  # Destroy the bullet

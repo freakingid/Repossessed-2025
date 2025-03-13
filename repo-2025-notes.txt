@@ -1,7 +1,4 @@
-20250312
-DONE * Implement BaseClass for enemies.
-DONE * Subclass existing Ghost enemy.
-
+20250313
 WORK * Add Skeleton enemy and SkeletonSpawner
 ** Some issues with extending scripts of wrong type
 
@@ -33,6 +30,11 @@ WORK * What is limit of total player shots?
 * Need to track gems carried by player, globally between levels??
 
 * Need to track gems in the HUD near the score.
+
+
+20250312
+DONE * Implement BaseClass for enemies.
+DONE * Subclass existing Ghost enemy.
 
 20250311
 DONE * Next thing to do is make bullets die when they hit walls in the room.

@@ -1,11 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://dg5t7fo0bchwm"]
+[gd_scene load_steps=4 format=3 uid="uid://dg5t7fo0bchwm"]
 
 [ext_resource type="Script" path="res://scripts/Skeleton.gd" id="1_xjgru"]
+[ext_resource type="Texture2D" uid="uid://bdbprqf5u5tj8" path="res://assets/sprites/fpo-skeleton-128.png" id="2_mp80e"]
 
-[node name="Skeleton" type="CharacterBody2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cm4qt"]
+radius = 25.0
+height = 104.0
+
+[node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
+z_index = 1
+collision_layer = 4
+collision_mask = 19
 script = ExtResource("1_xjgru")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_mp80e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-script = ExtResource("1_xjgru")
+shape = SubResource("CapsuleShape2D_cm4qt")

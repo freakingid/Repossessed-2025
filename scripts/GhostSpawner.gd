@@ -30,14 +30,11 @@ func _spawn_ghost():
 func _on_ghost_destroyed():
 	if ghosts_spawned > 0:
 		ghosts_spawned -= 1  # Reduce count when a Ghost dies
-	print("Ghost destroyed! Spawner can create more.")
 
 func take_damage(amount):
 	health -= amount
-	print("Spawner took damage! Remaining health:", health)
 
 	if health <= 0:
-		print("Spawner destroyed! +", score_value, "points")
 		# Grant score to player upon death
 		var player = get_tree().get_first_node_in_group("player")
 		if player:
@@ -45,10 +42,7 @@ func take_damage(amount):
 		queue_free()  # Destroy spawner
 
 func _on_DamageArea_area_entered(area):
-	print("Spawner hit by:", area.name)  # Debugging output
-
 	if area.is_in_group("player_projectiles"):
-		print("Spawner taking damage!")
 		take_damage(1)
 
 		# Destroy the bullet after impact

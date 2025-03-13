@@ -19,11 +19,9 @@ func move_towards_player(delta):
 
 func take_damage(amount):
 	health -= amount
-	print(name, " took damage! Remaining health:", health)
 
 	if health <= 0:
 		die()
 
 func die():
-	print(name, " has died!")
 	queue_free()  # Remove enemy from scene

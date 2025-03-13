@@ -6,13 +6,12 @@ var hit_player_recently = false  # Prevents continuous attacks, but NOT melee da
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
 	if player == null:
-		print("Error: No player found!")
+		print("Error executing Ghost.gd: No player found!")
 	health = 2  # Ghosts have lower health
 	base_speed = 100 # Later might be a percentage of BaseEnemy.base_speed
 
 	# Randomize ghost speed by ±20%
 	speed = base_speed * randf_range(0.8, 1.2)  # Between 80% and 120% of base speed
-	print("Ghost spawned with speed:", speed)  # Debugging output
 		
 func _physics_process(delta):
 	if player and is_instance_valid(player):  # Ensure the player still exists
@@ -26,7 +25,6 @@ func _physics_process(delta):
 				var body = collision.get_collider()
 				if body:  # Ensure the collider exists
 					if body.is_in_group("player") and not body.invincible:
-						print("Ghost hit Player! Dealing hard-coded damage to Player")
 						body.take_damage(1)
 						# Apply Knockback (push the Ghost slightly away)
 						var knockback_direction = -(player.global_position - global_position).normalized() * 20
@@ -42,21 +40,15 @@ func _physics_process(delta):
 
 ## Only take damage from bullets the player shot
 func _on_body_entered(body):
-	print("Ghost collided with:", body.name)  # Debugging
-
 	if body.is_in_group("player_projectiles"):
-		print("Ghost hit by bullet!")
 		take_damage(1)
 	elif body.is_in_group("player") and not body.invincible:
-		print("Ghost hit Player!")  # Debugging message
 		body.take_damage(1)  # Damage the Player
 
 func take_damage(amount):
 	health -= amount
-	print(name, "Ghost took damage! Remaining health: ", health)  # Debugging output
 	
 	if health <= 0:
-		print(name, "has died!")
 		# Grant score to player upon death
 		var player = get_tree().get_first_node_in_group("player")
 		if player:
