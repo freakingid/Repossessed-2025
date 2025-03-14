@@ -5,7 +5,11 @@ DONE * Add Zombie enemy and ZombieSpawner
 
 DONE * Add more walls into the demo room for testing.
 
-* Skeleton needs AI that lets it find player around walls.
+DONE * Skeleton needs AI that lets it find player around walls.
+** Using what we call "Basic Wall Avoidance" with Raycasts.
+
+WORK * I would like to keep enemies from running over the top of each other.
+** This works for Ghosts and Zombies, who use dumb movement, but not for Skeletons. Still working on it.
 
 * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
 

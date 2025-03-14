@@ -11,6 +11,10 @@ func _ready():
 	speed = 80.0  # Skeletons move slower
 
 func _process(delta):
+	var sep_vector = get_separation_vector()
+	if sep_vector.length() > 0:
+		print(name, " Separation Vector:", sep_vector)  # Debugging output
+
 	if avoiding_wall:
 		avoid_wall_movement()
 	else:
@@ -19,6 +23,10 @@ func _process(delta):
 func move_towards_player(delta):
 	if player:
 		var direction = (player.global_position - global_position).normalized()
+		velocity = direction * speed
+
+		# Apply separation from other enemies
+		velocity += get_separation_vector() * separation_strength  # Ensure skeletons apply separation
 
 		# Check if a wall is in front
 		if raycast_forward.is_colliding():

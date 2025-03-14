@@ -8,7 +8,7 @@ func _ready():
 	if player == null:
 		print("Error executing Ghost.gd: No player found!")
 	health = 2  # Ghosts have lower health
-	base_speed = 100 # Later might be a percentage of BaseEnemy.base_speed
+	base_speed = 75 # Later might be a percentage of BaseEnemy.base_speed
 	damage = 1
 
 	# Randomize ghost speed by ±20%
