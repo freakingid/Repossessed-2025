@@ -10,13 +10,24 @@ height = 48.0
 [node name="Zombie" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
 collision_layer = 4
-collision_mask = 19
+collision_mask = 23
 script = ExtResource("1_vtqyk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_icmdc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 3)
 shape = SubResource("CapsuleShape2D_jdx7d")
+
+[node name="RaycastForward" type="RayCast2D" parent="."]
+target_position = Vector2(20, 0)
+collision_mask = 16
+
+[node name="RaycastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-10, 10)
+collision_mask = 16
+
+[node name="RaycastRight" type="RayCast2D" parent="."]
+target_position = Vector2(10, 10)
+collision_mask = 16

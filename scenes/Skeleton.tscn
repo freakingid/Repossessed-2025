@@ -10,7 +10,7 @@ height = 104.0
 [node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
 collision_layer = 4
-collision_mask = 19
+collision_mask = 23
 script = ExtResource("1_xjgru")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

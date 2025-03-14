@@ -8,8 +8,11 @@ DONE * Add more walls into the demo room for testing.
 DONE * Skeleton needs AI that lets it find player around walls.
 ** Using what we call "Basic Wall Avoidance" with Raycasts.
 
+* Are skeletons able to damage player with melee??
+
 WORK * I would like to keep enemies from running over the top of each other.
 ** This works for Ghosts and Zombies, who use dumb movement, but not for Skeletons. Still working on it.
+** "jitter" doesn't really seem to happen at all?
 
 * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
 
@@ -58,7 +61,7 @@ DONE * I don't think destroying the ghost spawner actually awarded the points to
 * Good tilesetlayer video, including z-index so you can walk behind top of trees:
 https://www.youtube.com/watch?v=43sJIWaj2Yw
 
-Layers:
+## Layers
 1: Player
 2: Player bullet
 3: Ghost (presumably most enemies)
