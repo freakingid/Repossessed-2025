@@ -18,3 +18,15 @@ texture = ExtResource("2_mp80e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_cm4qt")
+
+[node name="RaycastForward" type="RayCast2D" parent="."]
+target_position = Vector2(20, 0)
+collision_mask = 16
+
+[node name="RaycastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-10, 10)
+collision_mask = 16
+
+[node name="RaycastRight" type="RayCast2D" parent="."]
+target_position = Vector2(10, 10)
+collision_mask = 16

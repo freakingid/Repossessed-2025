@@ -3,6 +3,8 @@ DONE * Add Skeleton enemy and SkeletonSpawner
 
 DONE * Add Zombie enemy and ZombieSpawner
 
+DONE * Add more walls into the demo room for testing.
+
 * Skeleton needs AI that lets it find player around walls.
 
 * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
@@ -12,9 +14,6 @@ DONE * Add Zombie enemy and ZombieSpawner
 WORK * Need to make sure player is damaging ghost enemies during melee.
 ** First, it is a hard-coded "1" of damage, but should be "melee_power" property we need to set up in all characters, Player and Enemies alike.
 ** Second, it is only dealing damage on the first hit to a Ghost. There is possibly a problem with the "invincible" flag not changing? YES that is the issue, if the player is right next to the ghost, gets hit, gets invincible flag set, but then the ghost is not damaged by the Melee Area but the ghost does do damage to the Player themselves (a different collision, technically.)
-
-WORK * Add more walls into the demo room for testing.
-** I added some, and a vertical pattern, but need some more.
 
 WORK * What is limit of total player shots?
 
