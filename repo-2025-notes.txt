@@ -1,18 +1,9 @@
-20250313
-DONE * Add Skeleton enemy and SkeletonSpawner
+20250315
+* Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
 
-DONE * Add Zombie enemy and ZombieSpawner
-
-DONE * Add more walls into the demo room for testing.
-
-DONE * Skeleton needs AI that lets it find player around walls.
-** Using what we call "Basic Wall Avoidance" with Raycasts.
+* Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
 
 * Are skeletons able to damage player with melee??
-
-WORK * I would like to keep enemies from running over the top of each other.
-** This works for Ghosts and Zombies, who use dumb movement, but not for Skeletons. Still working on it.
-** "jitter" doesn't really seem to happen at all?
 
 * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
 
@@ -45,6 +36,30 @@ WORK * What is limit of total player shots?
 * Need to track gems in the HUD near the score.
 
 
+
+20250314
+DONE * I would like to keep enemies from running over the top of each other.
+** This works for Ghosts and Zombies, who use dumb movement, but not for Skeletons. Still working on it.
+** "jitter" doesn't really seem to happen at all?
+** Solution seemed to be making the collision shapes larger to fit the sprites more appropriately.
+
+
+
+20250313
+DONE * Add Skeleton enemy and SkeletonSpawner
+
+DONE * Add Zombie enemy and ZombieSpawner
+
+DONE * Add more walls into the demo room for testing.
+
+DONE * Skeleton needs AI that lets it find player around walls.
+** Using what we call "Basic Wall Avoidance" with Raycasts.
+
+DONE * I would like to keep enemies from running over the top of each other.
+** This works for Ghosts and Zombies, who use dumb movement, but not for Skeletons. Still working on it.
+** "jitter" doesn't really seem to happen at all?
+** Solution seemed to be making the collision shapes larger to fit the sprites more appropriately.
+
 20250312
 DONE * Implement BaseClass for enemies.
 DONE * Subclass existing Ghost enemy.
@@ -61,16 +76,44 @@ DONE * I don't think destroying the ghost spawner actually awarded the points to
 * Good tilesetlayer video, including z-index so you can walk behind top of trees:
 https://www.youtube.com/watch?v=43sJIWaj2Yw
 
+
+
+
+
+
+
+=========================================================
+## Resources
+=========================================================
+* Good tilesetlayer video, including z-index so you can walk behind top of trees:
+https://www.youtube.com/watch?v=43sJIWaj2Yw
+
+
+
+
+
+
+
+
+=========================================================
 ## Layers
+=========================================================
 1: Player
 2: Player bullet
 3: Ghost (presumably most enemies)
 4: Spawners
 5: Walls (blockers in general?)
 
+
+
+
+
+
+
+
 =========================================================
 Character and object properties:
-
+=========================================================
 Characters (Player, Enemies)
 * base_speed: how fast can the object normally move. This is a property set for the object at instantiation. Actual speed at any given point in the game can be affected by other factors, such as slowing down while walking through mud, or speeding up when possessing a speed-boosting powerup.
 * base_fire_rate: affects cooldown between each bullet fired from ranged weapon
@@ -99,6 +142,13 @@ Global
 * max_ghosts
 * max_skeletons
 * max_{enemy_type}
+
+
+
+
+
+
+
 
 =========================================================
 == Optimizations

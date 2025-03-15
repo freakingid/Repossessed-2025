@@ -5,7 +5,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jdx7d"]
 radius = 20.0
-height = 48.0
+height = 56.0
 
 [node name="Ghost" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
@@ -18,7 +18,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_t1pll")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(0, -1)
 shape = SubResource("CapsuleShape2D_jdx7d")
 
 [node name="RaycastForward" type="RayCast2D" parent="."]

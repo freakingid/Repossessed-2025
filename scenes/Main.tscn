@@ -16,7 +16,6 @@ position = Vector2(400, 400)
 
 [node name="GhostSpawner" parent="." instance=ExtResource("3_u8uhy")]
 position = Vector2(777, 300)
-spawn_interval = 5.0
 
 [node name="SkeletonSpawner" parent="." instance=ExtResource("4_usktm")]
 position = Vector2(-600, -200)

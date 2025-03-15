@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://brvnks04d8r7" path="res://assets/sprites/fpo-zombie-128.png" id="2_icmdc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jdx7d"]
-radius = 13.0
-height = 48.0
+radius = 26.0
+height = 102.0
 
 [node name="Zombie" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
