@@ -98,6 +98,17 @@ func _on_melee_hit(body):
 
 		take_damage(body.damage)  # Enemy takes Player's melee damage
 
+		# New: Push enemy slightly away from the Player to avoid sticking
+		var pushback_direction = (global_position - body.global_position).normalized()
+		position += pushback_direction * 5  # Small push to separate from Player
+
+		# New: Reset movement to ensure AI resumes
+		reset_movement()
+
+func reset_movement():
+	var direction = (player.global_position - global_position).normalized()
+	velocity = direction * speed  # Ensure movement continues
+
 func take_damage(amount):
 	health -= amount
 

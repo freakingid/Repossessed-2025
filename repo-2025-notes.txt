@@ -5,11 +5,9 @@ DONE * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
 
 DONE * Need to make sure player is damaging ghost enemies during melee.
 
-TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
+DONE * Fix Enemy with high health; during melee; getting stuck on player.
 
-* Fix Zombie melee getting stuck on player.
-** NOTE: This might be more than just the Zombie. The Zombie has more health, so can take a hit or two and still be alive, therefore showing this problem.
-** So try giving the Skeleton and Ghost more health, to see if they will show the same problem then.
+TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
 
 * Fix _on_body_entered and bullets handling in BaseEnemy, Ghost, Skeleton, Zombie
 
