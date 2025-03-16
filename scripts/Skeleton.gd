@@ -44,3 +44,7 @@ func avoid_wall():
 		velocity = -velocity + separation_force  # Reverse direction if stuck
 
 	move_and_slide()
+
+
+func _on_Area2D_body_entered(body: Node2D) -> void:
+	_on_melee_hit(body)  # Call the function in BaseEnemy.gd

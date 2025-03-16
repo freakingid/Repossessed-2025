@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var base_fire_rate: float = 0.2  # Delay between shots
 @export var max_shots_in_level: int = 3 # Total player shots allowed in level at once
 @export var max_health: int = 50  # Max health (can be modified in Inspector)
+@export var damage: int = 2  # ✅ Player's melee damage
 # lightning parameters
 @export var lightning_radius: float = 200.0
 @export var lightning_cooldown: float = 10.0

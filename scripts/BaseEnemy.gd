@@ -19,6 +19,14 @@ func _ready():
 	if not raycast_forward or not raycast_left or not raycast_right:
 		print("Error: One or more RayCast2D nodes are missing from ", name)
 
+# New: Handle melee combat when colliding with the player
+func _on_body_entered(body):
+	if body.is_in_group("player"):
+		if not body.invincible:  # Player takes enemy damage
+			body.take_damage(damage)
+
+		take_damage(body.damage)  # Enemy takes player's damage
+
 func _process(delta):
 	move_towards_player(delta)
 
@@ -83,6 +91,12 @@ func get_separation_vector() -> Vector2:
 
 	return separation.normalized()
 
+func _on_melee_hit(body):
+	if body.is_in_group("player"):
+		if not body.invincible:  # Player takes enemy damage
+			body.take_damage(damage)
+
+		take_damage(body.damage)  # Enemy takes Player's melee damage
 
 func take_damage(amount):
 	health -= amount
