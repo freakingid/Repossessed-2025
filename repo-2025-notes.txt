@@ -1,17 +1,21 @@
 20250315
-* Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
+DONE * Are skeletons able to damage player with melee??
+
+DONE * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
+
+DONE * Need to make sure player is damaging ghost enemies during melee.
+
+TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
+
+* Fix Zombie melee getting stuck on player.
+** NOTE: This might be more than just the Zombie. The Zombie has more health, so can take a hit or two and still be alive, therefore showing this problem.
+** So try giving the Skeleton and Ghost more health, to see if they will show the same problem then.
+
+* Fix _on_body_entered and bullets handling in BaseEnemy, Ghost, Skeleton, Zombie
 
 * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
 
-* Are skeletons able to damage player with melee??
-
-* I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
-
 * I think player bullets are only hitting with "1" hard-coded amount of damage.
-
-WORK * Need to make sure player is damaging ghost enemies during melee.
-** First, it is a hard-coded "1" of damage, but should be "melee_power" property we need to set up in all characters, Player and Enemies alike.
-** Second, it is only dealing damage on the first hit to a Ghost. There is possibly a problem with the "invincible" flag not changing? YES that is the issue, if the player is right next to the ghost, gets hit, gets invincible flag set, but then the ghost is not damaged by the Melee Area but the ghost does do damage to the Player themselves (a different collision, technically.)
 
 WORK * What is limit of total player shots?
 

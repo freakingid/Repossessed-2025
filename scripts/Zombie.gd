@@ -23,6 +23,7 @@ func _on_body_entered(body):
 		# zombie should take damage
 		body.take_damage(damage)  # Damage the Player
 
+
 func take_damage(amount):
 	health -= amount
 	

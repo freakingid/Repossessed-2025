@@ -8,8 +8,8 @@ radius = 25.0
 height = 104.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3o8jg"]
-radius = 29.0
-height = 108.0
+radius = 26.0
+height = 106.0
 
 [node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
@@ -21,6 +21,7 @@ script = ExtResource("1_xjgru")
 texture = ExtResource("2_mp80e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
 shape = SubResource("CapsuleShape2D_cm4qt")
 
 [node name="RaycastForward" type="RayCast2D" parent="."]
@@ -38,6 +39,7 @@ collision_mask = 16
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(3, 0)
 shape = SubResource("CapsuleShape2D_3o8jg")
 debug_color = Color(0.990535, 0, 0.277121, 0.42)
 
