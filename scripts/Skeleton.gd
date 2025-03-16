@@ -1,5 +1,7 @@
 extends "res://scripts/BaseEnemy.gd"  # Inherits from BaseEnemy
 
+@export var score_value: int = 1
+
 func _ready():
 	health = 8 # 5  # Skeletons are tougher than Ghosts
 	speed = 80.0  # Skeletons move slower

@@ -14,16 +14,6 @@ func _ready():
 	# Randomize zombie speed by ±20%
 	speed = base_speed * randf_range(0.8, 1.2)  # Between 80% and 120% of base speed
 
-## Only take damage from bullets the player shot
-# TODO: I think the "1" hard-coded needs to reference the "damage" property of the player bullet
-func _on_body_entered(body):
-	if body.is_in_group("player_projectiles"):
-		take_damage(body.damage)
-	elif body.is_in_group("player") and not body.invincible:
-		# zombie should take damage
-		body.take_damage(damage)  # Damage the Player
-
-
 func take_damage(amount):
 	health -= amount
 	

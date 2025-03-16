@@ -9,7 +9,8 @@ DONE * Fix Enemy with high health; during melee; getting stuck on player.
 
 TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
 
-* Fix _on_body_entered and bullets handling in BaseEnemy, Ghost, Skeleton, Zombie
+WORK * Fix _on_body_entered and bullets handling in BaseEnemy, Ghost, Skeleton, Zombie
+** Bullets are getting closer. We had it all fixed up, but then we changed something for cleanliness and now bullets do not collide with enemies at all. Something to do with hooking up the signal on_body_entered to the Area2D within each of the enemies. We have sort of done this with the Player for Melee with Enemies, but now we are needing to do it with Bullets. I think Bullets might be a different node type, but I am not sure.
 
 * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
 

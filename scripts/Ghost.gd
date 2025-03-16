@@ -1,6 +1,7 @@
 extends "res://scripts/BaseEnemy.gd"  # Subclassing BaseEnemy
 
 @export var score_value: int = 1
+
 var hit_player_recently = false  # Prevents continuous attacks, but NOT melee damage
 
 func _ready():
@@ -14,13 +15,6 @@ func _ready():
 	# Randomize ghost speed by ±20%
 	speed = base_speed * randf_range(0.8, 1.2)  # Between 80% and 120% of base speed
 
-## Only take damage from bullets the player shot
-func _on_body_entered(body):
-	if body.is_in_group("player_projectiles"):
-		take_damage(damage)
-	elif body.is_in_group("player") and not body.invincible:
-		body.take_damage(damage)  # Damage the Player
-
 func take_damage(amount):
 	health -= amount
 	
@@ -32,5 +26,5 @@ func take_damage(amount):
 		queue_free()  # Destroy the ghost
 
 
-func _on_Area_2d_body_entered(body: Node2D) -> void:
-	_on_melee_hit(body)  # Call the function in BaseEnemy.gd
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.

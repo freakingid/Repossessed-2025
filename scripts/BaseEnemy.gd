@@ -21,11 +21,16 @@ func _ready():
 
 # New: Handle melee combat when colliding with the player
 func _on_body_entered(body):
-	if body.is_in_group("player"):
-		if not body.invincible:  # Player takes enemy damage
-			body.take_damage(damage)
+	if body.is_in_group("player_projectiles"):
+		take_damage(body.damage)  # Enemy takes bullet damage
+		body.health -= damage  # Bullet takes damage from enemy
 
-		take_damage(body.damage)  # Enemy takes player's damage
+		# Destroy bullet if its health reaches 0
+		if body.health <= 0:
+			body.queue_free()
+			
+	elif body.is_in_group("player") and not body.invincible:
+		body.take_damage(damage)  # Player takes enemy melee damage
 
 func _process(delta):
 	move_towards_player(delta)

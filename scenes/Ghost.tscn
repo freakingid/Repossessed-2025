@@ -44,4 +44,4 @@ position = Vector2(0, -1)
 shape = SubResource("CapsuleShape2D_xbspk")
 debug_color = Color(0.99467, 0, 0.218307, 0.42)
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
