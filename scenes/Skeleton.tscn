@@ -21,13 +21,13 @@ position = Vector2(3, 0)
 shape = SubResource("CapsuleShape2D_cm4qt")
 
 [node name="RaycastForward" type="RayCast2D" parent="."]
-target_position = Vector2(20, 0)
-collision_mask = 16
+target_position = Vector2(50, 0)
+collision_mask = 20
 
 [node name="RaycastLeft" type="RayCast2D" parent="."]
-target_position = Vector2(-10, 10)
-collision_mask = 16
+target_position = Vector2(35, -35)
+collision_mask = 20
 
 [node name="RaycastRight" type="RayCast2D" parent="."]
-target_position = Vector2(10, 10)
-collision_mask = 16
+target_position = Vector2(35, 35)
+collision_mask = 20
