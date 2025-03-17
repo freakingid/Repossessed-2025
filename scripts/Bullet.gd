@@ -10,8 +10,8 @@ var direction = Vector2.ZERO
 var speed = base_speed
 
 func _ready():
-	set_deferred("monitoring", true)  # ✅ Allow Bullet's Area2D to detect other Area2Ds
-
+	monitoring = true  # ✅ Ensure it detects collisions
+	# connect("body_entered", _on_body_entered)  # ✅ Listen for collisions
 	# Start a timer to delete the bullet after lifespan duration
 	await get_tree().create_timer(lifespan).timeout
 	queue_free()
@@ -21,8 +21,6 @@ func _process(delta):
 
 # What happens when a bullet hits a wall
 func _on_body_entered(body):
-	print("Bullet hit:", body.name, "| Groups:", body.get_groups())  # Debugging output
-
 	if body.is_in_group("walls"):
 		if bounce_shot:
 			var collision_normal = (global_position - body.global_position).normalized()
@@ -31,5 +29,11 @@ func _on_body_entered(body):
 			queue_free()  # Destroy the bullet if no bounce ability
 
 	elif body.is_in_group("enemies"):
-		print("Bullet registered a hit on:", body.name)  # Debugging output
-		queue_free()  # ✅ Bullet disappears, but enemy handles damage!
+		body.take_damage(damage)  # ✅ Enemy takes damage
+		take_damage(body.get_bullet_resistance())  # ✅ Bullet takes damage from enemy
+
+		if health <= 0:
+			queue_free()  # ✅ Bullet disappears
+
+func take_damage(amount):
+	health -= amount

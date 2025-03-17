@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var separation_radius: float = 40.0  # Distance at which enemies push away from each other
 @export var separation_strength: float = 150.0  # How strong the push should be
 
-var speed: int = base_speed
+var speed: float = base_speed
 
 @onready var player = get_tree().get_first_node_in_group("player")
 # Raycast Nodes for Wall Avoidance
@@ -15,29 +15,21 @@ var speed: int = base_speed
 @onready var raycast_left = $RaycastLeft
 @onready var raycast_right = $RaycastRight
 
-func _ready():
-	if not raycast_forward or not raycast_left or not raycast_right:
-		print("Error: One or more RayCast2D nodes are missing from ", name)
-	# Find the Area2D node and connect its body_entered signal
-	# This is for detecting bullet hits
-	var area = $Area2D  # Ensure your enemy scenes have Area2D named "Area2D"
-	if area:
-		if not area.body_entered.is_connected(_on_body_entered):
-			area.body_entered.connect(_on_body_entered)
-			print(name, " - Successfully connected Area2D body_entered signal.")
+func get_bullet_resistance():
+	return health
 
-		# Manually trigger the signal as a test
-		print(name, " - Emitting test body_entered signal...")
-		area.emit_signal("body_entered", self)  # Simulate a collision
-	else:
-		print(name, " - ERROR: No Area2D found!")
+func _ready():
+	if player:
+		player.melee_hit.connect(_on_player_melee_hit)  # ✅ Listen for melee hits
+
+func _on_player_melee_hit(player):
+	if player and player.global_position.distance_to(global_position) < 40:  # Ensure close range
+		take_damage(player.damage)  # ✅ Enemy takes damage from Player
+		player.take_damage(damage)  # ✅ Player takes damage from Enemy
 
 # New: Handle damage dealt from Player melee or Player shots
 func _on_body_entered(body):
-	print(name, " - Area2D detected collision with:", body.name, "| Groups:", body.get_groups())  # Debugging output
-
 	if body.is_in_group("player_projectiles"):
-		print(name, " - Took bullet damage from:", body.name)
 		take_damage(body.damage)  # ✅ Enemy applies the bullet's damage!
 		body.health -= damage  # Bullet takes damage from enemy
 
@@ -46,7 +38,6 @@ func _on_body_entered(body):
 			body.queue_free()
 			
 	elif body.is_in_group("player") and not body.invincible:
-		print("BaseEnemy._on_body_entered() hit player that is not invincible")
 		body.take_damage(damage)  # Player takes enemy melee damage
 
 func _process(delta):

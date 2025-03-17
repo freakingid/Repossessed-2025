@@ -1,3 +1,8 @@
+202250317
+* Let's redo collisions without the Area2D. That was only there to allow specific melee hit areas, and I don't need that. Any collision with the player and an enemy is considered a melee hit.
+
+
+
 20250316
 TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
 

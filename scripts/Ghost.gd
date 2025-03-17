@@ -8,9 +8,7 @@ func _ready():
 	super()  # Calls BaseEnemy.gd's _ready()
 
 	player = get_tree().get_first_node_in_group("player")
-	if player == null:
-		print("Error executing Ghost.gd: No player found!")
-	health = 8 # 2  # Ghosts have lower health
+	health = 2  # Ghosts have lower health
 	base_speed = 75 # Later might be a percentage of BaseEnemy.base_speed
 	damage = 1
 
@@ -22,7 +20,7 @@ func take_damage(amount):
 	
 	if health <= 0:
 		# Grant score to player upon death
-		var player = get_tree().get_first_node_in_group("player")
+		player = get_tree().get_first_node_in_group("player")
 		if player:
 			player.add_score(score_value)  # Or any value you want
 		queue_free()  # Destroy the ghost

@@ -18,7 +18,6 @@ func _ready():
 	add_child(spawn_timer)  # Attach Timer to the Spawner
 
 func _spawn_skeleton():
-	print("Attempting to spawn a skeleton...")
 	if skeletons_spawned < max_skeletons and skeleton_scene:		
 		var skeleton = skeleton_scene.instantiate()
 		skeleton.global_position = global_position + Vector2(randf_range(-16, 16), randf_range(-16, 16))  # Random offset
@@ -27,8 +26,6 @@ func _spawn_skeleton():
 
 		# Track when Skeleton is removed
 		skeleton.tree_exited.connect(_on_skeleton_destroyed)
-	else:
-		print("Skeleton spawn limit reached or scene is null.")
 
 func _on_skeleton_destroyed():
 	if skeletons_spawned > 0:
@@ -39,7 +36,7 @@ func take_damage(amount):
 
 	if health <= 0:
 		# Grant score to player upon death
-		var player = get_tree().get_first_node_in_group("player")
+		player = get_tree().get_first_node_in_group("player")
 		if player:
 			player.add_score(score_value)  # Or any value you want
 		queue_free()  # Destroy spawner

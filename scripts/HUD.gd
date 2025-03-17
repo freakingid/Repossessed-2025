@@ -7,7 +7,6 @@ func _ready():
 
 func add_score(points: int):
 	Global.score += points
-	print("HUD score updated:", Global.score)  # Debugging output
 	update_score_display()
 
 func update_score_display():

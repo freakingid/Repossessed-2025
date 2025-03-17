@@ -4,16 +4,10 @@ extends "res://scripts/BaseEnemy.gd"  # Inherits from BaseEnemy
 
 func _ready():
 	super()  # Calls BaseEnemy.gd's _ready()
-	health = 8 # 5  # Skeletons are tougher than Ghosts
+	health = 4  # Skeletons are tougher than Ghosts
 	speed = 80.0  # Skeletons move slower
 
 func _process(delta):
-	var sep_vector = get_separation_vector()
-	
-	# Print separation vector only when needed (for debugging)
-	if sep_vector.length() > 0:
-		print(name, " Separation Vector:", sep_vector)
-
 	move_towards_player(delta)
 
 func move_towards_player(delta):
@@ -25,7 +19,6 @@ func move_towards_player(delta):
 
 		# Check if a wall is in front and try to avoid it
 		if raycast_forward.is_colliding():
-			print(name, " is in wall avoidance mode!")  # Debugging
 			avoid_wall()  # Try to navigate around the wall
 
 		move_and_slide()

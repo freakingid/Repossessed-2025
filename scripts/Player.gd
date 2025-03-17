@@ -13,6 +13,8 @@ extends CharacterBody2D
 # melee management
 @export var invincibility_duration: float = 0.5  # 0.5 seconds of invincibility
 
+signal melee_hit(body)  # ✅ Signal emitted when colliding with an enemy
+
 var health: int = max_health  # Current health
 var invincible: bool = false # can player be damaged?
 var speed: float = base_speed
@@ -29,15 +31,10 @@ var stunned = false # Is player currently stunned from lightning use?
 
 func _ready():
 	if health_bar:
-		print("HUD Node:", hud)  # Debugging output
-		print("HealthBar found!")  # Debugging output	health = max_health  # Initialize health
 		health_bar.max_value = max_health
 		health_bar.value = health
 	else:
 		print("Error: HealthBar node not found!")
-
-	print("HUD Node:", hud) # Debug HUD
-
 
 ## Process player movement
 func _physics_process(delta):
@@ -59,6 +56,13 @@ func _physics_process(delta):
 
 	velocity = move_direction.normalized() * speed
 	move_and_slide()
+
+	# ✅ Detect melee collisions by checking last slide collision
+	var collision = get_last_slide_collision()
+	if collision:
+		var collider = collision.get_collider()
+		if collider and collider.is_in_group("enemies") and not invincible:
+			emit_signal("melee_hit", collider)  # ✅ Emit signal for melee damage
 
 ## Process player shot direction
 func _process(delta):

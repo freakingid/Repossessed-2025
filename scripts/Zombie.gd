@@ -20,7 +20,7 @@ func take_damage(amount):
 	
 	if health <= 0:
 		# Grant score to player upon death
-		var player = get_tree().get_first_node_in_group("player")
+		player = get_tree().get_first_node_in_group("player")
 		if player:
 			player.add_score(score_value)  # Or any value you want
 		queue_free()  # Destroy the zombie
