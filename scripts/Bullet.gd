@@ -32,8 +32,7 @@ func _on_body_entered(body):
 		body.take_damage(damage)  # ✅ Enemy takes damage
 		take_damage(body.get_bullet_resistance())  # ✅ Bullet takes damage from enemy
 
-		if health <= 0:
-			queue_free()  # ✅ Bullet disappears
-
 func take_damage(amount):
 	health -= amount
+	if health <= 0:
+		queue_free()  # ✅ Bullet disappears

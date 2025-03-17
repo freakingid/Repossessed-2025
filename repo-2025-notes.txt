@@ -10,7 +10,8 @@ DONE * Are all enemies awarding score when destroyed?
 DONE * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
 ** Okay, what we have now is sort of better, but not shippable.
 
-* I think player bullets are only hitting with "1" hard-coded amount of damage.
+DONE * I think player bullets are only hitting with "1" hard-coded amount of damage.
+** Now in Bullet.gd, uses damage and stuff
 
 * What is limit of total player shots?
 
