@@ -7,6 +7,8 @@ DONE * Now we have the problem again where the enemies all run over the top of e
 * Are all enemies awarding score when destroyed?
 
 * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
+** ChatGPT gave me some jittering and avoidance for Skeletons, but it is not what I really want.
+** I want the skeleton to move towards the player, and if it encounters an obstacle such as a wall or another enemy, it should decide to move in a more sideways direction, rather than directly at the player. So instead of moving directly towards the player, it may choose to move, let's say, 45 degrees to the right or left of that direction. This could allow it to slide along a wall until it has managed to get around it and can directly move towards the player again.
 
 * I think player bullets are only hitting with "1" hard-coded amount of damage.
 
