@@ -78,11 +78,17 @@ func _process(delta):
 
 ## Fire player shot
 func shoot(direction: Vector2):
-	# TODO we need to see if `max_shots_in_level` num of bullets exist and possibly disallow shooting
+	# Check how many bullets exist
+	var bullets = get_tree().get_nodes_in_group("player_projectiles")
+	if bullets.size() >= max_shots_in_level:
+		return  # Stop the player from shooting
+
+	# Ensure bullet scene is valid
 	if bullet_scene == null:
 		print("Error: bullet_scene is NULL")
 		return  # Prevent crash
 
+	# Spawn new bullet
 	var bullet = bullet_scene.instantiate()
 	if bullet == null:
 		print("Error: Bullet instantiation failed")
@@ -90,7 +96,11 @@ func shoot(direction: Vector2):
 
 	bullet.position = $Marker2D.global_position  # ERROR LINE
 	bullet.direction = direction
+
+	# Add bullet to the scene & make sure it's in the right group
 	get_tree().current_scene.add_child(bullet)
+	bullet.add_to_group("player_projectiles")  # Ensure it is trackable
+
 
 func add_score(points: int):
 	if hud:

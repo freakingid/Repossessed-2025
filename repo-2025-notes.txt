@@ -13,23 +13,9 @@ DONE * Also, the skeleton movement isn't really working the way I want. I asked 
 DONE * I think player bullets are only hitting with "1" hard-coded amount of damage.
 ** Now in Bullet.gd, uses damage and stuff
 
-* What is limit of total player shots?
+DONE * What is limit of total player shots?
 
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
-
-
-
-20250316
-TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
-
-20250315
-DONE * Are skeletons able to damage player with melee??
-
-DONE * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
-
-DONE * Need to make sure player is damaging ghost enemies during melee.
-
-DONE * Fix Enemy with high health; during melee; getting stuck on player.
 
 ## Animations
 * Need animated player sprite
@@ -53,11 +39,40 @@ DONE * Fix Enemy with high health; during melee; getting stuck on player.
 
 
 
+
+
+
+
+
+20250316
+TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
+
+20250315
+DONE * Are skeletons able to damage player with melee??
+
+DONE * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
+
+DONE * Need to make sure player is damaging ghost enemies during melee.
+
+DONE * Fix Enemy with high health; during melee; getting stuck on player.
+
+
+
+
+
+
+
+
 20250314
 DONE * I would like to keep enemies from running over the top of each other.
 ** This works for Ghosts and Zombies, who use dumb movement, but not for Skeletons. Still working on it.
 ** "jitter" doesn't really seem to happen at all?
 ** Solution seemed to be making the collision shapes larger to fit the sprites more appropriately.
+
+
+
+
+
 
 
 
@@ -76,9 +91,23 @@ DONE * I would like to keep enemies from running over the top of each other.
 ** "jitter" doesn't really seem to happen at all?
 ** Solution seemed to be making the collision shapes larger to fit the sprites more appropriately.
 
+
+
+
+
+
+
+
 20250312
 DONE * Implement BaseClass for enemies.
 DONE * Subclass existing Ghost enemy.
+
+
+
+
+
+
+
 
 20250311
 DONE * Next thing to do is make bullets die when they hit walls in the room.
@@ -87,6 +116,13 @@ DONE * Show healthbar above player
 DONE * Allow more ghosts at one time.
 ** I set it to 15 or 25
 DONE * I don't think destroying the ghost spawner actually awarded the points to the player
+
+
+
+
+
+
+
 
 20250310
 * Good tilesetlayer video, including z-index so you can walk behind top of trees:
