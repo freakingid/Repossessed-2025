@@ -18,11 +18,27 @@ var speed: int = base_speed
 func _ready():
 	if not raycast_forward or not raycast_left or not raycast_right:
 		print("Error: One or more RayCast2D nodes are missing from ", name)
+	# Find the Area2D node and connect its body_entered signal
+	# This is for detecting bullet hits
+	var area = $Area2D  # Ensure your enemy scenes have Area2D named "Area2D"
+	if area:
+		if not area.body_entered.is_connected(_on_body_entered):
+			area.body_entered.connect(_on_body_entered)
+			print(name, " - Successfully connected Area2D body_entered signal.")
 
-# New: Handle melee combat when colliding with the player
+		# Manually trigger the signal as a test
+		print(name, " - Emitting test body_entered signal...")
+		area.emit_signal("body_entered", self)  # Simulate a collision
+	else:
+		print(name, " - ERROR: No Area2D found!")
+
+# New: Handle damage dealt from Player melee or Player shots
 func _on_body_entered(body):
+	print(name, " - Area2D detected collision with:", body.name, "| Groups:", body.get_groups())  # Debugging output
+
 	if body.is_in_group("player_projectiles"):
-		take_damage(body.damage)  # Enemy takes bullet damage
+		print(name, " - Took bullet damage from:", body.name)
+		take_damage(body.damage)  # ✅ Enemy applies the bullet's damage!
 		body.health -= damage  # Bullet takes damage from enemy
 
 		# Destroy bullet if its health reaches 0
@@ -30,6 +46,7 @@ func _on_body_entered(body):
 			body.queue_free()
 			
 	elif body.is_in_group("player") and not body.invincible:
+		print("BaseEnemy._on_body_entered() hit player that is not invincible")
 		body.take_damage(damage)  # Player takes enemy melee damage
 
 func _process(delta):

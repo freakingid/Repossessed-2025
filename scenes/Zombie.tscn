@@ -3,22 +3,31 @@
 [ext_resource type="Script" path="res://scripts/Zombie.gd" id="1_vtqyk"]
 [ext_resource type="Texture2D" uid="uid://brvnks04d8r7" path="res://assets/sprites/fpo-zombie-128.png" id="2_icmdc"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jdx7d"]
-radius = 26.0
-height = 102.0
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d6p2g"]
 radius = 27.0
 height = 104.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jdx7d"]
+radius = 26.0
+height = 102.0
+
 [node name="Zombie" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
 collision_layer = 4
-collision_mask = 23
+collision_mask = 17
 script = ExtResource("1_vtqyk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_icmdc")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, 3)
+shape = SubResource("CapsuleShape2D_d6p2g")
+debug_color = Color(0.969253, 0.124937, 0.318047, 0.42)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 3)
@@ -35,12 +44,3 @@ collision_mask = 16
 [node name="RaycastRight" type="RayCast2D" parent="."]
 target_position = Vector2(10, 10)
 collision_mask = 16
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1, 3)
-shape = SubResource("CapsuleShape2D_d6p2g")
-debug_color = Color(0.969253, 0.124937, 0.318047, 0.42)
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area_2d_body_entered"]

@@ -3,6 +3,7 @@ extends "res://scripts/BaseEnemy.gd"  # Inherits from BaseEnemy
 @export var score_value: int = 1
 
 func _ready():
+	super()  # Calls BaseEnemy.gd's _ready()
 	health = 8 # 5  # Skeletons are tougher than Ghosts
 	speed = 80.0  # Skeletons move slower
 
@@ -46,7 +47,3 @@ func avoid_wall():
 		velocity = -velocity + separation_force  # Reverse direction if stuck
 
 	move_and_slide()
-
-
-func _on_Area2D_body_entered(body: Node2D) -> void:
-	_on_melee_hit(body)  # Call the function in BaseEnemy.gd

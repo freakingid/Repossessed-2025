@@ -5,6 +5,8 @@ extends "res://scripts/BaseEnemy.gd"  # Subclassing BaseEnemy
 var hit_player_recently = false  # Prevents continuous attacks, but NOT melee damage
 
 func _ready():
+	super()  # Calls BaseEnemy.gd's _ready()
+
 	player = get_tree().get_first_node_in_group("player")
 	if player == null:
 		print("Error executing Ghost.gd: No player found!")
@@ -24,7 +26,3 @@ func take_damage(amount):
 		if player:
 			player.add_score(score_value)  # Or any value you want
 		queue_free()  # Destroy the ghost
-
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.

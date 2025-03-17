@@ -1,3 +1,45 @@
+20250316
+TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
+
+WORK * Fix _on_body_entered and bullets handling in BaseEnemy, Ghost, Skeleton, Zombie
+** Bullets are getting closer. We had it all fixed up, but then we changed something for cleanliness and now bullets do not collide with enemies at all. Something to do with hooking up the signal on_body_entered to the Area2D within each of the enemies. We have sort of done this with the Player for Melee with Enemies, but now we are needing to do it with Bullets. I think Bullets might be a different node type, but I am not sure.
+
+===================================================
+== Explain collision nodes
+== For Enemies: Ghost, Skeleton, Zombies at this time 3/16
+===================================================
+Ghost (CharacterBody2D)
+├── CollisionShape2D  ✅ (Movement & physics collisions)
+├── Area2D  ✅ (Detection of bullets & melee)
+│   ├── CollisionShape2D  ✅ (Defines the detection area)
+📌 Purpose of Each Node
+Ghost > CollisionShape2D (Same for Skeleton & Zombie)
+	Used for movement & physics collisions.
+	Handles collision with walls, players, and other enemies.
+	This ensures the enemy doesn’t walk through walls or stack on top of others.
+Ghost > Area2D (Same for Skeleton & Zombie)
+	Used for detecting bullets & melee combat.
+	Triggers the body_entered() function in BaseEnemy.gd when hit by a bullet or when touching the Player.
+Ghost > Area2D > CollisionShape2D (Same for Skeleton & Zombie)
+	Defines the hitbox for Area2D (i.e., detection range).
+	Should be slightly larger than CollisionShape2D so that bullets register on impact.
+	This ensures bullets & melee attacks trigger properly even if they don’t physically overlap the enemy’s main collision body.
+
+
+
+
+
+
+
+
+* Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
+
+* I think player bullets are only hitting with "1" hard-coded amount of damage.
+
+WORK * What is limit of total player shots?
+
+* Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
+
 20250315
 DONE * Are skeletons able to damage player with melee??
 
@@ -6,17 +48,6 @@ DONE * I think Ghost.gd has a lot of logic that could go in BaseEnemy.gd??
 DONE * Need to make sure player is damaging ghost enemies during melee.
 
 DONE * Fix Enemy with high health; during melee; getting stuck on player.
-
-TEST * Yesterday asked ChatGPT about the 4 enemy character scripts, optimizations. Answer is waiting for me.
-
-WORK * Fix _on_body_entered and bullets handling in BaseEnemy, Ghost, Skeleton, Zombie
-** Bullets are getting closer. We had it all fixed up, but then we changed something for cleanliness and now bullets do not collide with enemies at all. Something to do with hooking up the signal on_body_entered to the Area2D within each of the enemies. We have sort of done this with the Player for Melee with Enemies, but now we are needing to do it with Bullets. I think Bullets might be a different node type, but I am not sure.
-
-* Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
-
-* I think player bullets are only hitting with "1" hard-coded amount of damage.
-
-WORK * What is limit of total player shots?
 
 ## Animations
 * Need animated player sprite
