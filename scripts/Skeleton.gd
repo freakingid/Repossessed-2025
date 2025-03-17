@@ -10,12 +10,11 @@ var side_step_timer = 0.0  # How long to commit to the side-step
 var side_step_duration = 1.00  # How many seconds to side-step before retrying forward movement
 var new_direction: Vector2 = Vector2.ZERO  # ✅ Default direction to prevent `nil` errors
 
-@export var score_value: int = 1
-
 func _ready():
 	super()  # Calls BaseEnemy.gd's _ready()
 	health = 4  # Skeletons are tougher than Ghosts
 	speed = 80.0  # Skeletons move slower
+	score_value = 2
 
 func _process(delta):
 	move_towards_player(delta)

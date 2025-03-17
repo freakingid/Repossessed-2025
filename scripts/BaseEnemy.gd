@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var is_ranged: bool = false  # Toggle for ranged vs melee enemies
 @export var separation_radius: float = 40.0  # Distance at which enemies push away from each other
 @export var separation_strength: float = 150.0  # How strong the push should be
+@export var score_value: int = 0 # initialize score award
 
 var speed: float = base_speed
 
@@ -88,9 +89,14 @@ func reset_movement():
 
 func take_damage(amount):
 	health -= amount
-
+	
 	if health <= 0:
-		die()
+		# Grant score to player upon death
+		player = get_tree().get_first_node_in_group("player")
+		if player:
+			player.add_score(score_value)  # Or any value you want
+		
+		die() # Destroy the enemy instance
 
 func die():
 	queue_free()  # Remove enemy from scene

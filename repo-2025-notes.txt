@@ -4,10 +4,11 @@ DONE * I think we have bullets working right now. We are not using Area2D hitbox
 DONE * Now we have the problem again where the enemies all run over the top of each other.
 ** Enemies just needed their layer specified in Collision > Mask
 
-WORK * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
-** Okay, what we have now is sort of better, but not shippable. Skeleton picks a new direction every x seconds when blocked. They still get stuck in mobs.
+DONE * Are all enemies awarding score when destroyed?
+** fixed by having take_damage only in BaseEnemy, and init score_value in _ready
 
-* Are all enemies awarding score when destroyed?
+DONE * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
+** Okay, what we have now is sort of better, but not shippable.
 
 * I think player bullets are only hitting with "1" hard-coded amount of damage.
 
