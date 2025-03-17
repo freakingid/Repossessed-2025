@@ -22,37 +22,28 @@ func _process(delta):
 
 func move_towards_player(delta):
 	if player:
-		# for now we always start out knowing direction to the player
 		var direction = (player.global_position - global_position).normalized()
 
-		# ✅ If we're currently side-stepping, continue in that adjusted "new_direction"
-		if side_step_timer > 0:
-			side_step_timer -= delta
-			# This is not really what I want. The following will always change direction based on where the player is.
-			# What I want is for the previously-determined new direction to stay the same until the SS timer is done.
-			if new_direction != Vector2.ZERO:
-				direction = new_direction
-			else:
-				print("Warning: new_direction is still zero, defaulting to player direction")
-			
-			# direction = direction.rotated(deg_to_rad(movement_attempts[current_attempt]))
-		else:
-			# ✅ Try moving toward the player normally
-			if raycast_forward.is_colliding():
-				# ✅ If blocked, start the side-step process
-				current_attempt = (current_attempt + 1) % movement_attempts.size()
-				side_step_timer = side_step_duration  # Reset the timer
-				new_direction = direction.rotated(deg_to_rad(movement_attempts[current_attempt]))
-			else:
-				# ✅ If no collision, reset the movement pattern
-				current_attempt = 0  # Go back to direct movement
-				side_step_timer = 0
-				new_direction = direction  # Reset `new_direction` to default
+		# ✅ Step 1: Check if the player is in sight using the raycast
+		raycast_forward.target_position = to_local(player.global_position)  # Point raycast at the player
+		raycast_forward.force_raycast_update()  # Ensure it's checking instantly
+		var can_see_player = raycast_forward.is_colliding() and raycast_forward.get_collider() == player
 
-		# ✅ Prevent `nil` error by always ensuring `direction` is valid
-		if direction == Vector2.ZERO:
-			print("Warning: direction is still zero, defaulting to forward movement")
-			direction = Vector2.RIGHT  # Arbitrary default to avoid errors
-			
+		if can_see_player:
+			# ✅ If we see the player, move directly toward them
+			current_attempt = 0
+			side_step_timer = 0
+			new_direction = direction
+		else:
+			# ✅ If we can't see the player OR we're already side-stepping
+			if side_step_timer > 0:
+				side_step_timer -= delta
+				direction = new_direction  # Continue with the last decided direction
+			else:
+				# ✅ Start a new side-step attempt if the player is lost
+				current_attempt = (current_attempt + 1) % movement_attempts.size()
+				side_step_timer = randf_range(1.0, 5.0)  # Random side-step duration between 1 and 5 seconds
+				new_direction = direction.rotated(deg_to_rad(movement_attempts[current_attempt]))
+
 		velocity = direction * speed
 		move_and_slide()

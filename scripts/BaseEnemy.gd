@@ -19,7 +19,7 @@ func _ready():
 	if player:
 		player.melee_hit.connect(_on_player_melee_hit)  # ✅ Listen for melee hits
 
-func _on_player_melee_hit(player):
+func _on_player_melee_hit():
 	if player and player.global_position.distance_to(global_position) < 40:  # Ensure close range
 		take_damage(player.damage)  # ✅ Enemy takes damage from Player
 		player.take_damage(damage)  # ✅ Player takes damage from Enemy
