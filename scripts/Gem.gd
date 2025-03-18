@@ -42,19 +42,16 @@ func _on_Gem_body_entered(body):
 		queue_free()  # Remove gem
 
 func _on_timer_timeout() -> void:
-	# Start blinking effect using a Tween
 	start_blinking_effect()
-
-	# Wait 5 more seconds, then remove the gem
 	await get_tree().create_timer(5.0).timeout
+	
 	queue_free()
 
 func start_blinking_effect():
-	var blink_time = 0.2  # Each blink cycle (fade-out + fade-in) takes 0.2 seconds
-	var total_blink_time = lifespan / 2  # Blink for half the lifespan
-	var blink_loops = floor(total_blink_time / blink_time)  # How many times to loop
-
-	var tween = get_tree().create_tween()
-	tween.set_loops(blink_loops)  # Adjust loop count dynamically
-	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 0), blink_time / 2)  # Fade out
-	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), blink_time / 2)  # Fade in
+	if not is_instance_valid(self):  # Ensure the gem exists before starting
+		return
+	
+	var tween = create_tween()  # Bind tween directly to the gem
+	tween.set_loops(ceil(lifespan / 2 / 0.2))  # Adjust loop count dynamically
+	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.1)  # Invisible
+	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.1)  # Visible
