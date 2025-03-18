@@ -1,13 +1,9 @@
 20250318
 DONE * Implement the Nova shot, which is based on gem_power the Player has collected.
 
-* Player is not doing any melee fighting upon collision with enemies.
-** Something to do with this error:
-```
-E 0:00:09:0916   Player.gd:72 @ _physics_process(): Error calling from signal 'melee_hit' to callable: 'CharacterBody2D(Skeleton.gd)::_on_player_melee_hit': Method expected 0 arguments, but called with 1.
-  <C++ Source>   core/object/object.cpp:1200 @ emit_signalp()
-  <Stack Trace>  Player.gd:72 @ _physics_process()
-```
+WORKING * Player is not doing any melee fighting upon collision with enemies.
+done ** Fixed collider signal error.
+** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
 
 
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
