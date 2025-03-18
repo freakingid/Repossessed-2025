@@ -171,8 +171,14 @@ func apply_powerup(powerup_type: String):
 	# Recalculate fire rate & max bullets
 	update_weapon_stats()
 
-	# Debug message (can remove later)
-	print("Picked up powerup:", powerup_type)
+	# Send updated powerup state to HUD
+	if hud:
+		hud.update_powerup_display({
+			"big_shot": has_big_shot,
+			"rapid_shot": has_rapid_shot,
+			"triple_shot": has_triple_shot,
+			"bounce_shot": has_bounce_shot
+		})
 
 func update_weapon_stats():
 	# Adjust fire rate

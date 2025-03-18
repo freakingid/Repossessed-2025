@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgw312ex8eet8"]
+[gd_scene load_steps=4 format=3 uid="uid://bgw312ex8eet8"]
 
 [ext_resource type="Script" path="res://scripts/HUD.gd" id="1_k5ygi"]
+[ext_resource type="Texture2D" uid="uid://e6yusrmnrsye" path="res://assets/sprites/powerups/fpo-powerup_none.png" id="2_fffa7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_in72c"]
 
@@ -26,3 +27,29 @@ offset_top = 23.0
 offset_right = 143.0
 offset_bottom = 50.0
 step = 2.0
+
+[node name="PowerupContainer" type="HBoxContainer" parent="."]
+offset_top = 45.0
+offset_right = 108.0
+offset_bottom = 85.0
+alignment = 1
+
+[node name="BigShotIcon" type="TextureRect" parent="PowerupContainer"]
+layout_mode = 2
+texture = ExtResource("2_fffa7")
+stretch_mode = 3
+
+[node name="RapidShotIcon" type="TextureRect" parent="PowerupContainer"]
+layout_mode = 2
+texture = ExtResource("2_fffa7")
+stretch_mode = 3
+
+[node name="TripleShotIcon" type="TextureRect" parent="PowerupContainer"]
+layout_mode = 2
+texture = ExtResource("2_fffa7")
+stretch_mode = 3
+
+[node name="BounceShotIcon" type="TextureRect" parent="PowerupContainer"]
+layout_mode = 2
+texture = ExtResource("2_fffa7")
+stretch_mode = 3

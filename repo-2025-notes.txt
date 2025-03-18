@@ -7,13 +7,24 @@ DONE * Add powerups for player
 We're going to work on adding weapon powerups for the player. Weapon powerups are stackable, meaning their effects are cumulative.
 The Big Shot Powerup increases the size of the players bullet, doubles the bullets health, and doubles the bullets damage. 
 
-* Need a HUD indicator for what powerups we have.
+DONE * Need a HUD indicator for what powerups we have.
 
 WORKING * Player is not doing any melee fighting upon collision with enemies.
 done ** Fixed collider signal error.
 ** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
 
+BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem to refract through the wall, rather than bounce back from it.
+
+* Add More enemies
+
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
+
+
+
+
+
+
+
 
 ## Animations
 * Need animated player sprite
@@ -24,16 +35,6 @@ done ** Fixed collider signal error.
 
 * Need animated zombie sprite
 
-## Gems
-* Need to drop gems from destroyed enemies
-
-* Need to allow player to pick up gems
-
-* Need gems to go away after a time. Blink during the last 33% of life?
-
-* Need to track gems carried by player, globally between levels??
-
-* Need to track gems in the HUD near the score.
 
 
 
