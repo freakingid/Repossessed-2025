@@ -13,6 +13,8 @@ extends CharacterBody2D
 # gem and nova shot
 @export var gem_power: int = 0  # Current stored gem power
 @export var max_nova_charge: int = 50  # Nova shot requires 50 gem power
+@export var nova_shot_scene: PackedScene  # Assign NovaShot.tscn
+@export var nova_shot_cooldown: float = 0.5  # Prevents instant spam
 # melee management
 @export var invincibility_duration: float = 0.5  # 0.5 seconds of invincibility
 
@@ -27,6 +29,8 @@ var can_shoot = true # Is player shot cooldown period past?
 # lightning flags
 var can_use_lightning = true # Is lightning cooldown period past?
 var stunned = false # Is player currently stunned from lightning use?
+# nova flags
+var can_use_nova = true
 
 @onready var sprite = $Sprite2D  # Ensure your Player has a Sprite2D node
 @onready var hud = get_tree().get_first_node_in_group("hud")
@@ -73,11 +77,16 @@ func _process(delta):
 	aim_direction.x = Input.get_axis("aim_left", "aim_right")
 	aim_direction.y = Input.get_axis("aim_up", "aim_down")
 
+	# Fire regular shot
 	if aim_direction.length() > 0 and can_shoot:
 		shoot(aim_direction.normalized())
 		can_shoot = false
 		await get_tree().create_timer(fire_rate).timeout
 		can_shoot = true
+
+	# Fire nova shot
+	if Input.is_action_just_pressed("nova_attack"):
+		use_nova_shot()
 
 ## Fire player shot
 func shoot(direction: Vector2):
@@ -103,6 +112,30 @@ func shoot(direction: Vector2):
 	# Add bullet to the scene & make sure it's in the right group
 	get_tree().current_scene.add_child(bullet)
 	bullet.add_to_group("player_projectiles")  # Ensure it is trackable
+
+func use_nova_shot():
+	if not can_use_nova or gem_power < max_nova_charge:
+		print("cannot fire nova yet")
+		return  # Not enough charge or still on cooldown
+
+	# Consume 50 gem power (1 full charge)
+	gem_power -= max_nova_charge
+	update_hud()  # Update HUD display
+
+	# Spawn Nova Shot
+	var nova = nova_shot_scene.instantiate()
+	if nova == null:
+		print("Could not instantiate nova")
+		return
+
+	nova.global_position = global_position
+	print("adding nova")
+	get_tree().current_scene.add_child(nova)
+
+	# Start cooldown
+	can_use_nova = false
+	await get_tree().create_timer(nova_shot_cooldown).timeout
+	can_use_nova = true
 
 func add_score(points: int):
 	if hud:

@@ -1,24 +1,14 @@
-202250317
-DONE * I think we have bullets working right now. We are not using Area2D hitbox in the Player or Enemies now. That was to allow for a separate melee hitbox different from movement collisions, but that is not something I want in this game. For instance, we could have a hitbox for the head and a different one for the body. Not needed.
+20250318
+DONE * Implement the Nova shot, which is based on gem_power the Player has collected.
 
-DONE * Now we have the problem again where the enemies all run over the top of each other.
-** Enemies just needed their layer specified in Collision > Mask
+* Player is not doing any melee fighting upon collision with enemies.
+** Something to do with this error:
+```
+E 0:00:09:0916   Player.gd:72 @ _physics_process(): Error calling from signal 'melee_hit' to callable: 'CharacterBody2D(Skeleton.gd)::_on_player_melee_hit': Method expected 0 arguments, but called with 1.
+  <C++ Source>   core/object/object.cpp:1200 @ emit_signalp()
+  <Stack Trace>  Player.gd:72 @ _physics_process()
+```
 
-DONE * Are all enemies awarding score when destroyed?
-** fixed by having take_damage only in BaseEnemy, and init score_value in _ready
-
-DONE * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
-** Okay, what we have now is sort of better, but not shippable.
-
-DONE * I think player bullets are only hitting with "1" hard-coded amount of damage.
-** Now in Bullet.gd, uses damage and stuff
-
-DONE * What is limit of total player shots?
-
-DONE * Implement gems being dropped by enemies upon death.
-** Gems are dropped for "lifespan," and they blink halfway through, before disappearing. Player can collect gems, and HUD is updated correctly.
-
-* Implement the Nova shot, which is based on gem_power the Player has collected.
 
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
 
@@ -41,6 +31,33 @@ DONE * Implement gems being dropped by enemies upon death.
 * Need to track gems carried by player, globally between levels??
 
 * Need to track gems in the HUD near the score.
+
+
+
+
+
+
+
+202250317
+DONE * I think we have bullets working right now. We are not using Area2D hitbox in the Player or Enemies now. That was to allow for a separate melee hitbox different from movement collisions, but that is not something I want in this game. For instance, we could have a hitbox for the head and a different one for the body. Not needed.
+
+DONE * Now we have the problem again where the enemies all run over the top of each other.
+** Enemies just needed their layer specified in Collision > Mask
+
+DONE * Are all enemies awarding score when destroyed?
+** fixed by having take_damage only in BaseEnemy, and init score_value in _ready
+
+DONE * Also, the skeleton movement isn't really working the way I want. I asked ChatGPT about that, also.
+** Okay, what we have now is sort of better, but not shippable.
+
+DONE * I think player bullets are only hitting with "1" hard-coded amount of damage.
+** Now in Bullet.gd, uses damage and stuff
+
+DONE * What is limit of total player shots?
+
+DONE * Implement gems being dropped by enemies upon death.
+** Gems are dropped for "lifespan," and they blink halfway through, before disappearing. Player can collect gems, and HUD is updated correctly.
+
 
 
 
