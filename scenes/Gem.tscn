@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_rj6hc"]
 radius = 14.0
 
-[node name="Gem" type="Area2D" groups=["powerups"]]
+[node name="Gem" type="Area2D" groups=["gems"]]
 z_index = 1
 collision_layer = 32
 script = ExtResource("1_8k8k5")

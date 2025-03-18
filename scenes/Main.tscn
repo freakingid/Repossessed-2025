@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=9 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="2_wunoo"]
+[ext_resource type="PackedScene" uid="uid://clobqkwki26f6" path="res://scenes/Powerup.tscn" id="3_dm8pw"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/GhostSpawner.tscn" id="3_u8uhy"]
 [ext_resource type="PackedScene" uid="uid://dhvyqog8u4031" path="res://scenes/SkeletonSpawner.tscn" id="4_usktm"]
@@ -13,6 +14,30 @@
 [node name="Player" parent="." instance=ExtResource("1_s5xc4")]
 position = Vector2(400, 400)
 nova_shot_scene = ExtResource("2_wunoo")
+
+[node name="PUBig" parent="." instance=ExtResource("3_dm8pw")]
+z_index = 1
+position = Vector2(266, 0)
+powerup_type = "big_shot"
+lifetime = 0.0
+
+[node name="PUBounce" parent="." instance=ExtResource("3_dm8pw")]
+z_index = 1
+position = Vector2(-331, 0)
+powerup_type = "bounce_shot"
+lifetime = 0.0
+
+[node name="PUTriple" parent="." instance=ExtResource("3_dm8pw")]
+z_index = 1
+position = Vector2(827.057, 828.859)
+powerup_type = "triple_shot"
+lifetime = 0.0
+
+[node name="PURapid" parent="." instance=ExtResource("3_dm8pw")]
+z_index = 1
+position = Vector2(-846.268, 1084.41)
+powerup_type = "rapid_shot"
+lifetime = 0.0
 
 [node name="HUD" parent="." instance=ExtResource("1_op41d")]
 

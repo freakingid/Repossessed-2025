@@ -2,8 +2,6 @@ extends CharacterBody2D
 
 @export var base_speed: float = 200.0 # Initial movement speed
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
-@export var base_fire_rate: float = 0.2  # Delay between shots
-@export var max_shots_in_level: int = 3 # Total player shots allowed in level at once
 @export var max_health: int = 50  # Max health (can be modified in Inspector)
 @export var damage: int = 2  # ✅ Player's melee damage
 # lightning parameters
@@ -23,20 +21,39 @@ signal melee_hit(body)  # ✅ Signal emitted when colliding with an enemy
 var health: int = max_health  # Current health
 var invincible: bool = false # can player be damaged?
 var speed: float = base_speed
-var fire_rate: float = base_fire_rate
 # normal shooting
 var can_shoot = true # Is player shot cooldown period past?
+
 # lightning flags
 var can_use_lightning = true # Is lightning cooldown period past?
 var stunned = false # Is player currently stunned from lightning use?
 # nova flags
 var can_use_nova = true
 
+# Powerup State Variables
+var has_big_shot: bool = false
+var has_rapid_shot: bool = false
+var has_triple_shot: bool = false
+var has_bounce_shot: bool = false
+# Base values
+@export var base_fire_rate: float = 0.2  # Delay between shots
+@export var base_max_shots: int = 3  # Total shots allowed in scene
+@export var base_bullet_lifespan: float = 2.0  # Bullet lifespan
+
+# Dynamic values (affected by powerups)
+var fire_rate: float
+var max_shots_in_level: int
+var bullet_lifespan: float
+
 @onready var sprite = $Sprite2D  # Ensure your Player has a Sprite2D node
 @onready var hud = get_tree().get_first_node_in_group("hud")
 @onready var health_bar = $HealthBar  # Ensure a ProgressBar exists as a child node
 
 func _ready():
+	# Set default weapon values (to allow normal shooting without powerups)
+	fire_rate = base_fire_rate
+	max_shots_in_level = base_max_shots
+	bullet_lifespan = base_bullet_lifespan
 	if health_bar:
 		health_bar.max_value = max_health
 		health_bar.value = health
@@ -44,7 +61,7 @@ func _ready():
 		print("Error: HealthBar node not found!")
 
 ## Process player movement
-func _physics_process(delta):
+func _physics_process(_delta):
 	var move_direction = Vector2.ZERO
 
 	# Normal movement
@@ -72,7 +89,7 @@ func _physics_process(delta):
 			emit_signal("melee_hit", collider)  # ✅ Emit signal for melee damage
 
 ## Process player shot direction
-func _process(delta):
+func _process(_delta):
 	var aim_direction = Vector2.ZERO
 	aim_direction.x = Input.get_axis("aim_left", "aim_right")
 	aim_direction.y = Input.get_axis("aim_up", "aim_down")
@@ -91,27 +108,89 @@ func _process(delta):
 ## Fire player shot
 func shoot(direction: Vector2):
 	# Check how many bullets exist
-	var bullets = get_tree().get_nodes_in_group("player_projectiles")
-	if bullets.size() >= max_shots_in_level:
-		return  # Stop the player from shooting
+	if get_tree().get_nodes_in_group("player_projectiles").size() >= max_shots_in_level:
+		return  # Prevent shooting if max bullets exist
 
 	# Ensure bullet scene is valid
 	if bullet_scene == null:
 		print("Error: bullet_scene is NULL")
 		return  # Prevent crash
 
-	# Spawn new bullet
+	# Create the bullet
 	var bullet = bullet_scene.instantiate()
-	if bullet == null:
-		print("Error: Bullet instantiation failed")
-		return
-
-	bullet.position = $Marker2D.global_position  # ERROR LINE
+	bullet.position = $Marker2D.global_position
 	bullet.direction = direction
-
-	# Add bullet to the scene & make sure it's in the right group
-	get_tree().current_scene.add_child(bullet)
 	bullet.add_to_group("player_projectiles")  # Ensure it is trackable
+
+	# Apply powerup effects
+	if has_big_shot:
+		bullet.scale *= 2  # Make bullet bigger
+		bullet.damage *= 2
+		bullet.health *= 2
+		bullet.lifespan *= 2
+
+	if has_bounce_shot:
+		bullet.bounce_shot = true
+		# Bounce shot extends lifespan, but only if big shot isn’t already boosting it
+		if not has_big_shot:
+			bullet.lifespan *= 2
+
+	# Add bullet to scene
+	get_tree().current_scene.add_child(bullet)
+
+	# Handle triple shot
+	if has_triple_shot:
+		var left_bullet = bullet_scene.instantiate()
+		left_bullet.position = bullet.position
+		left_bullet.direction = direction.rotated(deg_to_rad(-15))
+		left_bullet.add_to_group("player_projectiles")  # Ensure it is trackable
+		get_tree().current_scene.add_child(left_bullet)
+
+		var right_bullet = bullet_scene.instantiate()
+		right_bullet.position = bullet.position
+		right_bullet.direction = direction.rotated(deg_to_rad(15))
+		right_bullet.add_to_group("player_projectiles")  # Ensure it is trackable
+		get_tree().current_scene.add_child(right_bullet)
+
+	# Cooldown before next shot
+	can_shoot = false
+	await get_tree().create_timer(fire_rate).timeout
+	can_shoot = true
+
+func apply_powerup(powerup_type: String):
+	match powerup_type:
+		"big_shot":
+			has_big_shot = true
+		"rapid_shot":
+			has_rapid_shot = true
+		"triple_shot":
+			has_triple_shot = true
+		"bounce_shot":
+			has_bounce_shot = true
+
+	# Recalculate fire rate & max bullets
+	update_weapon_stats()
+
+	# Debug message (can remove later)
+	print("Picked up powerup:", powerup_type)
+
+func update_weapon_stats():
+	# Adjust fire rate
+	fire_rate = base_fire_rate / 2 if has_rapid_shot else base_fire_rate
+	
+	# Adjust max bullets (Now allows 6x if both Rapid Shot + Triple Shot are active)
+	if has_triple_shot and has_rapid_shot:
+		max_shots_in_level = base_max_shots * 6  # ✅ Both combined = 6x normal shots
+	elif has_triple_shot or has_rapid_shot:
+		max_shots_in_level = base_max_shots * 3  # ✅ One of them = 3x normal shots
+	else:
+		max_shots_in_level = base_max_shots  # Default normal shooting
+	
+	# Adjust bullet lifespan (Big Shot and Bounce Shot do NOT stack lifespan)
+	if has_big_shot or has_bounce_shot:
+		bullet_lifespan = base_bullet_lifespan * 2
+	else:
+		bullet_lifespan = base_bullet_lifespan
 
 func use_nova_shot():
 	if not can_use_nova or gem_power < max_nova_charge:

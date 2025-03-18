@@ -20,7 +20,7 @@ func _ready():
 	if player:
 		player.melee_hit.connect(_on_player_melee_hit)  # ✅ Listen for melee hits
 
-func _on_player_melee_hit(collider):
+func _on_player_melee_hit(_collider):
 	if player and player.global_position.distance_to(global_position) < 40:  # Ensure close range
 		take_damage(player.damage)  # ✅ Enemy takes damage from Player
 		player.take_damage(damage)  # ✅ Player takes damage from Enemy
@@ -41,7 +41,7 @@ func _on_body_entered(body):
 func _process(delta):
 	move_towards_player(delta)
 
-func move_towards_player(delta):
+func move_towards_player(_delta):
 	if player:
 		var direction = (player.global_position - global_position).normalized()
 		velocity = direction * speed

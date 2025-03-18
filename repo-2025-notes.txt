@@ -1,10 +1,17 @@
 20250318
 DONE * Implement the Nova shot, which is based on gem_power the Player has collected.
 
+DONE * We might need Gems to be in a group other than "powerups" to differentiate them from shot powerups and health powerups.
+
+DONE * Add powerups for player
+We're going to work on adding weapon powerups for the player. Weapon powerups are stackable, meaning their effects are cumulative.
+The Big Shot Powerup increases the size of the players bullet, doubles the bullets health, and doubles the bullets damage. 
+
+* Need a HUD indicator for what powerups we have.
+
 WORKING * Player is not doing any melee fighting upon collision with enemies.
 done ** Fixed collider signal error.
 ** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
-
 
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
 
