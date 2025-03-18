@@ -15,6 +15,11 @@ DONE * I think player bullets are only hitting with "1" hard-coded amount of dam
 
 DONE * What is limit of total player shots?
 
+DONE * Implement gems being dropped by enemies upon death.
+** Gems are dropped for "lifespan," and they blink halfway through, before disappearing. Player can collect gems, and HUD is updated correctly.
+
+* Implement the Nova shot, which is based on gem_power the Player has collected.
+
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
 
 ## Animations
@@ -155,6 +160,7 @@ https://www.youtube.com/watch?v=43sJIWaj2Yw
 3: Ghost (presumably most enemies)
 4: Spawners
 5: Walls (blockers in general?)
+6: Powerups (Gems, weapon powerups, health powerups)
 
 
 

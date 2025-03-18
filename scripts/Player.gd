@@ -10,6 +10,9 @@ extends CharacterBody2D
 @export var lightning_radius: float = 200.0
 @export var lightning_cooldown: float = 10.0
 @export var stun_duration: float = 3.0
+# gem and nova shot
+@export var gem_power: int = 0  # Current stored gem power
+@export var max_nova_charge: int = 50  # Nova shot requires 50 gem power
 # melee management
 @export var invincibility_duration: float = 0.5  # 0.5 seconds of invincibility
 
@@ -101,7 +104,6 @@ func shoot(direction: Vector2):
 	get_tree().current_scene.add_child(bullet)
 	bullet.add_to_group("player_projectiles")  # Ensure it is trackable
 
-
 func add_score(points: int):
 	if hud:
 		hud.add_score(points)
@@ -167,6 +169,17 @@ func start_blinking_effect():
 ## Make player vulnerable to attack again
 func _on_invincibility_timer_timeout() -> void:
 	invincible = false
+
+func collect_gem(amount: int):
+	gem_power += amount
+	update_hud()
+
+## Update HUD specifically for gems collected
+func update_hud():
+	if hud:
+		var full_charges = floor(gem_power / float(max_nova_charge))  # Corrected floor division
+		var partial_charge = gem_power % max_nova_charge
+		hud.update_gem_power(full_charges, partial_charge)
 
 func die():
 	print("Player has died!")  # Debugging message

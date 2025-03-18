@@ -99,4 +99,11 @@ func take_damage(amount):
 		die() # Destroy the enemy instance
 
 func die():
-	queue_free()  # Remove enemy from scene
+	# Drop a gem when the enemy dies
+	var gem = preload("res://Scenes/Gem.tscn").instantiate()
+	gem.global_position = global_position
+	gem.gem_power = score_value  # Gem power = enemy score value
+	get_tree().current_scene.call_deferred("add_child", gem)
+
+	# Remove the enemy from the scene
+	queue_free()
