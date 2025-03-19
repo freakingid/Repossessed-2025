@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
-@export var base_speed: float = 200.0 # Initial movement speed
+@export var base_speed: float = 100.0 # Initial movement speed
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
 @export var max_health: int = 50  # Max health (can be modified in Inspector)
 @export var damage: int = 2  # ✅ Player's melee damage
 # lightning parameters
-@export var lightning_radius: float = 200.0
+@export var lightning_radius: float = 100.0
 @export var lightning_cooldown: float = 10.0
 @export var stun_duration: float = 3.0
 # gem and nova shot

@@ -4,16 +4,17 @@
 [ext_resource type="Texture2D" uid="uid://cwug5pj3eu3wl" path="res://assets/sprites/spawners/fpo-spawn-skeleton-shooter.png" id="2_007xs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p000i"]
-radius = 30.5
+radius = 16.0702
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j6e"]
-size = Vector2(65, 57)
+size = Vector2(33, 33)
 
 [node name="SkeletonShooterSpawner" type="Node2D" groups=["spawners"]]
 z_index = 1
 script = ExtResource("1_oj5vh")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_007xs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

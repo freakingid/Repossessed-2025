@@ -8,7 +8,7 @@ func _ready():
 	if player == null:
 		print("Error executing Zombie.gd: No player found!")
 	health = 8  # Zombies have higher health
-	base_speed = 40.0  # Zombies are slower
+	base_speed = 20.0  # Zombies are slower
 	score_value = 4
 	damage = 4  # Zombies deal high melee damage
 	

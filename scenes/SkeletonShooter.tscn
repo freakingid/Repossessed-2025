@@ -2,11 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/SkeletonShooter.gd" id="1_4ot05"]
 [ext_resource type="PackedScene" uid="uid://dmoifi66l8ocv" path="res://scenes/Arrow.tscn" id="2_8vyhb"]
-[ext_resource type="Texture2D" uid="uid://cucx1mfj1wotj" path="res://assets/sprites/fpo-skeleton-shooter-128.png" id="2_amuct"]
+[ext_resource type="Texture2D" uid="uid://bjtgixroq07pw" path="res://assets/sprites/fpo-skeleton-shooter-32.png" id="3_pjnnp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cm4qt"]
-radius = 25.0
-height = 104.0
+radius = 9.0
 
 [node name="SkeletonShooter" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
@@ -16,10 +15,10 @@ script = ExtResource("1_4ot05")
 projectile_scene = ExtResource("2_8vyhb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_amuct")
+texture = ExtResource("3_pjnnp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3, 0)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_cm4qt")
 
 [node name="RaycastForward" type="RayCast2D" parent="."]

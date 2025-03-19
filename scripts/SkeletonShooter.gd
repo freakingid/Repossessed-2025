@@ -4,9 +4,9 @@ extends "res://scripts/BaseEnemy.gd"  # Inherits common enemy logic
 @export var fire_rate: float = 1.5  # Delay between shots
 @export var projectile_scene: PackedScene  # Assign the Skeleton's arrow scene
 # @export var detection_range: float = 250.0  # Distance at which the Skeleton stops and shoots
-@export var melee_range: float = 200.0  # ✅ Distance too close for arrows, forces melee
-@export var ranged_range: float = 400.0  # ✅ Ideal range for firing arrows
-@export var sidestep_distance: float = 32.0  # How far Skeleton moves after shooting
+@export var melee_range: float = 100.0  # ✅ Distance too close for arrows, forces melee
+@export var ranged_range: float = 200.0  # ✅ Ideal range for firing arrows
+@export var sidestep_distance: float = 16.0  # How far Skeleton moves after shooting
 @export var wander_time: float = 2.0  # Time spent wandering when player is not in sight
 var sidestep_direction: Vector2 = Vector2.ZERO  # ✅ Stores direction of sidestep
 var sidestep_timer: float = 0  # ✅ Tracks how long to sidestep
@@ -19,7 +19,7 @@ var wander_timer: float = 0  # Timer for random wandering
 func _ready():
 	super()  # Calls BaseEnemy.gd's _ready()
 	health = 4  # Skeletons are tougher than Ghosts
-	speed = 80.0  # Skeletons move slower
+	speed = 40.0  # Skeletons move slower
 	score_value = 4
 	damage = 2
 	fire_timer.wait_time = fire_rate

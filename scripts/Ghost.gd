@@ -7,7 +7,7 @@ func _ready():
 
 	player = get_tree().get_first_node_in_group("player")
 	health = 2  # Ghosts have lower health
-	base_speed = 75 # Later might be a percentage of BaseEnemy.base_speed
+	base_speed = 35 # Later might be a percentage of BaseEnemy.base_speed
 	damage = 1
 	score_value = 1
 

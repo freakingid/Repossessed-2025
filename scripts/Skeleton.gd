@@ -13,7 +13,7 @@ var new_direction: Vector2 = Vector2.ZERO  # ✅ Default direction to prevent `n
 func _ready():
 	super()  # Calls BaseEnemy.gd's _ready()
 	health = 4  # Skeletons are tougher than Ghosts
-	speed = 80.0  # Skeletons move slower
+	speed = 40.0  # Skeletons move slower
 	score_value = 2
 	damage = 2
 

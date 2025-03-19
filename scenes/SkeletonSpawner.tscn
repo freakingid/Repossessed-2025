@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://scripts/SkeletonSpawner.gd" id="1_y4i15"]
 [ext_resource type="PackedScene" uid="uid://dg5t7fo0bchwm" path="res://scenes/Skeleton.tscn" id="2_ymnei"]
-[ext_resource type="Texture2D" uid="uid://ld7fgrmwu01k" path="res://assets/sprites/fpo-bone-pile-128.png" id="3_eri5y"]
+[ext_resource type="Texture2D" uid="uid://j0s5vmk116lw" path="res://assets/sprites/spawners/fpo-spawn-skeleton.png" id="3_22bpo"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_34ym8"]
-size = Vector2(110, 57)
+[sub_resource type="CircleShape2D" id="CircleShape2D_s6aed"]
+radius = 16.0702
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j6e"]
-size = Vector2(110, 57)
+size = Vector2(33, 33)
 
 [node name="SkeletonSpawner" type="Node2D" groups=["spawners"]]
 z_index = 1
@@ -16,18 +16,19 @@ script = ExtResource("1_y4i15")
 skeleton_scene = ExtResource("2_ymnei")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_eri5y")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_22bpo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_34ym8")
+shape = SubResource("CircleShape2D_s6aed")
 
 [node name="DamageArea" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
-position = Vector2(0, -0.5)
+position = Vector2(0.5, -0.5)
 shape = SubResource("RectangleShape2D_a6j6e")
 debug_color = Color(0.968648, 0, 0.466513, 0.42)
 

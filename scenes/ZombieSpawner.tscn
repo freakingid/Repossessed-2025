@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://scripts/ZombieSpawner.gd" id="1_7s7k6"]
 [ext_resource type="PackedScene" uid="uid://dtytenrt32e3s" path="res://scenes/Zombie.tscn" id="2_3h2nq"]
-[ext_resource type="Texture2D" uid="uid://jwvliewqlngy" path="res://assets/sprites/fpo-tombstone-128.png" id="3_ydtmt"]
+[ext_resource type="Texture2D" uid="uid://cgxgu7ihkmdoy" path="res://assets/sprites/spawners/fpo-spawn-zombie.png" id="3_cy0qb"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_34ym8"]
-size = Vector2(56, 88)
+[sub_resource type="CircleShape2D" id="CircleShape2D_qih6c"]
+radius = 16.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j6e"]
-size = Vector2(56, 83)
+size = Vector2(32, 32)
 
 [node name="ZombieSpawner" type="Node2D" groups=["spawners"]]
 z_index = 1
@@ -16,18 +16,17 @@ script = ExtResource("1_7s7k6")
 zombie_scene = ExtResource("2_3h2nq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_ydtmt")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_cy0qb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -3)
-shape = SubResource("RectangleShape2D_34ym8")
+shape = SubResource("CircleShape2D_qih6c")
 
 [node name="DamageArea" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
-position = Vector2(2, -3)
 shape = SubResource("RectangleShape2D_a6j6e")
 debug_color = Color(0.968648, 0, 0.466513, 0.42)
 

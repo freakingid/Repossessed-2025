@@ -1,19 +1,33 @@
 20250319
-WORKING * Player is not doing any melee fighting upon collision with enemies.
+DONE * Resized from 128px sprites to 32px.
+** Happy accident: Regular skeletons can now find their way around walls. I think the change of scale allowed their movements to scale 4x and make a difference.
+
+BUG * Zombie spawner is not spawning anything.
+
+BUG * Player is not doing any melee fighting upon collision with enemies.
 done ** Fixed collider signal error.
 ** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
 
 BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem to refract through the wall, rather than bounce back from it.
 
-* Add More enemies
-TEST * Adding Skeleton Shooter
-** When skeletons are blocked by wall, should they be still trying to go towards player?
-** Is wandering only when they are FAR from the player and blocked vision?
-** It seems like the skeleton is trying to shoot at the player even when there is a wall in the way. We are supposed to be testing for line of sight.
+WORKING * Add More enemies
+BUG * Adding Skeleton Shooter
+?? When skeletons are blocked by wall, should they be still trying to go towards player?
+?? It seems like the skeleton is trying to shoot at the player even when there is a wall in the way. We are supposed to be testing for line of sight.
+** Is wandering is only when they are FAR from the player and blocked vision
+
+* Add Bat
+
+* Add Lobber and shots
+
+* The gems need a slight magnetic effect, so as the player gets close to the gem, the gem moves towards the player. Once the player is within range of a gem (pretty close) the gem moves towards the player faster the closer the player is to the gem. There will later be a powerup that gives the player a magnet, which extends the range at which the gems begin to move towards the player.
+
 
 * Consider how long each powerup should stay with the player. Do they time out? Or do they wear out after so many uses? Or something else??
 
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
+
+CHANGE * All Spawners (Ghost, Skeleton, SkeletonShooter, Zombie) have an Area2D from the old times. Probably remove it and retool collisions.
 
 
 
@@ -193,16 +207,6 @@ DONE * I don't think destroying the ghost spawner actually awarded the points to
 
 
 
-20250310
-* Good tilesetlayer video, including z-index so you can walk behind top of trees:
-https://www.youtube.com/watch?v=43sJIWaj2Yw
-
-
-
-
-
-
-
 =========================================================
 ## Resources
 =========================================================
@@ -279,3 +283,48 @@ Global
 1. Using a pool of instances that is initialized at game startup, then moved off screen or whatever rather than deleted when the ghost / etc is destroyed. Idea is to save the overhead of allocating new instances. Is this helpful?
 
 2. Something with Tile collisions. Instead of a collision box for every 64x64 tile, can we have a collision box, and stretch it into a rectangle over a long span of boxes? Is this helpful?
+
+
+
+
+
+
+
+=========================================================
+== 20250319 ChatGPT Questions
+=========================================================
+What’s Next?
+Since you’re refining and adding features, do you have any particular areas where you need guidance or improvements? Here are a few potential areas of focus:
+
+1. Enemy AI Enhancements
+The enemies have a good foundation, but do you want to improve pathfinding, dodging behavior, or introduce more complex attack patterns?
+
+Skeleton Shooters already sidestep after firing, but what about smarter decision-making (e.g., moving to cover or leading shots)?
+
+2. Player Feedback & Game Feel
+The game already has great mechanics, but how about improving hit effects? Adding:
+
+Screen shake when the player takes damage.
+
+Flash effects on enemies when they get hit.
+
+Sound cues for different enemy types.
+
+Nova Shot’s expansion speed and health mechanics are interesting—would you like a more dynamic animation to accompany it?
+
+3. Difficulty Scaling & Balance
+Your design document mentions enemy health scaling after level loops. Do you want enemies to scale gradually over time or in distinct waves?
+
+Should power-ups be time-limited, or should there be a way to stack/degrade them over time?
+
+4. Level & Spawner Design
+Right now, spawners are timed and limited in count, but do you want enemies to spawn based on player position, score, or progression?
+
+Maybe add boss waves or special enemy types that trigger under specific conditions?
+
+5. Performance Optimizations
+The bullet system looks clean, but does it need object pooling for efficiency?
+
+Would you like collision layers tweaked for performance?
+
+The raycast-based enemy line-of-sight checks are good, but are they causing any performance bottlenecks?

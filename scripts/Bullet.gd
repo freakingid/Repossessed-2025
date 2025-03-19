@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var base_speed: float = 500.0
+@export var base_speed: float = 250.0
 @export var damage: int = 1  # How much damage the bullet deals
 @export var health: int = 1  # How much damage the bullet can take before being destroyed
 @export var bounce_shot: bool = false  # Determines if bullets should bounce

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cgo6ls5clxtrc" path="res://assets/sprites/gems/gem-gray.png" id="2_t2qxr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rj6hc"]
-radius = 14.0
+radius = 8.06226
 
 [node name="Gem" type="Area2D" groups=["gems"]]
 z_index = 1
@@ -12,10 +12,11 @@ collision_layer = 32
 script = ExtResource("1_8k8k5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_t2qxr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2)
+position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_rj6hc")
 
 [node name="Timer" type="Timer" parent="."]

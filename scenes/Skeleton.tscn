@@ -1,11 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://dg5t7fo0bchwm"]
 
 [ext_resource type="Script" path="res://scripts/Skeleton.gd" id="1_xjgru"]
-[ext_resource type="Texture2D" uid="uid://cucx1mfj1wotj" path="res://assets/sprites/fpo-skeleton-shooter-128.png" id="2_w3dge"]
+[ext_resource type="Texture2D" uid="uid://fqkkh2xke65u" path="res://assets/sprites/fpo-skeleton-32.png" id="2_oe3p5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cm4qt"]
-radius = 25.0
-height = 104.0
+radius = 9.0
 
 [node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
@@ -14,10 +13,10 @@ collision_mask = 21
 script = ExtResource("1_xjgru")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_w3dge")
+texture = ExtResource("2_oe3p5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3, 0)
+position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_cm4qt")
 
 [node name="RaycastForward" type="RayCast2D" parent="."]
