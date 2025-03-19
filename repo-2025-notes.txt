@@ -17,9 +17,8 @@ BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem
 
 * Add More enemies
 TEST * Adding Skeleton Shooter
-** Short range: Melee only
-** Mid range: Fire arrows, but don't just stay in one spot. Move around every arrow or two
-** Long range: follow if line of sight
+** When skeletons are blocked by wall, should they be still trying to go towards player?
+** Is wandering only when they are FAR from the player and blocked vision?
 
 * Consider how long each powerup should stay with the player. Do they time out? Or do they wear out after so many uses? Or something else??
 
