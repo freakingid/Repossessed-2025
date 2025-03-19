@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://df8tk30576iiq"]
+
+[ext_resource type="Script" path="res://scripts/BatSpawner.gd" id="1_5iwyf"]
+[ext_resource type="PackedScene" uid="uid://drs8neucn5315" path="res://scenes/Bat.tscn" id="2_280pt"]
+[ext_resource type="Texture2D" uid="uid://uha0j0uj5miu" path="res://assets/sprites/spawners/fpo-spawn-bat.png" id="2_jhu8i"]
+
+[node name="BatSpawner" type="Node2D" groups=["spawners"]]
+z_index = 1
+script = ExtResource("1_5iwyf")
+bat_scene = ExtResource("2_280pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_jhu8i")

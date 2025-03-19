@@ -36,3 +36,8 @@ func take_damage(amount):
 	health -= amount
 	if health <= 0:
 		queue_free()  # ✅ Bullet disappears
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemies"):
+		area.take_damage(damage)  # ✅ Enemy takes damage
+		take_damage(area.damage)  # ✅ Bullet takes damage from enemy

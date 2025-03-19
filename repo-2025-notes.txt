@@ -8,15 +8,27 @@ BUG * Player is not doing any melee fighting upon collision with enemies.
 done ** Fixed collider signal error.
 ** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
 
+BUG * All enemies, upon Melee with Player, need to have the player be invinicible / blinking for a time. That seems to have gone away or not be everywhere.
+
 BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem to refract through the wall, rather than bounce back from it.
 
-WORKING * Add More enemies
+=================================================
+* Add More enemies
+=================================================
 BUG * Adding Skeleton Shooter
 ?? When skeletons are blocked by wall, should they be still trying to go towards player?
 ?? It seems like the skeleton is trying to shoot at the player even when there is a wall in the way. We are supposed to be testing for line of sight.
 ** Is wandering is only when they are FAR from the player and blocked vision
 
-* Add Bat
+DONE * Add Bat
+** ChatGPT asks:
+```
+Want bats to have a death animation?
+Want a special effect when bats dash?
+** I could see a streak behind the bat, like to imply a blur because the bat suddenly made a beeline for a person.
+```
+
+* Give names to the layers for Collision Layer and Mask, instead of numbers.
 
 * Add Lobber and shots
 
