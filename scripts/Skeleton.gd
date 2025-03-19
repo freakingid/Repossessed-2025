@@ -15,6 +15,7 @@ func _ready():
 	health = 4  # Skeletons are tougher than Ghosts
 	speed = 80.0  # Skeletons move slower
 	score_value = 2
+	damage = 2
 
 func _process(delta):
 	move_towards_player(delta)

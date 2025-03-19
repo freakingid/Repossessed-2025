@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/GhostSpawner.tscn" id="3_u8uhy"]
 [ext_resource type="PackedScene" uid="uid://dhvyqog8u4031" path="res://scenes/SkeletonSpawner.tscn" id="4_usktm"]
 [ext_resource type="PackedScene" uid="uid://cjxuoojpny0bo" path="res://scenes/ZombieSpawner.tscn" id="5_k8erd"]
+[ext_resource type="PackedScene" uid="uid://cxp6pjyhdyfi2" path="res://scenes/SkeletonShooterSpawner.tscn" id="7_32pjm"]
+[ext_resource type="PackedScene" uid="uid://baadvss7fp65h" path="res://scenes/SkeletonShooter.tscn" id="8_akodi"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -44,14 +46,21 @@ lifetime = 0.0
 [node name="GhostSpawner" parent="." instance=ExtResource("3_u8uhy")]
 position = Vector2(777, 300)
 spawn_interval = 2.0
+max_ghosts = 0
 
 [node name="SkeletonSpawner" parent="." instance=ExtResource("4_usktm")]
 position = Vector2(-600, -200)
 spawn_interval = 2.0
+max_skeletons = 0
+
+[node name="SkeletonShooterSpawner" parent="." instance=ExtResource("7_32pjm")]
+position = Vector2(-591.862, 93.7518)
+skeleton_shooter_scene = ExtResource("8_akodi")
 
 [node name="ZombieSpawner" parent="." instance=ExtResource("5_k8erd")]
 position = Vector2(-700, 400)
 spawn_interval = 5.0
+max_zombies = 0
 
 [node name="MyMap" type="Node" parent="."]
 

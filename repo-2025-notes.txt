@@ -16,6 +16,12 @@ done ** Fixed collider signal error.
 BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem to refract through the wall, rather than bounce back from it.
 
 * Add More enemies
+TEST * Adding Skeleton Shooter
+** Short range: Melee only
+** Mid range: Fire arrows, but don't just stay in one spot. Move around every arrow or two
+** Long range: follow if line of sight
+
+* Consider how long each powerup should stay with the player. Do they time out? Or do they wear out after so many uses? Or something else??
 
 * Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
 
@@ -23,6 +29,34 @@ BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem
 
 
 
+
+
+=================================
+Character Properties
+
+Ghost
+	health = 2
+	base_speed = 75
+	score_value = 1
+	damage = 1
+
+Skeleton
+	health = 4  # Skeletons are tougher than Ghosts
+	speed = 80.0  # Skeletons move slower
+	score_value = 2
+	damage = 2
+
+Skeleton Shooter
+	health = 4  # Skeletons are tougher than Ghosts
+	speed = 80.0  # Skeletons move slower
+	score_value = 4
+	damage = 2
+
+Zombie
+	health = 8  # Zombies have higher health
+	base_speed = 40.0  # Zombies are slower
+	score_value = 4
+	damage = 4  # Zombies deal high melee damage
 
 
 
@@ -182,6 +216,7 @@ https://www.youtube.com/watch?v=43sJIWaj2Yw
 4: Spawners
 5: Walls (blockers in general?)
 6: Powerups (Gems, weapon powerups, health powerups)
+7: Enemy Shots (enemy_projecctile)
 
 
 
