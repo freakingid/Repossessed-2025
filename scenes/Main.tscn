@@ -55,6 +55,7 @@ max_skeletons = 0
 
 [node name="SkeletonShooterSpawner" parent="." instance=ExtResource("7_32pjm")]
 position = Vector2(-591.862, 93.7518)
+spawn_with_debug = true
 skeleton_shooter_scene = ExtResource("8_akodi")
 
 [node name="ZombieSpawner" parent="." instance=ExtResource("5_k8erd")]

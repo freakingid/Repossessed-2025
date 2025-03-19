@@ -1,3 +1,27 @@
+20250319
+WORKING * Player is not doing any melee fighting upon collision with enemies.
+done ** Fixed collider signal error.
+** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
+
+BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem to refract through the wall, rather than bounce back from it.
+
+* Add More enemies
+TEST * Adding Skeleton Shooter
+** When skeletons are blocked by wall, should they be still trying to go towards player?
+** Is wandering only when they are FAR from the player and blocked vision?
+** It seems like the skeleton is trying to shoot at the player even when there is a wall in the way. We are supposed to be testing for line of sight.
+
+* Consider how long each powerup should stay with the player. Do they time out? Or do they wear out after so many uses? Or something else??
+
+* Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
+
+
+
+
+
+
+
+
 20250318
 DONE * Implement the Nova shot, which is based on gem_power the Player has collected.
 
@@ -9,20 +33,6 @@ The Big Shot Powerup increases the size of the players bullet, doubles the bulle
 
 DONE * Need a HUD indicator for what powerups we have.
 
-WORKING * Player is not doing any melee fighting upon collision with enemies.
-done ** Fixed collider signal error.
-** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
-
-BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem to refract through the wall, rather than bounce back from it.
-
-* Add More enemies
-TEST * Adding Skeleton Shooter
-** When skeletons are blocked by wall, should they be still trying to go towards player?
-** Is wandering only when they are FAR from the player and blocked vision?
-
-* Consider how long each powerup should stay with the player. Do they time out? Or do they wear out after so many uses? Or something else??
-
-* Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
 
 
 

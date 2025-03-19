@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var spawn_with_debug: bool = false  # ✅ Toggle this in the Inspector
 @export var skeleton_shooter_scene: PackedScene  # Assign Skeleton.tscn in the Inspector
 @export var spawn_interval: float = 3.0  # Time between spawns
 @export var max_skeletons: int = 15  # Maximum number of skeletons at one time
@@ -21,6 +22,7 @@ func _spawn_skeleton():
 	if skeletons_spawned < max_skeletons and skeleton_shooter_scene:		
 		var skeleton = skeleton_shooter_scene.instantiate()
 		skeleton.global_position = global_position + Vector2(randf_range(-16, 16), randf_range(-16, 16))  # Random offset
+		skeleton.show_debug_circles = spawn_with_debug  # ✅ Enable debug mode if needed
 		get_parent().add_child(skeleton)
 		skeletons_spawned += 1
 

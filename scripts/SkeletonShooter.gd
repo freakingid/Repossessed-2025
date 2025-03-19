@@ -1,10 +1,11 @@
 extends "res://scripts/BaseEnemy.gd"  # Inherits common enemy logic
 
+@export var show_debug_circles: bool = false  # ✅ Toggle this in the Inspector
 @export var fire_rate: float = 1.5  # Delay between shots
 @export var projectile_scene: PackedScene  # Assign the Skeleton's arrow scene
 # @export var detection_range: float = 250.0  # Distance at which the Skeleton stops and shoots
-@export var melee_range: float = 64.0  # ✅ Distance too close for arrows, forces melee
-@export var ranged_range: float = 320.0  # ✅ Ideal range for firing arrows
+@export var melee_range: float = 200.0  # ✅ Distance too close for arrows, forces melee
+@export var ranged_range: float = 400.0  # ✅ Ideal range for firing arrows
 @export var sidestep_distance: float = 32.0  # How far Skeleton moves after shooting
 @export var wander_time: float = 2.0  # Time spent wandering when player is not in sight
 var sidestep_direction: Vector2 = Vector2.ZERO  # ✅ Stores direction of sidestep
@@ -26,6 +27,9 @@ func _ready():
 	fire_timer.timeout.connect(shoot)  # ✅ Connect Timer to shoot function
 
 func _process(delta):
+	if show_debug_circles:
+		queue_redraw()  # ✅ Force the debug circles to update
+
 	if not player:
 		return
 
@@ -102,3 +106,32 @@ func shoot():
 		get_tree().current_scene.add_child(arrow)
 	else:
 		print("No projectile_scene")
+
+func _draw():
+	if not show_debug_circles:
+		return  # ✅ Skip drawing if debug mode is OFF
+
+	# ✅ Draw Green circle (Melee range)
+	draw_circle_outline(melee_range, Color(0, 1, 0))  # Green
+
+	# ✅ Draw Yellow circle (Ranged attack range)
+	draw_circle_outline(ranged_range, Color(1, 1, 0))  # Yellow
+
+	# ✅ Draw Red circle (Max detection range)
+	#draw_circle_outline(1000, Color(1, 0, 0))  # Red (Max range)
+
+# ✅ Helper function to draw a circle outline
+func draw_circle_outline(radius: float, color: Color):
+	var points = []
+	var segments = 32  # Adjust for smoother circles
+	for i in range(segments):
+		var angle1 = (i * TAU) / segments
+		var angle2 = ((i + 1) * TAU) / segments
+		var p1 = Vector2(cos(angle1), sin(angle1)) * radius
+		var p2 = Vector2(cos(angle2), sin(angle2)) * radius
+		points.append(p1)
+		points.append(p2)
+	
+	# ✅ Draw the outline
+	for i in range(0, points.size(), 2):
+		draw_line(points[i], points[i + 1], color, 2.0)
