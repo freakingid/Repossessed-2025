@@ -7,6 +7,8 @@ extends CharacterBody2D
 
 # ✅ Crate Handling Variables (Added)
 var carrying_crate: Node = null  # The crate currently being carried
+var last_move_direction: Vector2 = Vector2.DOWN  # Default facing down
+var drop_cooldown_timer: float = 0.0
 
 # lightning parameters
 @export var lightning_radius: float = 100.0
@@ -87,8 +89,16 @@ func _physics_process(_delta):
 		# Erratic movement when stunned
 		move_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 200
 
+	# For understanding where to put carried crate
+	if move_direction != Vector2.ZERO:
+		last_move_direction = move_direction.normalized()
+
 	velocity = move_direction.normalized() * speed
 	move_and_slide()
+
+	# Tracking when we can pickup a crate again after having dropped one
+	if drop_cooldown_timer > 0.0:
+		drop_cooldown_timer -= _delta
 
 	# ✅ Drop the crate when pressing a fire direction
 	var aim_direction = Vector2.ZERO
@@ -108,15 +118,19 @@ func _physics_process(_delta):
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body):
 	if carrying_crate == null and body.is_in_group("crates"):
-		print("🟫 Player picked up crate: ", body)
-		carrying_crate = body
-		body.pickup(self)  # Calls Crate's pickup()
+		var direction_to_crate = (body.global_position - global_position).normalized()
+		if direction_to_crate.dot(last_move_direction) > 0.7:  # facing toward crate
+			if drop_cooldown_timer <= 0.0:
+				print("🟫 Picked up crate: ", body)
+				carrying_crate = body
+				body.pickup(self)
 
 ## ✅ Drop the crate
 func drop_crate():
 	if carrying_crate:
 		carrying_crate.drop()
 		carrying_crate = null
+		drop_cooldown_timer = 0.4  # Short cooldown before pickup again
 
 ## Process player shot direction
 func _process(_delta):

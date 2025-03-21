@@ -1,12 +1,12 @@
 20250321 (Carried over from 20250320
 WORK * Adding Crates
-** Added a crate scene and script, made changes to enemy arrow, made some changes to Player.gd, but not so sure they are solid.
-** Need to add a sprite
-** Need to add collision shape to match sprite
-** Need to connect signals probably
-** Need to check over the code in general
-** Need to: Use a Timer to prevent immediate re-pickup right after dropping (cooldown).
-** Let me know if you'd like help making the pickup more directional (e.g., only when facing the crate), adding a drop cooldown, or building toward barrel physics! 🛠️📦✨
+** Do player bullets bounce off crates?
+*** NO
+** Do enemy arrows bounce off crates?
+*** NO
+** Do enemies (except for Bats) collide with crates / blocked by them?
+*** NO
+** Might need to make crates drop in whatever direction we fire to initiate the drop. Then if the drop is in our direction of travel, and we are actually moving, we will have the player jump over the crate.
 
 NOTE * There are other things fro 20250319 that need moved up. I will do that after managing Crates.
 

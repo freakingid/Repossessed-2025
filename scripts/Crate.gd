@@ -7,8 +7,17 @@ var player: Node = null
 
 func _process(delta):
 	if is_carried and player:
-		# Follow the player while carried
-		position = player.position + Vector2(0, -16)
+		var dir = player.last_move_direction.normalized()
+		var carry_offset = dir * 12  # tweak distance if needed
+		global_position = player.global_position + carry_offset
+
+		# Adjust Z-index for layering
+		if dir.y > 0.5:  # Moving down → crate in front
+			z_index = player.z_index + 1
+		elif dir.y < -0.5:  # Moving up → crate behind
+			z_index = player.z_index - 1
+		else:
+			z_index = player.z_index  # Left/right/diagonal → neutral layering
 
 func pickup(player_ref):
 	if not is_carried:
