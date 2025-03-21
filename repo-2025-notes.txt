@@ -6,7 +6,10 @@ WORK * Adding Crates
 *** NO
 ** Do enemies (except for Bats) collide with crates / blocked by them?
 *** NO
-** Might need to make crates drop in whatever direction we fire to initiate the drop. Then if the drop is in our direction of travel, and we are actually moving, we will have the player jump over the crate.
+TEST ** Might need to make crates drop in whatever direction we fire to initiate the drop. Then if the drop is in our direction of travel, and we are actually moving, we will have the player jump over the crate.
+WORK ** Ready to check ChatGPT this ✅ 4. Is the Crate Moving?
+** Looks like player shots and skeletons, at the very least, are now colliding.
+** Looks like Arrows still are NOT colliding.
 
 NOTE * There are other things fro 20250319 that need moved up. I will do that after managing Crates.
 

@@ -9,7 +9,7 @@ radius = 9.0
 [node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
 collision_layer = 4
-collision_mask = 21
+collision_mask = 149
 script = ExtResource("1_xjgru")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
