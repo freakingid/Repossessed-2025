@@ -21,8 +21,16 @@ func _on_Timer_timeout():
 	queue_free()  # Destroy the arrow after lifespan expires
 
 func _on_body_entered(body):
-	if body.is_in_group("player"):  # ✅ Checks if it hit the player
-		body.take_damage(damage)  # ✅ Apply damage
-		queue_free()  # ✅ Remove arrow after hitting the player
-	elif body.is_in_group("walls"):  # ✅ Arrow should disappear if it hits a wall
+	# ✅ If arrow hits a crate, it bounces
+	if body.is_in_group("crates"):
+		var bounce_direction = (global_position - body.global_position).normalized()
+		direction = direction.reflect(bounce_direction)
+		return  # Stop further collision processing
+
+	# ✅ Normal behavior if hitting Player or Wall
+	if body.is_in_group("player"):
+		body.take_damage(damage)
+		queue_free()
+
+	elif body.is_in_group("walls"):
 		queue_free()

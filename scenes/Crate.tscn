@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://f0hrjsd3vekg"]
+
+[ext_resource type="Script" path="res://scripts/Crate.gd" id="1_xomt5"]
+
+[node name="Crate" type="CharacterBody2D" groups=["carryable_objects", "crates"]]
+collision_layer = 128
+collision_mask = 223
+script = ExtResource("1_xomt5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

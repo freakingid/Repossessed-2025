@@ -4,21 +4,15 @@ extends CharacterBody2D
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
 @export var max_health: int = 50  # Max health (can be modified in Inspector)
 @export var damage: int = 2  # ✅ Player's melee damage
-
-# ✅ Crate Handling Variables (Added)
-var carrying_crate: Node = null  # The crate currently being carried
-
 # lightning parameters
 @export var lightning_radius: float = 100.0
 @export var lightning_cooldown: float = 10.0
 @export var stun_duration: float = 3.0
-
 # gem and nova shot
 @export var gem_power: int = 0  # Current stored gem power
 @export var max_nova_charge: int = 50  # Nova shot requires 50 gem power
 @export var nova_shot_scene: PackedScene  # Assign NovaShot.tscn
 @export var nova_shot_cooldown: float = 0.5  # Prevents instant spam
-
 # melee management
 @export var invincibility_duration: float = 0.5  # 0.5 seconds of invincibility
 
@@ -27,14 +21,12 @@ signal melee_hit(body)  # ✅ Signal emitted when colliding with an enemy
 var health: int = max_health  # Current health
 var invincible: bool = false # can player be damaged?
 var speed: float = base_speed
-
 # normal shooting
 var can_shoot = true # Is player shot cooldown period past?
 
 # lightning flags
 var can_use_lightning = true # Is lightning cooldown period past?
 var stunned = false # Is player currently stunned from lightning use?
-
 # nova flags
 var can_use_nova = true
 
@@ -43,7 +35,6 @@ var has_big_shot: bool = false
 var has_rapid_shot: bool = false
 var has_triple_shot: bool = false
 var has_bounce_shot: bool = false
-
 # Base values
 @export var base_fire_rate: float = 0.2  # Delay between shots
 @export var base_max_shots: int = 3  # Total shots allowed in scene
@@ -90,40 +81,12 @@ func _physics_process(_delta):
 	velocity = move_direction.normalized() * speed
 	move_and_slide()
 
-	# ✅ Drop the crate when pressing a fire direction
-	var aim_direction = Vector2.ZERO
-	aim_direction.x = Input.get_axis("aim_left", "aim_right")
-	aim_direction.y = Input.get_axis("aim_up", "aim_down")
-
-	if carrying_crate and aim_direction.length() > 0:
-		drop_crate()
-
 	# ✅ Detect melee collisions by checking last slide collision
 	var collision = get_last_slide_collision()
 	if collision:
 		var collider = collision.get_collider()
 		if collider and collider.is_in_group("enemies") and not invincible:
 			emit_signal("melee_hit", collider)  # ✅ Emit signal for melee damage
-
-## ✅ Auto pickup crate on collision
-func _on_body_entered(body):
-	if carrying_crate == null and body.is_in_group("carryable_objects"):
-		carrying_crate = body
-		body.pickup(self)  # Calls `pickup()` in Crate.gd
-
-	# ✅ Player still takes damage from projectiles & melee
-	if body.is_in_group("enemies") and not invincible:
-		take_damage(body.damage)
-
-	if body.is_in_group("enemy_projectiles") and not invincible:
-		take_damage(body.damage)
-		body.queue_free()
-
-## ✅ Drop the crate
-func drop_crate():
-	if carrying_crate:
-		carrying_crate.drop()
-		carrying_crate = null
 
 ## Process player shot direction
 func _process(_delta):
