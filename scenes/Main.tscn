@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=13 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="2_wunoo"]
+[ext_resource type="PackedScene" uid="uid://f0hrjsd3vekg" path="res://scenes/Crate.tscn" id="3_2cuur"]
 [ext_resource type="PackedScene" uid="uid://clobqkwki26f6" path="res://scenes/Powerup.tscn" id="3_dm8pw"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/GhostSpawner.tscn" id="3_u8uhy"]
@@ -17,6 +18,10 @@
 [node name="Player" parent="." instance=ExtResource("1_s5xc4")]
 position = Vector2(-147.631, -164.4)
 nova_shot_scene = ExtResource("2_wunoo")
+
+[node name="Crate" parent="." instance=ExtResource("3_2cuur")]
+z_index = 1
+position = Vector2(-170.608, -3.43256)
 
 [node name="PUBig" parent="." instance=ExtResource("3_dm8pw")]
 z_index = 1

@@ -106,18 +106,11 @@ func _physics_process(_delta):
 			emit_signal("melee_hit", collider)  # ✅ Emit signal for melee damage
 
 ## ✅ Auto pickup crate on collision
-func _on_body_entered(body):
-	if carrying_crate == null and body.is_in_group("carryable_objects"):
+func _on_PickupDetector_body_entered(body):
+	if carrying_crate == null and body.is_in_group("crates"):
+		print("🟫 Player picked up crate: ", body)
 		carrying_crate = body
-		body.pickup(self)  # Calls `pickup()` in Crate.gd
-
-	# ✅ Player still takes damage from projectiles & melee
-	if body.is_in_group("enemies") and not invincible:
-		take_damage(body.damage)
-
-	if body.is_in_group("enemy_projectiles") and not invincible:
-		take_damage(body.damage)
-		body.queue_free()
+		body.pickup(self)  # Calls Crate's pickup()
 
 ## ✅ Drop the crate
 func drop_crate():

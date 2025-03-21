@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://f0hrjsd3vekg"]
+[gd_scene load_steps=4 format=3 uid="uid://f0hrjsd3vekg"]
 
 [ext_resource type="Script" path="res://scripts/Crate.gd" id="1_xomt5"]
+[ext_resource type="Texture2D" uid="uid://dyrvtwbr6khcr" path="res://assets/sprites/fpo-crate-19.png" id="2_5f0h3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2xtjv"]
 
 [node name="Crate" type="CharacterBody2D" groups=["carryable_objects", "crates"]]
 collision_layer = 128
@@ -8,9 +11,13 @@ collision_mask = 223
 script = ExtResource("1_xomt5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_5f0h3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2xtjv")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
