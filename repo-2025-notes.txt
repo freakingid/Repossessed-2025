@@ -1,12 +1,9 @@
-20250321 (Carried over from 20250320
-WORK * Adding Crates
-** Do player bullets bounce off crates?
-*** NO
-** Do enemy arrows bounce off crates?
-*** NO
-** Do enemies (except for Bats) collide with crates / blocked by them?
-*** NO
-** Might need to make crates drop in whatever direction we fire to initiate the drop. Then if the drop is in our direction of travel, and we are actually moving, we will have the player jump over the crate.
+20250322
+** Working on Crates still
+
+** We are changing a lot about Crates. In order for them to bounce properly while at rest, they have to be a StaticBody2D. But we cannot carry that, so we'll turn it into a CharacterBody2D when the player is carrying it, BUT that cannot have precise collisions, so we'll have to approximate bullet ricochets the best we can.
+
+** When all done with crates, we also need the player to NOT shoot a bullet when using the firing direction to drop a crate. So if you are carrying a crate and you drop it, you should not fire a bullet from the same input that causes the crate to drop.
 
 NOTE * There are other things fro 20250319 that need moved up. I will do that after managing Crates.
 
