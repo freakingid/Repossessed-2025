@@ -16,6 +16,11 @@ func _ready():
 	await get_tree().create_timer(lifespan).timeout
 	queue_free()
 
+func take_damage(amount):
+	health -= amount
+	if health <= 0:
+		queue_free()  # ✅ Bullet disappears
+
 func _process(delta):
 	position += direction * speed * delta
 
@@ -31,11 +36,6 @@ func _on_body_entered(body):
 	elif body.is_in_group("enemies"):
 		body.take_damage(damage)  # ✅ Enemy takes damage
 		take_damage(body.get_bullet_resistance())  # ✅ Bullet takes damage from enemy
-
-func take_damage(amount):
-	health -= amount
-	if health <= 0:
-		queue_free()  # ✅ Bullet disappears
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemies"):

@@ -1,4 +1,4 @@
-extends Area2D  # Now using Area2D instead of CharacterBody2D
+extends CharacterBody2D
 
 @export var pause_time: float = 1.2  # Time before setting a new target
 @export var dash_speed: float = 180.0  # Speed when dashing
@@ -22,17 +22,32 @@ func _ready():
 	timer.timeout.connect(_on_timer_timeout)
 	timer.start(pause_time)  # Start first movement cycle
 
-func _process(delta):
-	if is_dashing:
+func _physics_process(delta):
+	if is_dashing or is_wandering:
 		# Move the bat towards the target position
-		position = position.move_toward(target_position, dash_speed * delta)
+		var direction = (target_position - global_position).normalized()
+		velocity = direction * speed
+	else:
+		velocity = Vector2.ZERO
 
-		# If close to the target, stop dashing and start wandering
-		if position.distance_to(target_position) < 5:
-			is_dashing = false
-			is_wandering = true
-			timer.start(wander_time)  # Start wandering phase
-			start_wandering()
+	move_and_slide()
+
+	# If close to the target, stop dashing and start wandering
+	if position.distance_to(target_position) < 5:
+		is_dashing = false
+		is_wandering = true
+		timer.start(wander_time)  # Start wandering phase
+		start_wandering()
+
+	var collision = get_last_slide_collision()
+	if collision:
+		var collider = collision.get_collider()
+		if collider and collider.is_in_group("player"):
+			# Do something, like damage player or take damage
+			print("Bat hit by player: ", collider)
+			if not collider.invincible: # player can take damage
+				take_damage(collider.damage)  # Bat takes Player's melee damage
+				collider.take_damage(damage)  # Apply damage to player
 
 func _on_timer_timeout():
 	if is_wandering:

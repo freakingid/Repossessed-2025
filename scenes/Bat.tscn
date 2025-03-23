@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_il0t2"]
 radius = 14.0
 
-[node name="Bat" type="Area2D" groups=["enemies"]]
+[node name="Bat" type="CharacterBody2D" groups=["enemies"]]
 z_index = 2
 collision_layer = 4
 collision_mask = 3
@@ -20,5 +20,3 @@ shape = SubResource("CircleShape2D_il0t2")
 debug_color = Color(0.965552, 0.0237287, 0.471655, 0.42)
 
 [node name="Timer" type="Timer" parent="."]
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

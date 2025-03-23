@@ -5,6 +5,8 @@
 
 ** When all done with crates, we also need the player to NOT shoot a bullet when using the firing direction to drop a crate. So if you are carrying a crate and you drop it, you should not fire a bullet from the same input that causes the crate to drop.
 
+** I'm ready for Step 3 in cgpt, updating Bat.gd because we are turning it from an Area2D to a CharacterBody2D.
+
 NOTE * There are other things fro 20250319 that need moved up. I will do that after managing Crates.
 
 20250319

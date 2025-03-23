@@ -30,21 +30,33 @@ func drop():
 		player = null
 
 func _on_Area2D_area_entered(area):
-	# ✅ Push enemies away when they collide with the crate
+	# ✅ Push enemies away when colliding
 	if area.is_in_group("enemies") and not area.is_in_group("bats"):
 		var push_direction = (area.global_position - global_position).normalized()
 		area.position += push_direction * push_force
 
-	# ✅ Reflect player bullets
-	if area.is_in_group("player_projectiles"):
-		var bounce_direction = (area.global_position - global_position).normalized()
-		area.direction = area.direction.reflect(bounce_direction)
-
-	# ✅ Reflect enemy bullets
-	if area.is_in_group("enemy_projectiles"):
-		var bounce_direction = (area.global_position - global_position).normalized()
-		area.direction = area.direction.reflect(bounce_direction)
-
-	# ✅ Lobber explosives should NOT be affected by crates
+	# ✅ Ignore lobber explosives
 	if area.is_in_group("lobber_explosives"):
 		return
+
+	# ✅ Handle ricochet for projectiles
+	if area.is_in_group("player_projectiles") or area.is_in_group("enemy_projectiles"):
+		var delta = area.global_position - global_position
+		var abs_x = abs(delta.x)
+		var abs_y = abs(delta.y)
+
+		if abs_x > abs_y:
+			area.direction.x *= -1  # Side bounce
+		else:
+			area.direction.y *= -1  # Top/bottom bounce
+
+		# Normalize direction for clean movement
+		area.direction = area.direction.normalized()
+
+		# Rotate sprite to match new direction
+		if area.has_node("Sprite2D"):
+			var sprite = area.get_node("Sprite2D")
+			sprite.rotation = area.direction.angle()
+
+		# Nudge to prevent sticking on edge
+		area.global_position += area.direction * 2
