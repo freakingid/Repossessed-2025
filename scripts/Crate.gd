@@ -34,23 +34,32 @@ func drop():
 		player = null
 
 func _on_Area2D_area_entered(area):
-	# ✅ Lobber explosives should NOT be affected by crates
-	if area.is_in_group("lobber_explosives"):
-		return
-
-	# ✅ Reflect player bullets
-	if area.is_in_group("player_projectiles"):
-		var bounce_direction = (area.global_position - global_position).normalized()
-		bounce_direction += Vector2(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1)).normalized() * 0.1
-		area.direction = area.direction.reflect(bounce_direction.normalized())
-
-	# ✅ Reflect enemy bullets
-	if area.is_in_group("enemy_projectiles"):
-		var bounce_direction = (area.global_position - global_position).normalized()
-		bounce_direction += Vector2(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1)).normalized() * 0.1
-		area.direction = area.direction.reflect(bounce_direction.normalized())
-
 	# ✅ Push enemies away when they collide with the crate
 	if area.is_in_group("enemies") and not area.is_in_group("bats"):
 		var push_direction = (area.global_position - global_position).normalized()
 		area.position += push_direction * push_force
+
+	# ✅ Ignore lobber explosives
+	if area.is_in_group("lobber_explosives"):
+		return
+
+	# ✅ Bounce logic for projectiles
+	if area.is_in_group("player_projectiles") or area.is_in_group("enemy_projectiles"):
+		var delta = area.global_position - global_position
+		var abs_x = abs(delta.x)
+		var abs_y = abs(delta.y)
+
+		# Determine side of impact (axis-aligned ricochet)
+		if abs_x > abs_y:
+			area.direction.x *= -1  # Flip horizontal direction
+		else:
+			area.direction.y *= -1  # Flip vertical direction
+
+		# Optional: Normalize direction for consistency
+		area.direction = area.direction.normalized()
+		var projectile_sprite = area.get_node("Sprite2D")
+		projectile_sprite.rotation = area.direction.angle()
+		print("Bounce: new direction = ", area.direction)
+		print("Rotation in degrees: ", rad_to_deg(area.direction.angle()))
+		# Optional: Slight nudge to get it off the crate edge
+		area.global_position += area.direction * 2

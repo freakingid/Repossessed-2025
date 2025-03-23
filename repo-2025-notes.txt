@@ -13,7 +13,7 @@ WORK ** Ready to check ChatGPT this ✅ 4. Is the Crate Moving?
 ** Now arrows and player bullets are colliding.
 bug * player bullets can "refract" through the crate instead of bouncing back off.
 bug * skeleton arrows do not update their direction / rotation once they bounce off.
-
+** Man there are so many problems with this code.
 
 NOTE * There are other things fro 20250319 that need moved up. I will do that after managing Crates.
 

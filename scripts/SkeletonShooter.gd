@@ -134,4 +134,4 @@ func draw_circle_outline(radius: float, color: Color):
 	
 	# ✅ Draw the outline
 	for i in range(0, points.size(), 2):
-		draw_line(points[i], points[i + 1], color, 2.0)
+		draw_line(points[i], points[i + 1], color, 1.0)
