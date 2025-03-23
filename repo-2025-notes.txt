@@ -1,4 +1,4 @@
-20250321 (Carried over from 20250320
+20250322
 WORK * Adding Crates
 ** Do player bullets bounce off crates?
 *** NO
@@ -10,8 +10,16 @@ TEST ** Might need to make crates drop in whatever direction we fire to initiate
 WORK ** Ready to check ChatGPT this ✅ 4. Is the Crate Moving?
 ** Looks like player shots and skeletons, at the very least, are now colliding.
 ** Looks like Arrows still are NOT colliding.
+** Now arrows and player bullets are colliding.
+bug * player bullets can "refract" through the crate instead of bouncing back off.
+bug * skeleton arrows do not update their direction / rotation once they bounce off.
+
 
 NOTE * There are other things fro 20250319 that need moved up. I will do that after managing Crates.
+
+
+
+20250321 (Carried over from 20250320
 
 20250319
 DONE * Resized from 128px sprites to 32px.

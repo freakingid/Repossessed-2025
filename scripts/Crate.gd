@@ -19,6 +19,10 @@ func _process(delta):
 		else:
 			z_index = player.z_index  # Left/right/diagonal → neutral layering
 
+func _physics_process(delta):
+	if !is_carried:
+		move_and_slide()  # Keeps physics active for collision response
+
 func pickup(player_ref):
 	if not is_carried:
 		is_carried = true
@@ -30,21 +34,23 @@ func drop():
 		player = null
 
 func _on_Area2D_area_entered(area):
-	# ✅ Push enemies away when they collide with the crate
-	if area.is_in_group("enemies") and not area.is_in_group("bats"):
-		var push_direction = (area.global_position - global_position).normalized()
-		area.position += push_direction * push_force
+	# ✅ Lobber explosives should NOT be affected by crates
+	if area.is_in_group("lobber_explosives"):
+		return
 
 	# ✅ Reflect player bullets
 	if area.is_in_group("player_projectiles"):
 		var bounce_direction = (area.global_position - global_position).normalized()
-		area.direction = area.direction.reflect(bounce_direction)
+		bounce_direction += Vector2(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1)).normalized() * 0.1
+		area.direction = area.direction.reflect(bounce_direction.normalized())
 
 	# ✅ Reflect enemy bullets
 	if area.is_in_group("enemy_projectiles"):
 		var bounce_direction = (area.global_position - global_position).normalized()
-		area.direction = area.direction.reflect(bounce_direction)
+		bounce_direction += Vector2(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1)).normalized() * 0.1
+		area.direction = area.direction.reflect(bounce_direction.normalized())
 
-	# ✅ Lobber explosives should NOT be affected by crates
-	if area.is_in_group("lobber_explosives"):
-		return
+	# ✅ Push enemies away when they collide with the crate
+	if area.is_in_group("enemies") and not area.is_in_group("bats"):
+		var push_direction = (area.global_position - global_position).normalized()
+		area.position += push_direction * push_force
