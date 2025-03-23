@@ -1,7 +1,8 @@
-extends Area2D  # Now using Area2D instead of CharacterBody2D
+extends CharacterBody2D
 
 @export var pause_time: float = 1.2  # Time before setting a new target
 @export var dash_speed: float = 180.0  # Speed when dashing
+@export var wandering_speed: float = 120 # normal speed?
 @export var chase_range: float = 500.0  # Distance at which it will start chasing the player
 @export var wander_time: float = 3.0  # Time spent wandering before dashing again
 @export var wander_distance: float = 80.0  # How far it hovers around
@@ -20,50 +21,53 @@ var is_wandering: bool = false  # If the bat is hovering randomly
 
 func _ready():
 	timer.timeout.connect(_on_timer_timeout)
-	timer.start(pause_time)  # Start first movement cycle
+	if player:
+		target_position = player.global_position
+		is_dashing = true
+		speed = dash_speed
+		timer.start(pause_time)  # Starts the dash → wander cycle
 
 func _process(delta):
 	if is_dashing:
-		# Move the bat towards the target position
-		position = position.move_toward(target_position, dash_speed * delta)
+		var direction = (target_position - global_position).normalized()
+		velocity = direction * speed
+		move_and_slide()
 
-		# If close to the target, stop dashing and start wandering
 		if position.distance_to(target_position) < 5:
 			is_dashing = false
 			is_wandering = true
-			timer.start(wander_time)  # Start wandering phase
 			start_wandering()
+			timer.start(wander_time)
 
 func _on_timer_timeout():
 	if is_wandering:
-		# Stop wandering and return to dashing
+		# Time to start dashing again
 		is_wandering = false
 		player = get_tree().get_first_node_in_group("player")
 		if player:
 			target_position = player.global_position
-			is_dashing = true  # Start dashing toward the target
-			speed = dash_speed  # Reset speed to normal
+			is_dashing = true
+			speed = dash_speed
+			timer.start(pause_time)  # Dash for X seconds
 	else:
-		# Start wandering phase
+		# Time to start wandering
+		is_dashing = false
 		is_wandering = true
+		speed = wandering_speed
 		start_wandering()
-		timer.start(wander_time)  # Restart wander timer
+		timer.start(wander_time)  # Wander for Y seconds
 
 func start_wandering():
 	# Pick a random point within the wander area
-	var wander_offset = Vector2(randf_range(-wander_distance, wander_distance), randf_range(-wander_distance, wander_distance))
+	var wander_offset = Vector2(
+		randf_range(-wander_distance, wander_distance), 
+		randf_range(-wander_distance, wander_distance)
+	)
 	target_position = global_position + wander_offset
 
 	# Create a Tween dynamically using SceneTreeTween
 	var tween = create_tween()
 	tween.tween_property(self, "position", target_position, wander_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-
-func _on_body_entered(area):
-	if area.is_in_group("player"):  # Ensure it's the player
-		print("Bat hit by player: ", area)
-		if not area.invincible: # player can take damage
-			take_damage(area.damage)  # Bat takes Player's melee damage
-			area.take_damage(damage)  # Apply damage to player
 
 func take_damage(amount):
 	health -= amount
@@ -86,3 +90,14 @@ func die():
 	# Remove the enemy from the scene
 	queue_free()
 	
+
+
+func _on_Hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player_projectiles"):
+		take_damage(area.damage)
+		area.take_damage(damage)
+
+	elif area.is_in_group("player"):
+		if not area.invincible:
+			take_damage(area.damage)
+			area.take_damage(damage)
