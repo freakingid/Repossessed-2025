@@ -1,4 +1,4 @@
-extends Area2D
+extends RigidBody2D
 
 @export var base_speed: float = 250.0
 @export var damage: int = 1  # How much damage the bullet deals
@@ -10,18 +10,26 @@ var direction = Vector2.ZERO
 var speed = base_speed
 
 func _ready():
-	monitoring = true  # ✅ Ensure it detects collisions
-	# connect("body_entered", _on_body_entered)  # ✅ Listen for collisions
+	contact_monitor = true
+	max_contacts_reported = 1
 	# Start a timer to delete the bullet after lifespan duration
 	await get_tree().create_timer(lifespan).timeout
 	queue_free()
 
-func _process(delta):
-	position += direction * speed * delta
+func _integrate_forces(state):
+	for i in range(state.get_contact_count()):
+		var collider = state.get_contact_collider_object(i)
+		var normal = state.get_contact_local_normal(i)
+		
+		if collider and collider.is_in_group("crates"):
+			linear_velocity = linear_velocity.bounce(normal)
 
 # What happens when a bullet hits a wall
 func _on_body_entered(body):
-	if body.is_in_group("walls"):
+	if body.is_in_group("crates"):
+		return
+
+	elif body.is_in_group("walls"):
 		if bounce_shot:
 			var collision_normal = (global_position - body.global_position).normalized()
 			direction = direction.reflect(collision_normal)

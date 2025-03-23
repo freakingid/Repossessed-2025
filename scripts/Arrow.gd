@@ -1,4 +1,4 @@
-extends Area2D
+extends RigidBody2D
 
 @export var speed: float = 150.0
 @export var damage: int = 2
@@ -7,22 +7,28 @@ extends Area2D
 var direction = Vector2.ZERO
 
 func _ready():
+	contact_monitor = true
+	max_contacts_reported = 1
 	add_to_group("enemy_projectiles")  # ✅ Add to correct group
-	$Timer.wait_time = lifespan
-	$Timer.start()
+	await get_tree().create_timer(lifespan).timeout
+	queue_free()
 
-	# ✅ Rotate the arrow to face the direction it's traveling
-	rotation = direction.angle()
-
-func _process(delta):
-	position += direction * speed * delta  # Move in a straight line
+func _integrate_forces(state):
+	for i in range(state.get_contact_count()):
+		var collider = state.get_contact_collider_object(i)
+		var normal = state.get_contact_local_normal(i)
+		
+		if collider and collider.is_in_group("crates"):
+			linear_velocity = linear_velocity.bounce(normal)
 
 func _on_Timer_timeout():
 	queue_free()  # Destroy the arrow after lifespan expires
 
 func _on_body_entered(body):
-	# ✅ Normal behavior if hitting Player or Wall
-	if body.is_in_group("player"):
+	if body.is_in_group("crates"):
+		return
+
+	elif body.is_in_group("player"):
 		body.take_damage(damage)
 		queue_free()
 

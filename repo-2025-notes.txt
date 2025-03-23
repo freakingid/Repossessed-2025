@@ -1,9 +1,39 @@
 20250323
 * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
 
+* After first round of new crate work:
+bug * player cannot fire in different directions
+
+bug * player cannot pick up the crate, but kicks the crate and it moves forward
+
+
 DONE * We told Bullet.gd not to worry about body_entered with enemies, SO we need all enemy collisions to manage this. We first did this with the Bat collisions.
 ** Oh, we have the same situation with on_area_entered in Bullet with enemies.
 ** So, we will let Enemies manage the collision with Player bullets.
+
+BUG? * At one point while testing the bat, I noticed when the bat collided with the player, and then switched into wandering mode , it caused the player to move in sync with the wandering bat. That was weird and only happened one time. 
+
+* Now make the crate the right node type(s) based on stationery or carried.
+
+* Make sure the crate ricochets bullets and arrows.
+
+* Make sure bullets and arrows are correct node types.
+
+* Make sure bullets and arrows collided correctly with
+** all enemies
+** walls
+** spawners
+** stationery crates
+** carried crates
+
+* CGPT asked:
+```
+Let me know when you're ready to move to:
+✅ Step-by-step: drop_crate() logic
+or
+✅ Reactivation/pooling system for Crate_Static
+```
+
 
 20250322
 WORK * Adding Crates
@@ -285,6 +315,27 @@ https://www.youtube.com/watch?v=43sJIWaj2Yw
 0: I presume this is the TileMap
 1: I have assigned almost everything to this Z index for now
 
+
+
+
+
+
+
+
+
+=================================================================
+## Collision Decisions
+?? Who should manage collisions?
+From a ChatGPT:
+```
+Option 2: Targets Handle Being Hit
+"The thing that gets hit decides what to do when it's hit."
+✅ Cleaner, scalable (especially for enemies that behave differently)
+✅ Keeps bullet logic minimal: just notify or signal hit, then vanish
+✅ Great when enemies have their own health, resistances, effects, etc.
+🚫 Slightly more setup (signal wiring, or area_entered detection on enemies)
+```
+So, this means between a bullet and an enemy, the enemy will manage the hit, for example.
 
 
 

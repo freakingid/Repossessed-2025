@@ -90,8 +90,11 @@ lightning={
 
 [layer_names]
 
-avoidance/layer_1="Player"
-avoidance/layer_2="Player Bullet"
-avoidance/layer_3="Enemies"
-avoidance/layer_4="Spawners"
-avoidance/layer_5="Walls"
+2d_physics/layer_1="Player"
+2d_physics/layer_2="PlayerBullet"
+2d_physics/layer_3="Enemies"
+2d_physics/layer_4="Spawners"
+2d_physics/layer_5="Walls"
+2d_physics/layer_6="Powerups"
+2d_physics/layer_7="EnemyProjectile"
+2d_physics/layer_8="Crates"

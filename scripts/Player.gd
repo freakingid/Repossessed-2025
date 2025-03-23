@@ -1,13 +1,20 @@
 extends CharacterBody2D
 
+signal direction_changed(new_direction: Vector2)
+
+var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
+
+# New physics crate stuff
+@export var carried_crate_scene: PackedScene
+var carrying_crate = false
+var carried_crate_instance: Node = null
+
 @export var base_speed: float = 100.0 # Initial movement speed
 @export var bullet_scene: PackedScene  # Assign Bullet.tscn
 @export var max_health: int = 50  # Max health (can be modified in Inspector)
 @export var damage: int = 2  # ✅ Player's melee damage
 
 # ✅ Crate Handling Variables (Added)
-var carrying_crate: Node = null  # The crate currently being carried
-var last_move_direction: Vector2 = Vector2.DOWN  # Default facing down
 var drop_cooldown_timer: float = 0.0
 
 # lightning parameters
@@ -117,13 +124,28 @@ func _physics_process(_delta):
 
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body):
-	if carrying_crate == null and body.is_in_group("crates"):
+	if carrying_crate == null and body.is_in_group("crates_static"):
 		var direction_to_crate = (body.global_position - global_position).normalized()
 		if direction_to_crate.dot(last_move_direction) > 0.7:  # facing toward crate
 			if drop_cooldown_timer <= 0.0:
 				print("🟫 Picked up crate: ", body)
 				carrying_crate = body
 				body.pickup(self)
+
+func pickup_crate(crate_static: Node2D):
+	if carrying_crate:
+		return
+
+	# Hide or free the static crate
+	crate_static.visible = false
+	crate_static.set_physics_process(false)
+
+	# Spawn the carried crate
+	carried_crate_instance = carried_crate_scene.instantiate()
+	carried_crate_instance.player = self  # 🔗 Assign reference
+
+	get_parent().add_child(carried_crate_instance)  # Add to scene
+	carrying_crate = true
 
 ## ✅ Drop the crate
 func drop_crate():
