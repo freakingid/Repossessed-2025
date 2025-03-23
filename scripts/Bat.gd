@@ -89,15 +89,15 @@ func die():
 
 	# Remove the enemy from the scene
 	queue_free()
-	
-
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_projectiles"):
+		print("Bat collided with player bullet!")
 		take_damage(area.damage)
 		area.take_damage(damage)
 
-	elif area.is_in_group("player"):
-		if not area.invincible:
-			take_damage(area.damage)
-			area.take_damage(damage)
+func _on_Hitbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and not body.invincible:
+		print("Bat collided with player!")
+		body.take_damage(damage)
+		take_damage(body.damage)  # Optional if you want bat to take melee damage too

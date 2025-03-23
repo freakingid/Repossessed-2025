@@ -1,6 +1,10 @@
 20250323
 * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
 
+DONE * We told Bullet.gd not to worry about body_entered with enemies, SO we need all enemy collisions to manage this. We first did this with the Bat collisions.
+** Oh, we have the same situation with on_area_entered in Bullet with enemies.
+** So, we will let Enemies manage the collision with Player bullets.
+
 20250322
 WORK * Adding Crates
 ** Do player bullets bounce off crates?
