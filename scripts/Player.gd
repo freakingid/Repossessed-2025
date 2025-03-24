@@ -151,6 +151,7 @@ func pickup_crate(crate_static: Node2D):
 
 ## ✅ Drop the crate
 func drop_crate():
+	print("Player.gd drop_crate() called")
 	if carrying_crate == null:
 		return
 
@@ -161,6 +162,7 @@ func drop_crate():
 	carrying_crate.reactivate(drop_position)
 
 	# Clear carried crate reference and apply cooldown
+	carried_crate_instance.queue_free()  # Or hide if pooling
 	carrying_crate = null
 	drop_cooldown_timer = 0.2
 
@@ -192,7 +194,7 @@ func _process(_delta):
 	)
 
 	# Fire regular shot
-	if aim_direction.length() > 0 and can_shoot:
+	if aim_direction.length() > 0 and can_shoot and not carrying_crate:
 		shoot(aim_direction.normalized())
 		can_shoot = false
 		await get_tree().create_timer(fire_rate).timeout

@@ -70,7 +70,6 @@ func get_separation_vector() -> Vector2:
 	return separation.normalized()
 
 func _on_melee_hit(body):
-	print("BaseEnemy._on_melee_hit fired from: ", body)
 	if body.is_in_group("player"):
 		if not body.invincible:  # Player takes enemy damage
 			body.take_damage(damage)

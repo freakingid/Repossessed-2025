@@ -4,17 +4,29 @@
 * After first round of new crate work:
 DONE * player cannot fire in different directions
 
-BUG * player shots do not bounce off crate, but simply stick to the side until their lifespan expires and they remove themselves.
+TESTMORE * player shots do not bounce off crate, but simply stick to the side until their lifespan expires and they remove themselves.
 
-BUG * player shots do not damage enemy bats or enemy ghosts, but they bounce off.
+TESTMORE * player shots do not damage enemy bats or enemy ghosts, but they bounce off.
+** They do not bounce off, and seem to damage bats and ghosts.
 
 BUG * Crate_Carried does not seem to collide with walls
 
 BUG * Player cannot drop the crate.
+** Some sort of issue with null value on crate reference when trying to drop the crate.
 
 BUG * After picking up the crate, I can carry it. The first time I try to drop the crate, it drops a Crate_Static, but the player is still carrying the Crate_Carried. I cannot do any more crate drops after that.
 
 TODO * While carrying a crate, the player should not fire any shots. Shot firing direction input will only be used to potentially drop the carried crate.
+
+TODO * Check for redundant, double effects when 2 objects collide: Only 1 object should manage damage, for example.
+
+note * from cgpt after finishing a number of the above fixes:
+```
+The drop fix
+Proper crate despawn
+Shooting-blocked-while-carrying behavior (if not already working)
+```
+
 
 note * from cgpt about bullet physics
 ```
