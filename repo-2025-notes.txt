@@ -2,9 +2,22 @@
 * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
 
 * After first round of new crate work:
-bug * player cannot fire in different directions
+DONE * player cannot fire in different directions
 
-bug * player cannot pick up the crate, but kicks the crate and it moves forward
+BUG * player shots do not bounce off crate, but simply stick to the side until their lifespan expires and they remove themselves.
+
+BUG * player shots do not damage enemy bats or enemy ghosts, but they bounce off.
+
+BUG * Crate_Carried does not seem to collide with walls
+
+TODO * Player cannot drop the crate.
+
+
+note * from cgpt about bullet physics
+```
+* Make sure Linear Damp and Angular Damp are not too high (can slow the bullet artificially)
+* Consider enabling “Continuous Collision Detection” if bullets sometimes tunnel through crates or walls
+```
 
 
 DONE * We told Bullet.gd not to worry about body_entered with enemies, SO we need all enemy collisions to manage this. We first did this with the Bat collisions.

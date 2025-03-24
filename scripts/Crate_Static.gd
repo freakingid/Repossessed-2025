@@ -4,6 +4,7 @@ extends StaticBody2D
 @onready var collision_shape = $CollisionShape2D
 
 func pickup(player: Node):
+	print("Crate_Static: pickup")
 	# Disable this crate visually and physically
 	sprite.visible = false
 	collision_shape.disabled = true

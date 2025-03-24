@@ -12,6 +12,8 @@ var speed = base_speed
 func _ready():
 	contact_monitor = true
 	max_contacts_reported = 1
+	linear_velocity = direction.normalized() * speed
+
 	# Start a timer to delete the bullet after lifespan duration
 	await get_tree().create_timer(lifespan).timeout
 	queue_free()

@@ -6,7 +6,7 @@ var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
 
 # New physics crate stuff
 @export var carried_crate_scene: PackedScene
-var carrying_crate = false
+var carrying_crate = null
 var carried_crate_instance: Node = null
 
 @export var base_speed: float = 100.0 # Initial movement speed
@@ -124,7 +124,9 @@ func _physics_process(_delta):
 
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body):
+	print("Player pickup detector fires")
 	if carrying_crate == null and body.is_in_group("crates_static"):
+		print("Player: _on_PickupDetector_body_entered trying to pick up crate")
 		var direction_to_crate = (body.global_position - global_position).normalized()
 		if direction_to_crate.dot(last_move_direction) > 0.7:  # facing toward crate
 			if drop_cooldown_timer <= 0.0:
@@ -150,15 +152,16 @@ func pickup_crate(crate_static: Node2D):
 ## ✅ Drop the crate
 func drop_crate():
 	if carrying_crate:
-		carrying_crate.drop()
+		carrying_crate.drdop()
 		carrying_crate = null
 		drop_cooldown_timer = 0.4  # Short cooldown before pickup again
 
 ## Process player shot direction
 func _process(_delta):
-	var aim_direction = Vector2.ZERO
-	aim_direction.x = Input.get_axis("aim_left", "aim_right")
-	aim_direction.y = Input.get_axis("aim_up", "aim_down")
+	var aim_direction = Vector2(
+		Input.get_action_strength("aim_right") - Input.get_action_strength("aim_left"),
+		Input.get_action_strength("aim_down") - Input.get_action_strength("aim_up")
+	)
 
 	# Fire regular shot
 	if aim_direction.length() > 0 and can_shoot:

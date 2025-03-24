@@ -15,6 +15,7 @@ z_index = 1
 collision_layer = 64
 collision_mask = 145
 physics_material_override = SubResource("PhysicsMaterial_7dwxc")
+gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_2uvmj")
