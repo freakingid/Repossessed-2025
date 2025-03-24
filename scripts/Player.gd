@@ -151,10 +151,38 @@ func pickup_crate(crate_static: Node2D):
 
 ## ✅ Drop the crate
 func drop_crate():
-	if carrying_crate:
-		carrying_crate.drdop()
-		carrying_crate = null
-		drop_cooldown_timer = 0.4  # Short cooldown before pickup again
+	if carrying_crate == null:
+		return
+
+	var drop_offset = get_valid_drop_direction(last_move_direction) * 16  # distance from player
+	var drop_position = global_position + drop_offset
+
+	# Reactivate the Crate_Static
+	carrying_crate.reactivate(drop_position)
+
+	# Clear carried crate reference and apply cooldown
+	carrying_crate = null
+	drop_cooldown_timer = 0.2
+
+func get_valid_drop_direction(dir: Vector2) -> Vector2:
+	var allowed_dirs = [
+		Vector2(0, -1),   # up
+		Vector2(-1, -1),  # up-left
+		Vector2(1, -1),   # up-right
+		Vector2(-1, 0),   # left
+		Vector2(1, 0),    # right
+	]
+
+	var best_match = Vector2.ZERO
+	var best_dot = -1.0
+
+	for d in allowed_dirs:
+		var dot = d.normalized().dot(dir.normalized())
+		if dot > best_dot:
+			best_dot = dot
+			best_match = d.normalized()
+
+	return best_match
 
 ## Process player shot direction
 func _process(_delta):

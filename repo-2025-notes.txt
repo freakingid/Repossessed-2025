@@ -10,14 +10,25 @@ BUG * player shots do not damage enemy bats or enemy ghosts, but they bounce off
 
 BUG * Crate_Carried does not seem to collide with walls
 
-TODO * Player cannot drop the crate.
+BUG * Player cannot drop the crate.
 
+BUG * After picking up the crate, I can carry it. The first time I try to drop the crate, it drops a Crate_Static, but the player is still carrying the Crate_Carried. I cannot do any more crate drops after that.
+
+TODO * While carrying a crate, the player should not fire any shots. Shot firing direction input will only be used to potentially drop the carried crate.
 
 note * from cgpt about bullet physics
 ```
 * Make sure Linear Damp and Angular Damp are not too high (can slow the bullet artificially)
 * Consider enabling “Continuous Collision Detection” if bullets sometimes tunnel through crates or walls
 ```
+
+note  from cgpt about dropping crates
+```
+Block drop if a wall or object is in the way
+Spawn a small drop animation or sound
+Implement a fallback if no valid space is found
+```
+
 
 
 DONE * We told Bullet.gd not to worry about body_entered with enemies, SO we need all enemy collisions to manage this. We first did this with the Bat collisions.

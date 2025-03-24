@@ -16,3 +16,15 @@ func pickup(player: Node):
 	var carried_crate = preload("res://scenes/Crate_Carried.tscn").instantiate()
 	carried_crate.player = player
 	get_tree().current_scene.add_child(carried_crate)
+
+func reactivate(new_position: Vector2):
+	global_position = new_position
+	sprite.visible = true
+	collision_shape.disabled = false
+	set_physics_process(true)
+	set_deferred("collision_layer", 8)
+	set_deferred("collision_mask", 1)  # adjust if needed
+	set_deferred("collision_mask", 2)  # adjust if needed
+	set_deferred("collision_mask", 3)  # adjust if needed
+	set_deferred("collision_mask", 7)  # adjust if needed
+	set_deferred("collision_mask", 8)  # adjust if needed
