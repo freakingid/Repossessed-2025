@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://df8tk30576iiq"]
+[gd_scene load_steps=6 format=3 uid="uid://df8tk30576iiq"]
 
 [ext_resource type="Script" path="res://scripts/BatSpawner.gd" id="1_5iwyf"]
 [ext_resource type="PackedScene" uid="uid://drs8neucn5315" path="res://scenes/Bat.tscn" id="2_280pt"]
 [ext_resource type="Texture2D" uid="uid://uha0j0uj5miu" path="res://assets/sprites/spawners/fpo-spawn-bat.png" id="2_jhu8i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f8vwt"]
+radius = 31.1006
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8agb"]
+size = Vector2(62, 63)
 
 [node name="BatSpawner" type="Node2D" groups=["spawners"]]
 z_index = 1
@@ -11,3 +17,18 @@ bat_scene = ExtResource("2_280pt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_jhu8i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("CircleShape2D_f8vwt")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_v8agb")
+debug_color = Color(0.968648, 0, 0.466513, 0.42)
+
+[connection signal="area_entered" from="DamageArea" to="." method="_on_DamageArea_area_entered"]

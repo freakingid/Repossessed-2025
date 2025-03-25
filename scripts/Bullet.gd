@@ -45,6 +45,10 @@ func _on_body_entered(body):
 	elif body.is_in_group("enemies"):
 		body.take_damage(damage)  # Assumes enemy has take_damage() method
 		queue_free()
+		
+	elif body.is_in_group("spawners"):
+		body.take_damage(damage)
+		queue_free()
 
 func take_damage(amount):
 	health -= amount

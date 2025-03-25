@@ -4,6 +4,7 @@
 DONE * Bats are colliding with other Enemies and pushing them. They should go right over the top of all obstacles and characters when flying towards Player target.
 
 BUG * Player Bullets are not colliding with Enemy Spawners, so they cannot be damaged or destroyed.
+** We are still working on this.
 
 TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, score, 
 

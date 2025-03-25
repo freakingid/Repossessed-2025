@@ -10,6 +10,13 @@ var bats_spawned: int = 0  # Current number of bats spawned
 var player = null  # Reference to the player
 
 func _ready():
+	$DamageArea.collision_layer = Global.LAYER_SPAWNER
+	$DamageArea.collision_mask = (
+		Global.LAYER_PLAYER |
+		Global.LAYER_PLAYER_BULLET
+	)
+	$DamageArea.monitoring = true
+
 	# Timer to control spawning
 	var spawn_timer = Timer.new()
 	spawn_timer.wait_time = spawn_interval

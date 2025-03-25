@@ -10,6 +10,13 @@ var ghosts_spawned: int = 0  # Current number of ghosts spawned
 var player = null  # Reference to the player
 
 func _ready():
+	$DamageArea.collision_layer = Global.LAYER_SPAWNER
+	$DamageArea.collision_mask = (
+		Global.LAYER_PLAYER |
+		Global.LAYER_PLAYER_BULLET
+	)
+	$DamageArea.monitoring = true
+
 	# Start the Timer to spawn ghosts continuously
 	var spawn_timer = Timer.new()
 	spawn_timer.wait_time = spawn_interval
