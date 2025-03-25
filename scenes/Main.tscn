@@ -63,23 +63,23 @@ position = Vector2(341.235, 315.346)
 [node name="GhostSpawner" parent="." instance=ExtResource("3_u8uhy")]
 position = Vector2(182.548, 159.429)
 spawn_interval = 2.0
-max_ghosts = 10
+max_ghosts = 2
 
 [node name="SkeletonSpawner" parent="." instance=ExtResource("4_usktm")]
 position = Vector2(-119.058, 165.779)
 spawn_interval = 2.0
-max_skeletons = 10
+max_skeletons = 2
 
 [node name="SkeletonShooterSpawner" parent="." instance=ExtResource("7_32pjm")]
 position = Vector2(220.646, -332.665)
 spawn_with_debug = true
 skeleton_shooter_scene = ExtResource("8_akodi")
-max_skeletons = 10
+max_skeletons = 2
 
 [node name="ZombieSpawner" parent="." instance=ExtResource("5_k8erd")]
 position = Vector2(-296.847, -326.315)
 spawn_interval = 5.0
-max_zombies = 10
+max_zombies = 2
 
 [node name="MyMap" type="Node" parent="."]
 

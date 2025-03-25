@@ -27,7 +27,7 @@ func _ready():
 		speed = dash_speed
 		timer.start(pause_time)  # Starts the dash → wander cycle
 
-	collision_layer = Global.LAYER_ENEMY
+	collision_layer = Global.LAYER_FLYING_ENEMY
 	collision_mask = (
 		Global.LAYER_PLAYER |
 		Global.LAYER_PLAYER_BULLET

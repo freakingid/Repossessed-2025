@@ -9,6 +9,8 @@ const LAYER_WALL = 1 << 4                 # Layer 5
 const LAYER_POWERUP = 1 << 5              # Layer 6
 const LAYER_ENEMY_PROJECTILE = 1 << 6     # Layer 7
 const LAYER_CRATE = 1 << 7                # Layer 8
+const LAYER_FLYING_ENEMY = 1 << 8         # Layer 9
+
 
 # Visual layering constants (z_index values)
 const Z_TILEMAP                   = 0

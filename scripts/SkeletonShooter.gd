@@ -119,9 +119,6 @@ func _draw():
 	# ✅ Draw Yellow circle (Ranged attack range)
 	draw_circle_outline(ranged_range, Color(1, 1, 0))  # Yellow
 
-	# ✅ Draw Red circle (Max detection range)
-	#draw_circle_outline(1000, Color(1, 0, 0))  # Red (Max range)
-
 # ✅ Helper function to draw a circle outline
 func draw_circle_outline(radius: float, color: Color):
 	var points = []
