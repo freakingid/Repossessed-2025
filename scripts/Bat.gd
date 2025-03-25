@@ -27,7 +27,7 @@ func _ready():
 		speed = dash_speed
 		timer.start(pause_time)  # Starts the dash → wander cycle
 
-func _process(delta):
+func _process(_delta):
 	if is_dashing:
 		var direction = (target_position - global_position).normalized()
 		velocity = direction * speed

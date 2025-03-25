@@ -16,7 +16,7 @@ func pickup(player: Node):
 	var carried_crate = preload("res://scenes/Crate_Carried.tscn").instantiate()
 	carried_crate.player = player
 	player.carried_crate_instance = carried_crate  # 🔗 Save reference
-	get_tree().current_scene.add_child(carried_crate)
+	get_tree().current_scene.call_deferred("add_child", carried_crate)
 
 func reactivate(new_position: Vector2):
 	global_position = new_position

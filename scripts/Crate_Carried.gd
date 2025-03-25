@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var player: Node = null  # assigned on pickup
 
-func _process(delta):
+func _process(_delta):
 	if player:
 		position = player.position + get_offset_based_on_direction(player.last_move_direction)
 		update_z_index(player.last_move_direction)
