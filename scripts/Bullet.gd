@@ -27,14 +27,6 @@ func _ready():
 	await get_tree().create_timer(lifespan).timeout
 	queue_free()
 
-func _integrate_forces(state):
-	for i in range(state.get_contact_count()):
-		var collider = state.get_contact_collider_object(i)
-		var normal = state.get_contact_local_normal(i)
-
-		if collider and collider.is_in_group("enemies"):
-			linear_velocity = linear_velocity.bounce(normal)
-
 # What happens when a bullet hits a wall
 func _on_body_entered(body):
 	if body.is_in_group("crates"):

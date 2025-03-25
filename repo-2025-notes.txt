@@ -1,11 +1,11 @@
 20250325
 * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
 
-TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, 
-
 BUG * Bats are colliding with other Enemies and pushing them. They should go right over the top of all obstacles and characters when flying towards Player target.
 
 BUG * Player Bullets are not colliding with Enemy Spawners, so they cannot be damaged or destroyed.
+
+TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, 
 
 BUG * Crate_Carried does not seem to collide with walls
 
