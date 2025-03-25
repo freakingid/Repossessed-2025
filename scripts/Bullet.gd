@@ -10,6 +10,14 @@ var direction = Vector2.ZERO
 var speed = base_speed
 
 func _ready():
+	collision_layer = Global.LAYER_PLAYER_BULLET
+	collision_mask = (
+		Global.LAYER_ENEMY | 
+		Global.LAYER_SPAWNER | 
+		Global.LAYER_WALL | 
+		Global.LAYER_CRATE
+	)
+	
 	contact_monitor = true
 	max_contacts_reported = 1
 	gravity_scale = 0  # top-down game

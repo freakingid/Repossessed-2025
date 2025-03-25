@@ -7,6 +7,14 @@ extends RigidBody2D
 var direction = Vector2.ZERO
 
 func _ready():
+	collision_layer = Global.LAYER_ENEMY_PROJECTILE
+	collision_mask = (
+		Global.LAYER_ENEMY | 
+		Global.LAYER_SPAWNER | 
+		Global.LAYER_WALL | 
+		Global.LAYER_CRATE
+	)
+
 	contact_monitor = true
 	max_contacts_reported = 1
 	add_to_group("enemy_projectiles")  # ✅ Add to correct group

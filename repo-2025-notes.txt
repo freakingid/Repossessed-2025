@@ -1,45 +1,36 @@
-20250323
+20250325
 * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
 
-* After first round of new crate work:
-DONE * player cannot fire in different directions
-
-TESTMORE * player shots do not bounce off crate, but simply stick to the side until their lifespan expires and they remove themselves.
-
-TESTMORE * player shots do not damage enemy bats or enemy ghosts, but they bounce off.
-** They do not bounce off, and seem to damage bats and ghosts.
-
+TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, 
 BUG * Crate_Carried does not seem to collide with walls
 
-BUG * Player cannot drop the crate.
-** Some sort of issue with null value on crate reference when trying to drop the crate.
-
-BUG * After picking up the crate, I can carry it. The first time I try to drop the crate, it drops a Crate_Static, but the player is still carrying the Crate_Carried. I cannot do any more crate drops after that.
-
-TODO * While carrying a crate, the player should not fire any shots. Shot firing direction input will only be used to potentially drop the carried crate.
+TEST * While carrying a crate, sometimes the player and the crate end up moving downward automatically. I noticed this if I try to push an enemy (like a Ghost) down. The push works great, but when I let go of the controls, the Player and the Crate continue moving downward, while I would expect them to stop moving.
 
 TODO * Check for redundant, double effects when 2 objects collide: Only 1 object should manage damage, for example.
 
-note * from cgpt after finishing a number of the above fixes:
-```
-The drop fix
-Proper crate despawn
-Shooting-blocked-while-carrying behavior (if not already working)
-```
+LATER * set collision_layer and collision_mask in "_ready()" function for objects, instead of relying only on the inspector. Use GLOBALS.[layernames] with pipe | operator.
+** And cgpt asks "Let me know if you’d like help defining common mask combinations in Globals.gd too (e.g., MASK_PROJECTILE_HITBOX, MASK_CRATE_BLOCKERS, etc.)."
 
-
-note * from cgpt about bullet physics
-```
-* Make sure Linear Damp and Angular Damp are not too high (can slow the bullet artificially)
-* Consider enabling “Continuous Collision Detection” if bullets sometimes tunnel through crates or walls
-```
-
-note  from cgpt about dropping crates
+LATER * Crate dropping behavior
 ```
 Block drop if a wall or object is in the way
 Spawn a small drop animation or sound
 Implement a fallback if no valid space is found
 ```
+
+DONE * player cannot fire in different directions
+
+DONE * player shots do not bounce off crate, but simply stick to the side until their lifespan expires and they remove themselves.
+
+DONE * player shots do not damage enemy bats or enemy ghosts, but they bounce off.
+** They do not bounce off, and seem to damage bats and ghosts.
+
+DONE * Player cannot drop the crate.
+** Some sort of issue with null value on crate reference when trying to drop the crate.
+
+DONE * After picking up the crate, I can carry it. The first time I try to drop the crate, it drops a Crate_Static, but the player is still carrying the Crate_Carried. I cannot do any more crate drops after that.
+
+DONE * While carrying a crate, the player should not fire any shots. Shot firing direction input will only be used to potentially drop the carried crate.
 
 
 
@@ -190,7 +181,7 @@ Zombie
 	damage = 4  # Zombies deal high melee damage
 
 
-
+==============================================
 ## Animations
 * Need animated player sprite
 
@@ -339,6 +330,29 @@ https://www.youtube.com/watch?v=43sJIWaj2Yw
 6: Powerups (Gems, weapon powerups, health powerups)
 7: Enemy Shots (enemy_projecctile)
 8: Crates
+
+When setting Collision Masks and Collision Layers in code, we can make it more intuitive:
+```
+💡 Pro Tip: Define named constants for clarity
+In a global constants script or at the top of your script:
+```
+const LAYER_CRATE = 128
+const LAYER_PLAYER = 1
+```
+Then use:
+```
+set_deferred("collision_layer", LAYER_CRATE)
+```
+Makes debugging and refactoring way easier later.
+```
+** So, we are using that, but will need later to update that for numerous objects.
+```
+For all dynamic objects (bullets, crates, enemies, powerups), define layers/masks in _ready() or init() to guarantee correct behavior across scenes and versions.
+
+Let me know if you want help batch-updating those or verifying masks in a scene.
+```
+
+
 
 
 
