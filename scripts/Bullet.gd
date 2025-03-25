@@ -22,6 +22,8 @@ func _ready():
 	max_contacts_reported = 1
 	gravity_scale = 0  # top-down game
 	linear_velocity = direction.normalized() * speed
+	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
+
 
 	# Start a timer to delete the bullet after lifespan duration
 	await get_tree().create_timer(lifespan).timeout

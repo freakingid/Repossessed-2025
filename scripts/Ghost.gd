@@ -13,3 +13,4 @@ func _ready():
 
 	# Randomize ghost speed by ±20%
 	speed = base_speed * randf_range(0.8, 1.2)  # Between 80% and 120% of base speed
+	$Sprite2D.z_index = Global.Z_BASE_ENEMIES

@@ -77,6 +77,8 @@ func _ready():
 		health_bar.value = health
 	else:
 		print("Error: HealthBar node not found!")
+	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
+
 
 ## Process player movement
 func _physics_process(_delta):

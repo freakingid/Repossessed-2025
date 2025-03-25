@@ -19,6 +19,8 @@ func get_bullet_resistance():
 func _ready():
 	if player:
 		player.melee_hit.connect(_on_player_melee_hit)  # ✅ Listen for melee hits
+	$Sprite2D.z_index = Global.Z_BASE_ENEMIES
+
 
 func _on_player_melee_hit(_collider):
 	if player and player.global_position.distance_to(global_position) < 20:  # Ensure close range

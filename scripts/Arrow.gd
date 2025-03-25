@@ -23,6 +23,8 @@ func _ready():
 		Global.LAYER_WALL |
 		Global.LAYER_CRATE
 	)
+	$Sprite2D.z_index = Global.Z_FLYING_ENEMIES
+
 
 	add_to_group("enemy_projectiles")
 

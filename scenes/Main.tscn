@@ -23,6 +23,14 @@ nova_shot_scene = ExtResource("2_wunoo")
 z_index = 1
 position = Vector2(-191.384, 56.4606)
 
+[node name="CrateStatic2" parent="." instance=ExtResource("3_uflxl")]
+z_index = 1
+position = Vector2(169.904, 318.854)
+
+[node name="CrateStatic3" parent="." instance=ExtResource("3_uflxl")]
+z_index = 1
+position = Vector2(95.904, -231.091)
+
 [node name="PUBig" parent="." instance=ExtResource("3_dm8pw")]
 z_index = 1
 position = Vector2(341.288, -158.051)
@@ -51,17 +59,16 @@ lifetime = 0.0
 
 [node name="BatSpawner" parent="." instance=ExtResource("5_knqmu")]
 position = Vector2(341.235, 315.346)
-max_bats = 0
 
 [node name="GhostSpawner" parent="." instance=ExtResource("3_u8uhy")]
 position = Vector2(182.548, 159.429)
 spawn_interval = 2.0
-max_ghosts = 5
+max_ghosts = 10
 
 [node name="SkeletonSpawner" parent="." instance=ExtResource("4_usktm")]
 position = Vector2(-119.058, 165.779)
 spawn_interval = 2.0
-max_skeletons = 0
+max_skeletons = 10
 
 [node name="SkeletonShooterSpawner" parent="." instance=ExtResource("7_32pjm")]
 position = Vector2(220.646, -332.665)
@@ -72,7 +79,7 @@ max_skeletons = 10
 [node name="ZombieSpawner" parent="." instance=ExtResource("5_k8erd")]
 position = Vector2(-296.847, -326.315)
 spawn_interval = 5.0
-max_zombies = 0
+max_zombies = 10
 
 [node name="MyMap" type="Node" parent="."]
 

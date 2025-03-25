@@ -3,6 +3,9 @@ extends StaticBody2D
 @onready var sprite = $Sprite2D
 @onready var collision_shape = $CollisionShape2D
 
+func _ready():
+	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
+
 func pickup(player: Node):
 	print("Crate_Static: pickup")
 	# Disable this crate visually and physically

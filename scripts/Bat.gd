@@ -27,6 +27,14 @@ func _ready():
 		speed = dash_speed
 		timer.start(pause_time)  # Starts the dash → wander cycle
 
+	collision_layer = Global.LAYER_ENEMY
+	collision_mask = (
+		Global.LAYER_PLAYER |
+		Global.LAYER_PLAYER_BULLET
+	)
+	$Sprite2D.z_index = Global.Z_FLYING_ENEMIES
+
+
 func _process(_delta):
 	if is_dashing:
 		var direction = (target_position - global_position).normalized()

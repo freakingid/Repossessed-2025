@@ -25,6 +25,8 @@ func _ready():
 	fire_timer.wait_time = fire_rate
 	fire_timer.one_shot = true  # ✅ Fire once per cycle
 	fire_timer.timeout.connect(shoot)  # ✅ Connect Timer to shoot function
+	$Sprite2D.z_index = Global.Z_BASE_ENEMIES
+
 
 func _process(delta):
 	if show_debug_circles:

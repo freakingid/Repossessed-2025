@@ -14,6 +14,8 @@ func get_offset_based_on_direction(dir: Vector2) -> Vector2:
 func update_z_index(dir: Vector2):
 	# Visually layer the crate based on direction
 	if dir.y > 0:
-		z_index = player.z_index + 1  # In front of player
+		# z_index = player.z_index + 1  # In front of player
+		$Sprite2D.z_index = Global.Z_CARRIED_CRATE_IN_FRONT
 	else:
-		z_index = player.z_index - 1  # Behind player
+		# z_index = player.z_index - 1  # Behind player
+		$Sprite2D.z_index = Global.Z_CARRIED_CRATE_BEHIND
