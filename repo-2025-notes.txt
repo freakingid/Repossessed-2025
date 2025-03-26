@@ -4,7 +4,10 @@ DONE * Use globals, maybe some sort of dictionary, for object properties that ne
 
 DONE * Nova Shot does not harm Bat
 
-TODO * Make Crate larger
+DONE * Make Crate larger
+
+DONE * Fix Crate_Carried draw order with player directions.
+** Z-index set in code correctly, but the Player had z_index set to 10 in inspector, and zindex is set to relative, and we were changing Player > Sprite2D zindex, so things were off.
 
 TODO * Test player carrying crate that gets hit by enemy arrows.
 

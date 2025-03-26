@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/Crate_Carried.gd" id="1_7ppl8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rogaw"]
+size = Vector2(28, 28)
 
 [node name="CrateCarried" type="CharacterBody2D" groups=["crates"]]
 collision_layer = 128
@@ -11,6 +12,7 @@ collision_mask = 222
 script = ExtResource("1_7ppl8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_2vrt2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

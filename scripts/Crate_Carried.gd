@@ -19,3 +19,4 @@ func update_z_index(dir: Vector2):
 	else:
 		# z_index = player.z_index - 1  # Behind player
 		$Sprite2D.z_index = Global.Z_CARRIED_CRATE_BEHIND
+		print("Crate Z: ", $Sprite2D.z_index)

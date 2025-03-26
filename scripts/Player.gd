@@ -103,6 +103,9 @@ func _physics_process(_delta):
 
 	velocity = move_direction.normalized() * speed
 	move_and_slide()
+	
+	print("Player Z: ", $Sprite2D.z_index)
+
 
 	# Tracking when we can pickup a crate again after having dropped one
 	if drop_cooldown_timer > 0.0:

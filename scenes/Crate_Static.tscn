@@ -8,6 +8,7 @@ friction = 0.0
 bounce = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u4fvn"]
+size = Vector2(28, 28)
 
 [node name="CrateStatic" type="StaticBody2D" groups=["crates", "crates_static"]]
 collision_layer = 128
@@ -16,6 +17,7 @@ physics_material_override = SubResource("PhysicsMaterial_h1nyh")
 script = ExtResource("1_dntgh")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_gq7nt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
