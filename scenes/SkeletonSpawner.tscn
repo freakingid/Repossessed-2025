@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhvyqog8u4031"]
+[gd_scene load_steps=5 format=3 uid="uid://dhvyqog8u4031"]
 
 [ext_resource type="Script" path="res://scripts/SkeletonSpawner.gd" id="1_y4i15"]
-[ext_resource type="PackedScene" uid="uid://dg5t7fo0bchwm" path="res://scenes/Skeleton.tscn" id="2_ymnei"]
 [ext_resource type="Texture2D" uid="uid://j0s5vmk116lw" path="res://assets/sprites/spawners/fpo-spawn-skeleton.png" id="3_22bpo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s6aed"]
@@ -13,13 +12,14 @@ size = Vector2(33, 33)
 [node name="SkeletonSpawner" type="Node2D" groups=["spawners"]]
 z_index = 1
 script = ExtResource("1_y4i15")
-skeleton_scene = ExtResource("2_ymnei")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_22bpo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collider" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider"]
 position = Vector2(0, -0.5)
 shape = SubResource("CircleShape2D_s6aed")
 
@@ -31,5 +31,3 @@ collision_mask = 3
 position = Vector2(0.5, -0.5)
 shape = SubResource("RectangleShape2D_a6j6e")
 debug_color = Color(0.968648, 0, 0.466513, 0.42)
-
-[connection signal="body_entered" from="DamageArea" to="." method="_on_DamageArea_body_entered"]

@@ -1,13 +1,13 @@
 20250325
 * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
 
-TODO * See if we can make a common parent for all Spawners.
+TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, score, 
+
+DONE * See if we can make a common parent for all Spawners.
 
 TODO * If Player is firing already when they contact a Crate_Static, the Crate_Static should not be picked up by the player. The crate should at that point be like a wall to the player, blocking their movement.
 
 TODO * Player jumping over crate placed in front of them while they are running.
-
-TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, score, 
 
 TODO * Add barrels
 
