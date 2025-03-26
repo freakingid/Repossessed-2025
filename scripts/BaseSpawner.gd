@@ -4,7 +4,7 @@ class_name BaseSpawner
 var enemy_scene: PackedScene
 var spawn_interval: float = 3.0
 var max_enemies: int = 15
-var health: int = 3
+var health: int = 5
 var score_value: int = 100
 
 var enemies_spawned: int = 0

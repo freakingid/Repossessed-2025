@@ -1,15 +1,22 @@
-20250325
-* Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
+20250326
+DONE * Use globals, maybe some sort of dictionary, for object properties that need leveling
+** These are in Global.gd. which is autoloaded for the project.
 
-TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, score, 
+BUG * Nova Shot does not harm Bat
 
-DONE * See if we can make a common parent for all Spawners.
+TODO * Make Crate larger
+
+TODO * Test player carrying crate that gets hit by enemy arrows.
+
+TODO * Check properties in Player.gd vs Bullet.gd that seem to be redundant.
+
+TODO * Check properties in SkeletonShooter.gd vs Arrow.gd that seem to be redundant.
 
 TODO * If Player is firing already when they contact a Crate_Static, the Crate_Static should not be picked up by the player. The crate should at that point be like a wall to the player, blocking their movement.
 
-TODO * Player jumping over crate placed in front of them while they are running.
-
 TODO * Add barrels
+
+TODO * Player jumping over crate placed in front of them while they are running.
 
 TODO * Check for redundant, double effects when 2 objects collide: Only 1 object should manage damage, for example.
 
@@ -17,12 +24,7 @@ BUG * Crate_Carried does not seem to collide with walls
 
 TEST * While carrying a crate, sometimes the player and the crate end up moving downward automatically. I noticed this if I try to push an enemy (like a Ghost) down. The push works great, but when I let go of the controls, the Player and the Crate continue moving downward, while I would expect them to stop moving.
 
-DONE * Bats are colliding with other Enemies and pushing them. They should go right over the top of all obstacles and characters when flying towards Player target.
-
-DONE * Player Bullets are not colliding with Enemy Spawners, so they cannot be damaged or destroyed.
-
-DONE * set collision_layer and collision_mask in "_ready()" function for objects, instead of relying only on the inspector. Use GLOBALS.[layernames] with pipe | operator.
-** And cgpt asks "Let me know if you’d like help defining common mask combinations in Globals.gd too (e.g., MASK_PROJECTILE_HITBOX, MASK_CRATE_BLOCKERS, etc.)."
+✅ Reactivation/pooling system for Crate_Static
 
 LATER * Crate dropping behavior details
 ```
@@ -30,6 +32,46 @@ Block drop if a wall or object is in the way
 Spawn a small drop animation or sound
 Implement a fallback if no valid space is found
 ```
+
+=================================================
+* Add More enemies
+=================================================
+** Bats
+** ChatGPT asks:
+```
+Want bats to have a death animation?
+Want a special effect when bats dash?
+** I could see a streak behind the bat, like to imply a blur because the bat suddenly made a beeline for a person.
+```
+
+* Add Lobber and shots
+
+* The gems need a slight magnetic effect, so as the player gets close to the gem, the gem moves towards the player. Once the player is within range of a gem (pretty close) the gem moves towards the player faster the closer the player is to the gem. There will later be a powerup that gives the player a magnet, which extends the range at which the gems begin to move towards the player.
+
+* Consider how long each powerup should stay with the player. Do they time out? Or do they wear out after so many uses? Or something else??
+
+==============================================
+## Animations
+==============================================
+
+
+
+
+
+
+
+
+20250325
+DONE * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
+
+DONE * See if we can make a common parent for all Spawners.
+
+DONE * Bats are colliding with other Enemies and pushing them. They should go right over the top of all obstacles and characters when flying towards Player target.
+
+DONE * Player Bullets are not colliding with Enemy Spawners, so they cannot be damaged or destroyed.
+
+DONE * set collision_layer and collision_mask in "_ready()" function for objects, instead of relying only on the inspector. Use GLOBALS.[layernames] with pipe | operator.
+** And cgpt asks "Let me know if you’d like help defining common mask combinations in Globals.gd too (e.g., MASK_PROJECTILE_HITBOX, MASK_CRATE_BLOCKERS, etc.)."
 
 DONE * player cannot fire in different directions
 
@@ -45,54 +87,27 @@ DONE * After picking up the crate, I can carry it. The first time I try to drop 
 
 DONE * While carrying a crate, the player should not fire any shots. Shot firing direction input will only be used to potentially drop the carried crate.
 
-
-
 DONE * We told Bullet.gd not to worry about body_entered with enemies, SO we need all enemy collisions to manage this. We first did this with the Bat collisions.
 ** Oh, we have the same situation with on_area_entered in Bullet with enemies.
 ** So, we will let Enemies manage the collision with Player bullets.
 
 BUG? * At one point while testing the bat, I noticed when the bat collided with the player, and then switched into wandering mode , it caused the player to move in sync with the wandering bat. That was weird and only happened one time. 
 
-* Now make the crate the right node type(s) based on stationery or carried.
 
-* Make sure the crate ricochets bullets and arrows.
 
-* Make sure bullets and arrows are correct node types.
 
-* Make sure bullets and arrows collided correctly with
-** all enemies
-** walls
-** spawners
-** stationery crates
-** carried crates
 
-* CGPT asked:
-```
-Let me know when you're ready to move to:
-✅ Step-by-step: drop_crate() logic
-or
-✅ Reactivation/pooling system for Crate_Static
-```
+
 
 
 20250322
-WORK * Adding Crates
-** Do player bullets bounce off crates?
-*** NO
-** Do enemy arrows bounce off crates?
-*** NO
-** Do enemies (except for Bats) collide with crates / blocked by them?
-*** NO
-TEST ** Might need to make crates drop in whatever direction we fire to initiate the drop. Then if the drop is in our direction of travel, and we are actually moving, we will have the player jump over the crate.
-WORK ** Ready to check ChatGPT this ✅ 4. Is the Crate Moving?
-** Looks like player shots and skeletons, at the very least, are now colliding.
-** Looks like Arrows still are NOT colliding.
-** Now arrows and player bullets are colliding.
-bug * player bullets can "refract" through the crate instead of bouncing back off.
-bug * skeleton arrows do not update their direction / rotation once they bounce off.
-** Man there are so many problems with this code.
-
+DONE * Adding Crates
 NOTE * There are other things fro 20250319 that need moved up. I will do that after managing Crates.
+
+
+
+
+
 
 
 
@@ -102,44 +117,22 @@ NOTE * There are other things fro 20250319 that need moved up. I will do that af
 DONE * Resized from 128px sprites to 32px.
 ** Happy accident: Regular skeletons can now find their way around walls. I think the change of scale allowed their movements to scale 4x and make a difference.
 
-BUG * Zombie spawner is not spawning anything.
 
-BUG * Player is not doing any melee fighting upon collision with enemies.
-done ** Fixed collider signal error.
-** However, Ghosts are sometimes colliding with player but not doing damage. Skeletons and Zombies never do damage, they just collide and stop.
 
-BUG * All enemies, upon Melee with Player, need to have the player be invinicible / blinking for a time. That seems to have gone away or not be everywhere.
 
-BUG * When player has Bounce Shot powerup, some of the shots hit a wall and seem to refract through the wall, rather than bounce back from it.
 
-=================================================
-* Add More enemies
-=================================================
-BUG * Adding Skeleton Shooter
+
+
+
+DONE * Adding Skeleton Shooter
 ?? When skeletons are blocked by wall, should they be still trying to go towards player?
 ?? It seems like the skeleton is trying to shoot at the player even when there is a wall in the way. We are supposed to be testing for line of sight.
 ** Is wandering is only when they are FAR from the player and blocked vision
 
 DONE * Add Bat
-** ChatGPT asks:
-```
-Want bats to have a death animation?
-Want a special effect when bats dash?
-** I could see a streak behind the bat, like to imply a blur because the bat suddenly made a beeline for a person.
-```
 
-* Give names to the layers for Collision Layer and Mask, instead of numbers.
+DONE * Give names to the layers for Collision Layer and Mask, instead of numbers.
 
-* Add Lobber and shots
-
-* The gems need a slight magnetic effect, so as the player gets close to the gem, the gem moves towards the player. Once the player is within range of a gem (pretty close) the gem moves towards the player faster the closer the player is to the gem. There will later be a powerup that gives the player a magnet, which extends the range at which the gems begin to move towards the player.
-
-
-* Consider how long each powerup should stay with the player. Do they time out? Or do they wear out after so many uses? Or something else??
-
-* Define and add character property initial values such as speed, health, damage, in some sort of dictionary.
-
-CHANGE * All Spawners (Ghost, Skeleton, SkeletonShooter, Zombie) have an Area2D from the old times. Probably remove it and retool collisions.
 
 
 
@@ -192,17 +185,6 @@ Zombie
 	base_speed = 40.0  # Zombies are slower
 	score_value = 4
 	damage = 4  # Zombies deal high melee damage
-
-
-==============================================
-## Animations
-* Need animated player sprite
-
-* Need animated ghost sprite
-
-* Need animated skeleton sprite
-
-* Need animated zombie sprite
 
 
 

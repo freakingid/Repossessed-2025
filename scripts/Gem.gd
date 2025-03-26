@@ -1,9 +1,9 @@
 extends Area2D
 
-@export var gem_power: int = 5  # Default gem power value (varies per enemy)
-@export var lifespan: float = 10.0  # Time before disappearing
-@export var blink_start_time: float = 5.0  # When to start blinking
-@export var magnet_range: float = 80.0  # Magnet effect range
+var gem_power: int = 5  # Default gem power value (varies per enemy)
+var lifespan: float = 10.0  # Time before disappearing
+var blink_start_time: float = 5.0  # When to start blinking
+var magnet_range: float = 80.0  # Magnet effect range
 
 var player: Node2D = null
 var magnet_speed: float = 100.0  # Speed gems move toward the player

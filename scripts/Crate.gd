@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-@export var push_force: float = 8.0  # How strongly enemies get pushed away
-
+var push_force: float = 8.0  # How strongly enemies get pushed away
 var is_carried: bool = false
 var player: Node = null
 

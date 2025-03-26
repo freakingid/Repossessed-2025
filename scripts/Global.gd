@@ -24,5 +24,89 @@ const Z_FLYING_ENEMIES            = 40
 const Z_OVERHEAD_DECORATIONS      = 50
 const Z_UI_FLOATING              = 100
 
-
 var score: int = 0
+
+# Ghost is essentially my base enemy properties
+class GHOST:
+	const SPEED = 60.0
+	const DAMAGE = 1
+	const HEALTH = 1
+	const SCORE = 1
+
+# Skeletons move a bit faster and can potentially get around walls
+class SKELETON:
+	const SPEED = GHOST.SPEED * 1.25
+	const DAMAGE = GHOST.DAMAGE * 2
+	const HEALTH = GHOST.HEALTH * 2
+	const SCORE = GHOST.SCORE * 2
+
+# Skeleton shooters fire arrows when in range
+class SKELETON_SHOOTER:
+	const SPEED = SKELETON.SPEED
+	const DAMAGE = SKELETON.DAMAGE
+	const HEALTH = SKELETON.HEALTH
+	const SCORE = SKELETON.SCORE * 2
+	const ARROW_SPEED = 150.0
+	const ARROW_DAMAGE = 2
+	const ARROW_LIFESPAN = 3.0
+	const ARROW_FIRE_RATE = 1.5
+
+# Lobbers are hard to chase, protect themselves with walls, and fire nasty shots
+# Inside their class they will use a much faster "running away" speed
+class LOBBER:
+	const SPEED = GHOST.SPEED * 0.75
+	const DAMAGE = GHOST.DAMAGE
+	const HEALTH = GHOST.HEALTH
+	const SCORE = SKELETON_SHOOTER.SCORE * 2
+
+# Bats can fly over everything and have a fast dash speed to player
+class BAT:
+	const SPEED = GHOST.SPEED * 1.875
+	const DAMAGE = SKELETON.DAMAGE
+	const HEALTH = SKELETON.HEALTH
+	const SCORE = SKELETON_SHOOTER.SCORE * 2
+
+# Spiders move erratically toward the player in fits and starts
+# Spiders can fire a web at the player that will immobilize for a time
+class SPIDER:
+	const SPEED = BAT.SPEED        # This is their skitter speed
+	const DAMAGE = SKELETON.DAMAGE
+	const HEALTH = SKELETON.HEALTH * 2
+	const SCORE = LOBBER.SCORE    # Because of complex movement
+
+# Zombies are slow, tough, but do small melee damage
+class ZOMBIE:
+	const SPEED = GHOST.SPEED * 0.5
+	const DAMAGE = GHOST.DAMAGE * 2
+	const HEALTH = GHOST.HEALTH * 4
+	const SCORE = LOBBER.SCORE * 2    # Because they are so tough
+
+# We are not actually using fire wraith or reaper yet
+# Will later add a devil, vampire, frankenstein, others.
+class FIRE_WRAITH:
+	const SPEED = 60.0
+	const DAMAGE = 3
+	const HEALTH = 2
+	const SCORE = 1
+
+class REAPER:
+	const SPEED = 50.0
+	const DAMAGE = 3
+	const HEALTH = 999
+	const SCORE = 1
+
+class PLAYER:
+	const SPEED = GHOST.SPEED * 1.1
+	const DAMAGE = 2
+	const HEALTH = 50
+	const BULLET_SPEED = 250
+	const BULLET_DAMAGE = 1
+	const BULLET_HEALTH = 1
+	const BULLET_LIFESPAN = 1.5 # seconds
+	const BULLET_BASE_FIRE_RATE = 0.2
+	const BULLET_BASE_MAX_SHOTS = 3
+
+
+# Some properties are not in here because they don't seem like leveling choices
+# We didn't put Gem properties in here
+# We didn't put Nova properties in here

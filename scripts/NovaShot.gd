@@ -1,9 +1,9 @@
 extends Area2D
 
-@export var nova_health: int = 50  # Total damage it can deal
-@export var expand_speed: float = 400.0  # How fast it expands
-@export var start_size: float = 4.0  # Diameter of nova at start
-@export var max_size: float = 512.0  # Maximum diameter before disappearing
+var nova_health: int = 50  # Total damage it can deal
+var expand_speed: float = 400.0  # How fast it expands
+var start_size: float = 4.0  # Diameter of nova at start
+var max_size: float = 512.0  # Maximum diameter before disappearing
 
 var sprite_size: float = 512.0  # Size of the actual sprite
 var current_scale: float  # Start scale, calculated dynamically

@@ -1,14 +1,14 @@
 extends CharacterBody2D
 
+# These values are just to init; override in child classes, please
 @export var health: int = 3
-@export var base_speed: float = 25.0
+@export var speed: float = 25.0
 @export var damage: int = 1
+@export var score_value: int = 0 # initialize score award
+
 @export var is_ranged: bool = false  # Toggle for ranged vs melee enemies
 @export var separation_radius: float = 20.0  # Distance at which enemies push away from each other
 @export var separation_strength: float = 75.0  # How strong the push should be
-@export var score_value: int = 0 # initialize score award
-
-var speed: float = base_speed
 
 @onready var player = get_tree().get_first_node_in_group("player")
 

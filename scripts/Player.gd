@@ -6,13 +6,19 @@ var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
 
 # New physics crate stuff
 @export var carried_crate_scene: PackedScene
+@export var bullet_scene: PackedScene  # Assign Bullet.tscn
+
 var carrying_crate = null
 var carried_crate_instance: Node = null
 
-@export var base_speed: float = 100.0 # Initial movement speed
-@export var bullet_scene: PackedScene  # Assign Bullet.tscn
-@export var max_health: int = 50  # Max health (can be modified in Inspector)
-@export var damage: int = 2  # ✅ Player's melee damage
+var max_health: int = Global.PLAYER.HEALTH  # Max health for HUD bar percent calc
+var speed: float = Global.PLAYER.SPEED
+var damage: int = Global.PLAYER.DAMAGE  # ✅ Player's melee damage
+var health: int = max_health  # Current health
+# Base values for shooting
+var base_fire_rate: float = Global.PLAYER.BULLET_BASE_FIRE_RATE  # Delay between shots
+var base_max_shots: int = Global.PLAYER.BULLET_BASE_MAX_SHOTS  # Total shots allowed in scene
+var base_bullet_lifespan: float = Global.PLAYER.BULLET_LIFESPAN  # Bullet lifespan
 
 # ✅ Crate Handling Variables (Added)
 var drop_cooldown_timer: float = 0.0
@@ -33,9 +39,7 @@ var drop_cooldown_timer: float = 0.0
 
 signal melee_hit(body)  # ✅ Signal emitted when colliding with an enemy
 
-var health: int = max_health  # Current health
 var invincible: bool = false # can player be damaged?
-var speed: float = base_speed
 
 # normal shooting
 var can_shoot = true # Is player shot cooldown period past?
@@ -52,11 +56,6 @@ var has_big_shot: bool = false
 var has_rapid_shot: bool = false
 var has_triple_shot: bool = false
 var has_bounce_shot: bool = false
-
-# Base values
-@export var base_fire_rate: float = 0.2  # Delay between shots
-@export var base_max_shots: int = 3  # Total shots allowed in scene
-@export var base_bullet_lifespan: float = 2.0  # Bullet lifespan
 
 # Dynamic values (affected by powerups)
 var fire_rate: float

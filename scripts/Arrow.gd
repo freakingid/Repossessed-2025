@@ -1,8 +1,8 @@
 extends RigidBody2D
 
-@export var speed: float = 150.0
-@export var damage: int = 2
-@export var lifespan: float = 3.0
+var speed: float = Global.SKELETON_SHOOTER.ARROW_SPEED
+var damage: int = Global.SKELETON_SHOOTER.ARROW_DAMAGE
+var lifespan: float = Global.SKELETON_SHOOTER.ARROW_LIFESPAN
 
 var direction = Vector2.ZERO
 var bounce_cooldown := 0.0

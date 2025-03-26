@@ -1,13 +1,12 @@
 extends RigidBody2D
 
-@export var base_speed: float = 250.0
-@export var damage: int = 1  # How much damage the bullet deals
-@export var health: int = 1  # How much damage the bullet can take before being destroyed
-@export var bounce_shot: bool = false  # Determines if bullets should bounce
-@export var lifespan: float = 1.5  # Bullet will last for 2 seconds
+var speed: float = Global.PLAYER.BULLET_SPEED
+var damage: int = Global.PLAYER.BULLET_DAMAGE
+var health: int = Global.PLAYER.BULLET_HEALTH
+var lifespan: float = Global.PLAYER.BULLET_LIFESPAN
 
 var direction = Vector2.ZERO
-var speed = base_speed
+var bounce_shot: bool = false  # Determines if bullets should bounce
 
 func _ready():
 	collision_layer = Global.LAYER_PLAYER_BULLET

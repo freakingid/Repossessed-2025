@@ -1,32 +1,32 @@
 extends "res://scripts/BaseEnemy.gd"  # Inherits common enemy logic
 
 @export var show_debug_circles: bool = false  # ✅ Toggle this in the Inspector
-@export var fire_rate: float = 1.5  # Delay between shots
 @export var projectile_scene: PackedScene  # Assign the Skeleton's arrow scene
-# @export var detection_range: float = 250.0  # Distance at which the Skeleton stops and shoots
-@export var melee_range: float = 100.0  # ✅ Distance too close for arrows, forces melee
-@export var ranged_range: float = 200.0  # ✅ Ideal range for firing arrows
-@export var sidestep_distance: float = 16.0  # How far Skeleton moves after shooting
-@export var wander_time: float = 2.0  # Time spent wandering when player is not in sight
+
+var fire_rate: float = Global.SKELETON_SHOOTER.ARROW_FIRE_RATE  # Delay between shots
+
+var melee_range: float = 100.0  # ✅ Distance too close for arrows, forces melee
+var ranged_range: float = 200.0  # ✅ Ideal range for firing arrows
+var sidestep_distance: float = 16.0  # How far Skeleton moves after shooting
+var wander_time: float = 2.0  # Time spent wandering when player is not in sight
 var sidestep_direction: Vector2 = Vector2.ZERO  # ✅ Stores direction of sidestep
 var sidestep_timer: float = 0  # ✅ Tracks how long to sidestep
-@export var sidestep_duration: float = 0.4  # ✅ Duration of sidestepping movement
-@onready var fire_timer = $FireTimer # Reference to the shooting timer
-@onready var shoot_marker = $Marker2D  # Where arrows spawn
+var sidestep_duration: float = 0.4  # ✅ Duration of sidestepping movement
 var shots_fired: int = 0  # Track how many shots fired before moving sideways
 var wander_timer: float = 0  # Timer for random wandering
+@onready var fire_timer = $FireTimer # Reference to the shooting timer
+@onready var shoot_marker = $Marker2D  # Where arrows spawn
 
 func _ready():
 	super()  # Calls BaseEnemy.gd's _ready()
-	health = 4  # Skeletons are tougher than Ghosts
-	speed = 40.0  # Skeletons move slower
-	score_value = 4
-	damage = 2
+	health = Global.SKELETON_SHOOTER.HEALTH
+	speed = Global.SKELETON_SHOOTER.SPEED
+	score_value = Global.SKELETON_SHOOTER.SCORE
+	damage = Global.SKELETON_SHOOTER.DAMAGE
 	fire_timer.wait_time = fire_rate
 	fire_timer.one_shot = true  # ✅ Fire once per cycle
 	fire_timer.timeout.connect(shoot)  # ✅ Connect Timer to shoot function
 	$Sprite2D.z_index = Global.Z_BASE_ENEMIES
-
 
 func _process(delta):
 	if show_debug_circles:
@@ -39,7 +39,7 @@ func _process(delta):
 
 	# ✅ If sidestepping, continue moving in that direction for the set duration
 	if sidestep_timer > 0:
-		velocity = sidestep_direction * base_speed
+		velocity = sidestep_direction * speed
 		sidestep_timer -= delta
 		move_and_slide()
 		return  # ✅ Skip other movement logic while sidestepping
@@ -94,7 +94,7 @@ func wander(delta):
 	if wander_timer <= 0:
 		# ✅ Pick a random direction
 		var random_direction = Vector2.RIGHT.rotated(randf_range(-PI, PI))
-		velocity = random_direction * base_speed
+		velocity = random_direction * speed
 		wander_timer = wander_time  # ✅ Set wander duration
 
 	wander_timer -= delta  # ✅ Decrease timer

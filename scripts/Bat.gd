@@ -1,16 +1,17 @@
 extends CharacterBody2D
 
-@export var pause_time: float = 1.2  # Time before setting a new target
-@export var dash_speed: float = 180.0  # Speed when dashing
-@export var wandering_speed: float = 120 # normal speed?
-@export var chase_range: float = 500.0  # Distance at which it will start chasing the player
-@export var wander_time: float = 3.0  # Time spent wandering before dashing again
-@export var wander_distance: float = 80.0  # How far it hovers around
+var health = Global.BAT.HEALTH
+var speed = Global.BAT.SPEED
+var damage = Global.BAT.DAMAGE
+var score_value = Global.BAT.SCORE
 
-var health: int = 2  # Low health
-var damage: int = 2  # Melee damage
-var speed: float = 120  # Bats move fast
-var score_value: int = 3  # Reward score when killed
+# Bat-specific
+var dash_speed: float = speed * 2  # Speed when dashing
+var wandering_speed: float = speed * 0.8 # normal speed?
+var pause_time: float = 1.2  # Time before setting a new target
+var chase_range: float = 500.0  # Distance at which it will start chasing the player
+var wander_time: float = 3.0  # Time spent wandering before dashing again
+var wander_distance: float = 80.0  # How far it hovers around
 
 var is_dashing: bool = false  # If the bat is currently dashing
 var target_position: Vector2  # Position the bat is flying towards
