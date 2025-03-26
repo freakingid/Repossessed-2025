@@ -8,7 +8,7 @@ func _process(_delta):
 		update_z_index(player.last_move_direction)
 
 func get_offset_based_on_direction(dir: Vector2) -> Vector2:
-	var spacing = 10.0
+	var spacing = 15.0
 	return dir.normalized() * spacing
 
 func update_z_index(dir: Vector2):
@@ -19,4 +19,3 @@ func update_z_index(dir: Vector2):
 	else:
 		# z_index = player.z_index - 1  # Behind player
 		$Sprite2D.z_index = Global.Z_CARRIED_CRATE_BEHIND
-		print("Crate Z: ", $Sprite2D.z_index)

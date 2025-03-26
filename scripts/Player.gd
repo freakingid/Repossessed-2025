@@ -77,6 +77,7 @@ func _ready():
 	else:
 		print("Error: HealthBar node not found!")
 	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
+	$HealthBar.z_index = Global.Z_UI_FLOATING
 
 
 ## Process player movement
@@ -103,9 +104,6 @@ func _physics_process(_delta):
 
 	velocity = move_direction.normalized() * speed
 	move_and_slide()
-	
-	print("Player Z: ", $Sprite2D.z_index)
-
 
 	# Tracking when we can pickup a crate again after having dropped one
 	if drop_cooldown_timer > 0.0:
@@ -128,13 +126,10 @@ func _physics_process(_delta):
 
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body):
-	print("Player pickup detector fires")
 	if carrying_crate == null and body.is_in_group("crates_static"):
-		print("Player: _on_PickupDetector_body_entered trying to pick up crate")
 		var direction_to_crate = (body.global_position - global_position).normalized()
 		if direction_to_crate.dot(last_move_direction) > 0.7:  # facing toward crate
 			if drop_cooldown_timer <= 0.0:
-				print("🟫 Picked up crate: ", body)
 				carrying_crate = body
 				body.pickup(self)
 
@@ -155,7 +150,6 @@ func pickup_crate(crate_static: Node2D):
 
 ## ✅ Drop the crate
 func drop_crate():
-	print("Player.gd drop_crate() called")
 	if carrying_crate == null:
 		return
 
@@ -303,7 +297,6 @@ func update_weapon_stats():
 
 func use_nova_shot():
 	if not can_use_nova or gem_power < max_nova_charge:
-		print("cannot fire nova yet")
 		return  # Not enough charge or still on cooldown
 
 	# Consume 50 gem power (1 full charge)
@@ -317,7 +310,6 @@ func use_nova_shot():
 		return
 
 	nova.global_position = global_position
-	print("adding nova")
 	get_tree().current_scene.add_child(nova)
 
 	# Start cooldown

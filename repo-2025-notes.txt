@@ -9,7 +9,15 @@ DONE * Make Crate larger
 DONE * Fix Crate_Carried draw order with player directions.
 ** Z-index set in code correctly, but the Player had z_index set to 10 in inspector, and zindex is set to relative, and we were changing Player > Sprite2D zindex, so things were off.
 
-TODO * Test player carrying crate that gets hit by enemy arrows.
+DONE * Test player carrying crate that gets hit by enemy arrows.
+** Arrows bounce as expected
+
+DONE * HUD is covered by Crate
+** Assigned Player.HealthBar a z_index
+
+DONE * Adjust Y placement of Carried Crate because now it is larger and covering the player's face.
+
+TODO * Make player carrying crate walk a little slower.
 
 TODO * Check properties in Player.gd vs Bullet.gd that seem to be redundant.
 
