@@ -32,4 +32,4 @@ position = Vector2(0.5, -0.5)
 shape = SubResource("RectangleShape2D_a6j6e")
 debug_color = Color(0.968648, 0, 0.466513, 0.42)
 
-[connection signal="area_entered" from="DamageArea" to="." method="_on_DamageArea_area_entered"]
+[connection signal="body_entered" from="DamageArea" to="." method="_on_DamageArea_body_entered"]

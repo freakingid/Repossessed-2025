@@ -46,7 +46,7 @@ func take_damage(amount):
 			player.add_score(score_value)
 		queue_free()  # Destroy spawner
 
-func _on_DamageArea_area_entered(area):
-	if area.is_in_group("player_projectiles"):
-		take_damage(1)
-		area.queue_free()  # Remove bullet after impact
+func _on_DamageArea_body_entered(body):
+	if body.is_in_group("player_projectiles"):
+		take_damage(body.damage)
+		body.queue_free()

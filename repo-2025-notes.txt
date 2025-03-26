@@ -1,25 +1,30 @@
 20250325
 * Working in branch "node-type-changes" to change player bullets, enemy arrows, crates, etc. to node types that will work with physics bouncing.
 
-DONE * Bats are colliding with other Enemies and pushing them. They should go right over the top of all obstacles and characters when flying towards Player target.
+TODO * See if we can make a common parent for all Spawners.
 
-BUG * Player Bullets are not colliding with Enemy Spawners, so they cannot be damaged or destroyed.
-** We are still working on this.
+TODO * If Player is firing already when they contact a Crate_Static, the Crate_Static should not be picked up by the player. The crate should at that point be like a wall to the player, blocking their movement.
+
+TODO * Player jumping over crate placed in front of them while they are running.
 
 TODO * Use globals for object properties that need leveling like speed, damage, lifespan, health, score, 
-
-BUG * Crate_Carried does not seem to collide with walls
-
-TEST * While carrying a crate, sometimes the player and the crate end up moving downward automatically. I noticed this if I try to push an enemy (like a Ghost) down. The push works great, but when I let go of the controls, the Player and the Crate continue moving downward, while I would expect them to stop moving.
 
 TODO * Add barrels
 
 TODO * Check for redundant, double effects when 2 objects collide: Only 1 object should manage damage, for example.
 
-LATER * set collision_layer and collision_mask in "_ready()" function for objects, instead of relying only on the inspector. Use GLOBALS.[layernames] with pipe | operator.
+BUG * Crate_Carried does not seem to collide with walls
+
+TEST * While carrying a crate, sometimes the player and the crate end up moving downward automatically. I noticed this if I try to push an enemy (like a Ghost) down. The push works great, but when I let go of the controls, the Player and the Crate continue moving downward, while I would expect them to stop moving.
+
+DONE * Bats are colliding with other Enemies and pushing them. They should go right over the top of all obstacles and characters when flying towards Player target.
+
+DONE * Player Bullets are not colliding with Enemy Spawners, so they cannot be damaged or destroyed.
+
+DONE * set collision_layer and collision_mask in "_ready()" function for objects, instead of relying only on the inspector. Use GLOBALS.[layernames] with pipe | operator.
 ** And cgpt asks "Let me know if you’d like help defining common mask combinations in Globals.gd too (e.g., MASK_PROJECTILE_HITBOX, MASK_CRATE_BLOCKERS, etc.)."
 
-LATER * Crate dropping behavior
+LATER * Crate dropping behavior details
 ```
 Block drop if a wall or object is in the way
 Spawn a small drop animation or sound
