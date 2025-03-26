@@ -12,6 +12,7 @@ radius = 15.0
 [node name="Bat" type="CharacterBody2D" groups=["enemies"]]
 z_index = 2
 collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_wfq8p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

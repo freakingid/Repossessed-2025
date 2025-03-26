@@ -104,6 +104,14 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 		print("Bat collided with player bullet!")
 		take_damage(area.damage)
 		area.take_damage(damage)
+	elif area.is_in_group("nova_shot"):
+		print("Bat collided with nova shot")
+		var _my_health = health
+		# TODO Some concern that we might destroy the Bat before finishing damage to Nova
+		# take damage from the novashot
+		take_damage(area.health)
+		# subtract my original health from novashot
+		area.take_damage(_my_health)
 
 func _on_Hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and not body.invincible:

@@ -1,9 +1,10 @@
 extends Area2D
 
-var nova_health: int = 50  # Total damage it can deal
+var health: int = 50  # Total damage it can deal
 var expand_speed: float = 400.0  # How fast it expands
 var start_size: float = 4.0  # Diameter of nova at start
 var max_size: float = 512.0  # Maximum diameter before disappearing
+
 
 var sprite_size: float = 512.0  # Size of the actual sprite
 var current_scale: float  # Start scale, calculated dynamically
@@ -34,14 +35,16 @@ func _process(delta):
 	sprite.modulate.a = max(0.2, 1.0 - (scale.x / 2))
 
 	# Remove Nova Shot if it runs out of health
-	if nova_health <= 0:
+	if health <= 0:
 		queue_free()
+func take_damage(_damage):
+	health -= _damage
+	if health <= 0:
+		queue_free()  # Nova disappears when health runs out
 
+# Note: This will no process Bat, which is Area2D. Bat is processing.
 func _on_NovaShot_body_entered(body):
 	if body.is_in_group("enemies"):
 		var enemy_health = body.health
-		body.take_damage(nova_health)  # Damage enemy
-		nova_health -= enemy_health  # Reduce Nova health
-
-		if nova_health <= 0:
-			queue_free()  # Nova disappears when health runs out
+		body.take_damage(health)  # Damage enemy
+		take_damage(enemy_health)

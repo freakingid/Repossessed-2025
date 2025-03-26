@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_18qci"]
 radius = 255.947
 
-[node name="NovaShot" type="Area2D"]
+[node name="NovaShot" type="Area2D" groups=["nova_shot"]]
 z_index = 1
 collision_layer = 2
 collision_mask = 4

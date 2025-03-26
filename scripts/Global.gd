@@ -96,7 +96,7 @@ class REAPER:
 	const SCORE = 1
 
 class PLAYER:
-	const SPEED = GHOST.SPEED * 1.1
+	const SPEED = GHOST.SPEED * 1.25
 	const DAMAGE = 2
 	const HEALTH = 50
 	const BULLET_SPEED = 250
