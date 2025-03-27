@@ -1,45 +1,45 @@
-20250326
-DONE * Use globals, maybe some sort of dictionary, for object properties that need leveling
-** These are in Global.gd. which is autoloaded for the project.
+20250327
+BUG * When enemies do not actually change position, their sprites need to stop animation. That is, show an idle animation (which we do not have yet.)
 
-DONE * Nova Shot does not harm Bat
+BUG * When enemies are trying to get to the player but choose to move backwards, they need to change sprite direction so it looks like they are actually going backwards. Right now, they continue to look at the player, so it looks like they are backpedaling.
 
-DONE * Make Crate larger
+BUG * Carried Crate should not be allowed to push over a Static Crate. I think this is similar to the Carried Crate not being blocked by walls.
 
-DONE * Fix Crate_Carried draw order with player directions.
-** Z-index set in code correctly, but the Player had z_index set to 10 in inspector, and zindex is set to relative, and we were changing Player > Sprite2D zindex, so things were off.
+TODO * Player animation and Carried Crate need updated to show better animation of Player carrying Crate
 
-DONE * Test player carrying crate that gets hit by enemy arrows.
-** Arrows bounce as expected
+TODO * I think the Big Shot powerup is not actually altering the size of the Shot, so we cannot actually see that we have the big shot.
 
-DONE * HUD is covered by Crate
-** Assigned Player.HealthBar a z_index
+TODO * Refactor how BaseEnemy and other Enemies set up _ready and stuff
+<quote>
+🛠 Recommended Refactor Strategy
 
-DONE * Adjust Y placement of Carried Crate because now it is larger and covering the player's face.
+✅ Add this to BaseEnemy.gd:
+```
+func _ready():
+	if player:
+		player.melee_hit.connect(_on_player_melee_hit)
+	set_stats()
+	sprite.z_index = Global.Z_BASE_ENEMIES
 
-DONE * Make player carrying crate walk a little slower.
+func set_stats():
+	# Default stats — override in child classes if needed
+	health = 3
+	speed = 25.0
+	damage = 1
+	score_value = 0
+```
 
-DONE * Adding player animated sprites
-
-TODO * Add ghost animated sprites
-
-TODO * Add skeleton animated sprites
-
-TODO * Add skeleton shooter animated sprites
-
-TODO * Add zombie animated sprites
-
-TODO * Add bat animated sprites
-
-NOTE * Animation sprite sheet top to bottom:
-1 South
-2 South East
-3 East
-4 North East
-5 North
-6 South West
-7 West
-8 North West
+✅ In child classes (e.g., Zombie.gd, Ghost.gd):
+Simplify like this:
+```
+func set_stats():
+	health = Global.ZOMBIE.HEALTH
+	speed = Global.ZOMBIE.SPEED
+	damage = Global.ZOMBIE.DAMAGE
+	score_value = Global.ZOMBIE.SCORE
+```
+No need to override _ready() unless doing something else special.
+</quote>
 
 TODO * Simplify is_carried_crate in Player.gd
 ** We don't really need that boolean. We can just test the variable that is to hold the carried crate instance for == null
@@ -70,6 +70,46 @@ Block drop if a wall or object is in the way
 Spawn a small drop animation or sound
 Implement a fallback if no valid space is found
 ```
+
+DONE * Use globals, maybe some sort of dictionary, for object properties that need leveling
+** These are in Global.gd. which is autoloaded for the project.
+
+DONE * Nova Shot does not harm Bat
+
+DONE * Make Crate larger
+
+DONE * Fix Crate_Carried draw order with player directions.
+** Z-index set in code correctly, but the Player had z_index set to 10 in inspector, and zindex is set to relative, and we were changing Player > Sprite2D zindex, so things were off.
+
+DONE * Test player carrying crate that gets hit by enemy arrows.
+** Arrows bounce as expected
+
+DONE * HUD is covered by Crate
+** Assigned Player.HealthBar a z_index
+
+DONE * Adjust Y placement of Carried Crate because now it is larger and covering the player's face.
+
+DONE * Make player carrying crate walk a little slower.
+DONE * Adding player animated sprites
+DONE * Add ghost animated sprites
+DONE * Add skeleton animated sprites
+DONE * Add skeleton shooter animated sprites
+DONE * Add zombie animated sprites
+DONE * Add bat animated sprites
+
+NOTE * Animation sprite sheet top to bottom:
+1 South
+2 South East
+
+3 East
+4 North East
+
+5 North
+6 South West
+
+7 West
+8 North West
+
 
 =================================================
 * Add More enemies

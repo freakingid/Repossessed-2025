@@ -18,7 +18,6 @@ var wander_timer: float = 0  # Timer for random wandering
 @onready var shoot_marker = $Marker2D  # Where arrows spawn
 
 func _ready():
-	super()  # Calls BaseEnemy.gd's _ready()
 	health = Global.SKELETON_SHOOTER.HEALTH
 	speed = Global.SKELETON_SHOOTER.SPEED
 	score_value = Global.SKELETON_SHOOTER.SCORE
@@ -26,7 +25,7 @@ func _ready():
 	fire_timer.wait_time = fire_rate
 	fire_timer.one_shot = true  # ✅ Fire once per cycle
 	fire_timer.timeout.connect(shoot)  # ✅ Connect Timer to shoot function
-	$Sprite2D.z_index = Global.Z_BASE_ENEMIES
+	super()  # Calls BaseEnemy.gd's _ready()
 
 func _process(delta):
 	if show_debug_circles:
@@ -47,6 +46,7 @@ func _process(delta):
 	if distance <= melee_range:
 		if has_line_of_sight():
 			move_towards_player(delta)
+			update_animation()
 			wander_timer = 0  # Reset wandering
 			shots_fired = 0  # Reset shot counter
 		else:
@@ -69,6 +69,7 @@ func _process(delta):
 		# Skeleton is far from player
 		if has_line_of_sight():
 			move_towards_player(delta)  # ✅ Chase player
+			update_animation()
 			wander_timer = 0  # ✅ Reset wandering
 		else:
 			wander(delta)  # ✅ Move randomly

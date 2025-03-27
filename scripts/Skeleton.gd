@@ -11,14 +11,11 @@ var side_step_duration = 1.00  # How many seconds to side-step before retrying f
 var new_direction: Vector2 = Vector2.ZERO  # ✅ Default direction to prevent `nil` errors
 
 func _ready():
-	super()  # Calls BaseEnemy.gd's _ready()
 	health = Global.SKELETON.HEALTH
 	speed = Global.SKELETON.SPEED
 	score_value = Global.SKELETON.SCORE
 	damage = Global.SKELETON.DAMAGE
-
-func _process(delta):
-	move_towards_player(delta)
+	super()  # Calls BaseEnemy.gd's _ready()
 
 func move_towards_player(delta):
 	if player:
