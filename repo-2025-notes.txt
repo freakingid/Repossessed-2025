@@ -19,6 +19,18 @@ DONE * Adjust Y placement of Carried Crate because now it is larger and covering
 
 DONE * Make player carrying crate walk a little slower.
 
+DONE * Adding player animated sprites
+
+TODO * Add ghost animated sprites
+
+TODO * Add skeleton animated sprites
+
+TODO * Add skeleton shooter animated sprites
+
+TODO * Add zombie animated sprites
+
+TODO * Add bat animated sprites
+
 TODO * Simplify is_carried_crate in Player.gd
 ** We don't really need that boolean. We can just test the variable that is to hold the carried crate instance for == null
 
@@ -69,6 +81,30 @@ Want a special effect when bats dash?
 ==============================================
 ## Animations
 ==============================================
+* Player sprite animation speed options ChatGPT mentioned for different styles.
+🔁 Alternate clamp examples
+
+### 🎮 Option 1: Smoother walk cycle for slower movement
+```
+sprite.speed_scale = clamp(actual_speed / max_speed, 0.75, 1.5)
+```
+Prevents animation from ever becoming too slow
+Keeps all animation within a more natural range
+Good for pixel art games that look weird when walking is too slow
+
+### 🐢 Option 2: Emphasize slower speeds dramatically
+```
+sprite.speed_scale = clamp(actual_speed / max_speed, 0.2, 2.0)
+```
+You’ll really see when the player is slowed down (e.g., stunned or carrying something)
+More exaggerated look — could match a cartoony or more expressive style
+
+### ⚡ Option 3: Minimal variation
+```
+sprite.speed_scale = clamp(actual_speed / max_speed, 0.9, 1.1)
+```
+Animation always plays close to normal speed
+Avoids visual drift while still subtly reacting to movement
 
 
 

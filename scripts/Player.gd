@@ -64,9 +64,19 @@ var fire_rate: float
 var max_shots_in_level: int
 var bullet_lifespan: float
 
-@onready var sprite = $Sprite2D  # Ensure your Player has a Sprite2D node
+@onready var sprite = $AnimatedSprite2D
 @onready var hud = get_tree().get_first_node_in_group("hud")
 @onready var health_bar = $HealthBar  # Ensure a ProgressBar exists as a child node
+@onready var DIRECTION_ANIMATIONS := {
+	"walk_e": Vector2.RIGHT,
+	"walk_se": Vector2(1, 1).normalized(),
+	"walk_s": Vector2.DOWN,
+	"walk_sw": Vector2(-1, 1).normalized(),
+	"walk_w": Vector2.LEFT,
+	"walk_nw": Vector2(-1, -1).normalized(),
+	"walk_n": Vector2.UP,
+	"walk_ne": Vector2(1, -1).normalized()
+}
 
 func _ready():
 	# Set default weapon values (to allow normal shooting without powerups)
@@ -78,7 +88,7 @@ func _ready():
 		health_bar.value = health
 	else:
 		print("Error: HealthBar node not found!")
-	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
+	sprite.z_index = Global.Z_PLAYER_AND_CRATES
 	$HealthBar.z_index = Global.Z_UI_FLOATING
 
 
@@ -103,6 +113,9 @@ func _physics_process(_delta):
 	# For understanding where to put carried crate
 	if move_direction != Vector2.ZERO:
 		last_move_direction = move_direction.normalized()
+
+	update_animation()
+
 	
 	# If carrying a crate, we move slower
 	if is_carrying_crate:
@@ -395,6 +408,29 @@ func _on_invincibility_timer_timeout() -> void:
 func collect_gem(amount: int):
 	gem_power += amount
 	update_hud()
+
+func update_animation():
+	if velocity.length() == 0:
+		sprite.stop()
+		return
+
+	var best_match = ""
+	var best_dot = -1.0
+	var dir = last_move_direction.normalized()
+
+	for anim in DIRECTION_ANIMATIONS:
+		var d = DIRECTION_ANIMATIONS[anim]
+		var dot = d.dot(dir)
+		if dot > best_dot:
+			best_dot = dot
+			best_match = anim
+
+	sprite.speed_scale = clamp(velocity.length() / speed, 0.75, 1.5)
+
+	if sprite.animation != best_match:
+		sprite.play(best_match)
+	elif not sprite.is_playing():
+		sprite.play()  # Restart current animation if it had stopped
 
 ## Update HUD specifically for gems collected
 func update_hud():
