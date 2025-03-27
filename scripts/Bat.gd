@@ -91,7 +91,7 @@ func take_damage(amount):
 
 func die():
 	# Drop a gem when the enemy dies
-	var gem = preload("res://Scenes/Gem.tscn").instantiate()
+	var gem = preload("res://scenes/Gem.tscn").instantiate()
 	gem.global_position = global_position
 	gem.gem_power = score_value  # Gem power = enemy score value
 	get_tree().current_scene.call_deferred("add_child", gem)

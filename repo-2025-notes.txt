@@ -17,7 +17,12 @@ DONE * HUD is covered by Crate
 
 DONE * Adjust Y placement of Carried Crate because now it is larger and covering the player's face.
 
-TODO * Make player carrying crate walk a little slower.
+DONE * Make player carrying crate walk a little slower.
+
+TODO * Simplify is_carried_crate in Player.gd
+** We don't really need that boolean. We can just test the variable that is to hold the carried crate instance for == null
+
+TODO * Carried Crate z-index looks odd going left and right
 
 TODO * Check properties in Player.gd vs Bullet.gd that seem to be redundant.
 
