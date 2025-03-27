@@ -31,6 +31,16 @@ TODO * Add zombie animated sprites
 
 TODO * Add bat animated sprites
 
+NOTE * Animation sprite sheet top to bottom:
+1 South
+2 South East
+3 East
+4 North East
+5 North
+6 South West
+7 West
+8 North West
+
 TODO * Simplify is_carried_crate in Player.gd
 ** We don't really need that boolean. We can just test the variable that is to hold the carried crate instance for == null
 

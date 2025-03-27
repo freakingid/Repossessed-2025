@@ -19,6 +19,19 @@ var is_wandering: bool = false  # If the bat is hovering randomly
 
 @onready var timer = $Timer  # A timer node for controlling movement cycles
 @onready var player = get_tree().get_first_node_in_group("player") # player is in BaseEnemy.gd but we're not a child
+@onready var sprite = $AnimatedSprite2D
+
+@onready var DIRECTION_ANIMATIONS := {
+	"walk_e": Vector2.RIGHT,
+	"walk_se": Vector2(1, 1).normalized(),
+	"walk_s": Vector2.DOWN,
+	"walk_sw": Vector2(-1, 1).normalized(),
+	"walk_w": Vector2.LEFT,
+	"walk_nw": Vector2(-1, -1).normalized(),
+	"walk_n": Vector2.UP,
+	"walk_ne": Vector2(1, -1).normalized()
+}
+
 
 func _ready():
 	timer.timeout.connect(_on_timer_timeout)
@@ -33,7 +46,7 @@ func _ready():
 		Global.LAYER_PLAYER |
 		Global.LAYER_PLAYER_BULLET
 	)
-	$Sprite2D.z_index = Global.Z_FLYING_ENEMIES
+	sprite.z_index = Global.Z_FLYING_ENEMIES
 
 
 func _process(_delta):
@@ -41,6 +54,7 @@ func _process(_delta):
 		var direction = (target_position - global_position).normalized()
 		velocity = direction * speed
 		move_and_slide()
+		update_animation()
 
 		if position.distance_to(target_position) < 5:
 			is_dashing = false
@@ -77,6 +91,33 @@ func start_wandering():
 	# Create a Tween dynamically using SceneTreeTween
 	var tween = create_tween()
 	tween.tween_property(self, "position", target_position, wander_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+func update_animation():
+	if velocity.length() == 0:
+		sprite.stop()
+		return
+
+	var dir = velocity.normalized()
+
+	var best_match = ""
+	var best_dot = -1.0
+
+	for anim in DIRECTION_ANIMATIONS:
+		var d = DIRECTION_ANIMATIONS[anim]
+		var dot = d.dot(dir)
+		if dot > best_dot:
+			best_dot = dot
+			best_match = anim
+
+	# Adjust animation speed by how fast bat is moving
+	var max_speed = dash_speed
+	var actual_speed = velocity.length()
+	sprite.speed_scale = clamp(actual_speed / max_speed, 0.75, 1.5)
+
+	if sprite.animation != best_match:
+		sprite.play(best_match)
+	elif not sprite.is_playing():
+		sprite.play()
 
 func take_damage(amount):
 	health -= amount

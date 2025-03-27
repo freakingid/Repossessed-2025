@@ -286,7 +286,7 @@ bullet_scene = ExtResource("2_pqtk7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4rk7l")
-animation = &"walk_ne"
+animation = &"walk_e"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_vlpuv")

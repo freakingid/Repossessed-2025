@@ -11,7 +11,17 @@ extends CharacterBody2D
 @export var separation_strength: float = 75.0  # How strong the push should be
 
 @onready var player = get_tree().get_first_node_in_group("player")
-
+@onready var sprite = $AnimatedSprite2D
+@onready var DIRECTION_ANIMATIONS := {
+	"walk_e": Vector2.RIGHT,
+	"walk_se": Vector2(1, 1).normalized(),
+	"walk_s": Vector2.DOWN,
+	"walk_sw": Vector2(-1, 1).normalized(),
+	"walk_w": Vector2.LEFT,
+	"walk_nw": Vector2(-1, -1).normalized(),
+	"walk_n": Vector2.UP,
+	"walk_ne": Vector2(1, -1).normalized()
+}
 
 func get_bullet_resistance():
 	return health
@@ -19,7 +29,8 @@ func get_bullet_resistance():
 func _ready():
 	if player:
 		player.melee_hit.connect(_on_player_melee_hit)  # ✅ Listen for melee hits
-	$Sprite2D.z_index = Global.Z_BASE_ENEMIES
+	sprite.z_index = Global.Z_BASE_ENEMIES
+
 
 
 func _on_player_melee_hit(_collider):
@@ -42,6 +53,7 @@ func _on_body_entered(body):
 
 func _process(delta):
 	move_towards_player(delta)
+	update_animation()
 
 func move_towards_player(_delta):
 	if player:
@@ -70,6 +82,33 @@ func get_separation_vector() -> Vector2:
 				separation += push_direction / max(distance, 1)  # Prevent division by zero
 
 	return separation.normalized()
+
+func update_animation():
+	if velocity.length() == 0:
+		sprite.stop()
+		return
+
+	var dir = velocity.normalized()
+
+	var best_match = ""
+	var best_dot = -1.0
+
+	for anim in DIRECTION_ANIMATIONS:
+		var d = DIRECTION_ANIMATIONS[anim]
+		var dot = d.dot(dir)
+		if dot > best_dot:
+			best_dot = dot
+			best_match = anim
+
+	# Adjust animation speed based on movement speed
+	var max_speed = speed
+	var actual_speed = velocity.length()
+	sprite.speed_scale = clamp(actual_speed / max_speed, 0.75, 1.5)
+
+	if sprite.animation != best_match:
+		sprite.play(best_match)
+	elif not sprite.is_playing():
+		sprite.play()
 
 func _on_melee_hit(body):
 	if body.is_in_group("player"):
