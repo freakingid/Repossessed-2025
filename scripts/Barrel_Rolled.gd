@@ -29,7 +29,7 @@ func _physics_process(delta):
 	alive_timer += delta
 
 	if alive_timer >= MIN_ROLL_TIME:
-		if linear_velocity.length_squared() < 25.0:
+		if linear_velocity.length_squared() < 25.0: # have we slowed enough to become static?
 			convert_to_static()
 
 func convert_to_static():
@@ -65,9 +65,11 @@ func update_flame():
 		flame_sprite.scale = Vector2.ONE * 1.0
 
 func _on_body_entered(body):
-	if body.has_method("take_damage") and body != self:
-		body.take_damage(1)
-		take_damage(1)  # Barrel also takes damage on impact
+	if body.is_in_group("player_projectiles"):
+		take_damage(body.damage) # damage self (barrel)
+		body.take_damage(1)  # optional projectile reaction
+
+	# For heavier things like enemies/crates, apply bounce or logic here if needed
 
 func explode():
 	if explosion_scene:

@@ -10,14 +10,21 @@ Let me know if you want to:
 * Set up the flame health indicator overlay
 * Create the signal/event pipeline for explode()
 **
+bug * rolling barrels hit by bullets are pushed along by the bullets. Bullets should not add to motion of barrels, because bullets have so little mass.
+** The rolling barrels are also too bouncy off other things. bouncing can sometimes even increase speed.
+
+bug * we made some changes to Bullets so they would not move Barrel_Rolled when hit. However, now the bullets stick to the side of Crate_Static -- and old problem we recently fixed.
+
+bug * Barrel_Static is not getting collisions with Player Bullets.
+** and lets test for others.
+
 done * pickup, carry, and drop barrels
 
 done * make dropped barrels roll
 
-bug * rolling barrels hit by bullets are pushed along by the bullets. Bullets should not add to motion of barrels, because bullets have so little mass.
+DONE * when player is moving down, kicking barrel sends it to the left
 
-bug * when player is moving down, kicking barrel sends it to the left
-
+TODO * How much damage do we want barrel to do to bullets?
 
 BUG * When enemies do not actually change position, their sprites need to stop animation. That is, show an idle animation (which we do not have yet.)
 

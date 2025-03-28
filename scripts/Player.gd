@@ -165,7 +165,6 @@ func _physics_process(_delta):
 
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body):
-	print("Player.gd :: _on_PickupDetector_body_entered with body: ", body)
 	if is_carrying_crate == false and is_carrying_barrel == false:  # can only pickup if we are not carrying anything
 		if body.is_in_group("crates_static"):
 			var direction_to_crate = (body.global_position - global_position).normalized()
@@ -216,11 +215,8 @@ func drop_barrel():
 	if carried_barrel_instance == null:
 		return
 
-	var drop_direction = get_valid_drop_direction(last_move_direction)
+	var drop_direction = last_move_direction.normalized()
 	var drop_position = global_position + drop_direction * 16
-	print("global_position: ", global_position)
-	print("Rolled Barrel drop_position: ", drop_position)
-	print("🎯 Barrel direction: ", drop_direction)
 
 	# Decide if rolling or placing
 	if velocity.length() > 0:
