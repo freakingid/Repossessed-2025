@@ -11,6 +11,9 @@ var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
 var is_carrying_crate = false # Are we carrying a crate?
 var carried_crate_instance: Node = null # The crate we are carrying
 var static_crate_instance: Node = null # The crate we hit for pickup
+var is_carrying_barrel = false # Are we carrying a barrel?
+var carried_barrel_instance: Node = null
+var static_barrel_instance: Node = null
 var speed_modifier: float = 0.9 # slower speed when carrying
 
 var max_health: int = Global.PLAYER.HEALTH  # Max health for HUD bar percent calc
@@ -88,6 +91,12 @@ func _ready():
 		health_bar.value = health
 	else:
 		print("Error: HealthBar node not found!")
+		
+	$PickupDetector.collision_mask = (
+		Global.LAYER_CRATE |
+		Global.LAYER_BARREL
+	)
+	
 	sprite.z_index = Global.Z_PLAYER_AND_CRATES
 	$HealthBar.z_index = Global.Z_UI_FLOATING
 
@@ -134,9 +143,18 @@ func _physics_process(_delta):
 	var aim_direction = Vector2.ZERO
 	aim_direction.x = Input.get_axis("aim_left", "aim_right")
 	aim_direction.y = Input.get_axis("aim_up", "aim_down")
+	#var aim_direction = Vector2(
+		#Input.get_action_strength("aim_right") - Input.get_action_strength("aim_left"),
+		#Input.get_action_strength("aim_down") - Input.get_action_strength("aim_up")
+	#)
 
+	# Crate logic
 	if is_carrying_crate and aim_direction.length() > 0:
 		drop_crate()
+
+	# Barrel logic
+	if is_carrying_barrel and aim_direction.length() > 0:
+		drop_barrel()
 
 	# ✅ Detect melee collisions by checking last slide collision
 	var collision = get_last_slide_collision()
@@ -147,12 +165,20 @@ func _physics_process(_delta):
 
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body):
-	if is_carrying_crate == false and body.is_in_group("crates_static"):
-		var direction_to_crate = (body.global_position - global_position).normalized()
-		if direction_to_crate.dot(last_move_direction) > 0.7:  # facing toward crate
-			if drop_cooldown_timer <= 0.0:
-				static_crate_instance = body
-				is_carrying_crate = true
+	print("Player.gd :: _on_PickupDetector_body_entered with body: ", body)
+	if is_carrying_crate == false and is_carrying_barrel == false:  # can only pickup if we are not carrying anything
+		if body.is_in_group("crates_static"):
+			var direction_to_crate = (body.global_position - global_position).normalized()
+			if direction_to_crate.dot(last_move_direction) > 0.7:  # facing toward crate
+				if drop_cooldown_timer <= 0.0:
+					static_crate_instance = body
+					is_carrying_crate = true
+					body.pickup(self)
+		elif body.is_in_group("barrels_static"):
+			var direction_to_barrel = (body.global_position - global_position).normalized()
+			if direction_to_barrel.dot(last_move_direction) > 0.7 and drop_cooldown_timer <= 0.0:
+				static_barrel_instance = body
+				is_carrying_barrel = true
 				body.pickup(self)
 
 #func pickup_crate(crate_static: Node2D):
@@ -184,6 +210,21 @@ func drop_crate():
 	# Clear carried crate reference and apply cooldown
 	carried_crate_instance.queue_free()  # Or hide if pooling
 	is_carrying_crate = false
+	drop_cooldown_timer = 0.2
+
+func drop_barrel():
+	if carried_barrel_instance == null:
+		return
+
+	var drop_offset = get_valid_drop_direction(last_move_direction) * 16  # distance from player
+	var drop_position = global_position + drop_offset
+
+	# Reactivate the Crate_Static
+	static_barrel_instance.reactivate(drop_position)
+
+	# Clear carried barrel reference and apply cooldown
+	carried_barrel_instance.queue_free()  # Or hide if pooling
+	is_carrying_barrel = false
 	drop_cooldown_timer = 0.2
 
 func get_valid_drop_direction(dir: Vector2) -> Vector2:

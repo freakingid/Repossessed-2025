@@ -10,6 +10,7 @@ const LAYER_POWERUP = 1 << 5              # Layer 6
 const LAYER_ENEMY_PROJECTILE = 1 << 6     # Layer 7
 const LAYER_CRATE = 1 << 7                # Layer 8
 const LAYER_FLYING_ENEMY = 1 << 8         # Layer 9
+const LAYER_BARREL = 1 << 9                # Layer 10
 
 
 # Visual layering constants (z_index values)

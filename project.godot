@@ -98,3 +98,5 @@ lightning={
 2d_physics/layer_6="Powerups"
 2d_physics/layer_7="EnemyProjectile"
 2d_physics/layer_8="Crates"
+2d_physics/layer_9="FlyingEnemy"
+2d_physics/layer_10="Barrels"

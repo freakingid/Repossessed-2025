@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx0l7komeublt"]
+
+[ext_resource type="Texture2D" uid="uid://qlt6jdl6llo6" path="res://assets/sprites/carried_items/barrel2-30x32.png" id="1_d1k2u"]
+[ext_resource type="Script" path="res://scripts/Barrel_Carried.gd" id="1_nltcd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5fk7v"]
+size = Vector2(26, 32)
+
+[node name="BarrelCarried" type="CharacterBody2D" groups=["barrels_carried"]]
+script = ExtResource("1_nltcd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_d1k2u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5fk7v")
+
+[node name="Flame" type="Node" parent="."]

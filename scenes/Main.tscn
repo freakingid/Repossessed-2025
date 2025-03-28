@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=13 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="2_wunoo"]
 [ext_resource type="PackedScene" uid="uid://clobqkwki26f6" path="res://scenes/Powerup.tscn" id="3_dm8pw"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
+[ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/Barrel_Static.tscn" id="3_qvcsg"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/GhostSpawner.tscn" id="3_u8uhy"]
 [ext_resource type="PackedScene" uid="uid://cmdq6h3pgo4ud" path="res://scenes/Crate_Static.tscn" id="3_uflxl"]
 [ext_resource type="PackedScene" uid="uid://dhvyqog8u4031" path="res://scenes/SkeletonSpawner.tscn" id="4_usktm"]
@@ -17,6 +18,15 @@
 [node name="Player" parent="." instance=ExtResource("1_s5xc4")]
 position = Vector2(-147.631, -164.4)
 nova_shot_scene = ExtResource("2_wunoo")
+
+[node name="BarrelStatic" parent="." instance=ExtResource("3_qvcsg")]
+position = Vector2(-119.365, -113.366)
+
+[node name="BarrelStatic2" parent="." instance=ExtResource("3_qvcsg")]
+position = Vector2(173.266, -115.048)
+
+[node name="BarrelStatic3" parent="." instance=ExtResource("3_qvcsg")]
+position = Vector2(-176.546, 308.763)
 
 [node name="CrateStatic" parent="." instance=ExtResource("3_uflxl")]
 z_index = 1

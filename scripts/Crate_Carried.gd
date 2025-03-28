@@ -2,6 +2,15 @@ extends CharacterBody2D
 
 var player: Node = null  # assigned on pickup
 
+func _ready():
+	collision_layer = Global.LAYER_CRATE
+	collision_mask = (
+		Global.LAYER_PLAYER |
+		Global.LAYER_ENEMY |
+		Global.LAYER_SPAWNER
+	)
+	add_to_group("crates_carried")
+
 func _process(_delta):
 	if player:
 		position = player.position + get_offset_based_on_direction(player.last_move_direction)

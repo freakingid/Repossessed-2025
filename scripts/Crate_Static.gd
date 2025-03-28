@@ -4,6 +4,15 @@ extends StaticBody2D
 @onready var collision_shape = $CollisionShape2D
 
 func _ready():
+	collision_layer = Global.LAYER_CRATE
+	collision_mask = (
+		Global.LAYER_PLAYER |
+		Global.LAYER_PLAYER_BULLET |
+		Global.LAYER_ENEMY |
+		Global.LAYER_ENEMY_PROJECTILE |
+		Global.LAYER_SPAWNER
+	)
+	add_to_group("crates_static")
 	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
 
 func pickup(player: Node):
