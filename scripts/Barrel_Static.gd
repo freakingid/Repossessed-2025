@@ -27,7 +27,7 @@ func pickup(player):
 	var carried = carried_scene.instantiate()
 	carried.player = player
 	player.carried_barrel_instance = carried
-	get_tree().current_scene.add_child(carried)
+	get_tree().current_scene.call_deferred("add_child", carried)
 
 func reactivate(position: Vector2):
 	global_position = position

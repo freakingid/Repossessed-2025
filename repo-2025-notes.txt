@@ -1,4 +1,4 @@
-20250327
+20250328
 TODO * Add barrels
 ** Barrel next steps, according to ChatGPT:
 ✅ Next steps
@@ -12,7 +12,12 @@ Let me know if you want to:
 **
 done * pickup, carry, and drop barrels
 
-todo * make dropped barrels roll
+done * make dropped barrels roll
+
+bug * rolling barrels hit by bullets are pushed along by the bullets. Bullets should not add to motion of barrels, because bullets have so little mass.
+
+bug * when player is moving down, kicking barrel sends it to the left
+
 
 BUG * When enemies do not actually change position, their sprites need to stop animation. That is, show an idle animation (which we do not have yet.)
 
@@ -84,6 +89,14 @@ Spawn a small drop animation or sound
 Implement a fallback if no valid space is found
 ```
 
+
+
+
+
+
+
+
+20250327
 DONE * Use globals, maybe some sort of dictionary, for object properties that need leveling
 ** These are in Global.gd. which is autoloaded for the project.
 

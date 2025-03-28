@@ -17,4 +17,4 @@ texture = ExtResource("1_6o1vi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ia0gt")
 
-[node name="Flame" type="Node" parent="."]
+[node name="FlameSprite" type="Sprite2D" parent="."]

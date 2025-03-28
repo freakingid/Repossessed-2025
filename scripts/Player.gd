@@ -216,14 +216,26 @@ func drop_barrel():
 	if carried_barrel_instance == null:
 		return
 
-	var drop_offset = get_valid_drop_direction(last_move_direction) * 16  # distance from player
-	var drop_position = global_position + drop_offset
+	var drop_direction = get_valid_drop_direction(last_move_direction)
+	var drop_position = global_position + drop_direction * 16
+	print("global_position: ", global_position)
+	print("Rolled Barrel drop_position: ", drop_position)
+	print("🎯 Barrel direction: ", drop_direction)
 
-	# Reactivate the Crate_Static
-	static_barrel_instance.reactivate(drop_position)
+	# Decide if rolling or placing
+	if velocity.length() > 0:
+		# Spawn Barrel_Rolled
+		var rolled_scene = preload("res://scenes/Barrel_Rolled.tscn")
+		var barrel = rolled_scene.instantiate()
+		barrel.global_position = drop_position
+		barrel.linear_velocity = drop_direction * 300  # Adjust launch speed
+		get_tree().current_scene.call_deferred("add_child", barrel)
+	else:
+		# Reactivate static barrel
+		static_barrel_instance.reactivate(drop_position)
 
-	# Clear carried barrel reference and apply cooldown
-	carried_barrel_instance.queue_free()  # Or hide if pooling
+	# Clear carried state
+	carried_barrel_instance.queue_free()
 	is_carrying_barrel = false
 	drop_cooldown_timer = 0.2
 

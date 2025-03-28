@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://wf4rvmfbmqv7"]
+
+[ext_resource type="Script" path="res://scripts/Barrel_Rolled.gd" id="1_8sfnh"]
+[ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/Barrel_Static.tscn" id="2_1g8rn"]
+[ext_resource type="Texture2D" uid="uid://qlt6jdl6llo6" path="res://assets/sprites/carried_items/barrel2-30x32.png" id="2_ajbqi"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cjeeb"]
+bounce = 0.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bo648"]
+size = Vector2(26, 32)
+
+[node name="BarrelRolled" type="RigidBody2D" groups=["barrels_rolled"]]
+physics_material_override = SubResource("PhysicsMaterial_cjeeb")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 1.0
+angular_damp = 2.0
+script = ExtResource("1_8sfnh")
+static_barrel_scene = ExtResource("2_1g8rn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ajbqi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bo648")
+
+[node name="FlameSprite" type="Sprite2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
