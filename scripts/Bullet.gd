@@ -43,12 +43,32 @@ func _ready():
 
 # ✅ Manual velocity update to avoid Godot applying physics impulses
 func _integrate_forces(state: PhysicsDirectBodyState2D):
-	state.linear_velocity = direction.normalized() * speed
+	var new_velocity = direction.normalized() * speed
+
+	for i in range(state.get_contact_count()):
+		var collider = state.get_contact_collider_object(i)
+		var normal = state.get_contact_local_normal(i)
+
+		if not collider:
+			continue
+
+		# ❌ DO NOT bounce off barrels — just damage them elsewhere
+		if collider.is_in_group("barrels_static") or collider.is_in_group("barrels_rolled"):
+			continue
+
+		# ✅ Bounce off crates — both static and carried
+		if collider.is_in_group("crates_static") or collider.is_in_group("crates_carried"):
+			new_velocity = new_velocity.bounce(normal)
+			direction = new_velocity.normalized()
+			break  # Only handle one bounce per frame
+
+	state.linear_velocity = new_velocity
 
 # Handle collision events
 func _on_body_entered(body):
-	if body.is_in_group("crates"):
-		return  # Crates bounce handled separately if needed
+	if body.is_in_group("barrels_static") or body.is_in_group("barrels_rolled"):
+		body.take_damage(damage)
+		queue_free()
 
 	elif body.is_in_group("walls"):
 		if bounce_shot:
@@ -62,10 +82,6 @@ func _on_body_entered(body):
 		queue_free()
 
 	elif body.is_in_group("spawners"):
-		body.take_damage(damage)
-		queue_free()
-
-	elif body.is_in_group("barrels_rolled"):
 		body.take_damage(damage)
 		queue_free()
 

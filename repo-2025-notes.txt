@@ -1,28 +1,5 @@
-20250328
-TODO * Add barrels
-** Barrel next steps, according to ChatGPT:
-✅ Next steps
-Let me know if you want to:
-
-* Start building the Barrel_Static.tscn and Barrel_Carried.tscn
-* Implement the Barrel_Rolled physics-based drop and motion
-* Define the Shrapnel scene and damage logic
-* Set up the flame health indicator overlay
-* Create the signal/event pipeline for explode()
-**
-bug * rolling barrels hit by bullets are pushed along by the bullets. Bullets should not add to motion of barrels, because bullets have so little mass.
-** The rolling barrels are also too bouncy off other things. bouncing can sometimes even increase speed.
-
-bug * we made some changes to Bullets so they would not move Barrel_Rolled when hit. However, now the bullets stick to the side of Crate_Static -- and old problem we recently fixed.
-
-bug * Barrel_Static is not getting collisions with Player Bullets.
-** and lets test for others.
-
-done * pickup, carry, and drop barrels
-
-done * make dropped barrels roll
-
-DONE * when player is moving down, kicking barrel sends it to the left
+20250331
+bug * Barrel Carried does not have all the properties and such we need for taking damage, etc.
 
 TODO * How much damage do we want barrel to do to bullets?
 
@@ -95,6 +72,41 @@ Block drop if a wall or object is in the way
 Spawn a small drop animation or sound
 Implement a fallback if no valid space is found
 ```
+
+
+
+
+
+
+
+
+20250328
+TODO * Add barrels
+** Barrel next steps, according to ChatGPT:
+✅ Next steps
+Let me know if you want to:
+
+* Start building the Barrel_Static.tscn and Barrel_Carried.tscn
+* Implement the Barrel_Rolled physics-based drop and motion
+* Define the Shrapnel scene and damage logic
+* Set up the flame health indicator overlay
+* Create the signal/event pipeline for explode()
+**
+
+DONE * rolling barrels hit by bullets are pushed along by the bullets. Bullets should not add to motion of barrels, because bullets have so little mass.
+** The rolling barrels are also too bouncy off other things. bouncing can sometimes even increase speed.
+
+DONE * we made some changes to Bullets so they would not move Barrel_Rolled when hit. However, now the bullets stick to the side of Crate_Static -- and old problem we recently fixed.
+
+DONE * Barrel_Static is not getting collisions with Player Bullets.
+** and lets test for others.
+
+DONE * pickup, carry, and drop barrels
+
+DONE * make dropped barrels roll
+
+DONE * when player is moving down, kicking barrel sends it to the left
+
 
 
 
