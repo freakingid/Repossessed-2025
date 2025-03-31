@@ -1,5 +1,15 @@
 20250331
-bug * Barrel Carried does not have all the properties and such we need for taking damage, etc.
+DONE * Barrel Carried does not have all the properties and such we need for taking damage, etc.
+
+TODO * More about barrels?
+Some CGPT Notes on what might be next for barrels:
+<quote>
+Add shrapnel behavior to the explode() function
+
+Or visually sync the flame state between carried/rolled/static barrels when they're picked up or dropped.
+</quote>
+
+BUG * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing.
 
 TODO * How much damage do we want barrel to do to bullets?
 

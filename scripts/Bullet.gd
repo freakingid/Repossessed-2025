@@ -66,7 +66,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 # Handle collision events
 func _on_body_entered(body):
-	if body.is_in_group("barrels_static") or body.is_in_group("barrels_rolled"):
+	if (
+		body.is_in_group("barrels_static") or 
+		body.is_in_group("barrels_rolled") or 
+		body.is_in_group("barrels_carried")
+	):
 		body.take_damage(damage)
 		queue_free()
 
