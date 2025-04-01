@@ -13,8 +13,8 @@ func _ready():
 	add_to_group("barrels_carried")
 	sprite.z_index = Global.Z_PLAYER_AND_CRATES
 	if flame_sprite:
-		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES + 1
-		flame_sprite.play()
+		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME
+		BarrelUtils.set_barrel_state(self, flame_sprite, health, max_health)
 
 	collision_layer = Global.LAYER_BARREL
 	collision_mask = (

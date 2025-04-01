@@ -140,7 +140,6 @@ func _on_body_entered(body):
 		body.is_in_group("barrels_rolled") or 
 		body.is_in_group("barrels_carried")
 	):
-		print("Player bullet hit some sort of barrel")
 		body.take_damage(damage)
 		queue_free()
 	

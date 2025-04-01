@@ -206,7 +206,6 @@ func drop_barrel():
 	# Decide if rolling or placing
 	if velocity.length() > 0:
 		# Spawn Barrel_Rolled
-		print("Player trying to KICK drop_barrel() with carried_barrel_instance having health == ", carried_barrel_instance.health)
 		var rolled_scene = preload("res://scenes/Barrel_Rolled.tscn")
 		var barrel = rolled_scene.instantiate()
 		barrel.global_position = drop_position
@@ -220,7 +219,6 @@ func drop_barrel():
 		get_tree().current_scene.call_deferred("add_child", barrel)
 	else:
 		# Reactivate static barrel
-		print("Player trying to DROP drop_barrel() with carried_barrel_instance having health == ", carried_barrel_instance.health)
 		# Update Barrel Static with current health
 		static_barrel_instance.health = carried_barrel_instance.health
 		static_barrel_instance.max_health = carried_barrel_instance.max_health
@@ -277,8 +275,6 @@ func _process(_delta):
 			can_shoot = false
 			await get_tree().create_timer(fire_rate).timeout
 			can_shoot = true
-		else:
-			print("Player fire input but not carrying and can_shoot == ", can_shoot)
 
 	# Fire nova shot
 	if Input.is_action_just_pressed("nova_attack"):

@@ -12,12 +12,12 @@ var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
 var drop_invincibility_timer := 0.0
 
 func _ready():
-	print("Barrel Static _ready() fired with health == ", health, " and max_health == ", max_health)
 	add_to_group("barrels_static")
 	sprite.z_index = Global.Z_PLAYER_AND_CRATES
+
 	if flame_sprite:
-		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES + 1
-		flame_sprite.play()
+		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME
+		BarrelUtils.update_flame(flame_sprite, health, max_health)  # ✅ Add this
 
 	collision_layer = Global.LAYER_BARREL
 	collision_mask = (
@@ -37,7 +37,6 @@ func _physics_process(delta):
 
 ## What happens when the player picks up the Barrel?
 func pickup(player):
-	print("Barrel Static being picked up and has health == ", health, " and max_health == ", max_health)
 	# Make us invisible
 	visible = false
 	
@@ -50,7 +49,6 @@ func pickup(player):
 	var carried = carried_scene.instantiate()
 	carried.player = player
 	BarrelUtils.set_barrel_state(carried, carried.flame_sprite, health, max_health)
-	print("Setup Carried Barrel to: health == ", carried.health, " max_health == ", carried.max_health)
 	player.carried_barrel_instance = carried
 	get_tree().current_scene.call_deferred("add_child", carried)
 
@@ -72,7 +70,6 @@ func reactivate(position: Vector2):
 
 func take_damage(amount: int):
 	if drop_invincibility_timer > 0.0:
-		print("Barrel is temporarily invincible after being dropped.")
 		return
 
 	health -= amount

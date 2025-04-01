@@ -31,7 +31,7 @@ region = Rect2(64, 0, 16, 16)
 atlas = ExtResource("3_y8oa3")
 region = Rect2(80, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_8k74g"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_6xew6"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -67,6 +67,7 @@ texture = ExtResource("1_d1k2u")
 shape = SubResource("RectangleShape2D_5fk7v")
 
 [node name="FlameSprite" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_8k74g")
+position = Vector2(0, -9)
+sprite_frames = SubResource("SpriteFrames_6xew6")
 animation = &"flame"
-frame_progress = 0.136336
+offset = Vector2(0, -8)

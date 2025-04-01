@@ -12,6 +12,10 @@ static func update_flame(flame_sprite: AnimatedSprite2D, health: int, max_health
 
 	if ratio > 0.9:
 		flame_sprite.visible = false
+		flame_sprite.stop()
+		flame_sprite.frame = 0  # Force it to show the first (non-fire) frame
+		flame_sprite.scale = Vector2.ONE
+		flame_sprite.modulate = Color(1, 1, 1)
 	elif ratio > 0.7:
 		flame_sprite.visible = true
 		flame_sprite.scale = Vector2.ONE * 0.4
@@ -45,22 +49,26 @@ static func set_barrel_state(barrel: Node, flame_sprite: AnimatedSprite2D, h: in
 	barrel.max_health = max_h
 	update_flame(flame_sprite, h, max_h)
 	if flame_sprite:
-		flame_sprite.play()
-
+		if flame_sprite.visible:
+			flame_sprite.play()
+		else:
+			flame_sprite.stop()
+			flame_sprite.scale = Vector2.ONE
+			flame_sprite.modulate = Color(1, 1, 1)
 
 # Handle taking damage and possibly exploding
-static func take_damage(barrel: Node, amount: int, explosion_scene: PackedScene) -> void:
-	if not barrel.has_method("queue_free"):
-		return
-
-	barrel.health -= amount
-
-	if barrel.has_node("FlameSprite"):
-		update_flame(barrel.get_node("FlameSprite"), barrel.health, barrel.max_health)
-
-	if barrel.health <= 0:
-		explode(barrel.global_position, explosion_scene)
-		barrel.queue_free()
+#static func take_damage(barrel: Node, amount: int, explosion_scene: PackedScene) -> void:
+	#if not barrel.has_method("queue_free"):
+		#return
+#
+	#barrel.health -= amount
+#
+	#if barrel.has_node("FlameSprite"):
+		#update_flame(barrel.get_node("FlameSprite"), barrel.health, barrel.max_health)
+#
+	#if barrel.health <= 0:
+		#explode(barrel.global_position, explosion_scene)
+		#barrel.queue_free()
 
 # Shared initialization
 static func init_barrel(barrel: Node, layer: int, mask: int, group: String) -> void:

@@ -11,16 +11,20 @@ DONE * Seems like maybe health is not getting transferred all the time when swit
 DONE * Yes, bullets are being fired when releasing a Barrel Carried, and we do not want that.
 ** Setting timer to make bullets wait isn't working. Could troubleshoot that but it makes more sense to tell the Barrel to not care about bullet collisions for a short period of time with a Timer when the Barrel Static or Barrel Rolled is first instantiated.
 
-BUG * Why do the barrels start out with flames already??
+DONE * Why do the barrels start out with flames already??
 
 TODO * Add shrapnel behavior on barrel explosion.
 
-BUG * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing.
+TODO * When Barrel_Carried is kicked and becomes Barrel_Rolled, it takes a bit too long to turn back into Barrel_Static. One problem with this is that while it is Barrel_Rolled, it might appear to be standing still, but it has not yet turned back into Barrel_Static, so when the player tries to pick it up, the Barrel is kicked again instead.
 
 TODO * How do we create multiple rooms in our game?
 a. Player properties such as score, health, current powerups, etcetera should all carry over between levels.
 b. Eventually, we will want the status of levels to be saved, so if the player reenters those levels later, they will contain the same objects, enemies, and so forth, in the same conditions as they were when the player last left the room.
 c. We will use a simple door node / sprite to move from one level to the next.
+
+BUG * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing.
+
+LATER * It seems like more functions could be handled from BarrelUtils.gd for Barrel_Statid, Barrel_Rolled, and Barrel_Carried. Check it out.
 
 TODO * Player jumping over crate placed in front of them while they are running.
 ** We are almost there, maybe accidentally. But the z_index of player shows them underneath the dropped barrel. Fix that, and make player sprite grow larger as it "jumps" and grow smaller as it "lands"

@@ -14,12 +14,11 @@ var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
 var drop_invincibility_timer := 0.0
 
 func _ready():
-	print("Barrel Rolled _ready() fires with health == ", health, " and max_health == ", max_health)
 	add_to_group("barrels_rolled")
 	sprite.z_index = Global.Z_PLAYER_AND_CRATES
 	if flame_sprite:
-		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES + 1
-		flame_sprite.play()
+		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME
+		BarrelUtils.set_barrel_state(self, flame_sprite, health, max_health)
 
 	collision_layer = Global.LAYER_BARREL
 	collision_mask = (
@@ -47,20 +46,17 @@ func _physics_process(delta):
 			convert_to_static()
 
 func convert_to_static():
-	print("Barrel Rolled converting to static and has health == ", health, " and max_health == ", max_health)
 	if !is_inside_tree():
 		return
 	
 	var static_barrel = static_barrel_scene.instantiate()
 	static_barrel.global_position = global_position
 	BarrelUtils.set_barrel_state(static_barrel, static_barrel.flame_sprite, health, max_health)
-	print("Barrel Static just created and set with health == ", static_barrel.health, " and max_health == ", static_barrel.max_health)
 	get_tree().current_scene.call_deferred("add_child", static_barrel)
 	queue_free()
 
 func take_damage(amount: int):
 	if drop_invincibility_timer > 0.0:
-		print("Barrel is temporarily invincible after being dropped.")
 		return
 
 	health -= amount
