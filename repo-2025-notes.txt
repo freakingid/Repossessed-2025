@@ -1,21 +1,20 @@
 20250401
-WORK * Show flames on barrels at various levels of damage and make sure health / flame crosses over when barrels transition to different types of barrels. Damage levels should be as follows:
+DONE * Show flames on barrels at various levels of damage and make sure health / flame crosses over when barrels transition to different types of barrels. Damage levels should be as follows:
 100% to 90% health = no flames
 90% to 70% = small red flames
 70% to 50% = medium red flames
 50% to 30% = large yellow flames
 30% to 0% = huge white-yellow flames
 
-DONE * Seems like maybe health is not getting transferred all the time when switching barrel types.
+DONE * When Barrel_Carried is kicked and becomes Barrel_Rolled, it takes a bit too long to turn back into Barrel_Static. One problem with this is that while it is Barrel_Rolled, it might appear to be standing still, but it has not yet turned back into Barrel_Static, so when the player tries to pick it up, the Barrel is kicked again instead. I just removed the "amount of time the barrel should roll," because I want us to just pay attention to when the Barrel Roll is almost done moving.
+Then we increased the linear_velocity.length_squared() check so if we're moving < 8 speed we are considered to be stopped.
 
-DONE * Yes, bullets are being fired when releasing a Barrel Carried, and we do not want that.
-** Setting timer to make bullets wait isn't working. Could troubleshoot that but it makes more sense to tell the Barrel to not care about bullet collisions for a short period of time with a Timer when the Barrel Static or Barrel Rolled is first instantiated.
-
-DONE * Why do the barrels start out with flames already??
+TODO * Check Enemy arrows against walls, crates, barrels
 
 TODO * Add shrapnel behavior on barrel explosion.
+** Include screen shake upon barrel explosion.
 
-TODO * When Barrel_Carried is kicked and becomes Barrel_Rolled, it takes a bit too long to turn back into Barrel_Static. One problem with this is that while it is Barrel_Rolled, it might appear to be standing still, but it has not yet turned back into Barrel_Static, so when the player tries to pick it up, the Barrel is kicked again instead.
+TODO * Check behavior of multiple barrels colliding and pushing each other.
 
 TODO * How do we create multiple rooms in our game?
 a. Player properties such as score, health, current powerups, etcetera should all carry over between levels.
@@ -124,6 +123,12 @@ Player _physics_process
 * drop_barrel():
 ** Decides if we should drop or place barrel, based on player's velocity.
 
+DONE * Seems like maybe health is not getting transferred all the time when switching barrel types.
+
+DONE * Yes, bullets are being fired when releasing a Barrel Carried, and we do not want that.
+** Setting timer to make bullets wait isn't working. Could troubleshoot that but it makes more sense to tell the Barrel to not care about bullet collisions for a short period of time with a Timer when the Barrel Static or Barrel Rolled is first instantiated.
+
+DONE * Why do the barrels start out with flames already??
 
 
 
@@ -132,6 +137,7 @@ Player _physics_process
 
 
 
+==================================================
 20250331
 DONE * Barrel Carried does not have all the properties and such we need for taking damage, etc.
 
