@@ -229,7 +229,7 @@ func drop_barrel():
 		# ✅ Transfer health and flame
 		barrel.health = carried_barrel_instance.health
 		barrel.max_health = carried_barrel_instance.max_health
-		barrel.update_flame()
+		BarrelUtils.update_flame(barrel.flame_sprite, barrel.health, barrel.max_health)
 
 		get_tree().current_scene.call_deferred("add_child", barrel)
 	else:
