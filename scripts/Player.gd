@@ -176,9 +176,10 @@ func _on_PickupDetector_body_entered(body):
 		elif body.is_in_group("barrels_static"):
 			var direction_to_barrel = (body.global_position - global_position).normalized()
 			if direction_to_barrel.dot(last_move_direction) > 0.7 and drop_cooldown_timer <= 0.0:
-				static_barrel_instance = body
-				is_carrying_barrel = true
-				body.pickup(self)
+				if drop_cooldown_timer <= 0.0:
+					static_barrel_instance = body
+					is_carrying_barrel = true
+					body.pickup(self)
 
 #func pickup_crate(crate_static: Node2D):
 	#if is_carrying_crate:
@@ -214,6 +215,7 @@ func drop_crate():
 func drop_barrel():
 	if carried_barrel_instance == null:
 		return
+	
 
 	var drop_direction = last_move_direction.normalized()
 	var drop_position = global_position + drop_direction * 16
@@ -221,6 +223,7 @@ func drop_barrel():
 	# Decide if rolling or placing
 	if velocity.length() > 0:
 		# Spawn Barrel_Rolled
+		print("Player trying to KICK drop_barrel() with carried_barrel_instance having health == ", carried_barrel_instance.health)
 		var rolled_scene = preload("res://scenes/Barrel_Rolled.tscn")
 		var barrel = rolled_scene.instantiate()
 		barrel.global_position = drop_position
@@ -234,6 +237,10 @@ func drop_barrel():
 		get_tree().current_scene.call_deferred("add_child", barrel)
 	else:
 		# Reactivate static barrel
+		print("Player trying to DROP drop_barrel() with carried_barrel_instance having health == ", carried_barrel_instance.health)
+		# Update Barrel Static with current health
+		static_barrel_instance.health = carried_barrel_instance.health
+		static_barrel_instance.max_health = carried_barrel_instance.max_health
 		static_barrel_instance.reactivate(drop_position)
 
 	# Clear carried state

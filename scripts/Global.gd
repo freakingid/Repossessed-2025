@@ -110,6 +110,10 @@ class PLAYER:
 	const BULLET_BASE_FIRE_RATE = 0.2
 	const BULLET_BASE_MAX_SHOTS = 3
 
+class BARREL:
+	const HEALTH = 20
+	const DAMAGE = BARREL.HEALTH
+
 
 # Some properties are not in here because they don't seem like leveling choices
 # We didn't put Gem properties in here

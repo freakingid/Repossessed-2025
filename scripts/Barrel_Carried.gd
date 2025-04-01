@@ -5,8 +5,8 @@ class_name Barrel_Carried
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var flame_sprite: AnimatedSprite2D = $FlameSprite
 
-var health: int = 10
-var max_health: int = 10
+var max_health: int = Global.BARREL.HEALTH
+var health: int = Global.BARREL.HEALTH
 var player: Node2D
 
 func _ready():

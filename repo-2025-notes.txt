@@ -1,8 +1,4 @@
-20250331
-DONE * Barrel Carried does not have all the properties and such we need for taking damage, etc.
-
-DONE * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing, moving chaotically from side to side along the length of the wall, until the bullet's lifespan has expired and the bullet is destroyed.
-
+20250401
 WORK * Show flames on barrels at various levels of damage and make sure health / flame crosses over when barrels transition to different types of barrels. Damage levels should be as follows:
 100% to 90% health = no flames
 90% to 70% = small red flames
@@ -10,10 +6,11 @@ WORK * Show flames on barrels at various levels of damage and make sure health /
 50% to 30% = large yellow flames
 30% to 0% = huge white-yellow flames
 
-** Seems like maybe health is not getting transferred all the time when switching barrel types.
+DONE * Seems like maybe health is not getting transferred all the time when switching barrel types.
 
-** TEST whether bullets are being fired at the time of kicking a carried barrel. There should be a delay so the barrel doesn't take a Bullet hit right when it is kicked.
+BUG * Yes, bullets are being fired when releasing a Barrel Carried, and we do not want that.
 
+BUG * Why do the barrels start out with flames already??
 
 TODO * Add shrapnel behavior on barrel explosion.
 
@@ -101,6 +98,40 @@ Spawn a small drop animation or sound
 Implement a fallback if no valid space is found
 ```
 
+========================================================
+== NOTES On Barrel and Crate Pickups
+=========================================================
+# Picking up a Crate or Barrel
+Player _on_PickupDetector_body_entered
+* Make sure we are not carrying a barrel or a crate already.
+* Make sure drop cooldown timer has passed
+* Get instance to the item to be picked up
+* Call "pickup(self::Player)" on the item to be picked up (Crate Static or Barrel Static)
+
+Barrel_Static pickup(player)
+* Become invisible and deactivate physics, for Static
+* Get instance to the Barrel Carried
+* Setup flame and health on that instance
+* we're good
+
+Player _physics_process
+* Handles input, firing input checks for carried objects, calls drop_crate() or drop_barrel() if needed.
+* drop_barrel():
+** Decides if we should drop or place barrel, based on player's velocity.
+
+
+
+
+
+
+
+
+
+20250331
+DONE * Barrel Carried does not have all the properties and such we need for taking damage, etc.
+
+DONE * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing, moving chaotically from side to side along the length of the wall, until the bullet's lifespan has expired and the bullet is destroyed.
+
 
 
 
@@ -109,7 +140,7 @@ Implement a fallback if no valid space is found
 
 
 20250328
-TODO * Add barrels
+DONE * Add barrels
 ** Barrel next steps, according to ChatGPT:
 ✅ Next steps
 Let me know if you want to:

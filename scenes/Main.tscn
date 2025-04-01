@@ -22,12 +22,6 @@ nova_shot_scene = ExtResource("2_wunoo")
 [node name="BarrelStatic" parent="." instance=ExtResource("3_qvcsg")]
 position = Vector2(-119.365, -113.366)
 
-[node name="BarrelStatic2" parent="." instance=ExtResource("3_qvcsg")]
-position = Vector2(173.266, -115.048)
-
-[node name="BarrelStatic3" parent="." instance=ExtResource("3_qvcsg")]
-position = Vector2(-176.546, 308.763)
-
 [node name="CrateStatic" parent="." instance=ExtResource("3_uflxl")]
 z_index = 1
 position = Vector2(-191.384, 56.4606)

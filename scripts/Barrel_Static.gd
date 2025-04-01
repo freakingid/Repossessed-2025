@@ -6,10 +6,11 @@ class_name Barrel_Static
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var flame_sprite: AnimatedSprite2D = $FlameSprite
 
-var health: int = 10
-var max_health: int = 10
+var max_health: int = Global.BARREL.HEALTH # max_health to calculate percent health left
+var health: int = Global.BARREL.HEALTH # health is actual, current health
 
 func _ready():
+	print("Barrel Static _ready() fired with health == ", health, " and max_health == ", max_health)
 	add_to_group("barrels_static")
 	sprite.z_index = Global.Z_PLAYER_AND_CRATES
 	if flame_sprite:
@@ -25,22 +26,28 @@ func _ready():
 		Global.LAYER_SPAWNER
 	)
 
+## What happens when the player picks up the Barrel?
 func pickup(player):
+	print("Barrel Static being picked up and has health == ", health, " and max_health == ", max_health)
+	# Make us invisible
 	visible = false
+	
+	# Make us not collide
 	collision_layer = 0
 	collision_mask = 0
 	set_physics_process(false)
 
+	# Make an instance of the Barrel_Carried
 	var carried = carried_scene.instantiate()
 	carried.player = player
 	BarrelUtils.set_barrel_state(carried, carried.flame_sprite, health, max_health)
+	print("Setup Carried Barrel to: health == ", carried.health, " max_health == ", carried.max_health)
 	player.carried_barrel_instance = carried
 	get_tree().current_scene.call_deferred("add_child", carried)
 
 func reactivate(position: Vector2):
 	global_position = position
 	visible = true
-	health = max_health
 	if flame_sprite:
 		flame_sprite.play()
 		BarrelUtils.update_flame(flame_sprite, health, max_health)
