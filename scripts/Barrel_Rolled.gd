@@ -24,6 +24,8 @@ func _ready():
 	)
 	add_to_group("barrels_rolled")
 	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
+	$FlameSprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME
+	update_flame()
 
 func _physics_process(delta):
 	alive_timer += delta
@@ -39,8 +41,13 @@ func convert_to_static():
 
 	var static_barrel = static_barrel_scene.instantiate()
 	static_barrel.global_position = global_position
-	get_tree().current_scene.call_deferred("add_child", static_barrel)
 
+	# ✅ Transfer health and update flame on new static barrel
+	static_barrel.health = health  # ✅ Preserve health
+	static_barrel.max_health = max_health
+	static_barrel.update_flame()  # ✅ Sync flame size/color
+
+	get_tree().current_scene.call_deferred("add_child", static_barrel)
 	queue_free()
 
 func take_damage(amount: int):
@@ -54,15 +61,28 @@ func update_flame():
 	if not flame_sprite:
 		return
 
+	flame_sprite.play("flame")
+
 	var ratio = float(health) / float(max_health)
-	if ratio > 0.66:
+
+	if ratio > 0.9:
 		flame_sprite.visible = false
-	elif ratio > 0.33:
-		flame_sprite.visible = true
-		flame_sprite.scale = Vector2.ONE * 0.5
-	else:
+	elif ratio > 0.7:
 		flame_sprite.visible = true
 		flame_sprite.scale = Vector2.ONE * 1.0
+		flame_sprite.modulate = Color(1, 0, 0)  # 🔥 Red
+	elif ratio > 0.5:
+		flame_sprite.visible = true
+		flame_sprite.scale = Vector2.ONE * 1.3
+		flame_sprite.modulate = Color(1, 0, 0)  # 🔥 Red
+	elif ratio > 0.3:
+		flame_sprite.visible = true
+		flame_sprite.scale = Vector2.ONE * 1.7
+		flame_sprite.modulate = Color(1, 1, 0)  # 🔥 Yellow
+	else:
+		flame_sprite.visible = true
+		flame_sprite.scale = Vector2.ONE * 2.0
+		flame_sprite.modulate = Color(1, 1, 0.9)  # 🔥 White-yellow
 
 func _on_body_entered(body):
 	if body.is_in_group("player_projectiles"):
@@ -72,6 +92,7 @@ func _on_body_entered(body):
 	# For heavier things like enemies/crates, apply bounce or logic here if needed
 
 func explode():
+	print("Barrel Rolled Exploded")
 	if explosion_scene:
 		var explosion = explosion_scene.instantiate()
 		explosion.global_position = global_position

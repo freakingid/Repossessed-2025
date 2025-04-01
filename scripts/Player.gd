@@ -225,6 +225,12 @@ func drop_barrel():
 		var barrel = rolled_scene.instantiate()
 		barrel.global_position = drop_position
 		barrel.linear_velocity = drop_direction * 300  # Adjust launch speed
+
+		# ✅ Transfer health and flame
+		barrel.health = carried_barrel_instance.health
+		barrel.max_health = carried_barrel_instance.max_health
+		barrel.update_flame()
+
 		get_tree().current_scene.call_deferred("add_child", barrel)
 	else:
 		# Reactivate static barrel

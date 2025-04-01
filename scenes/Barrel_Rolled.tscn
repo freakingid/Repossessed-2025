@@ -1,14 +1,65 @@
-[gd_scene load_steps=6 format=3 uid="uid://wf4rvmfbmqv7"]
+[gd_scene load_steps=14 format=3 uid="uid://wf4rvmfbmqv7"]
 
 [ext_resource type="Script" path="res://scripts/Barrel_Rolled.gd" id="1_8sfnh"]
 [ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/Barrel_Static.tscn" id="2_1g8rn"]
 [ext_resource type="Texture2D" uid="uid://qlt6jdl6llo6" path="res://assets/sprites/carried_items/barrel2-30x32.png" id="2_ajbqi"]
+[ext_resource type="Texture2D" uid="uid://dnfkt2e3akgpv" path="res://assets/sprites/carried_items/fpo-flame.png" id="4_okgwp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cjeeb"]
 bounce = 0.5
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bo648"]
 size = Vector2(26, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aalyu"]
+atlas = ExtResource("4_okgwp")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kt6x"]
+atlas = ExtResource("4_okgwp")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0vei"]
+atlas = ExtResource("4_okgwp")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2al7h"]
+atlas = ExtResource("4_okgwp")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g84ct"]
+atlas = ExtResource("4_okgwp")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lp63p"]
+atlas = ExtResource("4_okgwp")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h3yv3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aalyu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0kt6x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0vei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2al7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g84ct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lp63p")
+}],
+"loop": true,
+"name": &"flame",
+"speed": 8.0
+}]
 
 [node name="BarrelRolled" type="RigidBody2D" groups=["barrels_rolled"]]
 physics_material_override = SubResource("PhysicsMaterial_cjeeb")
@@ -25,6 +76,8 @@ texture = ExtResource("2_ajbqi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bo648")
 
-[node name="FlameSprite" type="Sprite2D" parent="."]
+[node name="FlameSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_h3yv3")
+animation = &"flame"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
