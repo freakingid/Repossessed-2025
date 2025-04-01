@@ -21,15 +21,27 @@ func _ready():
 	collision_mask = (
 		Global.LAYER_PLAYER |
 		Global.LAYER_WALL |
-		Global.LAYER_CRATE
+		Global.LAYER_CRATE | 
+		Global.LAYER_BARREL
 	)
 	$Sprite2D.z_index = Global.Z_FLYING_ENEMIES
-
 
 	add_to_group("enemy_projectiles")
 
 	await get_tree().create_timer(lifespan).timeout
 	queue_free()
+
+	# This causes new arrow to tell all Barrel_Rolled instances to not collide with this new Arrow
+	# TODO that seems hackish, maybe we can do something better in the future
+	# Optional: Wrap it in a signal for scalability
+	# If you want to future-proof this, you can emit a "spawned" signal from EnemyArrow and 
+	# have Barrel_Rolled listen and add the exception that way 
+	# but for now, the solution above is simple and effective.
+	# LATER * See if we can improve the way Barrel_Rolled avoids getting momentum added by Arrow.
+	# https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/edit?usp=drive_link
+
+	for body in get_tree().get_nodes_in_group("barrels_rolled"):
+		body.add_collision_exception_with(self)
 
 func _process(delta):
 	if linear_velocity.length() > 0:
@@ -76,6 +88,11 @@ func _integrate_forces(state):
 			bounce_cooldown = 0.2
 
 			break
+		elif collider and collider.is_in_group("barrels_rolled"):
+			# Cancel physics interaction by removing any force/momentum transfer
+			# This preserves the damage exchange in _on_body_entered()
+			state.set_linear_velocity(linear_velocity)  # Re-assert current velocity
+			state.set_angular_velocity(0)
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):
@@ -83,3 +100,12 @@ func _on_body_entered(body):
 		queue_free()
 	elif body.is_in_group("walls"):
 		queue_free()
+	elif body.is_in_group("barrels"):
+		body.take_damage(damage)
+		# TODO we might exchange damage with arrow in case arrow gets more health in future
+		queue_free()
+		
+
+	
+	
+	

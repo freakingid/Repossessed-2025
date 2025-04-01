@@ -61,7 +61,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BarrelRolled" type="RigidBody2D" groups=["barrels_rolled"]]
+[node name="BarrelRolled" type="RigidBody2D" groups=["barrels", "barrels_rolled"]]
 physics_material_override = SubResource("PhysicsMaterial_cjeeb")
 gravity_scale = 0.0
 lock_rotation = true

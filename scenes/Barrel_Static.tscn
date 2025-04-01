@@ -58,7 +58,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BarrelStatic" type="StaticBody2D" groups=["barrels_static"]]
+[node name="BarrelStatic" type="StaticBody2D" groups=["barrels", "barrels_static"]]
 script = ExtResource("1_sx2dv")
 carried_scene = ExtResource("2_v3f32")
 

@@ -1,4 +1,5 @@
 20250401
+
 DONE * Show flames on barrels at various levels of damage and make sure health / flame crosses over when barrels transition to different types of barrels. Damage levels should be as follows:
 100% to 90% health = no flames
 90% to 70% = small red flames
@@ -9,7 +10,13 @@ DONE * Show flames on barrels at various levels of damage and make sure health /
 DONE * When Barrel_Carried is kicked and becomes Barrel_Rolled, it takes a bit too long to turn back into Barrel_Static. One problem with this is that while it is Barrel_Rolled, it might appear to be standing still, but it has not yet turned back into Barrel_Static, so when the player tries to pick it up, the Barrel is kicked again instead. I just removed the "amount of time the barrel should roll," because I want us to just pay attention to when the Barrel Roll is almost done moving.
 Then we increased the linear_velocity.length_squared() check so if we're moving < 8 speed we are considered to be stopped.
 
-TODO * Check Enemy arrows against walls, crates, barrels
+DONE * Check Enemy arrows against walls, crates, barrels
+DONE * Enemy Arrows pass right through Barrel_Static
+** Needed the layer_barrel added to Collision Layer
+DONE * Enemy Arrows pass right through Barrel_Carried, damage the Player who is carring the Barrel_Carried, but then oddly the arrows ricochet off of that Player. Normally, the arrows should exchange damage with the Player and then either be removed (if Arrow health is < 1) or continue on straight.
+** Needed the layer_barrel added to Collision Layer
+DONE * Enemy Arrows transfer momentum to Barrel_Rolled, but they should not. Arrows are not supposed to have enough mass to cause a change in velocity to a Barrel.
+** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
 
 TODO * Add shrapnel behavior on barrel explosion.
 ** Include screen shake upon barrel explosion.
@@ -129,6 +136,11 @@ DONE * Yes, bullets are being fired when releasing a Barrel Carried, and we do n
 ** Setting timer to make bullets wait isn't working. Could troubleshoot that but it makes more sense to tell the Barrel to not care about bullet collisions for a short period of time with a Timer when the Barrel Static or Barrel Rolled is first instantiated.
 
 DONE * Why do the barrels start out with flames already??
+
+LATER * See if we can improve the way Barrel_Rolled avoids getting momentum added by Arrow.
+** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
+** ChatGPT gave us an idea. I had it write a summary that we could present in a different chat at a later time to try efficient solution. That summary is "Enemy Arrows Push Rolling Barrels" in the "Repossessed 2025" folder of "Game Projects" in Google Drive.
+https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/edit?usp=drive_link
 
 
 

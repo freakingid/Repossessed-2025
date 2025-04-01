@@ -57,7 +57,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BarrelCarried" type="CharacterBody2D" groups=["barrels_carried"]]
+[node name="BarrelCarried" type="CharacterBody2D" groups=["barrels", "barrels_carried"]]
 script = ExtResource("1_nltcd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
