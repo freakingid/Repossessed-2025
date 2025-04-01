@@ -1,15 +1,21 @@
 20250331
 DONE * Barrel Carried does not have all the properties and such we need for taking damage, etc.
 
-TODO * More about barrels?
-Some CGPT Notes on what might be next for barrels:
-<quote>
-Add shrapnel behavior to the explode() function
+DONE * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing, moving chaotically from side to side along the length of the wall, until the bullet's lifespan has expired and the bullet is destroyed.
 
-Or visually sync the flame state between carried/rolled/static barrels when they're picked up or dropped.
-</quote>
+TODO * Show flames on barrels and make sure health / flame crosses over when barrels transition to different types of barrels.
+
+TODO * Add shrapnel behavior on barrel explosion.
 
 BUG * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing.
+
+TODO * How do we create multiple rooms in our game?
+a. Player properties such as score, health, current powerups, etcetera should all carry over between levels.
+b. Eventually, we will want the status of levels to be saved, so if the player reenters those levels later, they will contain the same objects, enemies, and so forth, in the same conditions as they were when the player last left the room.
+c. We will use a simple door node / sprite to move from one level to the next.
+
+TODO * Player jumping over crate placed in front of them while they are running.
+** We are almost there, maybe accidentally. But the z_index of player shows them underneath the dropped barrel. Fix that, and make player sprite grow larger as it "jumps" and grow smaller as it "lands"
 
 TODO * How much damage do we want barrel to do to bullets?
 
@@ -65,8 +71,6 @@ TODO * Check properties in Player.gd vs Bullet.gd that seem to be redundant.
 TODO * Check properties in SkeletonShooter.gd vs Arrow.gd that seem to be redundant.
 
 TODO * If Player is firing already when they contact a Crate_Static, the Crate_Static should not be picked up by the player. The crate should at that point be like a wall to the player, blocking their movement.
-
-TODO * Player jumping over crate placed in front of them while they are running.
 
 TODO * Check for redundant, double effects when 2 objects collide: Only 1 object should manage damage, for example.
 

@@ -47,22 +47,91 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 	for i in range(state.get_contact_count()):
 		var collider = state.get_contact_collider_object(i)
-		var normal = state.get_contact_local_normal(i)
-
 		if not collider:
 			continue
 
-		# ❌ DO NOT bounce off barrels — just damage them elsewhere
-		if collider.is_in_group("barrels_static") or collider.is_in_group("barrels_rolled"):
+		# 💥 Skip barrels — handled in _on_body_entered
+		if collider.is_in_group("barrels_static") or collider.is_in_group("barrels_rolled") or collider.is_in_group("barrels_carried"):
 			continue
 
-		# ✅ Bounce off crates — both static and carried
+		# ✅ Bounce off crates — always, even for non-bounce bullets
 		if collider.is_in_group("crates_static") or collider.is_in_group("crates_carried"):
-			new_velocity = new_velocity.bounce(normal)
-			direction = new_velocity.normalized()
-			break  # Only handle one bounce per frame
+			var crate_center = collider.global_position
+			var to_crate = crate_center.direction_to(global_position)
+			direction = get_corner_bounce_direction(to_crate)
+			new_velocity = direction * speed
+			global_position += direction * 4.0  # Prevent sticking
+			break
+
+		elif bounce_shot and collider.is_in_group("walls"):
+			var normal = state.get_contact_local_normal(i)
+			direction = direction.bounce(normal).normalized()
+			new_velocity = direction * speed
+			global_position += direction * 4.0
+			break
 
 	state.linear_velocity = new_velocity
+
+
+
+
+func get_corner_bounce_direction(to_crate: Vector2) -> Vector2:
+	var dirs = [
+		Vector2(1, 1), Vector2(-1, 1),
+		Vector2(-1, -1), Vector2(1, -1)
+	]
+
+	var best_dir = dirs[0]
+	var best_dot = -1.0
+
+	for d in dirs:
+		var dot = d.normalized().dot(to_crate.normalized())
+		if dot > best_dot:
+			best_dot = dot
+			best_dir = d
+
+	return best_dir.normalized()
+
+func get_opposite_bounce_direction(dir: Vector2) -> Vector2:
+	var directions = [
+		Vector2(1, 0), Vector2(1, 1).normalized(),
+		Vector2(0, 1), Vector2(-1, 1).normalized(),
+		Vector2(-1, 0), Vector2(-1, -1).normalized(),
+		Vector2(0, -1), Vector2(1, -1).normalized()
+	]
+
+	var best_dir = directions[0]
+	var best_dot = -1.0
+
+	for d in directions:
+		var dot = d.dot(dir.normalized())
+		if dot > best_dot:
+			best_dot = dot
+			best_dir = d
+
+	return -best_dir
+
+
+
+func get_snapped_reflection(velocity: Vector2, normal: Vector2) -> Vector2:
+	var reflected = velocity.reflect(normal).normalized()
+	var directions = [
+		Vector2(1, 0), Vector2(-1, 0),
+		Vector2(0, 1), Vector2(0, -1),
+		Vector2(1, 1).normalized(), Vector2(-1, 1).normalized(),
+		Vector2(1, -1).normalized(), Vector2(-1, -1).normalized()
+	]
+
+	var best_dir = directions[0]
+	var best_dot = -1.0
+	for dir in directions:
+		var dot = reflected.dot(dir)
+		if dot > best_dot:
+			best_dot = dot
+			best_dir = dir
+
+	return best_dir
+
 
 # Handle collision events
 func _on_body_entered(body):
@@ -73,13 +142,10 @@ func _on_body_entered(body):
 	):
 		body.take_damage(damage)
 		queue_free()
-
+	
 	elif body.is_in_group("walls"):
-		if bounce_shot:
-			var collision_normal = (global_position - body.global_position).normalized()
-			direction = direction.reflect(collision_normal)
-		else:
-			queue_free()
+		if not bounce_shot:
+			queue_free()  # Non-bounce bullets die on impact
 
 	elif body.is_in_group("enemies"):
 		body.take_damage(damage)
