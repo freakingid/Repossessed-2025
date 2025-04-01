@@ -113,6 +113,10 @@ class PLAYER:
 class BARREL:
 	const HEALTH = 20
 	const DAMAGE = BARREL.HEALTH
+	const DROPWAIT = 0.3 # How long to wait after dropping barrel before we can fire
+
+class CRATE:
+	const DROPWAIT = 0.3 # How long to wait after dropping crate before we can fire
 
 
 # Some properties are not in here because they don't seem like leveling choices

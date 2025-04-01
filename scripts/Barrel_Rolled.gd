@@ -10,6 +10,8 @@ var max_health: int = Global.BARREL.HEALTH
 var health: int = Global.BARREL.HEALTH
 var alive_timer: float = 0.0
 const MIN_ROLL_TIME = 0.75  # Seconds before it can convert
+var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
+var drop_invincibility_timer := 0.0
 
 func _ready():
 	print("Barrel Rolled _ready() fires with health == ", health, " and max_health == ", max_health)
@@ -30,7 +32,15 @@ func _ready():
 		Global.LAYER_WALL
 	)
 
+	# Invinible to enemy shots for a short time after being dropped
+	drop_invincibility_timer = invincible_time
+
 func _physics_process(delta):
+	# After first kicked, barrel ignores damage for a time
+	if drop_invincibility_timer > 0.0:
+		drop_invincibility_timer -= delta
+
+	# Manage how long we roll until we stop and turn into Barrel_Static
 	alive_timer += delta
 	if alive_timer >= MIN_ROLL_TIME:
 		if linear_velocity.length_squared() < 25.0:
@@ -49,6 +59,10 @@ func convert_to_static():
 	queue_free()
 
 func take_damage(amount: int):
+	if drop_invincibility_timer > 0.0:
+		print("Barrel is temporarily invincible after being dropped.")
+		return
+
 	health -= amount
 	if flame_sprite:
 		flame_sprite.play()

@@ -139,23 +139,6 @@ func _physics_process(_delta):
 	if drop_cooldown_timer > 0.0:
 		drop_cooldown_timer -= _delta
 
-	# ✅ Drop the crate when pressing a fire direction
-	var aim_direction = Vector2.ZERO
-	aim_direction.x = Input.get_axis("aim_left", "aim_right")
-	aim_direction.y = Input.get_axis("aim_up", "aim_down")
-	#var aim_direction = Vector2(
-		#Input.get_action_strength("aim_right") - Input.get_action_strength("aim_left"),
-		#Input.get_action_strength("aim_down") - Input.get_action_strength("aim_up")
-	#)
-
-	# Crate logic
-	if is_carrying_crate and aim_direction.length() > 0:
-		drop_crate()
-
-	# Barrel logic
-	if is_carrying_barrel and aim_direction.length() > 0:
-		drop_barrel()
-
 	# ✅ Detect melee collisions by checking last slide collision
 	var collision = get_last_slide_collision()
 	if collision:
@@ -275,12 +258,27 @@ func _process(_delta):
 		Input.get_action_strength("aim_down") - Input.get_action_strength("aim_up")
 	)
 
-	# Fire regular shot
-	if aim_direction.length() > 0 and can_shoot and not is_carrying_crate:
-		shoot(aim_direction.normalized())
-		can_shoot = false
-		await get_tree().create_timer(fire_rate).timeout
-		can_shoot = true
+	# Is there fire direction input?
+	if aim_direction.length() > 0:
+		# Are we carrying anyting?
+		if is_carrying_barrel:
+			drop_barrel()
+			can_shoot = false
+			await get_tree().create_timer(Global.BARREL.DROPWAIT).timeout
+			can_shoot = true
+		elif is_carrying_crate:
+			drop_crate()
+			can_shoot = false
+			await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
+			can_shoot = true
+		elif can_shoot:
+			# Fire regular shot
+			shoot(aim_direction.normalized())
+			can_shoot = false
+			await get_tree().create_timer(fire_rate).timeout
+			can_shoot = true
+		else:
+			print("Player fire input but not carrying and can_shoot == ", can_shoot)
 
 	# Fire nova shot
 	if Input.is_action_just_pressed("nova_attack"):

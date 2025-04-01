@@ -8,7 +8,8 @@ WORK * Show flames on barrels at various levels of damage and make sure health /
 
 DONE * Seems like maybe health is not getting transferred all the time when switching barrel types.
 
-BUG * Yes, bullets are being fired when releasing a Barrel Carried, and we do not want that.
+DONE * Yes, bullets are being fired when releasing a Barrel Carried, and we do not want that.
+** Setting timer to make bullets wait isn't working. Could troubleshoot that but it makes more sense to tell the Barrel to not care about bullet collisions for a short period of time with a Timer when the Barrel Static or Barrel Rolled is first instantiated.
 
 BUG * Why do the barrels start out with flames already??
 

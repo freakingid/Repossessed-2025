@@ -8,6 +8,8 @@ class_name Barrel_Static
 
 var max_health: int = Global.BARREL.HEALTH # max_health to calculate percent health left
 var health: int = Global.BARREL.HEALTH # health is actual, current health
+var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
+var drop_invincibility_timer := 0.0
 
 func _ready():
 	print("Barrel Static _ready() fired with health == ", health, " and max_health == ", max_health)
@@ -25,6 +27,13 @@ func _ready():
 		Global.LAYER_ENEMY_PROJECTILE |
 		Global.LAYER_SPAWNER
 	)
+
+	# Invinible to enemy shots for a short time after being dropped
+	drop_invincibility_timer = invincible_time
+
+func _physics_process(delta):
+	if drop_invincibility_timer > 0.0:
+		drop_invincibility_timer -= delta
 
 ## What happens when the player picks up the Barrel?
 func pickup(player):
@@ -57,9 +66,15 @@ func reactivate(position: Vector2):
 		Global.LAYER_PLAYER_BULLET |
 		Global.LAYER_ENEMY
 	)
+	# Temporarily invincible to shots
+	drop_invincibility_timer = invincible_time
 	set_physics_process(true)
 
 func take_damage(amount: int):
+	if drop_invincibility_timer > 0.0:
+		print("Barrel is temporarily invincible after being dropped.")
+		return
+
 	health -= amount
 	if flame_sprite:
 		flame_sprite.play()
