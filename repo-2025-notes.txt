@@ -1,8 +1,12 @@
 20250402
 TODO * Add shrapnel behavior on barrel explosion.
+
 DONE * I did not see the explosion. Maybe a z_index issue? Or something else
 ** This was a z_index issue.
-BUG * Shrapnel is spawned, but it is spawned over and over, and also it seems to have gravity and fall towards the bottom of the screen.
+DONE * Shrapnel is spawned, but it is spawned over and over.
+** The ShrapnelTimer did not have "one_shot" flag set.
+
+BUG * Shrapnel seems to have gravity and fall towards the bottom of the screen.
 ** Include screen shake upon barrel explosion.
 
 BUG * It seems like skeleton shooters might always be firing 2 arrows at a time. Test further.
