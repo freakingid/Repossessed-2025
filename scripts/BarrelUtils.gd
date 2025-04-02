@@ -34,14 +34,14 @@ static func update_flame(flame_sprite: AnimatedSprite2D, health: int, max_health
 		flame_sprite.modulate = Color(1, 1, 0.9)
 
 # Shared explosion logic
-static func explode(owner: Node2D, explosion_scene: PackedScene) -> void:
+static func explode(explosion_owner: Node2D, explosion_scene: PackedScene) -> void:
 	print("Barrel trying to explode")
 	if explosion_scene:
 		var explosion = explosion_scene.instantiate()
-		explosion.global_position = owner.global_position
-		owner.get_tree().current_scene.call_deferred("add_child", explosion)
+		explosion.global_position = explosion_owner.global_position
+		explosion_owner.get_tree().current_scene.call_deferred("add_child", explosion)
 
-	owner.queue_free()
+	explosion_owner.queue_free()
 
 # Assign health and update flame
 static func set_barrel_state(barrel: Node, flame_sprite: AnimatedSprite2D, h: int, max_h: int) -> void:

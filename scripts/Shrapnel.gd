@@ -28,7 +28,7 @@ func _on_body_entered(body: Node):
 	if not body.has_method("take_damage"):
 		return
 
-	var target_health = body.health if body.has_variable("health") else damage
+	var target_health = body.health if "health" in body else damage
 	var dealt = min(damage, target_health)
 	body.take_damage(dealt)
 	damage -= dealt

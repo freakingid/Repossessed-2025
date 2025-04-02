@@ -10,6 +10,7 @@ class_name Explosion
 @onready var cleanup_timer: Timer = $CleanupTimer
 
 func _ready():
+	sprite.z_index = Global.Z_SHRAPNEL
 	sprite.play("explode")
 	shrapnel_timer.start(shrapnel_delay)
 	var duration = sprite.sprite_frames.get_frame_count("explode") / sprite.sprite_frames.get_animation_speed("explode")

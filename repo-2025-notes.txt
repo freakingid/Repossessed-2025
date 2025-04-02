@@ -1,3 +1,22 @@
+20250402
+TODO * Add shrapnel behavior on barrel explosion.
+DONE * I did not see the explosion. Maybe a z_index issue? Or something else
+** This was a z_index issue.
+BUG * Shrapnel is spawned, but it is spawned over and over, and also it seems to have gravity and fall towards the bottom of the screen.
+** Include screen shake upon barrel explosion.
+
+BUG * It seems like skeleton shooters might always be firing 2 arrows at a time. Test further.
+
+BUG * When player died, it seems like the camera made a huge shift down to the lower-right corner of the level.
+
+
+
+
+
+
+
+
+
 20250401
 
 DONE * Show flames on barrels at various levels of damage and make sure health / flame crosses over when barrels transition to different types of barrels. Damage levels should be as follows:
@@ -17,11 +36,6 @@ DONE * Enemy Arrows pass right through Barrel_Carried, damage the Player who is 
 ** Needed the layer_barrel added to Collision Layer
 DONE * Enemy Arrows transfer momentum to Barrel_Rolled, but they should not. Arrows are not supposed to have enough mass to cause a change in velocity to a Barrel.
 ** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
-
-TODO * Add shrapnel behavior on barrel explosion.
-BUG * I did not see the explosion. Maybe a z_index issue? Or something else
-BUG * Shrapnel is spawned, but it is spawned over and over, and also it seems to have gravity and fall towards the bottom of the screen.
-** Include screen shake upon barrel explosion.
 
 TODO * Check behavior of multiple barrels colliding and pushing each other.
 

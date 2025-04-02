@@ -54,8 +54,8 @@ func pickup(player):
 	player.carried_barrel_instance = carried
 	get_tree().current_scene.call_deferred("add_child", carried)
 
-func reactivate(position: Vector2):
-	global_position = position
+func reactivate(barrel_position: Vector2):
+	global_position = barrel_position
 	visible = true
 	if flame_sprite:
 		flame_sprite.play()
