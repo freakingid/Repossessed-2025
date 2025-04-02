@@ -5,14 +5,13 @@ DONE * I did not see the explosion. Maybe a z_index issue? Or something else
 ** This was a z_index issue.
 DONE * Shrapnel is spawned, but it is spawned over and over.
 ** The ShrapnelTimer did not have "one_shot" flag set.
-
-BUG * Shrapnel seems to have gravity and fall towards the bottom of the screen.
-** Include screen shake upon barrel explosion.
+DONE * Shrapnel seems to have gravity and fall towards the bottom of the screen.
 
 BUG * It seems like skeleton shooters might always be firing 2 arrows at a time. Test further.
 
 BUG * When player died, it seems like the camera made a huge shift down to the lower-right corner of the level.
 
+TODO * Include screen shake upon barrel explosion.
 
 
 
@@ -21,6 +20,7 @@ BUG * When player died, it seems like the camera made a huge shift down to the l
 
 
 
+===================================================
 20250401
 
 DONE * Show flames on barrels at various levels of damage and make sure health / flame crosses over when barrels transition to different types of barrels. Damage levels should be as follows:

@@ -7,9 +7,10 @@ class_name Shrapnel
 @onready var lifespan_timer: Timer = $Timer
 
 func _ready():
+	gravity_scale = 0
 	lifespan_timer.start(lifespan)
 	contact_monitor = true
-	max_contacts_reported = 5
+	max_contacts_reported = 4
 	
 	collision_layer = Global.LAYER_SHRAPNEL
 	collision_mask = (

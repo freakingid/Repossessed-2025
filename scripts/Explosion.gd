@@ -20,7 +20,6 @@ func _ready():
 # Spawn shrapnel pieces
 func _on_ShapnelTimer_timeout():
 	for i in num_shrapnel:
-		print("Spawning shrapnel # ", i)
 		var shrapnel = shrapnel_scene.instantiate()
 		shrapnel.global_position = global_position
 		var angle = randf() * TAU
