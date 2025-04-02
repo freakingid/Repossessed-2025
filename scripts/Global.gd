@@ -11,6 +11,7 @@ const LAYER_ENEMY_PROJECTILE = 1 << 6     # Layer 7
 const LAYER_CRATE = 1 << 7                # Layer 8
 const LAYER_FLYING_ENEMY = 1 << 8         # Layer 9
 const LAYER_BARREL = 1 << 9                # Layer 10
+const LAYER_SHRAPNEL = 1 << 10             # Layer 11
 
 
 # Visual layering constants (z_index values)
@@ -23,7 +24,8 @@ const Z_CARRIED_CRATE_BEHIND_FLAME = 26
 const Z_PLAYER_AND_CRATES         = 30
 const Z_PLAYER_AND_CRATES_FLAME   = 31
 const Z_CARRIED_CRATE_IN_FRONT    = 35
-const Z_CARRIED_CRATE_IN_FONT_FLAME = 36
+const Z_CARRIED_CRATE_IN_FRONT_FLAME = 36
+const Z_SHRAPNEL                   = 37
 const Z_FLYING_ENEMIES            = 40
 const Z_OVERHEAD_DECORATIONS      = 50
 const Z_UI_FLOATING              = 100
@@ -114,6 +116,10 @@ class BARREL:
 	const HEALTH = 20
 	const DAMAGE = BARREL.HEALTH
 	const DROPWAIT = 0.3 # How long to wait after dropping barrel before we can fire
+
+class SHRAPNEL:
+	const DAMAGE = 20
+	const LIFESPAN = 4.0 # seconds to live
 
 class CRATE:
 	const DROPWAIT = 0.3 # How long to wait after dropping crate before we can fire

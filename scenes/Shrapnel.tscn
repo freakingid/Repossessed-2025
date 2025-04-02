@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjlwpubeskq7g"]
+
+[ext_resource type="Texture2D" uid="uid://ct1mukplcqay3" path="res://assets/sprites/explosions/shrapnel-15x11.png" id="1_icbvw"]
+[ext_resource type="Script" path="res://scripts/Shrapnel.gd" id="1_uiapt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5eou8"]
+radius = 7.07107
+
+[node name="Shrapnel" type="RigidBody2D"]
+script = ExtResource("1_uiapt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_icbvw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5eou8")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

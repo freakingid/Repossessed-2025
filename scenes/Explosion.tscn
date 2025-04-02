@@ -1,0 +1,91 @@
+[gd_scene load_steps=14 format=3 uid="uid://bt2tkxuudh0gf"]
+
+[ext_resource type="Script" path="res://scripts/Explosion.gd" id="1_sfd1n"]
+[ext_resource type="PackedScene" uid="uid://bjlwpubeskq7g" path="res://scenes/Shrapnel.tscn" id="2_4l4rc"]
+[ext_resource type="Texture2D" uid="uid://bn283o8d6n58e" path="res://assets/sprites/explosions/Spritesheet_Explosion_48x48.png" id="2_ioxlc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrk3f"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0h1t8"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22uqi"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13cp8"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dou8"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijpp8"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xbyig"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjf0t"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uoxg8"]
+atlas = ExtResource("2_ioxlc")
+region = Rect2(384, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sewna"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrk3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0h1t8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22uqi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13cp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dou8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijpp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbyig")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjf0t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uoxg8")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 8.0
+}]
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_sfd1n")
+shrapnel_scene = ExtResource("2_4l4rc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_sewna")
+animation = &"explode"
+
+[node name="ShrapnelTimer" type="Timer" parent="."]
+
+[node name="CleanupTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ShrapnelTimer" to="." method="_on_ShapnelTimer_timeout"]
+[connection signal="timeout" from="CleanupTimer" to="." method="_on_CleanupTimer_timeout"]

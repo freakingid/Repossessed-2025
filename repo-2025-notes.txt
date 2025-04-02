@@ -19,6 +19,8 @@ DONE * Enemy Arrows transfer momentum to Barrel_Rolled, but they should not. Arr
 ** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
 
 TODO * Add shrapnel behavior on barrel explosion.
+BUG * I did not see the explosion. Maybe a z_index issue? Or something else
+BUG * Shrapnel is spawned, but it is spawned over and over, and also it seems to have gravity and fall towards the bottom of the screen.
 ** Include screen shake upon barrel explosion.
 
 TODO * Check behavior of multiple barrels colliding and pushing each other.
