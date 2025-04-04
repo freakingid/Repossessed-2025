@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://bt2tkxuudh0gf"]
 
 [ext_resource type="Script" path="res://scripts/Explosion.gd" id="1_sfd1n"]
-[ext_resource type="PackedScene" uid="uid://bjlwpubeskq7g" path="res://scenes/Shrapnel.tscn" id="2_4l4rc"]
+[ext_resource type="PackedScene" uid="uid://bjlwpubeskq7g" path="res://scenes/projectiles/Shrapnel.tscn" id="2_4l4rc"]
 [ext_resource type="Texture2D" uid="uid://bn283o8d6n58e" path="res://assets/sprites/explosions/Spritesheet_Explosion_48x48.png" id="2_ioxlc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mrk3f"]

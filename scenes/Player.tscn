@@ -1,7 +1,7 @@
 [gd_scene load_steps=40 format=3 uid="uid://cxlq6i3gdrfuy"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_y0jdu"]
-[ext_resource type="PackedScene" uid="uid://dng5uhwdosd3s" path="res://scenes/Bullet.tscn" id="2_pqtk7"]
+[ext_resource type="PackedScene" uid="uid://dng5uhwdosd3s" path="res://scenes/projectiles/Bullet.tscn" id="2_pqtk7"]
 [ext_resource type="Texture2D" uid="uid://d2i1unu3sw3pm" path="res://assets/sprites/characters/player-32.png" id="3_j4dqg"]
 [ext_resource type="Texture2D" uid="uid://siljxdowm5hm" path="res://assets/textures/fpo-healthbar-100x20.png" id="4_7h5x7"]
 

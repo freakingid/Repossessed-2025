@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dng5uhwdosd3s"]
 
-[ext_resource type="Script" path="res://scripts/Bullet.gd" id="1_18cvb"]
-[ext_resource type="Texture2D" uid="uid://dfwdd2ia6i83f" path="res://assets/sprites/fpo-bullet-32.png" id="2_rsovs"]
+[ext_resource type="Script" path="res://scripts/Bullet.gd" id="1_g0eil"]
+[ext_resource type="Texture2D" uid="uid://dfwdd2ia6i83f" path="res://assets/sprites/fpo-bullet-32.png" id="2_831hv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_m1m6d"]
 friction = 0.0
@@ -19,12 +19,12 @@ physics_material_override = SubResource("PhysicsMaterial_m1m6d")
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
-script = ExtResource("1_18cvb")
+script = ExtResource("1_g0eil")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_rsovs")
+texture = ExtResource("2_831hv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ucgtu")

@@ -1,37 +1,39 @@
-[gd_scene load_steps=12 format=3 uid="uid://cx0l7komeublt"]
+[gd_scene load_steps=14 format=3 uid="uid://0t1dglgn422w"]
 
-[ext_resource type="Texture2D" uid="uid://qlt6jdl6llo6" path="res://assets/sprites/carried_items/barrel2-30x32.png" id="1_d1k2u"]
-[ext_resource type="Script" path="res://scripts/Barrel_Carried.gd" id="1_nltcd"]
-[ext_resource type="Texture2D" uid="uid://dnfkt2e3akgpv" path="res://assets/sprites/carried_items/fpo-flame.png" id="3_y8oa3"]
+[ext_resource type="Texture2D" uid="uid://qlt6jdl6llo6" path="res://assets/sprites/carried_items/barrel2-30x32.png" id="1_6o1vi"]
+[ext_resource type="Script" path="res://scripts/Barrel_Static.gd" id="1_sx2dv"]
+[ext_resource type="PackedScene" uid="uid://cx0l7komeublt" path="res://scenes/carryables/Barrel_Carried.tscn" id="2_v3f32"]
+[ext_resource type="PackedScene" uid="uid://bt2tkxuudh0gf" path="res://scenes/Explosion.tscn" id="3_lqo8w"]
+[ext_resource type="Texture2D" uid="uid://dnfkt2e3akgpv" path="res://assets/sprites/carried_items/fpo-flame.png" id="4_sxxcw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5fk7v"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ia0gt"]
 size = Vector2(26, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aalyu"]
-atlas = ExtResource("3_y8oa3")
+atlas = ExtResource("4_sxxcw")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kt6x"]
-atlas = ExtResource("3_y8oa3")
+atlas = ExtResource("4_sxxcw")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y0vei"]
-atlas = ExtResource("3_y8oa3")
+atlas = ExtResource("4_sxxcw")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2al7h"]
-atlas = ExtResource("3_y8oa3")
+atlas = ExtResource("4_sxxcw")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g84ct"]
-atlas = ExtResource("3_y8oa3")
+atlas = ExtResource("4_sxxcw")
 region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lp63p"]
-atlas = ExtResource("3_y8oa3")
+atlas = ExtResource("4_sxxcw")
 region = Rect2(80, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_6xew6"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ntv8p"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -57,17 +59,20 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BarrelCarried" type="CharacterBody2D" groups=["barrels", "barrels_carried"]]
-script = ExtResource("1_nltcd")
+[node name="BarrelStatic" type="StaticBody2D" groups=["barrels", "barrels_static"]]
+script = ExtResource("1_sx2dv")
+carried_scene = ExtResource("2_v3f32")
+explosion_scene = ExtResource("3_lqo8w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_d1k2u")
+texture = ExtResource("1_6o1vi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_5fk7v")
+shape = SubResource("RectangleShape2D_ia0gt")
 
 [node name="FlameSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -9)
-sprite_frames = SubResource("SpriteFrames_6xew6")
+sprite_frames = SubResource("SpriteFrames_ntv8p")
 animation = &"flame"
+frame_progress = 0.347638
 offset = Vector2(0, -8)

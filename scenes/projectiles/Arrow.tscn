@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dmoifi66l8ocv"]
 
-[ext_resource type="Script" path="res://scripts/Arrow.gd" id="1_2uvmj"]
-[ext_resource type="Texture2D" uid="uid://xunxwhki8alp" path="res://assets/sprites/fpo-skeleton-arrow.png" id="1_vmwwb"]
+[ext_resource type="Script" path="res://scripts/Arrow.gd" id="1_5q52v"]
+[ext_resource type="Texture2D" uid="uid://xunxwhki8alp" path="res://assets/sprites/fpo-skeleton-arrow.png" id="2_q4svd"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7dwxc"]
 friction = 0.0
@@ -18,11 +18,11 @@ physics_material_override = SubResource("PhysicsMaterial_7dwxc")
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
-script = ExtResource("1_2uvmj")
+script = ExtResource("1_5q52v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_vmwwb")
+texture = ExtResource("2_q4svd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
