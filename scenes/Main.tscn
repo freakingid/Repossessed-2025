@@ -15,6 +15,21 @@ nova_shot_scene = ExtResource("2_wunoo")
 [node name="Skeleton" parent="." instance=ExtResource("3_juiwf")]
 position = Vector2(-188.733, -302.865)
 
+[node name="Skeleton2" parent="." instance=ExtResource("3_juiwf")]
+position = Vector2(-196.284, -132.024)
+
+[node name="Skeleton3" parent="." instance=ExtResource("3_juiwf")]
+position = Vector2(-334.09, 46.3691)
+
+[node name="Skeleton4" parent="." instance=ExtResource("3_juiwf")]
+position = Vector2(-329.371, 297.44)
+
+[node name="Skeleton5" parent="." instance=ExtResource("3_juiwf")]
+position = Vector2(353.052, -141.462)
+
+[node name="Skeleton6" parent="." instance=ExtResource("3_juiwf")]
+position = Vector2(-86.7946, 176.624)
+
 [node name="HUD" parent="." instance=ExtResource("1_op41d")]
 
 [node name="MyMap" type="Node" parent="."]

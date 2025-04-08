@@ -4,6 +4,8 @@ var sidestep_index := 0
 var sidestep_angles := []
 var direction_to_player := Vector2.ZERO
 var last_clear_direction := Vector2.ZERO
+var retry_timer := 0.0
+const RETRY_COOLDOWN := 0.75
 const MAX_ATTEMPTS := 24  # 15° * 24 = full 360° sweep
 const ANGLE_STEP := 15
 
@@ -57,12 +59,17 @@ func update_navigation(delta):
 	# No direction found this frame — stand still
 	velocity = Vector2.ZERO
 
+	retry_timer += delta
+	if retry_timer >= RETRY_COOLDOWN:
+		last_clear_direction = Vector2.ZERO
+		sidestep_index = 0
+		retry_timer = 0.0
+
 func has_line_of_sight() -> bool:
 	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
 	if not player or not is_instance_valid(player):
 		return false
 
-	print("[Skeleton] Checking LOS to player at:", player.global_position)
 
 	var query := PhysicsRayQueryParameters2D.new()
 	query.from = global_position
@@ -76,16 +83,11 @@ func has_line_of_sight() -> bool:
 	if result and result.has("collider"):
 		var collider = result["collider"]
 		if collider == player:
-			print("[Skeleton] Line of sight to player is CLEAR")
 			return true
 		else:
-			print("[Skeleton] Line of sight to player is BLOCKED by:", collider)
 			return false
 
-	print("[Skeleton] Line of sight is CLEAR (no hit)")
 	return true
-
-
 
 func is_path_blocked(direction: Vector2) -> bool:
 	var space_state = get_world_2d().direct_space_state

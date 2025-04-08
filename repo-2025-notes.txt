@@ -3,8 +3,8 @@ DONE * Ghost is not doing any melee damage when touching Player
 
 DONE * Player cannot actually shoot any bullets.
 
-TODO * Add Skeletons to the game and test.
-** I think they are already coded, just not tested.
+DONE * Add Skeletons to the game and test.
+** This still needs improved, because Skeletons can get stuck on corners sometimes, but we are going to move on.
 
 ** One potential problem is that the skeleton is not checking every step, or even every few steps, to see if the Player is once again in line of sight. I think we are simply saying "Okay, this last_direction worked last step, so let's just go in that direction" but we are not bothering to determine if we can see the player.
 
