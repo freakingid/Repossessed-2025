@@ -6,6 +6,7 @@ var lifespan := Global.PLAYER.BULLET_LIFESPAN
 var can_bounce := false
 var max_bounces := 1
 var bounces_remaining := 0
+var direction: Vector2 = Vector2.ZERO
 
 func _ready():
 	add_to_group(Global.GROUPS.PLAYER_PROJECTILES)
@@ -20,7 +21,7 @@ func _ready():
 		queue_free()
 
 func _physics_process(delta):
-	linear_velocity = transform.x * speed
+	linear_velocity = direction.normalized() * speed
 
 func _on_body_entered(body):
 	if body == null:

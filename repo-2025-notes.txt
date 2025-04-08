@@ -1,7 +1,7 @@
 20250408
 DONE * Ghost is not doing any melee damage when touching Player
 
-BUG * Player cannot actually shoot any bullets.
+DONE * Player cannot actually shoot any bullets.
 
 TODO * Add Skeletons to the game and test.
 ** I think they are already coded, just not tested.

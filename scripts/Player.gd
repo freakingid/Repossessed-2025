@@ -294,7 +294,7 @@ func shoot(direction: Vector2):
 	# Create the bullet
 	var bullet = bullet_scene.instantiate()
 	bullet.position = $Marker2D.global_position
-	bullet.direction = direction
+	bullet.direction = direction # Error message fired here
 	bullet.add_to_group("player_projectiles")  # Ensure it is trackable
 
 	# Apply powerup effects
