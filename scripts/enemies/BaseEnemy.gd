@@ -12,7 +12,6 @@ class_name BaseEnemy
 
 const GEM_SCENE = preload("res://scenes/Gem.tscn")
 
-# Direction vector mappings
 var DIRECTION_ANIMATIONS := {
 	"walk_n": Vector2.UP,
 	"walk_ne": Vector2(1, -1).normalized(),
@@ -45,22 +44,30 @@ func check_player_collision():
 		if collider and collider.is_in_group(Global.GROUPS.PLAYER):
 			collider.take_damage(damage, self)
 
+var rotation_attempt_angle := 15
+var rotation_attempts := []
+
 func update_navigation(delta):
-	if nav_agent == null:
+	if is_dead:
 		return
 
-	if is_flying:
-		move_directly_to_player(delta)
-		return
+	# Force re-check of target node in case player was reloaded
+	target_node = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
+	move_directly_to_player(delta)
 
-	if nav_agent.is_navigation_finished():
-		return
-
-	nav_agent.target_position = get_player_global_position()
-	var direction = nav_agent.get_next_path_position() - global_position
-	if direction.length() > 1:
-		velocity = direction.normalized() * speed
-		move_and_slide()
+func is_path_blocked(direction: Vector2) -> bool:
+	var space_state = get_world_2d().direct_space_state
+	var from = global_position
+	var to = from + direction * 16
+	var result = space_state.intersect_ray(
+		PhysicsRayQueryParameters2D.create(from, to)
+	)
+	if not result.is_empty():
+		var collider = result["collider"]
+			# Blocked by wall or another enemy
+		if collider and (collider.is_in_group(Global.GROUPS.STATIC_OBJECTS) or collider.is_in_group(Global.GROUPS.ENEMIES)):
+			return true
+	return false
 
 func move_directly_to_player(delta):
 	if target_node:
@@ -71,11 +78,14 @@ func move_directly_to_player(delta):
 			move_and_slide()
 
 func get_player_global_position() -> Vector2:
-	if not is_instance_valid(target_node):
-		target_node = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
-	return target_node.global_position if target_node else global_position
+	# Always re-fetch player in case of dynamic changes
+	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
+	if player and player is Node2D:
+		target_node = player
+		return target_node.global_position
+	return global_position
 
-func take_damage(amount: int) -> void:
+func take_damage(amount: int):
 	if is_dead:
 		return
 
@@ -85,13 +95,10 @@ func take_damage(amount: int) -> void:
 
 func die():
 	is_dead = true
-
-	# Drop a gem when the enemy dies
 	var gem = GEM_SCENE.instantiate()
 	gem.global_position = global_position
 	gem.gem_power = score_value
 	get_tree().current_scene.call_deferred("add_child", gem)
-
 	queue_free()
 
 func update_animation():

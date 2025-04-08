@@ -41,7 +41,7 @@ class GHOST:
 
 # Skeletons move a bit faster and can potentially get around walls
 class SKELETON:
-	const SPEED = GHOST.SPEED * 1.25
+	const SPEED = GHOST.SPEED * 1.125
 	const DAMAGE = GHOST.DAMAGE * 2
 	const HEALTH = GHOST.HEALTH * 2
 	const SCORE = GHOST.SCORE * 2
