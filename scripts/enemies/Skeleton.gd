@@ -1,4 +1,4 @@
-extends "res://scripts/BaseEnemy.gd"  # Inherits from BaseEnemy
+extends "res://scripts/enemies/BaseEnemy.gd"  # Inherits from BaseEnemy
 
 @onready var raycast_forward = $RaycastForward
 @onready var raycast_left = $RaycastLeft

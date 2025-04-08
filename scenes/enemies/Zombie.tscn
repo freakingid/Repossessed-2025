@@ -1,6 +1,6 @@
 [gd_scene load_steps=37 format=3 uid="uid://dtytenrt32e3s"]
 
-[ext_resource type="Script" path="res://scripts/Zombie.gd" id="1_0y8ro"]
+[ext_resource type="Script" path="res://scripts/enemies/Zombie.gd" id="1_0y8ro"]
 [ext_resource type="Texture2D" uid="uid://hj822cs24c7i" path="res://assets/sprites/characters/zombie-32.png" id="2_7y065"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bqgdk"]
@@ -274,7 +274,7 @@ animations = [{
 radius = 8.0
 height = 28.0
 
-[node name="Zombie" type="CharacterBody2D" groups=["enemies"]]
+[node name="Zombie" type="CharacterBody2D" groups=["damageable", "enemies", "ground_enemies", "pushable"]]
 z_index = 1
 collision_layer = 4
 collision_mask = 149

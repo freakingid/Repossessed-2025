@@ -1,4 +1,4 @@
-extends "res://scripts/BaseEnemy.gd"  # Inherits common enemy logic
+extends "res://scripts/enemies/BaseEnemy.gd"  # Inherits common enemy logic
 
 @export var show_debug_circles: bool = false  # ✅ Toggle this in the Inspector
 @export var projectile_scene: PackedScene  # Assign the Skeleton's arrow scene

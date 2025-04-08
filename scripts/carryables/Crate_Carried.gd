@@ -9,7 +9,6 @@ func _ready():
 		Global.LAYER_ENEMY |
 		Global.LAYER_SPAWNER
 	)
-	add_to_group("crates_carried")
 
 func _process(_delta):
 	if player:

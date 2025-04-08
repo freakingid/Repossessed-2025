@@ -12,9 +12,6 @@ var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
 var drop_invincibility_timer := 0.0
 
 func _ready():
-	add_to_group("barrels_static")
-	add_to_group("barrels")
-
 	sprite.z_index = Global.Z_PLAYER_AND_CRATES
 
 	if flame_sprite:

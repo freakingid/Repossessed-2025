@@ -12,7 +12,6 @@ func _ready():
 		Global.LAYER_ENEMY_PROJECTILE |
 		Global.LAYER_SPAWNER
 	)
-	add_to_group("crates_static")
 	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
 
 func pickup(player: Node):
@@ -25,7 +24,7 @@ func pickup(player: Node):
 	set_deferred("collision_mask", 0)
 
 	# Instance and assign carried version
-	var carried_crate = preload("res://scenes/Crate_Carried.tscn").instantiate()
+	var carried_crate = preload("res://scenes/carryables/Crate_Carried.tscn").instantiate()
 	carried_crate.player = player
 	player.carried_crate_instance = carried_crate  # 🔗 Save reference
 	get_tree().current_scene.call_deferred("add_child", carried_crate)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://53tpqj34abuj"]
 
-[ext_resource type="Script" path="res://scripts/GhostSpawner.gd" id="1_wdq2b"]
+[ext_resource type="Script" path="res://scripts/spawners/GhostSpawner.gd" id="1_wdq2b"]
 [ext_resource type="Texture2D" uid="uid://bo380mde47t43" path="res://assets/sprites/spawners/fpo-spawn-ghost.png" id="3_op3i7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_axwfx"]
@@ -9,7 +9,7 @@ radius = 16.0078
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j6e"]
 size = Vector2(33, 34)
 
-[node name="GhostSpawner" type="Node2D" groups=["spawners"]]
+[node name="GhostSpawner" type="Node2D" groups=["damageable", "spawners"]]
 z_index = 1
 script = ExtResource("1_wdq2b")
 

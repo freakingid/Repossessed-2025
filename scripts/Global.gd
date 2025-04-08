@@ -128,3 +128,24 @@ class CRATE:
 # Some properties are not in here because they don't seem like leveling choices
 # We didn't put Gem properties in here
 # We didn't put Nova properties in here
+
+# In Globals.gd
+class GROUPS:
+	const PLAYER = "player"
+	const ENEMIES = "enemies"
+	const GROUND_ENEMIES = "ground_enemies"
+	const FLYING_ENEMIES = "flying_enemies"
+	const CRATES_STATIC = "crates_static"
+	const CRATES_CARRIED = "crates_carried"
+	const BARRELS_STATIC = "barrels_static"
+	const BARRELS_CARRIED = "barrels_carried"
+	const BARRELS_ROLLED = "barrels_rolled"
+	const SHRAPNEL = "shrapnel"
+	const PLAYER_PROJECTILES = "player_projectiles"
+	const ENEMY_PROJECTILES = "enemy_projectiles"
+	const DAMAGEABLE = "damageable"
+	const DAMAGING = "damaging"
+	const PUSHABLE = "pushable"
+	const STATIC_OBJECTS = "static_objects"
+	const PROJECTILES = "projectiles"
+	const SPAWNERS = "spawners"

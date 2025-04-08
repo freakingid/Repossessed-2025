@@ -1,6 +1,6 @@
 [gd_scene load_steps=37 format=3 uid="uid://dg5t7fo0bchwm"]
 
-[ext_resource type="Script" path="res://scripts/Skeleton.gd" id="1_dhr1m"]
+[ext_resource type="Script" path="res://scripts/enemies/Skeleton.gd" id="1_dhr1m"]
 [ext_resource type="Texture2D" uid="uid://cvo60vwj0a64g" path="res://assets/sprites/characters/skeleton-32.png" id="2_hk36r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bm7at"]
@@ -273,7 +273,7 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cm4qt"]
 radius = 9.0
 
-[node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
+[node name="Skeleton" type="CharacterBody2D" groups=["damageable", "enemies", "ground_enemies", "pushable"]]
 z_index = 1
 collision_layer = 4
 collision_mask = 149

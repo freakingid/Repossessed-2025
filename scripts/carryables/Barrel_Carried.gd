@@ -10,9 +10,6 @@ var health: int = Global.BARREL.HEALTH
 var player: Node2D
 
 func _ready():
-	add_to_group("barrels_carried")
-	add_to_group("barrels")
-
 	sprite.z_index = Global.Z_PLAYER_AND_CRATES
 	if flame_sprite:
 		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME

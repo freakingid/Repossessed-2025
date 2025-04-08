@@ -1,4 +1,4 @@
-extends "res://scripts/BaseEnemy.gd"  # Subclassing BaseEnemy
+extends "res://scripts/enemies/BaseEnemy.gd"  # Subclassing BaseEnemy
 
 #var hit_player_recently = false  # Prevents continuous attacks, but NOT melee damage
 

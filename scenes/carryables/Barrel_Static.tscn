@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://0t1dglgn422w"]
 
 [ext_resource type="Texture2D" uid="uid://qlt6jdl6llo6" path="res://assets/sprites/carried_items/barrel2-30x32.png" id="1_6o1vi"]
-[ext_resource type="Script" path="res://scripts/Barrel_Static.gd" id="1_sx2dv"]
+[ext_resource type="Script" path="res://scripts/carryables/Barrel_Static.gd" id="1_sx2dv"]
 [ext_resource type="PackedScene" uid="uid://cx0l7komeublt" path="res://scenes/carryables/Barrel_Carried.tscn" id="2_v3f32"]
 [ext_resource type="PackedScene" uid="uid://bt2tkxuudh0gf" path="res://scenes/Explosion.tscn" id="3_lqo8w"]
 [ext_resource type="Texture2D" uid="uid://dnfkt2e3akgpv" path="res://assets/sprites/carried_items/fpo-flame.png" id="4_sxxcw"]
@@ -59,7 +59,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BarrelStatic" type="StaticBody2D" groups=["barrels", "barrels_static"]]
+[node name="BarrelStatic" type="StaticBody2D" groups=["barrels", "barrels_static", "damageable", "pushable", "static_objects"]]
 script = ExtResource("1_sx2dv")
 carried_scene = ExtResource("2_v3f32")
 explosion_scene = ExtResource("3_lqo8w")

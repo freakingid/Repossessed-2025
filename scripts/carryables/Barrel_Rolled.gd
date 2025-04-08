@@ -12,9 +12,6 @@ var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
 var drop_invincibility_timer := 0.0
 
 func _ready():
-	add_to_group("barrels_rolled")
-	add_to_group("barrels")
-
 	# Set collision exception for all enemy projectiles
 	for projectile in get_tree().get_nodes_in_group("enemy_projectiles"):
 		add_collision_exception_with(projectile)

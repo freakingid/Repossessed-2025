@@ -26,8 +26,6 @@ func _ready():
 	)
 	$Sprite2D.z_index = Global.Z_FLYING_ENEMIES
 
-	add_to_group("enemy_projectiles")
-
 	await get_tree().create_timer(lifespan).timeout
 	queue_free()
 

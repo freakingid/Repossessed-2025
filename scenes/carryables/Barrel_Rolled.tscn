@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://wf4rvmfbmqv7"]
 
-[ext_resource type="Script" path="res://scripts/Barrel_Rolled.gd" id="1_8sfnh"]
+[ext_resource type="Script" path="res://scripts/carryables/Barrel_Rolled.gd" id="1_8sfnh"]
 [ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/carryables/Barrel_Static.tscn" id="2_1g8rn"]
 [ext_resource type="Texture2D" uid="uid://qlt6jdl6llo6" path="res://assets/sprites/carried_items/barrel2-30x32.png" id="2_ajbqi"]
 [ext_resource type="Texture2D" uid="uid://dnfkt2e3akgpv" path="res://assets/sprites/carried_items/fpo-flame.png" id="4_okgwp"]
@@ -61,7 +61,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BarrelRolled" type="RigidBody2D" groups=["barrels", "barrels_rolled"]]
+[node name="BarrelRolled" type="RigidBody2D" groups=["barrels", "barrels_rolled", "damageable", "damaging", "pushable"]]
 physics_material_override = SubResource("PhysicsMaterial_cjeeb")
 gravity_scale = 0.0
 lock_rotation = true

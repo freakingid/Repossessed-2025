@@ -1,6 +1,6 @@
 [gd_scene load_steps=37 format=3 uid="uid://cdh5j6xouytoi"]
 
-[ext_resource type="Script" path="res://scripts/Ghost.gd" id="1_ahq56"]
+[ext_resource type="Script" path="res://scripts/enemies/Ghost.gd" id="1_ahq56"]
 [ext_resource type="Texture2D" uid="uid://p0bt1xh78maj" path="res://assets/sprites/characters/ghost-32.png" id="2_wxvqk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y5enh"]
@@ -274,7 +274,7 @@ animations = [{
 radius = 9.0
 height = 28.0
 
-[node name="Ghost" type="CharacterBody2D" groups=["enemies"]]
+[node name="Ghost" type="CharacterBody2D" groups=["damageable", "enemies", "ground_enemies", "pushable"]]
 z_index = 1
 collision_layer = 4
 collision_mask = 149

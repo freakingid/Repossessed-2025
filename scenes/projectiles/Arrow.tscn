@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dmoifi66l8ocv"]
 
-[ext_resource type="Script" path="res://scripts/Arrow.gd" id="1_5q52v"]
+[ext_resource type="Script" path="res://scripts/projectiles/Arrow.gd" id="1_5q52v"]
 [ext_resource type="Texture2D" uid="uid://xunxwhki8alp" path="res://assets/sprites/fpo-skeleton-arrow.png" id="2_q4svd"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7dwxc"]
@@ -10,7 +10,7 @@ bounce = 1.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r3fy2"]
 size = Vector2(15, 4)
 
-[node name="Arrow" type="RigidBody2D" groups=["enemy_projectile"]]
+[node name="Arrow" type="RigidBody2D" groups=["damaging", "enemy_projectile", "projectiles"]]
 z_index = 1
 collision_layer = 64
 collision_mask = 145

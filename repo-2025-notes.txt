@@ -1,3 +1,22 @@
+20250407
+* Working on a refactor.
+
+Ready for step 3 after cgpt answers my questions
+
+ASKED * Update the Canvas doc now with the enemy group split and registry file definition?
+
+Step 3: Refactor bullet logic (next session)
+Start rewriting Bullet.gd and Arrow.gd using the new architecture?
+
+Step 4: Clean crate/barrel interaction logic
+After bullet cleanup, we’ll formalize barrel/crate reactivation and pickup/drop into reusable patterns.
+
+Add similar registries for collision layers, object types, or power-up names
+
+Technically, I think bullets and enemy bullets are also "damageable," because I am giving them an amount of health to determine when the projectile is actually destroyed. Is that a good way to proceed, or did you have some other idea?
+
+
+
 20250402
 TODO * Add shrapnel behavior on barrel explosion.
 
