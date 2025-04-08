@@ -1,3 +1,24 @@
+20250408
+DONE * Ghost is not doing any melee damage when touching Player
+
+BUG * Player cannot actually shoot any bullets.
+
+TODO * Add Skeletons to the game and test.
+** I think they are already coded, just not tested.
+
+DONE b. Random velocity for Ghosts to spread out. I think this is different than random speed?
+
+LATER a. Random speed for ghosts
+** This is just my simple idea
+
+
+
+
+
+
+
+
+=================================================
 20250407
 * Working on a refactor.
 
@@ -8,46 +29,8 @@ DONE * Enemy Base
 ** We say done here, but it may be ongoing as we work on other enemies.
 
 WORK * Ghost
-BUG * Ghost is not doing any melee damage when touching Player
 
-NOTE: Ghost is asking about some more stuff for neater movement:
-<quote>
-Excellent — your Ghosts are alive and working as intended. Now that you're testing with **multiple Ghosts**, here's what to expect and how to improve it if needed:
-
----
-
-## 👻 What happens when multiple ghosts bump into each other?
-
-By default, Godot's `CharacterBody2D`:
-- Uses **move_and_slide()** to apply velocity
-- **Slides around other colliders** without overlap
-- Handles collisions passively (unless you apply logic in `_on_body_entered`, etc.)
-
-So with 5 ghosts:
-- They will **slide off each other** and possibly bunch up if aiming at the same player target
-- They won’t get stuck, but they may visually overlap a bit in tight spaces
-
----
-
-## 🧠 Want more realism or control?
-
-If you notice **clumping or stacking**, here are some enhancement options:
-
-### 🅰 Add a small random offset to velocity
-To make ghosts spread out slightly:
-
-```gdscript
-func move_directly_to_player(delta):
-	if target_node:
-		var direction = target_node.global_position - global_position
-		if direction.length() > 1:
-			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
-			velocity = (direction + offset).normalized() * speed
-			move_and_slide()
-```
-
-This gives each ghost a slightly different “drift,” preventing identical movement vectors.
-
+More ChatGPT Ghost movement ideas:
 ---
 
 ### 🅱 Use separation logic (like boids/steering)
@@ -826,3 +809,34 @@ The bullet system looks clean, but does it need object pooling for efficiency?
 Would you like collision layers tweaked for performance?
 
 The raycast-based enemy line-of-sight checks are good, but are they causing any performance bottlenecks?
+
+
+
+
+
+
+
+====================================================
+== Philosophy? Game Design?
+====================================================
+1. Make the basic gameplay mechanics:
+a. Player movement, firing, powerup weapons, and overpower weapons.
+b. All basic enemies (just no bosses)
+c. All basic obstacles (walls)
+d. All important special game pieces (crates, barrels)
+
+2. Now, how does it feel?
+
+3. Fix anything big time broken.
+
+4. Maybe it is time to launch steam page with trailer?
+
+5. Now add bigger goals like saving a princess, upgrade tokens to find for completionist, maybe there are a few other things? Careful about scope creep.
+
+6. Make sure UI is working and good
+
+7. Design a zillion levels
+
+8. Make sure there is a trophy system / achievements
+
+9. what else before launch?

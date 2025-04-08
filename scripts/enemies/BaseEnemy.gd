@@ -36,6 +36,14 @@ func _physics_process(delta):
 
 	update_navigation(delta)
 	update_animation()
+	check_player_collision()
+
+func check_player_collision():
+	var collision = get_last_slide_collision()
+	if collision:
+		var collider = collision.get_collider()
+		if collider and collider.is_in_group(Global.GROUPS.PLAYER):
+			collider.take_damage(damage, self)
 
 func update_navigation(delta):
 	if nav_agent == null:
@@ -58,7 +66,8 @@ func move_directly_to_player(delta):
 	if target_node:
 		var direction = target_node.global_position - global_position
 		if direction.length() > 1:
-			velocity = direction.normalized() * speed
+			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
+			velocity = (direction + offset).normalized() * speed
 			move_and_slide()
 
 func get_player_global_position() -> Vector2:

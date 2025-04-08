@@ -424,28 +424,28 @@ func _on_StunTimer_timeout():
 func _on_CooldownTimer_timeout():
 	can_use_lightning = true  # Ability ready again
 
-## Melee attack for player
-func _on_MeleeArea_body_entered(body):
-	if body.is_in_group("enemies") and not invincible:
-		body.take_damage(1)
+func _on_melee_hit(enemy):
+	enemy.take_damage(damage)  # ✅ Player damages enemy
 
 ## Player taking damage
-func take_damage(amount):
+func take_damage(amount: int, source: Node = null):
 	if invincible:
-		return  # Ignore damage if already invincible
+		return
 
 	health -= amount
-	health = max(health, 0)  # Ensure it doesn't go below 0
+	health = max(health, 0)
 	if health_bar:
-		health_bar.value = health  # Update the health bar
+		health_bar.value = health
 	else:
 		print("HealthBar not found!")
 
-	# Start invincibility
+	# Optional knockback effect
+	if source:
+		var knockback_vector = source.global_position.direction_to(global_position) * 200
+		velocity = knockback_vector
+
 	invincible = true
 	$InvincibilityTimer.start()
-	
-	# Make Player sprite blink (optional, add later)
 	start_blinking_effect()
 
 	if health <= 0:
