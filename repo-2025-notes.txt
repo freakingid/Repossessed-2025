@@ -6,9 +6,15 @@ DONE * Player cannot actually shoot any bullets.
 DONE * Add Skeletons to the game and test.
 ** This still needs improved, because Skeletons can get stuck on corners sometimes, but we are going to move on.
 
-** One potential problem is that the skeleton is not checking every step, or even every few steps, to see if the Player is once again in line of sight. I think we are simply saying "Okay, this last_direction worked last step, so let's just go in that direction" but we are not bothering to determine if we can see the player.
-
 DONE b. Random velocity for Ghosts to spread out. I think this is different than random speed?
+
+TODO * Add SkeletonShooters and make sure they fire Arrows.
+
+BUG * Arrows sometimes launch with a spint
+
+BUG * Arrows collide with walls and then do the weird vibration bounce
+
+TODO * Fix the Design Documents. We saved at the beginning of 04082025, but I think ChatGPT has screwed them up somehow. In a dedicated chat that still understands Godot 4.3, we can ask cgpt to combine the documents.
 
 LATER a. Random speed for ghosts
 ** This is just my simple idea

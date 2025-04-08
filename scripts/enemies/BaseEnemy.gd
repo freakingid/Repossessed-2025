@@ -76,6 +76,7 @@ func move_directly_to_player(delta):
 			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
 			velocity = (direction + offset).normalized() * speed
 			move_and_slide()
+		# retry_timer = 0.0  # Removed because it's only defined in Skeleton.gd
 
 func get_player_global_position() -> Vector2:
 	# Always re-fetch player in case of dynamic changes
@@ -100,6 +101,29 @@ func die():
 	gem.gem_power = score_value
 	get_tree().current_scene.call_deferred("add_child", gem)
 	queue_free()
+
+func has_line_of_sight() -> bool:
+	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
+	if not player or not is_instance_valid(player):
+		return false
+
+	var query := PhysicsRayQueryParameters2D.new()
+	query.from = global_position
+	query.to = player.global_position
+	query.exclude = [self]
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+
+	var result = get_world_2d().direct_space_state.intersect_ray(query)
+
+	if result and result.has("collider"):
+		var collider = result["collider"]
+		if collider == player:
+			return true
+		else:
+			return false
+
+	return true
 
 func update_animation():
 	if velocity.length() == 0:

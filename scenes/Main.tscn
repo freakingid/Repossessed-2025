@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="2_wunoo"]
-[ext_resource type="PackedScene" uid="uid://dg5t7fo0bchwm" path="res://scenes/enemies/Skeleton.tscn" id="3_juiwf"]
+[ext_resource type="PackedScene" uid="uid://baadvss7fp65h" path="res://scenes/enemies/SkeletonShooter.tscn" id="3_ecgb4"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
 
 [node name="Node2D" type="Node2D"]
@@ -12,23 +12,8 @@
 position = Vector2(185.043, -134.856)
 nova_shot_scene = ExtResource("2_wunoo")
 
-[node name="Skeleton" parent="." instance=ExtResource("3_juiwf")]
-position = Vector2(-188.733, -302.865)
-
-[node name="Skeleton2" parent="." instance=ExtResource("3_juiwf")]
-position = Vector2(-196.284, -132.024)
-
-[node name="Skeleton3" parent="." instance=ExtResource("3_juiwf")]
-position = Vector2(-334.09, 46.3691)
-
-[node name="Skeleton4" parent="." instance=ExtResource("3_juiwf")]
-position = Vector2(-329.371, 297.44)
-
-[node name="Skeleton5" parent="." instance=ExtResource("3_juiwf")]
-position = Vector2(353.052, -141.462)
-
-[node name="Skeleton6" parent="." instance=ExtResource("3_juiwf")]
-position = Vector2(-86.7946, 176.624)
+[node name="SkeletonShooter" parent="." instance=ExtResource("3_ecgb4")]
+position = Vector2(-188.733, 34.0987)
 
 [node name="HUD" parent="." instance=ExtResource("1_op41d")]
 
