@@ -32,7 +32,7 @@ const Z_UI_FLOATING              = 100
 
 var score: int = 0
 
-# Ghost is essentially my base enemy properties
+# Ghost is often used as a base for other objects to have relative values
 class GHOST:
 	const SPEED = 60.0
 	const DAMAGE = 1

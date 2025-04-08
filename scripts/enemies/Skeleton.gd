@@ -1,46 +1,59 @@
-extends "res://scripts/enemies/BaseEnemy.gd"  # Inherits from BaseEnemy
+extends BaseEnemy
 
-@onready var raycast_forward = $RaycastForward
-@onready var raycast_left = $RaycastLeft
-@onready var raycast_right = $RaycastRight
-
-var movement_attempts = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]  # Sequence of angles to try when blocked
-var current_attempt = 0  # Which movement attempt we're on
-var side_step_timer = 0.0  # How long to commit to the side-step
-var side_step_duration = 1.00  # How many seconds to side-step before retrying forward movement
-var new_direction: Vector2 = Vector2.ZERO  # ✅ Default direction to prevent `nil` errors
+var sidestep_direction := Vector2.ZERO
+var sidestep_distance := 16
 
 func _ready():
-	health = Global.SKELETON.HEALTH
+	# Skeleton stats
 	speed = Global.SKELETON.SPEED
-	score_value = Global.SKELETON.SCORE
+	health = Global.SKELETON.HEALTH
 	damage = Global.SKELETON.DAMAGE
-	super()  # Calls BaseEnemy.gd's _ready()
+	score_value = Global.SKELETON.SCORE
+	is_flying = false
 
-func move_towards_player(delta):
-	if player:
-		var direction = (player.global_position - global_position).normalized()
+	super._ready()
 
-		# ✅ Step 1: Check if the player is in sight using the raycast
-		raycast_forward.target_position = to_local(player.global_position)  # Point raycast at the player
-		raycast_forward.force_raycast_update()  # Ensure it's checking instantly
-		var can_see_player = raycast_forward.is_colliding() and raycast_forward.get_collider() == player
+func update_navigation(delta):
+	if is_dead:
+		return
 
-		if can_see_player:
-			# ✅ If we see the player, move directly toward them
-			current_attempt = 0
-			side_step_timer = 0
-			new_direction = direction
-		else:
-			# ✅ If we can't see the player OR we're already side-stepping
-			if side_step_timer > 0:
-				side_step_timer -= delta
-				direction = new_direction  # Continue with the last decided direction
-			else:
-				# ✅ Start a new side-step attempt if the player is lost
-				current_attempt = (current_attempt + 1) % movement_attempts.size()
-				side_step_timer = randf_range(1.0, 5.0)  # Random side-step duration between 1 and 5 seconds
-				new_direction = direction.rotated(deg_to_rad(movement_attempts[current_attempt]))
+	if has_line_of_sight():
+		sidestep_direction = Vector2.ZERO
+		move_directly_to_player(delta)
+	else:
+		if sidestep_direction == Vector2.ZERO:
+			sidestep_direction = choose_sidestep_direction()
 
+		var side_target = global_position + sidestep_direction * sidestep_distance
+		var direction = (side_target - global_position).normalized()
 		velocity = direction * speed
+
+		if is_path_blocked(direction):
+			sidestep_direction = -sidestep_direction
+
 		move_and_slide()
+
+func has_line_of_sight() -> bool:
+	var result = get_world_2d().direct_space_state.intersect_ray(
+		PhysicsRayQueryParameters2D.create(global_position, get_player_global_position())
+	)
+	return result.is_empty()
+
+func choose_sidestep_direction() -> Vector2:
+	var right = Vector2.RIGHT.rotated((get_player_global_position() - global_position).angle())
+	var left = -right
+
+	if not is_path_blocked(right):
+		return right
+	elif not is_path_blocked(left):
+		return left
+	else:
+		return Vector2.ZERO
+
+func is_path_blocked(direction: Vector2) -> bool:
+	var from = global_position
+	var to = from + direction.normalized() * sidestep_distance
+	var result = get_world_2d().direct_space_state.intersect_ray(
+		PhysicsRayQueryParameters2D.create(from, to)
+	)
+	return not result.is_empty()

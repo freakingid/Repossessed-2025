@@ -1,22 +1,101 @@
 20250407
 * Working on a refactor.
 
-Ready for step 3 after cgpt answers my questions
-
-ASKED * Update the Canvas doc now with the enemy group split and registry file definition?
-
-Step 3: Refactor bullet logic (next session)
+TEST * Step 3: Refactor bullet logic (next session)
 Start rewriting Bullet.gd and Arrow.gd using the new architecture?
 
-Step 4: Clean crate/barrel interaction logic
+DONE * Enemy Base
+** We say done here, but it may be ongoing as we work on other enemies.
+
+WORK * Ghost
+BUG * Ghost is not doing any melee damage when touching Player
+
+NOTE: Ghost is asking about some more stuff for neater movement:
+<quote>
+Excellent — your Ghosts are alive and working as intended. Now that you're testing with **multiple Ghosts**, here's what to expect and how to improve it if needed:
+
+---
+
+## 👻 What happens when multiple ghosts bump into each other?
+
+By default, Godot's `CharacterBody2D`:
+- Uses **move_and_slide()** to apply velocity
+- **Slides around other colliders** without overlap
+- Handles collisions passively (unless you apply logic in `_on_body_entered`, etc.)
+
+So with 5 ghosts:
+- They will **slide off each other** and possibly bunch up if aiming at the same player target
+- They won’t get stuck, but they may visually overlap a bit in tight spaces
+
+---
+
+## 🧠 Want more realism or control?
+
+If you notice **clumping or stacking**, here are some enhancement options:
+
+### 🅰 Add a small random offset to velocity
+To make ghosts spread out slightly:
+
+```gdscript
+func move_directly_to_player(delta):
+	if target_node:
+		var direction = target_node.global_position - global_position
+		if direction.length() > 1:
+			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
+			velocity = (direction + offset).normalized() * speed
+			move_and_slide()
+```
+
+This gives each ghost a slightly different “drift,” preventing identical movement vectors.
+
+---
+
+### 🅱 Use separation logic (like boids/steering)
+If you want smarter avoidance between enemies, you can:
+- Detect nearby enemies using `get_overlapping_bodies()`
+- Calculate repulsion force or steering angle away from them
+- Combine that with the direction toward the player
+
+More complex, but more fluid.
+
+---
+
+### ✅ Recommendation
+Start with Option 🅰 and see if that feels good. It's easy and often enough.
+
+Would you like me to patch that random offset version into `BaseEnemy.gd` for `move_directly_to_player()` in the Canvas doc?
+</quote>
+
+
+
+
+
+
+TODO * Get Player shots working
+
+TODO * Skeleton
+
+TODO * Skeleton Shooter
+
+TODO * Get Skeleton Shooter firing working
+
+TODO * Ghost Spawner
+
+TODO * Skeleton Spawner
+
+TODO * Skeleton Shooter Spawner
+
+TODO * Step 4: Clean crate/barrel interaction logic
 After bullet cleanup, we’ll formalize barrel/crate reactivation and pickup/drop into reusable patterns.
 
-Add similar registries for collision layers, object types, or power-up names
-
-Technically, I think bullets and enemy bullets are also "damageable," because I am giving them an amount of health to determine when the projectile is actually destroyed. Is that a good way to proceed, or did you have some other idea?
 
 
 
+
+
+
+
+========================================
 20250402
 TODO * Add shrapnel behavior on barrel explosion.
 

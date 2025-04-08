@@ -206,7 +206,7 @@ func drop_barrel():
 	# Decide if rolling or placing
 	if velocity.length() > 0:
 		# Spawn Barrel_Rolled
-		var rolled_scene = preload("res://scenes/Barrel_Rolled.tscn")
+		var rolled_scene = preload("res://scenes/carryables/Barrel_Rolled.tscn")
 		var barrel = rolled_scene.instantiate()
 		barrel.global_position = drop_position
 		barrel.linear_velocity = drop_direction * 300  # Adjust launch speed

@@ -13,19 +13,7 @@ position = Vector2(185.043, -134.856)
 nova_shot_scene = ExtResource("2_wunoo")
 
 [node name="Ghost" parent="." instance=ExtResource("3_26aqn")]
-position = Vector2(-181.182, 26.5475)
-
-[node name="Ghost2" parent="." instance=ExtResource("3_26aqn")]
-position = Vector2(-217.049, 142.644)
-
-[node name="Ghost3" parent="." instance=ExtResource("3_26aqn")]
-position = Vector2(-238.759, 273.843)
-
-[node name="Ghost4" parent="." instance=ExtResource("3_26aqn")]
-position = Vector2(-329.371, -88.6054)
-
-[node name="Ghost5" parent="." instance=ExtResource("3_26aqn")]
-position = Vector2(-117.942, 207.772)
+position = Vector2(-187.788, -43.2995)
 
 [node name="HUD" parent="." instance=ExtResource("1_op41d")]
 

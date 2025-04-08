@@ -1,14 +1,18 @@
-extends "res://scripts/BaseEnemy.gd"  # Subclassing BaseEnemy
-
-var hit_player_recently = false  # Prevents continuous attacks, but NOT melee damage
+extends BaseEnemy
 
 func _ready():
-	player = get_tree().get_first_node_in_group("player")
-	health = Global.GHOST.HEALTH
+	# Use Ghost-level stats from Globals.gd
 	speed = Global.GHOST.SPEED
+	health = Global.GHOST.HEALTH
 	damage = Global.GHOST.DAMAGE
 	score_value = Global.GHOST.SCORE
-	
-	# Randomize ghost speed by ±20%
-	speed = speed * randf_range(0.8, 1.2)  # Between 80% and 120% of base speed
-	super()  # Calls BaseEnemy.gd's _ready()
+	is_flying = false
+
+	# Call parent setup
+	super._ready()
+
+# Override with super simple navigation
+func update_navigation(delta):
+	if is_dead:
+		return
+	move_directly_to_player(delta)
