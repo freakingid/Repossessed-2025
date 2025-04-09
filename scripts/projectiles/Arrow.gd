@@ -6,9 +6,10 @@ var damage := Global.SKELETON_SHOOTER.ARROW_DAMAGE
 var lifespan := Global.SKELETON_SHOOTER.ARROW_LIFESPAN
 
 func _ready():
-	add_to_group(Global.GROUPS.ENEMY_PROJECTILES)
-	add_to_group(Global.GROUPS.DAMAGING)
-	add_to_group(Global.GROUPS.PROJECTILES)
+	# Disable bounce behavior
+	var mat := PhysicsMaterial.new()
+	mat.bounce = 0
+	physics_material_override = mat
 
 	# Orient the sprite in the direction of travel
 	rotation = direction.angle()
