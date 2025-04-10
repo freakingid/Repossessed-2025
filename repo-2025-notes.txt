@@ -3,11 +3,12 @@ DONE * Arrows sometimes launch with a spint
 
 DONE * Arrows collide with walls and then do the weird vibration bounce
 
-TODO * Move to a new ChatGPT window
+DONE * Move to a new ChatGPT window
 
 TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
 ** Currently, they all derive from base class "BaseSpawner.gd"
 ** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
+** We added stuff for object pooling
 
 TODO * Add Crate_Static, Crate_Carried
 

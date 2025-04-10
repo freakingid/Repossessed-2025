@@ -38,6 +38,11 @@ func _on_body_entered(body):
 	else:
 		queue_free()
 
+func _on_area_entered(area: Area2D) -> void:
+	if area.get_parent().is_in_group("damageables"):
+		if area.get_parent().has_method("apply_damage"):
+			area.get_parent().apply_damage(damage)
+
 func bounce_off(body):
 	var collision = move_and_collide(linear_velocity * get_physics_process_delta_time())
 	if collision:
