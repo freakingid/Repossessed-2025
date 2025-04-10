@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhvyqog8u4031"]
+[gd_scene load_steps=6 format=3 uid="uid://dhvyqog8u4031"]
 
-[ext_resource type="Script" path="res://scripts/spawners/SkeletonSpawner.gd" id="1_y4i15"]
+[ext_resource type="Script" path="res://scripts/spawners/BaseSpawner.gd" id="1_ool7u"]
+[ext_resource type="PackedScene" uid="uid://dg5t7fo0bchwm" path="res://scenes/enemies/Skeleton.tscn" id="2_c8pmv"]
 [ext_resource type="Texture2D" uid="uid://j0s5vmk116lw" path="res://assets/sprites/spawners/fpo-spawn-skeleton.png" id="3_22bpo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s6aed"]
@@ -11,7 +12,8 @@ size = Vector2(33, 33)
 
 [node name="SkeletonSpawner" type="Node2D" groups=["damageable", "spawners"]]
 z_index = 1
-script = ExtResource("1_y4i15")
+script = ExtResource("1_ool7u")
+enemy_scene = ExtResource("2_c8pmv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)

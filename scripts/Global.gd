@@ -124,6 +124,11 @@ class SHRAPNEL:
 class CRATE:
 	const DROPWAIT = 0.3 # How long to wait after dropping crate before we can fire
 
+# Spawners
+const DEFAULT_SPAWN_INTERVAL = 2.0
+const DEFAULT_MAX_ENEMIES = 5
+const DEFAULT_SPAWNER_HEALTH = 10
+
 
 # Some properties are not in here because they don't seem like leveling choices
 # We didn't put Gem properties in here

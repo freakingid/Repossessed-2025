@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://df8tk30576iiq"]
+[gd_scene load_steps=6 format=3 uid="uid://df8tk30576iiq"]
 
-[ext_resource type="Script" path="res://scripts/spawners/BatSpawner.gd" id="1_5iwyf"]
+[ext_resource type="Script" path="res://scripts/spawners/BaseSpawner.gd" id="1_s3u8q"]
 [ext_resource type="Texture2D" uid="uid://uha0j0uj5miu" path="res://assets/sprites/spawners/fpo-spawn-bat.png" id="2_jhu8i"]
+[ext_resource type="PackedScene" uid="uid://drs8neucn5315" path="res://scenes/enemies/Bat.tscn" id="2_u8vuw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f8vwt"]
 radius = 31.1006
@@ -11,7 +12,8 @@ size = Vector2(62, 63)
 
 [node name="BatSpawner" type="Node2D" groups=["damageable", "spawners"]]
 z_index = 1
-script = ExtResource("1_5iwyf")
+script = ExtResource("1_s3u8q")
+enemy_scene = ExtResource("2_u8vuw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_jhu8i")
