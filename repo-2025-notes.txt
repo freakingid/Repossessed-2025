@@ -1,18 +1,55 @@
 20250409
+** Today we are doing a bunch of "Refactoring" because that seems to be what ChatGPT tries to do whenever I enter a new chat and try to preserve context. It all sounds useful, but some things might have been stripped out when cgpt was trying to update the wrong Canvas documents, just FYI.
+
 DONE * Arrows sometimes launch with a spint
 
 DONE * Arrows collide with walls and then do the weird vibration bounce
 
 DONE * Move to a new ChatGPT window
 
-TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
+WORKING * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
 ** Currently, they all derive from base class "BaseSpawner.gd"
 ** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
 ** We added stuff for object pooling
 
-Updating your enemy death system to use recycle_enemy()?
-Or setting up preload pools at level start?
-Let me know how deep you want to go with recycling.
+DONE * Add Ghost Spawner and Ghost, with Pooling
+
+<quote>
+🔭 Here are some good next steps, depending on your goals:
+🎯 1. Refactor more enemies (Skeleton, SkeletonShooter, etc.)
+* Inherit from BaseEnemy
+* Override update_navigation() and reset() as needed
+* Tag with source_scene and call reset() from spawner
+
+⚡ Recommended if you want to expand pooling coverage now.
+
+🧠 2. Add visual feedback to BaseEnemy
+* Flash red on hit (modulate)
+* Spawn particles or blood splats
+* Show floating damage numbers
+
+Recommended if you're shifting toward polish or playtesting soon.
+
+🧪 3. Set up a DebugSpawner scene
+* Spawn any enemy on demand with a hotkey
+* Great for testing AI, pooling, or combat balance
+* Nice to have during iteration or level design.
+
+🧰 4. Create a "ReusableEnemySpawner" prefab
+* A fully wired-up spawner scene that can be dropped anywhere
+* Inspector config only (no custom scripts needed)
+
+Good if level design is picking up and you want less wiring overhead.
+
+=====
+If you'd like to keep momentum, next great steps could include:
+🔁 Converting another enemy (e.g. Skeleton) to the pooling system
+💥 Adding death animations or hit flash visuals
+🎯 Setting up spawn waves, limits, or conditional triggers
+🛠️ Auto-adding enemies to groups based on is_flying (or other traits)
+
+
+
 
 TODO * Add Crate_Static, Crate_Carried
 

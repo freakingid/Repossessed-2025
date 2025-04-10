@@ -46,6 +46,7 @@ func _spawn_enemy() -> void:
 	if enemy:
 		enemy.global_position = global_position + Vector2(randf_range(-16, 16), randf_range(-16, 16))
 		get_parent().add_child(enemy)
+		enemy.visible = true
 		enemies_spawned += 1
 		enemy.tree_exited.connect(_on_enemy_destroyed)
 		emit_signal("enemy_spawned", enemy)

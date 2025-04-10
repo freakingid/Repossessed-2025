@@ -1,18 +1,13 @@
-extends BaseEnemy
+extends "res://scripts/enemies/BaseEnemy.gd"
 
-func _ready():
-	# Use Ghost-level stats from Globals.gd
-	speed = Global.GHOST.SPEED
-	health = Global.GHOST.HEALTH
-	damage = Global.GHOST.DAMAGE
-	score_value = Global.GHOST.SCORE
-	is_flying = false
+func update_navigation(delta: float) -> void:
+	if target_node:
+		var direction = target_node.global_position - global_position
+		if direction.length() > 1:
+			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
+			velocity = (direction + offset).normalized() * speed
+			move_and_slide()
 
-	# Call parent setup
-	super._ready()
-
-# Override with super simple navigation
-func update_navigation(delta):
-	if is_dead:
-		return
-	move_directly_to_player(delta)
+func reset() -> void:
+	super.reset()
+	# No Ghost-specific timers or states to reset (yet)

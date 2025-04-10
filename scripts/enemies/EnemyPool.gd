@@ -27,7 +27,8 @@ func recycle_enemy(enemy: Node2D, scene: PackedScene) -> void:
 	enemy.visible = false
 	enemy.set_physics_process(false)
 	pools[key].append(enemy)
-	enemy.get_parent()?.remove_child(enemy)
+	if enemy.get_parent():
+		enemy.get_parent().remove_child(enemy)
 
 # Optional utility to pre-fill a pool at game start
 func preload_pool(scene: PackedScene, count: int):

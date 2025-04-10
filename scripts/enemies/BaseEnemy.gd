@@ -29,6 +29,12 @@ var target_node: Node2D
 func _ready():
 	target_node = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
 
+	# Set proper z_index layering
+	if is_flying:
+		sprite.z_index = Global.Z_FLYING_ENEMIES
+	else:
+		sprite.z_index = Global.Z_BASE_ENEMIES
+
 func _physics_process(delta):
 	if is_dead:
 		return
@@ -64,7 +70,7 @@ func is_path_blocked(direction: Vector2) -> bool:
 	)
 	if not result.is_empty():
 		var collider = result["collider"]
-			# Blocked by wall or another enemy
+		# Blocked by wall or another enemy
 		if collider and (collider.is_in_group(Global.GROUPS.STATIC_OBJECTS) or collider.is_in_group(Global.GROUPS.ENEMIES)):
 			return true
 	return false
@@ -96,11 +102,20 @@ func take_damage(amount: int):
 
 func die():
 	is_dead = true
+
+	# Drop gem
 	var gem = GEM_SCENE.instantiate()
 	gem.global_position = global_position
 	gem.gem_power = score_value
 	get_tree().current_scene.call_deferred("add_child", gem)
-	queue_free()
+
+	# Pooling support
+	if has_meta("source_scene"):
+		visible = false
+		set_physics_process(false)
+		EnemyPool.recycle_enemy(self, get_meta("source_scene"))
+	else:
+		queue_free()
 
 func has_line_of_sight() -> bool:
 	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
@@ -147,3 +162,12 @@ func update_animation():
 		sprite.play(best_match)
 	elif not sprite.is_playing():
 		sprite.play()
+
+func reset():
+	# Called when pulled from object pool
+	is_dead = false
+	visible = true
+	set_physics_process(true)
+	health = max(health, 1)
+	velocity = Vector2.ZERO
+	sprite.modulate = Color(1, 1, 1)
