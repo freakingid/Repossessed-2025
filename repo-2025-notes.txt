@@ -6,10 +6,37 @@ DONE * Arrows collide with walls and then do the weird vibration bounce
 TODO * Move to a new ChatGPT window
 
 TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
+** Currently, they all derive from base class "BaseSpawner.gd"
+** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
 
 TODO * Add Crate_Static, Crate_Carried
 
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
+
+First, I want to figure out why there are 8 different Canvas documents, and do any housekeeping we need there. For example, I see 4 documents named "Repossessed - For Later", and then the following documents:
+"Repossessed - Design Patterns And Systems", 
+"Repossessed - Globals And Registries", 
+"Repossessed - Gdscript Implementation",
+"Repossessed Game Design Document"
+
+Let's make sure we don't have a problem with those for versions of "Repossessed - For Later"
+
+Then, consider my first steps in the new chat will be the following:
+
+TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
+** Currently, they all derive from base class "BaseSpawner.gd"
+** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
+
+TODO * Add Crate_Static, Crate_Carried
+
+TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
+
+If you need to update any of the Canvas documents to help support those next actions, let's do it.
+
+Then, you could give me a one-line command to paste into the new chat to reload just the essentials.
+
+I'm continuing work on my Godot 4.3 project Repossessed. Please load these Canvas documents: "Repossessed – Design Patterns and Systems", "Repossessed – Globals and Registries", "Repossessed – GDScript Implementation", and "Repossessed – For Later".
+
 
 
 
