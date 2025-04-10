@@ -42,12 +42,13 @@ func spawn_timer() -> void:
 	_spawn_loop()
 
 func _spawn_enemy() -> void:
-	var enemy = enemy_scene.instantiate()
-	enemy.global_position = global_position + Vector2(randf_range(-16, 16), randf_range(-16, 16))
-	get_parent().add_child(enemy)
-	enemies_spawned += 1
-	enemy.tree_exited.connect(_on_enemy_destroyed)
-	emit_signal("enemy_spawned", enemy)
+	var enemy = EnemyPool.fetch_enemy(enemy_scene)
+	if enemy:
+		enemy.global_position = global_position + Vector2(randf_range(-16, 16), randf_range(-16, 16))
+		get_parent().add_child(enemy)
+		enemies_spawned += 1
+		enemy.tree_exited.connect(_on_enemy_destroyed)
+		emit_signal("enemy_spawned", enemy)
 
 func _on_enemy_destroyed() -> void:
 	enemies_spawned = max(enemies_spawned - 1, 0)

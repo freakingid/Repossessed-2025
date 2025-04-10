@@ -10,6 +10,10 @@ TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
 ** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
 ** We added stuff for object pooling
 
+Updating your enemy death system to use recycle_enemy()?
+Or setting up preload pools at level start?
+Let me know how deep you want to go with recycling.
+
 TODO * Add Crate_Static, Crate_Carried
 
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
