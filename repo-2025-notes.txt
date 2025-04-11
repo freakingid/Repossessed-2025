@@ -1,7 +1,33 @@
-20250410
+20250411
+=====
+TODO * Add Crate_Static, Crate_Carried
+
+BUG * When dropping a crate while moving down, the player drops the crate to the upper left. It seems like the only other direction that has a problem with this is when the player is moving down and to the left. Again, crate is dropped up and to the left of player. Should drop the crate further down, where the player would jump over it.
+
+BUG * Player bullets are not bouncing off of Crate_Static. They are just dying, it looks like.
+
+BUG * Crate_Carried does not collide with wall and prevent movement. The crate simply overlaps the wall, and then Player does collide / stop with the wall.
+
+=====
+TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
+
+BUG * Ghosts can walk right through Barrel_Static.
+** Note: They do NOT walk through Crate_Static. Both are StaticBody2D, but probably have different layers and/or groups. Collision Layer and Mask are probably the culprit.
+** Note: Ghosts do NOT walk through Barrel_Rolled, which is expected behavior.
+
+BUG * Barrel_Carried does not collide with wall and prevent movement. The barrel simply overlaps the wall, and then Player does collide / stop with the wall.
+
+BUG * Shrapnel collides with wall but doesn't bounce away much, which looks really odd.
 
 BUG * Nova should only be able to be fired once, and then a cooldown that happens after the first nova has completely finished
 
+DONE * Bullet gets error about hitbox
+
+
+
+
+
+==========
 TODO * We talked about making Nova behavior change:
 a. Push enemies away, but not damaging them
 b. Destroying ememy bullets
@@ -16,12 +42,11 @@ LATER * Pool Enemy Lobber shots, Spider webs, other things they throw
 
 LATER * Pool Shrapnel
 
-DONE * Fixed and refactored some issues with Bat Enemy.
+BUG * Skeleton Enemy can get stuck in corners
 
-DONE * Spawners fix error and add despawn signal with data to log
+BUG * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that.
 
-DONE * Spawners cannot be shot with Player Bullet.
-** Note, we put the root Spawner nodes into "damageable" group and I'm not sure that's correct. YES it is correct.
+BUG * SkeletonShooter movement behavior needs refined a bit. They stop movement at odd times.
 
 <quote>
 Optional Add-ons for Spawner stats building
@@ -35,6 +60,23 @@ We can build on this easily with internal metrics.
 Let me know if you'd like to log enemy lifespans in a per-spawner array or roll up some real-time stats!
 </quote>
 
+
+
+
+
+
+
+
+
+20250410
+
+DONE * Fixed and refactored some issues with Bat Enemy.
+
+DONE * Spawners fix error and add despawn signal with data to log
+
+DONE * Spawners cannot be shot with Player Bullet.
+** Note, we put the root Spawner nodes into "damageable" group and I'm not sure that's correct. YES it is correct.
+
 DONE * All enemies can be placed in the scene without error and pursue player, and SkeletonShooter fires arrows. Current enemies are:
 Ghost, Skeleton, SkeletonShooter, Zombie, Bat
 ** All enemies can be shot by the Player Bullet, also, and they die, and spawn gems based on their power.
@@ -42,12 +84,6 @@ Ghost, Skeleton, SkeletonShooter, Zombie, Bat
 DONE * Spawners for Ghost, Skeleton, SkeletonShooter, Zombie, and Bat are wired up with Object Pooling. We are using Constants from Global.gd to set both the maximum number of each enemy type (in BaseSpawner) and the number of objects put into the pool (in LevelManager)
 
 DONE * Add SkeletonSpawner and Skeleton with Pooling
-
-BUG * Skeleton Enemy can get stuck in corners
-
-BUG * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that.
-
-BUG * SkeletonShooter movement behavior needs refined a bit. They stop movement at odd times.
 
 =====
 <quote>
@@ -84,14 +120,6 @@ If you'd like to keep momentum, next great steps could include:
 💥 Adding death animations or hit flash visuals
 🎯 Setting up spawn waves, limits, or conditional triggers
 🛠️ Auto-adding enemies to groups based on is_flying (or other traits)
-
-
-
-
-TODO * Add Crate_Static, Crate_Carried
-
-TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
-
 
 
 

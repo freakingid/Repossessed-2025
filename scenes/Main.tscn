@@ -1,15 +1,13 @@
-[gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=9 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="2_wunoo"]
-[ext_resource type="PackedScene" uid="uid://df8tk30576iiq" path="res://scenes/spawners/BatSpawner.tscn" id="3_1b552"]
-[ext_resource type="PackedScene" uid="uid://dhvyqog8u4031" path="res://scenes/spawners/SkeletonSpawner.tscn" id="3_2rev4"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/spawners/GhostSpawner.tscn" id="4_6ftku"]
-[ext_resource type="PackedScene" uid="uid://cxp6pjyhdyfi2" path="res://scenes/spawners/SkeletonShooterSpawner.tscn" id="5_0v1gu"]
+[ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/carryables/Barrel_Static.tscn" id="4_pfej5"]
+[ext_resource type="PackedScene" uid="uid://cmdq6h3pgo4ud" path="res://scenes/carryables/Crate_Static.tscn" id="5_k187k"]
 [ext_resource type="Script" path="res://scripts/LevelManager.gd" id="6_najxp"]
-[ext_resource type="PackedScene" uid="uid://cjxuoojpny0bo" path="res://scenes/spawners/ZombieSpawner.tscn" id="7_3wyw0"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -20,17 +18,23 @@ nova_shot_scene = ExtResource("2_wunoo")
 [node name="GhostSpawner" parent="." instance=ExtResource("4_6ftku")]
 position = Vector2(-307.542, -324.725)
 
-[node name="BatSpawner" parent="." instance=ExtResource("3_1b552")]
-position = Vector2(-327, 346)
+[node name="BarrelStatic" parent="." instance=ExtResource("4_pfej5")]
+position = Vector2(-170.776, -181.249)
 
-[node name="SkeletonShooterSpawner" parent="." instance=ExtResource("5_0v1gu")]
-position = Vector2(362, 337)
+[node name="BarrelStatic2" parent="." instance=ExtResource("4_pfej5")]
+position = Vector2(-180.878, -70.1257)
 
-[node name="SkeletonSpawner" parent="." instance=ExtResource("3_2rev4")]
-position = Vector2(359, -335)
+[node name="BarrelStatic3" parent="." instance=ExtResource("4_pfej5")]
+position = Vector2(-87.7138, -55.5337)
 
-[node name="ZombieSpawner" parent="." instance=ExtResource("7_3wyw0")]
-position = Vector2(-63, 237)
+[node name="CrateStatic" parent="." instance=ExtResource("5_k187k")]
+position = Vector2(-196.593, 83.6516)
+
+[node name="CrateStatic2" parent="." instance=ExtResource("5_k187k")]
+position = Vector2(-100.061, 80.2842)
+
+[node name="CrateStatic3" parent="." instance=ExtResource("5_k187k")]
+position = Vector2(-162.919, 173.449)
 
 [node name="HUD" parent="." instance=ExtResource("1_op41d")]
 
