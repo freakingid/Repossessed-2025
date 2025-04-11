@@ -1,26 +1,53 @@
 20250410
 
+BUG * Spawners cannot be shot with Player Bullet.
+
+TODO * Pool Player Bullets
+
+TODO * Pool Enemy Arrows
+
+LATER * Pool Enemy Lobber shots, Spider webs, other things they throw
+
+LATER * Pool Shrapnel
+
+DONE * Fixed and refactored some issues with Bat Enemy.
+
+DONE * Spawners fix error and add despawn signal with data to log
+
+</quote>
+Optional Add-ons for Spawner stats building
+Want to:
+1. Track average lifespan per spawner?
+2. Delay spawns if enemies die too quickly (anti-spawn-spam)?
+3. Trigger special events based on enemy death cause?
+
+We can build on this easily with internal metrics.
+
+Let me know if you'd like to log enemy lifespans in a per-spawner array or roll up some real-time stats!
+</quote>
+
 DONE * All enemies can be placed in the scene without error and pursue player, and SkeletonShooter fires arrows. Current enemies are:
 Ghost, Skeleton, SkeletonShooter, Zombie, Bat
 ** All enemies can be shot by the Player Bullet, also, and they die, and spawn gems based on their power.
 
 DONE * Spawners for Ghost, Skeleton, SkeletonShooter, Zombie, and Bat are wired up with Object Pooling. We are using Constants from Global.gd to set both the maximum number of each enemy type (in BaseSpawner) and the number of objects put into the pool (in LevelManager)
 
-TODO * Add SkeletonSpawner and Skeleton with Pooling
-Would you like help with:
-NavigationAgent2D integration?
-Refactoring Skeleton’s spawner scene?
-Adding custom pathing like obstacle avoidance or side-stepping?
+DONE * Add SkeletonSpawner and Skeleton with Pooling
 
 BUG * Skeleton Enemy can get stuck in corners
 
 BUG * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that.
 
-BUG * Spawners cannot be shot with Player Bullet.
-
 BUG * SkeletonShooter movement behavior needs refined a bit. They stop movement at odd times.
 
 =====
+<quote>
+Would you like help with:
+NavigationAgent2D integration?
+Refactoring Skeleton’s spawner scene?
+Adding custom pathing like obstacle avoidance or side-stepping?
+</quote>
+
 💥 Adding death animations or hit flash visuals
 🎯 Setting up spawn waves, limits, or conditional triggers
 

@@ -1,9 +1,4 @@
-extends CharacterBody2D
-
-var health = Global.BAT.HEALTH
-var speed = Global.BAT.SPEED
-var damage = Global.BAT.DAMAGE
-var score_value = Global.BAT.SCORE
+extends "res://scripts/enemies/BaseEnemy.gd"
 
 # Bat-specific
 var dash_speed: float = speed * 2  # Speed when dashing
@@ -16,27 +11,19 @@ var wander_distance: float = 80.0  # How far it hovers around
 var is_dashing: bool = false  # If the bat is currently dashing
 var target_position: Vector2  # Position the bat is flying towards
 var is_wandering: bool = false  # If the bat is hovering randomly
+var start_timer_when_ready := false
 
 @onready var timer = $Timer  # A timer node for controlling movement cycles
-@onready var player = get_tree().get_first_node_in_group("player") # player is in BaseEnemy.gd but we're not a child
-@onready var sprite = $AnimatedSprite2D
-
-@onready var DIRECTION_ANIMATIONS := {
-	"walk_e": Vector2.RIGHT,
-	"walk_se": Vector2(1, 1).normalized(),
-	"walk_s": Vector2.DOWN,
-	"walk_sw": Vector2(-1, 1).normalized(),
-	"walk_w": Vector2.LEFT,
-	"walk_nw": Vector2(-1, -1).normalized(),
-	"walk_n": Vector2.UP,
-	"walk_ne": Vector2(1, -1).normalized()
-}
-
 
 func _ready():
+	animation_speed_reference = dash_speed
 	timer.timeout.connect(_on_timer_timeout)
-	if player:
-		target_position = player.global_position
+	if start_timer_when_ready:
+		timer.start(pause_time)
+		start_timer_when_ready = false
+
+	if target_node:
+		target_position = target_node.global_position
 		is_dashing = true
 		speed = dash_speed
 		timer.start(pause_time)  # Starts the dash → wander cycle
@@ -46,7 +33,8 @@ func _ready():
 		Global.LAYER_PLAYER |
 		Global.LAYER_PLAYER_BULLET
 	)
-	sprite.z_index = Global.Z_FLYING_ENEMIES
+	# done in BaseEnemy?
+	# sprite.z_index = Global.Z_FLYING_ENEMIES
 
 
 func _process(_delta):
@@ -66,9 +54,9 @@ func _on_timer_timeout():
 	if is_wandering:
 		# Time to start dashing again
 		is_wandering = false
-		player = get_tree().get_first_node_in_group("player")
-		if player:
-			target_position = player.global_position
+		target_node = get_tree().get_first_node_in_group("player")
+		if target_node:
+			target_position = target_node.global_position
 			is_dashing = true
 			speed = dash_speed
 			timer.start(pause_time)  # Dash for X seconds
@@ -92,54 +80,6 @@ func start_wandering():
 	var tween = create_tween()
 	tween.tween_property(self, "position", target_position, wander_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
-func update_animation():
-	if velocity.length() == 0:
-		sprite.stop()
-		return
-
-	var dir = velocity.normalized()
-
-	var best_match = ""
-	var best_dot = -1.0
-
-	for anim in DIRECTION_ANIMATIONS:
-		var d = DIRECTION_ANIMATIONS[anim]
-		var dot = d.dot(dir)
-		if dot > best_dot:
-			best_dot = dot
-			best_match = anim
-
-	# Adjust animation speed by how fast bat is moving
-	var max_speed = dash_speed
-	var actual_speed = velocity.length()
-	sprite.speed_scale = clamp(actual_speed / max_speed, 0.75, 1.5)
-
-	if sprite.animation != best_match:
-		sprite.play(best_match)
-	elif not sprite.is_playing():
-		sprite.play()
-
-func take_damage(amount):
-	health -= amount
-	
-	if health <= 0:
-		# Grant score to player upon death
-		player = get_tree().get_first_node_in_group("player")
-		if player:
-			player.add_score(score_value)  # Or any value you want
-		
-		die() # Destroy the enemy instance
-
-func die():
-	# Drop a gem when the enemy dies
-	var gem = preload("res://scenes/Gem.tscn").instantiate()
-	gem.global_position = global_position
-	gem.gem_power = score_value  # Gem power = enemy score value
-	get_tree().current_scene.call_deferred("add_child", gem)
-
-	# Remove the enemy from the scene
-	queue_free()
-
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_projectiles"):
 		print("Bat collided with player bullet!")
@@ -159,3 +99,13 @@ func _on_Hitbox_body_entered(body: Node2D) -> void:
 		print("Bat collided with player!")
 		body.take_damage(damage)
 		take_damage(body.damage)  # Optional if you want bat to take melee damage too
+
+func reset() -> void:
+	super.reset()
+	health = Global.BAT.HEALTH
+	is_dashing = false
+	is_wandering = false
+	velocity = Vector2.ZERO
+	if target_node:
+		target_position = target_node.global_position
+	start_timer_when_ready = true

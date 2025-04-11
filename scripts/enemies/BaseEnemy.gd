@@ -6,6 +6,10 @@ class_name BaseEnemy
 @export var damage: int = 1
 @export var score_value: int = 1
 @export var is_flying: bool = false
+@export var animation_speed_reference: float = 60.0
+
+signal despawned(reason: String, timestamp: float)
+var spawn_time: float = 0.0
 
 @onready var nav_agent: NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -108,9 +112,15 @@ func die():
 	gem.gem_power = score_value
 	get_tree().current_scene.call_deferred("add_child", gem)
 
+	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
+	if player:
+		player.add_score(score_value)
+		
 	if has_meta("source_scene"):
 		visible = false
 		set_physics_process(false)
+		var now = Time.get_ticks_msec() / 1000.0
+		emit_signal("despawned", "died_from_damage", now)
 		var sprite_node := get_node_or_null("AnimatedSprite2D")
 		if sprite_node:
 			sprite_node.modulate = Color(1, 0, 0)  # Optional flash before hide
@@ -161,7 +171,7 @@ func update_animation():
 			best_dot = dot
 			best_match = anim
 
-	sprite_node.speed_scale = clamp(velocity.length() / speed, 0.75, 1.5)
+	sprite_node.speed_scale = clamp(velocity.length() / animation_speed_reference, 0.75, 1.5)
 
 	if sprite_node.animation != best_match:
 		sprite_node.play(best_match)
@@ -169,6 +179,7 @@ func update_animation():
 		sprite_node.play()
 
 func reset():
+	spawn_time = Time.get_ticks_msec() / 1000.0  # Save when it entered the scene
 	is_dead = false
 	visible = true
 	set_physics_process(true)

@@ -59,11 +59,13 @@ func _spawn_enemy() -> void:
 		enemy.visible = true
 
 		enemies_spawned += 1
-		enemy.tree_exited.connect(_on_enemy_destroyed)
+		if not enemy.despawned.is_connected(_on_enemy_destroyed):
+			enemy.despawned.connect(_on_enemy_destroyed)
 		emit_signal("enemy_spawned", enemy)
 
-func _on_enemy_destroyed() -> void:
+func _on_enemy_destroyed(reason: String, timestamp: float) -> void:
 	enemies_spawned = max(enemies_spawned - 1, 0)
+	print("[Spawner] Enemy despawned. Reason:", reason, " at:", timestamp)
 
 func take_damage(amount: int) -> void:
 	print("BaseSpawner taking damage: ", amount)
