@@ -10,7 +10,7 @@ radius = 16.0702
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6j6e"]
 size = Vector2(33, 33)
 
-[node name="SkeletonSpawner" type="Node2D" groups=["spawners"]]
+[node name="SkeletonSpawner" type="Node2D" groups=["damageable", "spawners"]]
 z_index = 1
 script = ExtResource("1_ool7u")
 enemy_scene = ExtResource("2_c8pmv")
@@ -19,7 +19,7 @@ enemy_scene = ExtResource("2_c8pmv")
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_22bpo")
 
-[node name="Collider" type="StaticBody2D" parent="." groups=["damageable"]]
+[node name="Collider" type="StaticBody2D" parent="."]
 collision_layer = 8
 collision_mask = 0
 

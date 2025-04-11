@@ -1,15 +1,11 @@
-[gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=7 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="2_wunoo"]
-[ext_resource type="PackedScene" uid="uid://df8tk30576iiq" path="res://scenes/spawners/BatSpawner.tscn" id="3_1b552"]
-[ext_resource type="PackedScene" uid="uid://dhvyqog8u4031" path="res://scenes/spawners/SkeletonSpawner.tscn" id="3_2rev4"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/spawners/GhostSpawner.tscn" id="4_6ftku"]
-[ext_resource type="PackedScene" uid="uid://cxp6pjyhdyfi2" path="res://scenes/spawners/SkeletonShooterSpawner.tscn" id="5_0v1gu"]
 [ext_resource type="Script" path="res://scripts/LevelManager.gd" id="6_najxp"]
-[ext_resource type="PackedScene" uid="uid://cjxuoojpny0bo" path="res://scenes/spawners/ZombieSpawner.tscn" id="7_3wyw0"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -17,20 +13,8 @@
 position = Vector2(185.043, -134.856)
 nova_shot_scene = ExtResource("2_wunoo")
 
-[node name="BatSpawner" parent="." instance=ExtResource("3_1b552")]
-position = Vector2(-314.269, -312.304)
-
 [node name="GhostSpawner" parent="." instance=ExtResource("4_6ftku")]
 position = Vector2(183.154, -326.462)
-
-[node name="SkeletonShooterSpawner" parent="." instance=ExtResource("5_0v1gu")]
-position = Vector2(345.501, -79.1666)
-
-[node name="SkeletonSpawner" parent="." instance=ExtResource("3_2rev4")]
-position = Vector2(-280.997, 254.588)
-
-[node name="ZombieSpawner" parent="." instance=ExtResource("7_3wyw0")]
-position = Vector2(315.676, 267.936)
 
 [node name="HUD" parent="." instance=ExtResource("1_op41d")]
 

@@ -1,6 +1,7 @@
 20250410
 
-BUG * Spawners cannot be shot with Player Bullet.
+TEST * Spawners cannot be shot with Player Bullet.
+** Note, we put the root Spawner nodes into "damageable" group and I'm not sure that's correct. YES it is correct.
 
 TODO * Pool Player Bullets
 

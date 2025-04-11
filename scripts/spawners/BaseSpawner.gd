@@ -29,7 +29,7 @@ func _ready():
 		health = Global.DEFAULT_SPAWNER_HEALTH
 	original_modulate = get_node("Sprite2D").modulate
 	_start_spawning()
-
+	
 func _start_spawning() -> void:
 	if delay_before_start > 0.0:
 		await get_tree().create_timer(delay_before_start).timeout
