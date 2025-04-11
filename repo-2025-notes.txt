@@ -1,34 +1,35 @@
-20250409
-** Today we are doing a bunch of "Refactoring" because that seems to be what ChatGPT tries to do whenever I enter a new chat and try to preserve context. It all sounds useful, but some things might have been stripped out when cgpt was trying to update the wrong Canvas documents, just FYI.
+20250410
 
-DONE * Arrows sometimes launch with a spint
+DONE * All enemies can be placed in the scene without error and pursue player, and SkeletonShooter fires arrows. Current enemies are:
+Ghost, Skeleton, SkeletonShooter, Zombie, Bat
+** All enemies can be shot by the Player Bullet, also, and they die, and spawn gems based on their power.
 
-DONE * Arrows collide with walls and then do the weird vibration bounce
+DONE * Spawners for Ghost, Skeleton, SkeletonShooter, Zombie, and Bat are wired up with Object Pooling. We are using Constants from Global.gd to set both the maximum number of each enemy type (in BaseSpawner) and the number of objects put into the pool (in LevelManager)
 
-DONE * Move to a new ChatGPT window
+TODO * Add SkeletonSpawner and Skeleton with Pooling
+Would you like help with:
+NavigationAgent2D integration?
+Refactoring Skeleton’s spawner scene?
+Adding custom pathing like obstacle avoidance or side-stepping?
 
-WORKING * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
-** Currently, they all derive from base class "BaseSpawner.gd"
-** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
-** We added stuff for object pooling
+BUG * Skeleton Enemy can get stuck in corners
 
-DONE * Add Ghost Spawner and Ghost, with Pooling
+BUG * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that.
+
+BUG * Spawners cannot be shot with Player Bullet.
+
+BUG * SkeletonShooter movement behavior needs refined a bit. They stop movement at odd times.
+
+=====
+💥 Adding death animations or hit flash visuals
+🎯 Setting up spawn waves, limits, or conditional triggers
 
 <quote>
 🔭 Here are some good next steps, depending on your goals:
-🎯 1. Refactor more enemies (Skeleton, SkeletonShooter, etc.)
-* Inherit from BaseEnemy
-* Override update_navigation() and reset() as needed
-* Tag with source_scene and call reset() from spawner
-
-⚡ Recommended if you want to expand pooling coverage now.
 
 🧠 2. Add visual feedback to BaseEnemy
 * Flash red on hit (modulate)
 * Spawn particles or blood splats
-* Show floating damage numbers
-
-Recommended if you're shifting toward polish or playtesting soon.
 
 🧪 3. Set up a DebugSpawner scene
 * Spawn any enemy on demand with a hotkey
@@ -55,15 +56,30 @@ TODO * Add Crate_Static, Crate_Carried
 
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
 
-First, I want to figure out why there are 8 different Canvas documents, and do any housekeeping we need there. For example, I see 4 documents named "Repossessed - For Later", and then the following documents:
-"Repossessed - Design Patterns And Systems", 
-"Repossessed - Globals And Registries", 
-"Repossessed - Gdscript Implementation",
-"Repossessed Game Design Document"
 
-Let's make sure we don't have a problem with those for versions of "Repossessed - For Later"
 
-Then, consider my first steps in the new chat will be the following:
+
+
+
+
+
+
+========================================
+20250409
+** Today we are doing a bunch of "Refactoring" because that seems to be what ChatGPT tries to do whenever I enter a new chat and try to preserve context. It all sounds useful, but some things might have been stripped out when cgpt was trying to update the wrong Canvas documents, just FYI.
+
+DONE * Arrows sometimes launch with a spint
+
+DONE * Arrows collide with walls and then do the weird vibration bounce
+
+DONE * Move to a new ChatGPT window
+
+WORKING * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
+** Currently, they all derive from base class "BaseSpawner.gd"
+** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
+** We added stuff for object pooling
+
+DONE * Add Ghost Spawner and Ghost, with Pooling
 
 TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
 ** Currently, they all derive from base class "BaseSpawner.gd"
@@ -72,14 +88,6 @@ TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
 TODO * Add Crate_Static, Crate_Carried
 
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
-
-If you need to update any of the Canvas documents to help support those next actions, let's do it.
-
-Then, you could give me a one-line command to paste into the new chat to reload just the essentials.
-
-I'm continuing work on my Godot 4.3 project Repossessed. Please load these Canvas documents: "Repossessed – Design Patterns and Systems", "Repossessed – Globals and Registries", "Repossessed – GDScript Implementation", and "Repossessed – For Later".
-
-
 
 
 

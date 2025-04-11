@@ -12,6 +12,9 @@ func _ready():
 	add_to_group(Global.GROUPS.PLAYER_PROJECTILES)
 	add_to_group(Global.GROUPS.DAMAGING)
 	add_to_group(Global.GROUPS.PROJECTILES)
+	
+	contact_monitor = true
+	max_contacts_reported = 1
 
 	bounces_remaining = max_bounces if can_bounce else 0
 
@@ -24,11 +27,18 @@ func _physics_process(delta):
 	linear_velocity = direction.normalized() * speed
 
 func _on_body_entered(body):
+	print("Bullet._on_body_entered with body: ", body.name)
 	if body == null:
 		return
 
-	if body.is_in_group(Global.GROUPS.DAMAGEABLE):
-		body.take_damage(damage)
+	var target = body
+
+	# Forward to parent if needed
+	if not body.has_method("take_damage") and body.get_parent() and body.get_parent().has_method("take_damage"):
+		target = body.get_parent()
+
+	if target.is_in_group(Global.GROUPS.DAMAGEABLE):
+		target.take_damage(damage)
 		queue_free()
 		return
 
@@ -37,11 +47,6 @@ func _on_body_entered(body):
 		bounces_remaining -= 1
 	else:
 		queue_free()
-
-func _on_area_entered(area: Area2D) -> void:
-	if area.get_parent().is_in_group("damageables"):
-		if area.get_parent().has_method("apply_damage"):
-			area.get_parent().apply_damage(damage)
 
 func bounce_off(body):
 	var collision = move_and_collide(linear_velocity * get_physics_process_delta_time())

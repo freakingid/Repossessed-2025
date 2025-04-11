@@ -38,6 +38,7 @@ class GHOST:
 	const DAMAGE = 1
 	const HEALTH = 1
 	const SCORE = 1
+	const MAX_CAPACITY = 25
 
 # Skeletons move a bit faster and can potentially get around walls
 class SKELETON:
@@ -45,6 +46,7 @@ class SKELETON:
 	const DAMAGE = GHOST.DAMAGE * 2
 	const HEALTH = GHOST.HEALTH * 2
 	const SCORE = GHOST.SCORE * 2
+	const MAX_CAPACITY = 15
 
 # Skeleton shooters fire arrows when in range
 class SKELETON_SHOOTER:
@@ -56,6 +58,7 @@ class SKELETON_SHOOTER:
 	const ARROW_DAMAGE = 2
 	const ARROW_LIFESPAN = 3.0
 	const ARROW_FIRE_RATE = 1.5
+	const MAX_CAPACITY = 10
 
 # Lobbers are hard to chase, protect themselves with walls, and fire nasty shots
 # Inside their class they will use a much faster "running away" speed
@@ -64,6 +67,7 @@ class LOBBER:
 	const DAMAGE = GHOST.DAMAGE
 	const HEALTH = GHOST.HEALTH
 	const SCORE = SKELETON_SHOOTER.SCORE * 2
+	const MAX_CAPACITY = 10
 
 # Bats can fly over everything and have a fast dash speed to player
 class BAT:
@@ -71,6 +75,7 @@ class BAT:
 	const DAMAGE = SKELETON.DAMAGE
 	const HEALTH = SKELETON.HEALTH
 	const SCORE = SKELETON_SHOOTER.SCORE * 2
+	const MAX_CAPACITY = 10
 
 # Spiders move erratically toward the player in fits and starts
 # Spiders can fire a web at the player that will immobilize for a time
@@ -79,6 +84,7 @@ class SPIDER:
 	const DAMAGE = SKELETON.DAMAGE
 	const HEALTH = SKELETON.HEALTH * 2
 	const SCORE = LOBBER.SCORE    # Because of complex movement
+	const MAX_CAPACITY = 5
 
 # Zombies are slow, tough, but do small melee damage
 class ZOMBIE:
@@ -86,6 +92,7 @@ class ZOMBIE:
 	const DAMAGE = GHOST.DAMAGE * 2
 	const HEALTH = GHOST.HEALTH * 4
 	const SCORE = LOBBER.SCORE * 2    # Because they are so tough
+	const MAX_CAPACITY = 25
 
 # We are not actually using fire wraith or reaper yet
 # Will later add a devil, vampire, frankenstein, others.
@@ -94,12 +101,14 @@ class FIRE_WRAITH:
 	const DAMAGE = 3
 	const HEALTH = 2
 	const SCORE = 1
+	const MAX_CAPACITY = 5
 
 class REAPER:
 	const SPEED = 50.0
 	const DAMAGE = 3
 	const HEALTH = 999
 	const SCORE = 1
+	const MAX_CAPACITY = 2
 
 class PLAYER:
 	const SPEED = GHOST.SPEED * 1.25
@@ -128,6 +137,33 @@ class CRATE:
 const DEFAULT_SPAWN_INTERVAL = 2.0
 const DEFAULT_MAX_ENEMIES = 5
 const DEFAULT_SPAWNER_HEALTH = 10
+
+## Help us resolve maximum capacity for different object types
+# Only enemies for now
+static func get_max_capacity_for_scene(scene_path: String) -> int:
+	match scene_path:
+		"res://scenes/enemies/Ghost.tscn":
+			return GHOST.MAX_CAPACITY
+		"res://scenes/enemies/Skeleton.tscn":
+			return SKELETON.MAX_CAPACITY
+		"res://scenes/enemies/SkeletonShooter.tscn":
+			return SKELETON_SHOOTER.MAX_CAPACITY
+		"res://scenes/enemies/Lobber.tscn":
+			return LOBBER.MAX_CAPACITY
+		"res://scenes/enemies/Bat.tscn":
+			return BAT.MAX_CAPACITY
+		"res://scenes/enemies/Spider.tscn":
+			return SPIDER.MAX_CAPACITY
+		"res://scenes/enemies/Reaper.tscn":
+			return REAPER.MAX_CAPACITY
+		"res://scenes/enemies/FireWraith.tscn":
+			return FIRE_WRAITH.MAX_CAPACITY
+		"res://scenes/enemies/Zombie.tscn":
+			return ZOMBIE.MAX_CAPACITY
+		# Add more cases as needed
+		_:
+			return 5  # Default fallback
+
 
 
 # Some properties are not in here because they don't seem like leveling choices

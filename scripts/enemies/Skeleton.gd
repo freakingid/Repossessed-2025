@@ -102,3 +102,12 @@ func is_path_blocked(direction: Vector2) -> bool:
 		if collider and (collider.is_in_group(Global.GROUPS.STATIC_OBJECTS) or collider.is_in_group(Global.GROUPS.ENEMIES)):
 			return true
 	return false
+
+func reset() -> void:
+	super.reset()
+	sidestep_index = 0
+	sidestep_angles.clear()
+	for i in MAX_ATTEMPTS:
+		sidestep_angles.append(deg_to_rad(i * ANGLE_STEP))
+	last_clear_direction = Vector2.ZERO
+	retry_timer = 0.0

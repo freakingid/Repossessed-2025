@@ -15,10 +15,16 @@ signal enemy_spawned(enemy: Node2D)
 signal spawner_destroyed(spawner: Node2D)
 
 func _ready():
+	# Automatically assign the Collider to the 'damageable' group
+	var collider = get_node_or_null("Collider")
+	if collider and not collider.is_in_group(Global.GROUPS.DAMAGEABLE):
+		collider.add_to_group(Global.GROUPS.DAMAGEABLE)
+
 	if spawn_interval <= 0.0:
 		spawn_interval = Global.DEFAULT_SPAWN_INTERVAL
+	# Use constants if not overidden in Inspector
 	if max_enemies < 0:
-		max_enemies = Global.DEFAULT_MAX_ENEMIES
+		max_enemies = Global.get_max_capacity_for_scene(enemy_scene.resource_path)
 	if health < 0:
 		health = Global.DEFAULT_SPAWNER_HEALTH
 	original_modulate = get_node("Sprite2D").modulate
@@ -44,9 +50,14 @@ func spawn_timer() -> void:
 func _spawn_enemy() -> void:
 	var enemy = EnemyPool.fetch_enemy(enemy_scene)
 	if enemy:
+		enemy.set_meta("source_scene", enemy_scene)
+		if enemy.has_method("reset"):
+			enemy.reset()
+
 		enemy.global_position = global_position + Vector2(randf_range(-16, 16), randf_range(-16, 16))
 		get_parent().add_child(enemy)
 		enemy.visible = true
+
 		enemies_spawned += 1
 		enemy.tree_exited.connect(_on_enemy_destroyed)
 		emit_signal("enemy_spawned", enemy)
@@ -54,7 +65,8 @@ func _spawn_enemy() -> void:
 func _on_enemy_destroyed() -> void:
 	enemies_spawned = max(enemies_spawned - 1, 0)
 
-func apply_damage(amount: int) -> void:
+func take_damage(amount: int) -> void:
+	print("BaseSpawner taking damage: ", amount)
 	health -= amount
 	_flash_damage()
 	if health <= 0:

@@ -103,16 +103,17 @@ func take_damage(amount: int):
 func die():
 	is_dead = true
 
-	# Drop gem
 	var gem = GEM_SCENE.instantiate()
 	gem.global_position = global_position
 	gem.gem_power = score_value
 	get_tree().current_scene.call_deferred("add_child", gem)
 
-	# Pooling support
 	if has_meta("source_scene"):
 		visible = false
 		set_physics_process(false)
+		var sprite_node := get_node_or_null("AnimatedSprite2D")
+		if sprite_node:
+			sprite_node.modulate = Color(1, 0, 0)  # Optional flash before hide
 		EnemyPool.recycle_enemy(self, get_meta("source_scene"))
 	else:
 		queue_free()
@@ -141,8 +142,12 @@ func has_line_of_sight() -> bool:
 	return true
 
 func update_animation():
+	var sprite_node := get_node_or_null("AnimatedSprite2D")
+	if sprite_node == null:
+		return
+
 	if velocity.length() == 0:
-		sprite.stop()
+		sprite_node.stop()
 		return
 
 	var dir = velocity.normalized()
@@ -156,18 +161,21 @@ func update_animation():
 			best_dot = dot
 			best_match = anim
 
-	sprite.speed_scale = clamp(velocity.length() / speed, 0.75, 1.5)
+	sprite_node.speed_scale = clamp(velocity.length() / speed, 0.75, 1.5)
 
-	if sprite.animation != best_match:
-		sprite.play(best_match)
-	elif not sprite.is_playing():
-		sprite.play()
+	if sprite_node.animation != best_match:
+		sprite_node.play(best_match)
+	elif not sprite_node.is_playing():
+		sprite_node.play()
 
 func reset():
-	# Called when pulled from object pool
 	is_dead = false
 	visible = true
 	set_physics_process(true)
 	health = max(health, 1)
 	velocity = Vector2.ZERO
-	sprite.modulate = Color(1, 1, 1)
+
+	# Defensive resolve of AnimatedSprite2D
+	var sprite_node = get_node_or_null("AnimatedSprite2D")
+	if sprite_node:
+		sprite_node.modulate = Color(1, 1, 1)

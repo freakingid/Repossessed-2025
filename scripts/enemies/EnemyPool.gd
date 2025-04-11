@@ -14,7 +14,10 @@ func fetch_enemy(scene: PackedScene) -> Node2D:
 		pools[key] = []
 	var pool = pools[key]
 	if pool.size() > 0:
-		return pool.pop_back()
+		var reused = pool.pop_back()
+		print("[POOL] Reusing enemy from pool:", key)
+		return reused
+	print("[POOL] Instantiating new enemy:", key)
 	return scene.instantiate()
 
 func recycle_enemy(enemy: Node2D, scene: PackedScene) -> void:
@@ -29,6 +32,7 @@ func recycle_enemy(enemy: Node2D, scene: PackedScene) -> void:
 	pools[key].append(enemy)
 	if enemy.get_parent():
 		enemy.get_parent().remove_child(enemy)
+	print("[POOL] Recycled enemy into pool:", key)
 
 # Optional utility to pre-fill a pool at game start
 func preload_pool(scene: PackedScene, count: int):
