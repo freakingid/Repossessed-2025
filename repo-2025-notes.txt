@@ -1,7 +1,12 @@
 20250410
 
-TEST * Spawners cannot be shot with Player Bullet.
-** Note, we put the root Spawner nodes into "damageable" group and I'm not sure that's correct. YES it is correct.
+BUG * Nova should only be able to be fired once, and then a cooldown that happens after the first nova has completely finished
+
+TODO * We talked about making Nova behavior change:
+a. Push enemies away, but not damaging them
+b. Destroying ememy bullets
+c. Not sure about Shrapnel, probably push?
+d. Get this into the design document
 
 TODO * Pool Player Bullets
 
@@ -15,7 +20,10 @@ DONE * Fixed and refactored some issues with Bat Enemy.
 
 DONE * Spawners fix error and add despawn signal with data to log
 
-</quote>
+DONE * Spawners cannot be shot with Player Bullet.
+** Note, we put the root Spawner nodes into "damageable" group and I'm not sure that's correct. YES it is correct.
+
+<quote>
 Optional Add-ons for Spawner stats building
 Want to:
 1. Track average lifespan per spawner?
