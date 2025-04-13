@@ -5,7 +5,7 @@ TODO * Add Crate_Static, Crate_Carried
 
 DONE * When dropping a crate while moving down (south) or down and to the left (southwest), the player drops the crate to their upper left (northwest). Expected behavior is to drop the crate in front of the player, in the direction of travel. For example, if the player is moving down, the crate should be dropped further down, which allows the moving player to "jump over" the crate.
 
-BUG * Player bullets are not bouncing off of Crate_Static. They appear to behave just like hitting a wall, where they simple die.
+DONE * Player bullets are not bouncing off of Crate_Static. They appear to behave just like hitting a wall, where they simple die.
 
 BUG * Crate_Carried does not collide with wall and prevent movement. The crate simply overlaps the wall, and then Player does collide / stop with the wall.
 

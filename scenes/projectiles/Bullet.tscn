@@ -1,23 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dng5uhwdosd3s"]
+[gd_scene load_steps=4 format=3 uid="uid://dng5uhwdosd3s"]
 
 [ext_resource type="Script" path="res://scripts/projectiles/Bullet.gd" id="1_g0eil"]
 [ext_resource type="Texture2D" uid="uid://dfwdd2ia6i83f" path="res://assets/sprites/fpo-bullet-32.png" id="2_831hv"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_m1m6d"]
-friction = 0.0
-bounce = 1.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_ucgtu"]
 radius = 4.0
 
-[node name="Bullet" type="RigidBody2D" groups=["damaging", "player_projectiles", "projectiles"]]
+[node name="Bullet" type="CharacterBody2D" groups=["damaging", "player_projectiles", "projectiles"]]
 z_index = 1
 collision_layer = 2
 collision_mask = 924
-mass = 0.01
-physics_material_override = SubResource("PhysicsMaterial_m1m6d")
-gravity_scale = 0.0
-max_contacts_reported = 1
 script = ExtResource("1_g0eil")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -27,5 +19,3 @@ texture = ExtResource("2_831hv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ucgtu")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
