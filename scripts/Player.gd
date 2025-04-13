@@ -236,6 +236,9 @@ func get_valid_drop_direction(dir: Vector2) -> Vector2:
 		Vector2(1, -1),   # up-right
 		Vector2(-1, 0),   # left
 		Vector2(1, 0),    # right
+		Vector2(0, 1),    # down
+		Vector2(-1, 1),   # down-left
+		Vector2(1, 1),    # down-right
 	]
 
 	var best_match = Vector2.ZERO
@@ -248,6 +251,7 @@ func get_valid_drop_direction(dir: Vector2) -> Vector2:
 			best_match = d.normalized()
 
 	return best_match
+
 
 ## Process player shot direction
 func _process(_delta):
