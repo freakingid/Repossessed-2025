@@ -5,7 +5,6 @@ var damage := Global.PLAYER.BULLET_DAMAGE
 var lifespan := Global.PLAYER.BULLET_LIFESPAN
 var can_bounce := false
 var max_bounces := 1
-var bounces_remaining := 0
 var direction: Vector2 = Vector2.ZERO
 
 func _ready():
@@ -15,8 +14,6 @@ func _ready():
 	
 	contact_monitor = true
 	max_contacts_reported = 1
-
-	bounces_remaining = max_bounces if can_bounce else 0
 
 	# Bullet self-destruct after time
 	await get_tree().create_timer(lifespan).timeout
@@ -30,6 +27,7 @@ func _on_body_entered(body):
 	if body == null:
 		return
 
+	# so we can reference parent but still have access to body
 	var target = body
 
 	# Forward to parent if needed
@@ -40,10 +38,15 @@ func _on_body_entered(body):
 		target.take_damage(damage)
 		queue_free()
 		return
-
-	if body.is_in_group(Global.GROUPS.STATIC_OBJECTS) and can_bounce and bounces_remaining > 0:
+		
+	# Always bounce of crates
+	if body.is_in_group(Global.GROUPS.CRATES):
 		bounce_off(body)
-		bounces_remaining -= 1
+		return
+
+	# can_bounce should reflect whether we have the bounce_shot or not
+	if body.is_in_group(Global.GROUPS.STATIC_OBJECTS) and can_bounce:
+		bounce_off(body)
 	else:
 		queue_free()
 

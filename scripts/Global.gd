@@ -176,6 +176,7 @@ class GROUPS:
 	const ENEMIES = "enemies"
 	const GROUND_ENEMIES = "ground_enemies"
 	const FLYING_ENEMIES = "flying_enemies"
+	const CRATES = "crates"
 	const CRATES_STATIC = "crates_static"
 	const CRATES_CARRIED = "crates_carried"
 	const BARRELS_STATIC = "barrels_static"
