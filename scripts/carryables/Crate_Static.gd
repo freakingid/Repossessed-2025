@@ -26,7 +26,12 @@ func pickup(player: Node):
 	# Instance and assign carried version
 	var carried_crate = preload("res://scenes/carryables/Crate_Carried.tscn").instantiate()
 	carried_crate.player = player
-	player.carried_crate_instance = carried_crate  # 🔗 Save reference
+	# Set initial position based on player + offset
+	var offset = carried_crate.get_offset_based_on_direction(player.last_move_direction)
+	carried_crate.global_position = player.global_position + offset
+
+	# Assign and add to scene
+	player.carried_crate_instance = carried_crate
 	get_tree().current_scene.call_deferred("add_child", carried_crate)
 
 func reactivate(new_position: Vector2):

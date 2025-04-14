@@ -5,14 +5,23 @@ var player: Node = null  # assigned on pickup
 func _ready():
 	collision_layer = Global.LAYER_CRATE
 	collision_mask = (
-		Global.LAYER_PLAYER |
 		Global.LAYER_ENEMY |
-		Global.LAYER_SPAWNER
+		Global.LAYER_SPAWNER |
+		Global.LAYER_WALL |
+		Global.LAYER_ENEMY_PROJECTILE |
+		Global.LAYER_CRATE
 	)
 
-func _process(_delta):
+func _physics_process(delta):
 	if player:
-		position = player.position + get_offset_based_on_direction(player.last_move_direction)
+		var target_pos = player.position + get_offset_based_on_direction(player.last_move_direction)
+		var motion = target_pos - global_position
+		var collision = move_and_collide(motion)
+
+		if collision:
+			# Optional: drop the crate or block player movement
+			print("Crate hit something: ", collision.get_collider())
+		
 		update_z_index(player.last_move_direction)
 
 func get_offset_based_on_direction(dir: Vector2) -> Vector2:

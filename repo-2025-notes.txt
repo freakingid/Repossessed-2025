@@ -7,7 +7,16 @@ DONE * When dropping a crate while moving down (south) or down and to the left (
 
 DONE * Player bullets are not bouncing off of Crate_Static. They appear to behave just like hitting a wall, where they simple die.
 
-BUG * Crate_Carried does not collide with wall and prevent movement. The crate simply overlaps the wall, and then Player does collide / stop with the wall.
+DONE * Crate_Carried does not collide with wall and prevent movement. The crate simply overlaps the wall, and then Player does collide / stop with the wall.
+
+TODO * Make Player drop Crate_Carried upon hitting wall, then jump over the Crate and the Wall.
+
+TODO * Other Crate Actions
+<quote>
+* Make the player drop the crate automatically if it hits a wall while moving
+* Trigger a small vault/jump animation over the crate or wall
+* Use get_slide_collision() to detect what was hit and act accordingly
+</quote>
 
 =====
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
