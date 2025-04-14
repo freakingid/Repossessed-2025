@@ -23,6 +23,8 @@ func _physics_process(delta):
 			if vault_started:
 				set_physics_process(false)
 				visible = false
+			else:
+				flash_blocked_feedback()
 		
 		update_z_index(player.last_move_direction)
 
@@ -38,3 +40,10 @@ func update_z_index(dir: Vector2):
 	else:
 		# z_index = player.z_index - 1  # Behind player
 		$Sprite2D.z_index = Global.Z_CARRIED_CRATE_BEHIND
+
+func flash_blocked_feedback():
+	if has_node("Sprite2D"):  # or AnimatedSprite2D if you're using that
+		var sprite = $Sprite2D
+		sprite.modulate = Color(2, 0.3, 0.3)  # reddish flash
+		await get_tree().create_timer(0.1).timeout
+		sprite.modulate = Color(1, 1, 1)  # reset

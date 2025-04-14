@@ -22,6 +22,8 @@ DONE * Make the Player appear on a layer above the Wall when vaulting.
 DONE * If player begins vaulting because they were running with a crate and set it down, the vault might land them in the middle of some obstacle, such as a wall or enemy spawner.
 ** This works now to not land into a wall. We simply cancel the vaulting, and bump the player back a bit, and I think we stubbed in some sound effect or at least left a comment.
 
+DONE * Vaulting feedback: If vault is cancelled, Player should vibrate and the Crate_Carried should flash in some way.
+
 TODO * Vaulting will play an appropriate sound effect during the vault. Stub this in.
 
 TODO * If we vault over an enemy, then once the vault is over we would like to play a taunting sound, such as the Player saying "Ha Ha". Stub this in.
