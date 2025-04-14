@@ -9,7 +9,18 @@ DONE * Player bullets are not bouncing off of Crate_Static. They appear to behav
 
 DONE * Crate_Carried does not collide with wall and prevent movement. The crate simply overlaps the wall, and then Player does collide / stop with the wall.
 
-TODO * Make Player drop Crate_Carried upon hitting wall, then jump over the Crate and the Wall.
+DONE * Make Player drop Crate_Carried upon hitting wall, then jump over the Crate and the Wall.
+** We're going to manually set Global.CRATE_SIZE to the size of the Crate sprite. But it sure would be nice to set that automatically later.
+
+TODO * Make Crate Vaulting happen visually more slowly
+
+Possibly to do after for visuals
+<quote>
+Visual Confirmation Tip
+To make the vault more dramatic, you could add:
+$Sprite2D.modulate = Color(1, 1, 1, 0.85)  # semi-transparent while vaulting
+Then reset to full opacity after.
+</quote>
 
 TODO * Other Crate Actions
 <quote>

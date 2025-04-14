@@ -3,6 +3,13 @@ extends CharacterBody2D
 signal direction_changed(new_direction: Vector2)
 
 var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
+var is_vaulting := false
+var vault_duration := 0.3  # Total time for arc (scale up/down)
+var vault_timer := 0.0
+var vault_direction := Vector2.ZERO
+var vault_distance := 0.0
+var vault_distance_traveled := 0.0
+var vault_crate_drop_position := Vector2.ZERO
 
 # New physics crate stuff
 @export var carried_crate_scene: PackedScene
@@ -103,9 +110,41 @@ func _ready():
 
 ## Process player movement
 func _physics_process(_delta):
+	# Vaulting override
+	if is_vaulting:
+		vault_timer += _delta
+
+		var t = vault_timer / vault_duration
+
+		# Sprite scaling animation (up/down)
+		if t <= 0.5:
+			$AnimatedSprite2D.scale = Vector2(1, 1).lerp(Vector2(1.5, 1.5), t * 2)
+		else:
+			$AnimatedSprite2D.scale = Vector2(1.5, 1.5).lerp(Vector2(1, 1), (t - 0.5) * 2)
+
+		# Move forward automatically at normal walking speed
+		var vault_step = vault_direction * speed * _delta
+		var step = vault_direction * (vault_distance / vault_duration) * _delta
+		global_position += step
+		vault_distance_traveled += step.length()
+
+		if vault_distance_traveled >= vault_distance or vault_timer >= vault_duration:
+			is_vaulting = false
+			vault_timer = 0.0
+			vault_distance_traveled = 0.0
+			$AnimatedSprite2D.scale = Vector2(1, 1)
+			set_collision_mask_value(5, true)
+			drop_crate(vault_crate_drop_position)
+			velocity = Vector2.ZERO
+		return  # Skip normal input and movement while vaulting
+
+
+	# ----------------------------------
+	# Regular movement (not vaulting)
+	# ----------------------------------
+
 	var move_direction = Vector2.ZERO
 
-	# Normal movement
 	if not stunned:
 		if Input.is_action_pressed("move_up"):
 			move_direction.y -= 1
@@ -116,35 +155,29 @@ func _physics_process(_delta):
 		if Input.is_action_pressed("move_right"):
 			move_direction.x += 1
 	else:
-		# Erratic movement when stunned
 		move_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 200
 
-	# For understanding where to put carried crate
 	if move_direction != Vector2.ZERO:
 		last_move_direction = move_direction.normalized()
 
 	update_animation()
 
-	
-	# If carrying a crate, we move slower
 	if is_carrying_crate:
 		speed_modifier = 0.9
 	else:
-		speed_modifier = 1
-
+		speed_modifier = 1.0
 	velocity = move_direction.normalized() * speed * speed_modifier
 	move_and_slide()
 
-	# Tracking when we can pickup a crate again after having dropped one
 	if drop_cooldown_timer > 0.0:
 		drop_cooldown_timer -= _delta
 
-	# ✅ Detect melee collisions by checking last slide collision
 	var collision = get_last_slide_collision()
 	if collision:
 		var collider = collision.get_collider()
 		if collider and collider.is_in_group("enemies") and not invincible:
-			emit_signal("melee_hit", collider)  # ✅ Emit signal for melee damage
+			emit_signal("melee_hit", collider)
+
 
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body):
@@ -180,20 +213,39 @@ func _on_PickupDetector_body_entered(body):
 	#is_carrying_crate = true
 
 ## ✅ Drop the crate
-func drop_crate():
+func drop_crate(forced_position: Variant = null):
 	if carried_crate_instance == null:
 		return
 
-	var drop_offset = get_valid_drop_direction(last_move_direction) * 16  # distance from player
-	var drop_position = global_position + drop_offset
+	var drop_position: Vector2
+	if forced_position == null:
+		var drop_offset = get_valid_drop_direction(last_move_direction) * 16
+		drop_position = global_position + drop_offset
+	else:
+		drop_position = forced_position as Vector2
 
-	# Reactivate the Crate_Static
 	static_crate_instance.reactivate(drop_position)
-
-	# Clear carried crate reference and apply cooldown
-	carried_crate_instance.queue_free()  # Or hide if pooling
+	carried_crate_instance.queue_free()
 	is_carrying_crate = false
 	drop_cooldown_timer = 0.2
+
+func vault_over_crate(crate_position: Vector2, direction: Vector2):
+	if is_vaulting:
+		return
+	
+	is_vaulting = true
+	vault_timer = 0.0
+	vault_direction = direction.normalized()
+	vault_distance = 2.5 * Global.CRATE_SIZE
+
+	set_collision_mask_value(5, false)
+	#set_collision_mask_value(Global.LAYER_WALL, false)
+
+	# Save position where the crate should drop after vault
+	vault_crate_drop_position = crate_position
+
+	# We will drop the crate AFTER the vault completes
+
 
 func drop_barrel():
 	if carried_barrel_instance == null:

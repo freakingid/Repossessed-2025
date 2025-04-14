@@ -14,13 +14,17 @@ func _ready():
 
 func _physics_process(delta):
 	if player:
-		var target_pos = player.position + get_offset_based_on_direction(player.last_move_direction)
+		var target_pos = player.global_position + get_offset_based_on_direction(player.last_move_direction)
 		var motion = target_pos - global_position
 		var collision = move_and_collide(motion)
 
-		if collision:
-			# Optional: drop the crate or block player movement
-			print("Crate hit something: ", collision.get_collider())
+		if collision and collision.get_collider().is_in_group("walls") and not player.is_vaulting:
+			print("Crate collided with wall, triggering vault")
+			player.vault_over_crate(global_position, player.last_move_direction)
+			# 🛑 Immediately disable this crate so it doesn’t keep colliding
+			set_physics_process(false)
+			visible = false
+
 		
 		update_z_index(player.last_move_direction)
 

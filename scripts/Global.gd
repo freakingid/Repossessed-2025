@@ -15,6 +15,7 @@ const LAYER_SHRAPNEL = 1 << 10             # Layer 11
 
 
 # Visual layering constants (z_index values)
+# I think we are using CARRIED_CRATE also for _BARREL
 const Z_TILEMAP                   = 0
 const Z_BACKGROUND_DECALS        = 5   # Shadow overlays above floor
 const Z_DROPPED_ITEMS             = 10
@@ -29,6 +30,9 @@ const Z_SHRAPNEL                   = 37
 const Z_FLYING_ENEMIES            = 40
 const Z_OVERHEAD_DECORATIONS      = 50
 const Z_UI_FLOATING              = 100
+
+# Crates and Barrels
+const CRATE_SIZE = 29 # 1.5 x 19px sprite
 
 var score: int = 0
 
