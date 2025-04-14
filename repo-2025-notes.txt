@@ -9,9 +9,10 @@ TODO * Make the Player appear on a layer above the Wall when vaulting.
 
 TODO * Make the Player do that same vaulting behavior when they simply drop a crate while they are running. This would allow them to jump over anything like an enemy or a barrel or whatever.
 
-TODO * Make Player sprite rotate toward the direction of the jump if it is left or right.
+DONE * Make Player sprite rotate toward the direction of the jump if it is left or right.
 
-BUG * Vaulting player sprite looks like it is blending with the wall. Should appear on top of the wall layer.
+DONE * Vaulting player sprite looks like it is blending with the wall. Should appear on top of the wall layer.
+** This was just the debug shapes being drawn in test.
 
 DONE * If Player uses movement input while vaulting over a wall, it registers as trying to pick up the Crate_Static that was just dropped by the wall, causing another Crate Carried and then immediately a Crate Static, which is buried inside the wall after that. We need player input to not matter during the vault. We could accept some "Coyote Time" firing input so once the player lands they would fire their weapon immediately, *if* they had tried to fire while vaulting over the wall.
 ** Still not ignoring movement, and now we also do not get the stopped crate at the wall until the player lands on the other side, so technically this is worse.
@@ -62,10 +63,6 @@ d. Get this into the design document
 TODO * Pool Player Bullets
 
 TODO * Pool Enemy Arrows
-
-LATER * Pool Enemy Lobber shots, Spider webs, other things they throw
-
-LATER * Pool Shrapnel
 
 BUG * Skeleton Enemy can get stuck in corners
 
@@ -321,7 +318,7 @@ c. We will use a simple door node / sprite to move from one level to the next.
 
 BUG * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing.
 
-LATER * It seems like more functions could be handled from BarrelUtils.gd for Barrel_Statid, Barrel_Rolled, and Barrel_Carried. Check it out.
+NOPE * It seems like more functions could be handled from BarrelUtils.gd for Barrel_Statid, Barrel_Rolled, and Barrel_Carried. Check it out.
 
 TODO * Player jumping over crate placed in front of them while they are running.
 ** We are almost there, maybe accidentally. But the z_index of player shows them underneath the dropped barrel. Fix that, and make player sprite grow larger as it "jumps" and grow smaller as it "lands"
@@ -391,15 +388,6 @@ BUG * Crate_Carried does not seem to collide with walls
 
 TEST * While carrying a crate, sometimes the player and the crate end up moving downward automatically. I noticed this if I try to push an enemy (like a Ghost) down. The push works great, but when I let go of the controls, the Player and the Crate continue moving downward, while I would expect them to stop moving.
 
-✅ Reactivation/pooling system for Crate_Static
-
-LATER * Crate dropping behavior details
-```
-Block drop if a wall or object is in the way
-Spawn a small drop animation or sound
-Implement a fallback if no valid space is found
-```
-
 ========================================================
 == NOTES On Barrel and Crate Pickups
 =========================================================
@@ -428,10 +416,6 @@ DONE * Yes, bullets are being fired when releasing a Barrel Carried, and we do n
 
 DONE * Why do the barrels start out with flames already??
 
-LATER * See if we can improve the way Barrel_Rolled avoids getting momentum added by Arrow.
-** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
-** ChatGPT gave us an idea. I had it write a summary that we could present in a different chat at a later time to try efficient solution. That summary is "Enemy Arrows Push Rolling Barrels" in the "Repossessed 2025" folder of "Game Projects" in Google Drive.
-https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/edit?usp=drive_link
 
 
 
@@ -940,6 +924,38 @@ Global
 * max_ghosts
 * max_skeletons
 * max_{enemy_type}
+
+
+
+
+
+
+
+===========================================================
+== LATER things to consider
+===========================================================
+LATER * Enhancements to vault looks
+<quote>
+Optional Enhancements
+🎨 Add a sprite trail effect that arcs while spinning
+🔉 Play a vault spin “whoosh” sound only for spinning vaults
+🎯 Use AnimatedSprite2D.play("spin") if you ever add a dedicated spin animation
+</quote>
+
+LATER * Pool Enemy Lobber shots, Spider webs, other things they throw
+
+LATER * Pool Shrapnel
+
+LATER * See if we can improve the way Barrel_Rolled avoids getting momentum added by Arrow.
+** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
+** ChatGPT gave us an idea. I had it write a summary that we could present in a different chat at a later time to try efficient solution. That summary is "Enemy Arrows Push Rolling Barrels" in the "Repossessed 2025" folder of "Game Projects" in Google Drive.
+https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/edit?usp=drive_link
+** 4/14/2025 I don't know if this is still valid, as we've changed node types here and there.
+
+
+
+
+
 
 
 

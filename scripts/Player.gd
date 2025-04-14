@@ -12,6 +12,8 @@ var vault_direction := Vector2.ZERO
 var vault_distance := 0.0
 var vault_distance_traveled := 0.0
 var vault_crate_drop_position := Vector2.ZERO
+var should_spin_during_vault := false
+
 
 # New physics crate stuff
 @export var carried_crate_scene: PackedScene
@@ -124,6 +126,12 @@ func _physics_process(_delta):
 		else:
 			var scale_t = ease((t - 0.5) * 2, 1.5)
 			$AnimatedSprite2D.scale = Vector2(1.5, 1.5).lerp(Vector2(1, 1), scale_t)
+		
+		# Spinning the jump
+		if should_spin_during_vault:
+			var spin_direction : int = sign(vault_direction.x)  # +1 for right, -1 for left, 0 for up/down
+			$AnimatedSprite2D.rotation = spin_direction * vault_timer / vault_duration * TAU
+
 
 		# Automatic vault movement (manual control)
 		var step = vault_direction * (vault_distance / vault_duration) * _delta
@@ -137,6 +145,7 @@ func _physics_process(_delta):
 			vault_distance_traveled = 0.0
 			# update player sprite and draw order and collision
 			$AnimatedSprite2D.scale = Vector2(1, 1)
+			$AnimatedSprite2D.rotation = 0
 			sprite.z_index = Global.Z_PLAYER_AND_CRATES
 			set_collision_mask_value(5, true)
 			
@@ -248,6 +257,13 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2):
 	is_vaulting = true
 	vault_timer = 0.0
 	vault_direction = direction.normalized()
+
+	# Determine if spin should occur
+	# We allow small y-error tolerance (e.g. 0.2) to filter out mostly vertical movement
+	if abs(vault_direction.y) < 0.8:
+		should_spin_during_vault = true
+	else:
+		should_spin_during_vault = false	
 	vault_distance = 2.5 * Global.CRATE_SIZE
 
 	set_collision_mask_value(5, false)
