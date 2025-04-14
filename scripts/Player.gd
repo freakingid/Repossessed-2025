@@ -147,9 +147,10 @@ func _physics_process(_delta):
 			$AnimatedSprite2D.scale = Vector2(1, 1)
 			$AnimatedSprite2D.rotation = 0
 			sprite.z_index = Global.Z_PLAYER_AND_CRATES
-			set_collision_mask_value(5, true)
-			
-			# drop_crate(vault_crate_drop_position)
+			# allow to collide with obstacles again
+			restore_blocking_collisions()
+			# make sure we stop moving
+			# TODO maybe we could have a slowdown speed instead of a hard landing??
 			velocity = Vector2.ZERO
 
 			# Fire if buffered
@@ -234,10 +235,10 @@ func _on_PickupDetector_body_entered(body):
 	#is_carrying_crate = true
 
 ## ✅ Drop the crate
-func drop_crate(forced_position: Variant = null):
+func drop_crate(forced_position: Variant = null) -> Vector2:
 	if carried_crate_instance == null:
-		return
-
+		return global_position  # fallback
+	
 	var drop_position: Vector2
 	if forced_position == null:
 		var drop_offset = get_valid_drop_direction(last_move_direction) * 16
@@ -247,8 +248,12 @@ func drop_crate(forced_position: Variant = null):
 
 	static_crate_instance.reactivate(drop_position)
 	carried_crate_instance.queue_free()
+	carried_crate_instance = null
 	is_carrying_crate = false
 	drop_cooldown_timer = 0.2
+
+	return drop_position
+
 
 func vault_over_crate(crate_position: Vector2, direction: Vector2):
 	if is_vaulting:
@@ -266,7 +271,8 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2):
 		should_spin_during_vault = false	
 	vault_distance = 2.5 * Global.CRATE_SIZE
 
-	set_collision_mask_value(5, false)
+	# stop colliding with certain objects so we vault *over* them
+	disable_blocking_collisions()
 	$AnimatedSprite2D.z_index = Global.Z_FLYING_ENEMIES
 	#set_collision_mask_value(Global.LAYER_WALL, false)
 
@@ -350,7 +356,9 @@ func _process(_delta):
 			await get_tree().create_timer(Global.BARREL.DROPWAIT).timeout
 			can_shoot = true
 		elif is_carrying_crate:
-			drop_crate()
+			var drop_pos = drop_crate()
+			# Trigger vault over crate
+			vault_over_crate(drop_pos, last_move_direction)
 			can_shoot = false
 			await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
 			can_shoot = true
@@ -598,3 +606,20 @@ func die():
 
 	# Optional: Restart the level
 	# get_tree().reload_current_scene()
+
+# Allow player to vault over certain objects rather than collide
+func disable_blocking_collisions():
+	print("disable blocking collisions")
+	set_collision_mask_value(3, false) # enemies
+	set_collision_mask_value(4, false) # enemy spawners
+	set_collision_mask_value(5, false) # walls
+	set_collision_layer_value(1, false)  # Player
+
+
+# Restore player collisions with certain obstacles after vaulting ends
+func restore_blocking_collisions():
+	print("enable blocking collisions")
+	set_collision_mask_value(3, true) # enemies
+	set_collision_mask_value(4, true) # enemy spawners
+	set_collision_mask_value(5, true) # walls
+	set_collision_layer_value(1, true)  # Player
