@@ -236,7 +236,9 @@ func _on_PickupDetector_body_entered(body):
 
 ## ✅ Drop the crate
 func drop_crate(forced_position: Variant = null) -> Vector2:
+	print("drop_crate() called")
 	if carried_crate_instance == null:
+		print("carried_crate_instance == null")
 		return global_position  # fallback
 	
 	var drop_position: Vector2
@@ -255,31 +257,45 @@ func drop_crate(forced_position: Variant = null) -> Vector2:
 	return drop_position
 
 
-func vault_over_crate(crate_position: Vector2, direction: Vector2):
+func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
+	print("Player.vault_over_crate() called")
 	if is_vaulting:
-		return
-	
+		# Already in the middle of vaulting, so do not start anew
+		return false
+
+	# Check if vaulting would land us on a forbidden obstacle (e.g. Spawner, Wall)
+	if vault_landing_should_cancel(crate_position, direction, 2.5 * Global.CRATE_SIZE):
+		print("Vault canceled: landing blocked by a disallowed obstacle.")
+		play_vault_fail_feedback()
+		velocity = Vector2.ZERO
+		global_position -= last_move_direction * 4  # Small nudge backward to indicate bump
+		return false
+
+	# ✅ Begin vault sequence
 	is_vaulting = true
 	vault_timer = 0.0
 	vault_direction = direction.normalized()
+	vault_distance = 2.5 * Global.CRATE_SIZE
 
-	# Determine if spin should occur
-	# We allow small y-error tolerance (e.g. 0.2) to filter out mostly vertical movement
+	# Determine if we should spin (horizontal/diagonal vault)
 	if abs(vault_direction.y) < 0.8:
 		should_spin_during_vault = true
 	else:
 		should_spin_during_vault = false	
-	vault_distance = 2.5 * Global.CRATE_SIZE
 
-	# stop colliding with certain objects so we vault *over* them
+	# Disable collisions with blocking layers so we phase through
 	disable_blocking_collisions()
-	$AnimatedSprite2D.z_index = Global.Z_FLYING_ENEMIES
-	#set_collision_mask_value(Global.LAYER_WALL, false)
 
-	# Save position where the crate should drop after vault
+	# Temporarily raise sprite's z-index to fly over objects
+	$AnimatedSprite2D.z_index = Global.Z_FLYING_ENEMIES
+
+	# Drop the carried crate as the vault begins
 	vault_crate_drop_position = crate_position
-	# drop the crate (turn into Crate_Static) as vault begins
 	drop_crate(vault_crate_drop_position)
+
+	# ✅ Vault triggered successfully
+	return true
+
 
 
 func drop_barrel():
@@ -356,12 +372,12 @@ func _process(_delta):
 			await get_tree().create_timer(Global.BARREL.DROPWAIT).timeout
 			can_shoot = true
 		elif is_carrying_crate:
-			var drop_pos = drop_crate()
-			# Trigger vault over crate
-			vault_over_crate(drop_pos, last_move_direction)
-			can_shoot = false
-			await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
-			can_shoot = true
+			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 16
+
+			if vault_over_crate(proposed_landing_pos, last_move_direction):
+				can_shoot = false
+				await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
+				can_shoot = true
 		elif can_shoot:
 			if is_vaulting:
 				# queue up a shot for when we land
@@ -606,6 +622,57 @@ func die():
 
 	# Optional: Restart the level
 	# get_tree().reload_current_scene()
+
+func play_vault_fail_feedback():
+	# Add shake, sound, or visual cue here
+	print("This is where we would play a vaulting fail tone")
+	#$VaultFailSound.play()
+	print("This is where we would show a brief vaulting fail flash")
+	#$SpriteFlash.flash_red()  # if you have a sprite flash node or method
+
+func try_vault_from(start_pos: Vector2, direction: Vector2) -> bool:
+	if vault_landing_should_cancel(start_pos, direction, 2.5 * Global.CRATE_SIZE):
+		print("Vault canceled.")
+		play_vault_fail_feedback()
+		velocity = Vector2.ZERO
+		return false
+
+	# Vault is allowed — set state
+	vault_direction = direction.normalized()
+	vault_distance = 2.5 * Global.CRATE_SIZE
+	vault_timer = 0.0
+	vault_distance_traveled = 0.0
+	is_vaulting = true
+
+	return true
+
+func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2, vault_distance: float) -> bool:
+	var space_state = get_world_2d().direct_space_state
+	var shape := CircleShape2D.new()
+	shape.radius = 8.0  # vault landing zone footprint
+
+	var landing_pos = vault_start + vault_direction.normalized() * vault_distance
+	var transform := Transform2D.IDENTITY
+	transform.origin = landing_pos
+
+	var shape_query := PhysicsShapeQueryParameters2D.new()
+	shape_query.shape = shape
+	shape_query.transform = transform
+	shape_query.exclude = [self]
+	shape_query.collide_with_bodies = true
+	# Vault-blocking obstacles go here
+		# To add more, just OR in additional layers, like:
+		# | Global.LAYER_PIT
+		# | Global.LAYER_SPIKES
+	shape_query.collision_mask = (
+		Global.LAYER_SPAWNER |
+		Global.LAYER_WALL
+	)
+
+	var result = space_state.intersect_shape(shape_query, 1)
+
+	return result.size() > 0
+
 
 # Allow player to vault over certain objects rather than collide
 func disable_blocking_collisions():

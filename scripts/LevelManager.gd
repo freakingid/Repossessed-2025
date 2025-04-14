@@ -23,4 +23,4 @@ func preload_used_enemy_types():
 				seen_paths[path] = true
 				var preload_count = Global.get_max_capacity_for_scene(path)
 				EnemyPool.preload_pool(spawner.enemy_scene, preload_count)
-				print("Preloading %d of %s" % [preload_count, path])
+				# print("Preloading %d of %s" % [preload_count, path])

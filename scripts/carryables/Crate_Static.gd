@@ -16,6 +16,7 @@ func _ready():
 
 func pickup(player: Node):
 	if player.is_vaulting:
+		print("Player is vaulting, so not allowed to Crate_Static.pickup() even though we tried")
 		return  # 🚫 Don't allow pickup while vaulting
 		
 	print("Crate_Static: pickup")
