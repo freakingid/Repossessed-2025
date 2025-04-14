@@ -3,6 +3,14 @@ Updated to 4/13/2025
 =====
 TODO * Add Crate_Static, Crate_Carried
 
+TODO * Make the Player appear on a layer above the Wall when vaulting.
+** Maybe use LAYER_FLYING_ENEMY??
+** I tried that, but it didn't work.
+
+TODO * Make the Player do that same vaulting behavior when they simply drop a crate while they are running. This would allow them to jump over anything like an enemy or a barrel or whatever.
+
+BUG * If Static_Crate is next to wall from a previous drop, it is very close. Then if the Player is very close to the wall and comes down to collide with the Crate_Static -- making it turn into a Crate_Carried -- the vaulting routine starts even though we didn't technically run into a wall with the Crate. We were already close to the wall and probably the Crate_Carried got nudged over a bit when the wall-close Player picked up the Crate_Static.
+
 DONE * When dropping a crate while moving down (south) or down and to the left (southwest), the player drops the crate to their upper left (northwest). Expected behavior is to drop the crate in front of the player, in the direction of travel. For example, if the player is moving down, the crate should be dropped further down, which allows the moving player to "jump over" the crate.
 
 DONE * Player bullets are not bouncing off of Crate_Static. They appear to behave just like hitting a wall, where they simple die.
@@ -12,22 +20,8 @@ DONE * Crate_Carried does not collide with wall and prevent movement. The crate 
 DONE * Make Player drop Crate_Carried upon hitting wall, then jump over the Crate and the Wall.
 ** We're going to manually set Global.CRATE_SIZE to the size of the Crate sprite. But it sure would be nice to set that automatically later.
 
-TODO * Make Crate Vaulting happen visually more slowly
-
-Possibly to do after for visuals
-<quote>
-Visual Confirmation Tip
-To make the vault more dramatic, you could add:
-$Sprite2D.modulate = Color(1, 1, 1, 0.85)  # semi-transparent while vaulting
-Then reset to full opacity after.
-</quote>
-
-TODO * Other Crate Actions
-<quote>
-* Make the player drop the crate automatically if it hits a wall while moving
-* Trigger a small vault/jump animation over the crate or wall
-* Use get_slide_collision() to detect what was hit and act accordingly
-</quote>
+DONE * Make Crate Vaulting happen visually more slowly
+** Just change the vault_duration at top of Player.gd! Magic
 
 =====
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
@@ -43,6 +37,9 @@ BUG * Shrapnel collides with wall but doesn't bounce away much, which looks real
 BUG * Nova should only be able to be fired once, and then a cooldown that happens after the first nova has completely finished
 
 DONE * Bullet gets error about hitbox
+
+
+
 
 
 

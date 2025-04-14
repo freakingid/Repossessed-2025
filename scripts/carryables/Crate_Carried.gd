@@ -19,7 +19,6 @@ func _physics_process(delta):
 		var collision = move_and_collide(motion)
 
 		if collision and collision.get_collider().is_in_group("walls") and not player.is_vaulting:
-			print("Crate collided with wall, triggering vault")
 			player.vault_over_crate(global_position, player.last_move_direction)
 			# 🛑 Immediately disable this crate so it doesn’t keep colliding
 			set_physics_process(false)

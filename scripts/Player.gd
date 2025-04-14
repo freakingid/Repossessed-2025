@@ -4,7 +4,7 @@ signal direction_changed(new_direction: Vector2)
 
 var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
 var is_vaulting := false
-var vault_duration := 0.3  # Total time for arc (scale up/down)
+var vault_duration := 1.2  # was 0.3 before; theoretically all you need to change
 var vault_timer := 0.0
 var vault_direction := Vector2.ZERO
 var vault_distance := 0.0
@@ -133,6 +133,7 @@ func _physics_process(_delta):
 			vault_timer = 0.0
 			vault_distance_traveled = 0.0
 			$AnimatedSprite2D.scale = Vector2(1, 1)
+			$AnimatedSprite2D.z_index = Global.LAYER_PLAYER
 			set_collision_mask_value(5, true)
 			drop_crate(vault_crate_drop_position)
 			velocity = Vector2.ZERO
@@ -239,6 +240,7 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2):
 	vault_distance = 2.5 * Global.CRATE_SIZE
 
 	set_collision_mask_value(5, false)
+	$AnimatedSprite2D.z_index = Global.Z_FLYING_ENEMIES
 	#set_collision_mask_value(Global.LAYER_WALL, false)
 
 	# Save position where the crate should drop after vault
