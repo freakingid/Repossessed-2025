@@ -15,6 +15,9 @@ func _ready():
 	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
 
 func pickup(player: Node):
+	if player.is_vaulting:
+		return  # 🚫 Don't allow pickup while vaulting
+		
 	print("Crate_Static: pickup")
 	# Disable this crate visually and physically
 	sprite.visible = false
@@ -35,7 +38,9 @@ func pickup(player: Node):
 	get_tree().current_scene.call_deferred("add_child", carried_crate)
 
 func reactivate(new_position: Vector2):
+	print("Crate_Static: reactivate")
 	global_position = new_position
+	# sprite.visible = true
 	sprite.visible = true
 	collision_shape.call_deferred("set_disabled", false)
 	set_physics_process(true)

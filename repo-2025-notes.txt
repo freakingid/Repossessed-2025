@@ -9,6 +9,13 @@ TODO * Make the Player appear on a layer above the Wall when vaulting.
 
 TODO * Make the Player do that same vaulting behavior when they simply drop a crate while they are running. This would allow them to jump over anything like an enemy or a barrel or whatever.
 
+TODO * Make Player sprite rotate toward the direction of the jump if it is left or right.
+
+BUG * Vaulting player sprite looks like it is blending with the wall. Should appear on top of the wall layer.
+
+DONE * If Player uses movement input while vaulting over a wall, it registers as trying to pick up the Crate_Static that was just dropped by the wall, causing another Crate Carried and then immediately a Crate Static, which is buried inside the wall after that. We need player input to not matter during the vault. We could accept some "Coyote Time" firing input so once the player lands they would fire their weapon immediately, *if* they had tried to fire while vaulting over the wall.
+** Still not ignoring movement, and now we also do not get the stopped crate at the wall until the player lands on the other side, so technically this is worse.
+
 BUG * If Static_Crate is next to wall from a previous drop, it is very close. Then if the Player is very close to the wall and comes down to collide with the Crate_Static -- making it turn into a Crate_Carried -- the vaulting routine starts even though we didn't technically run into a wall with the Crate. We were already close to the wall and probably the Crate_Carried got nudged over a bit when the wall-close Player picked up the Crate_Static.
 
 DONE * When dropping a crate while moving down (south) or down and to the left (southwest), the player drops the crate to their upper left (northwest). Expected behavior is to drop the crate in front of the player, in the direction of travel. For example, if the player is moving down, the crate should be dropped further down, which allows the moving player to "jump over" the crate.

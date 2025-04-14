@@ -4,7 +4,9 @@ signal direction_changed(new_direction: Vector2)
 
 var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
 var is_vaulting := false
-var vault_duration := 1.2  # was 0.3 before; theoretically all you need to change
+var fire_direction_during_vault: Variant = null
+# Tweak how long the vault takes
+var vault_duration := 0.8
 var vault_timer := 0.0
 var vault_direction := Vector2.ZERO
 var vault_distance := 0.0
@@ -113,31 +115,40 @@ func _physics_process(_delta):
 	# Vaulting override
 	if is_vaulting:
 		vault_timer += _delta
-
 		var t = vault_timer / vault_duration
 
-		# Sprite scaling animation (up/down)
+		# AnimatedSprite2D scale (with ease)
 		if t <= 0.5:
-			$AnimatedSprite2D.scale = Vector2(1, 1).lerp(Vector2(1.5, 1.5), t * 2)
+			var scale_t = ease(t * 2, -1.5)
+			$AnimatedSprite2D.scale = Vector2(1, 1).lerp(Vector2(1.5, 1.5), scale_t)
 		else:
-			$AnimatedSprite2D.scale = Vector2(1.5, 1.5).lerp(Vector2(1, 1), (t - 0.5) * 2)
+			var scale_t = ease((t - 0.5) * 2, 1.5)
+			$AnimatedSprite2D.scale = Vector2(1.5, 1.5).lerp(Vector2(1, 1), scale_t)
 
-		# Move forward automatically at normal walking speed
-		var vault_step = vault_direction * speed * _delta
+		# Automatic vault movement (manual control)
 		var step = vault_direction * (vault_distance / vault_duration) * _delta
 		global_position += step
 		vault_distance_traveled += step.length()
 
+		# End of vault
 		if vault_distance_traveled >= vault_distance or vault_timer >= vault_duration:
 			is_vaulting = false
 			vault_timer = 0.0
 			vault_distance_traveled = 0.0
+			# update player sprite and draw order and collision
 			$AnimatedSprite2D.scale = Vector2(1, 1)
-			$AnimatedSprite2D.z_index = Global.LAYER_PLAYER
+			sprite.z_index = Global.Z_PLAYER_AND_CRATES
 			set_collision_mask_value(5, true)
-			drop_crate(vault_crate_drop_position)
+			
+			# drop_crate(vault_crate_drop_position)
 			velocity = Vector2.ZERO
-		return  # Skip normal input and movement while vaulting
+
+			# Fire if buffered
+			if fire_direction_during_vault != null:
+				shoot(fire_direction_during_vault)
+				fire_direction_during_vault = null
+		return  # 🚨 SKIP all further input and physics
+
 
 
 	# ----------------------------------
@@ -245,8 +256,8 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2):
 
 	# Save position where the crate should drop after vault
 	vault_crate_drop_position = crate_position
-
-	# We will drop the crate AFTER the vault completes
+	# drop the crate (turn into Crate_Static) as vault begins
+	drop_crate(vault_crate_drop_position)
 
 
 func drop_barrel():
@@ -328,11 +339,15 @@ func _process(_delta):
 			await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
 			can_shoot = true
 		elif can_shoot:
-			# Fire regular shot
-			shoot(aim_direction.normalized())
-			can_shoot = false
-			await get_tree().create_timer(fire_rate).timeout
-			can_shoot = true
+			if is_vaulting:
+				# queue up a shot for when we land
+				fire_direction_during_vault = aim_direction.normalized()
+			else:
+				# Fire regular shot
+				shoot(aim_direction.normalized())
+				can_shoot = false
+				await get_tree().create_timer(fire_rate).timeout
+				can_shoot = true
 
 	# Fire nova shot
 	if Input.is_action_just_pressed("nova_attack"):
