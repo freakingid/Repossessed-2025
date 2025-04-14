@@ -24,6 +24,8 @@ DONE * If player begins vaulting because they were running with a crate and set 
 
 DONE * Vaulting feedback: If vault is cancelled, Player should vibrate and the Crate_Carried should flash in some way.
 
+DONE * Landed vaulting feedback: Show player sprite squish down and also slide a few pixels forward after landing the vault.
+
 TODO * Vaulting will play an appropriate sound effect during the vault. Stub this in.
 
 TODO * If we vault over an enemy, then once the vault is over we would like to play a taunting sound, such as the Player saying "Ha Ha". Stub this in.

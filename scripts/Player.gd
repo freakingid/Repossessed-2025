@@ -149,6 +149,8 @@ func _physics_process(_delta):
 			sprite.z_index = Global.Z_PLAYER_AND_CRATES
 			# allow to collide with obstacles again
 			restore_blocking_collisions()
+			await play_landing_squash()
+			
 			# make sure we stop moving
 			# TODO maybe we could have a slowdown speed instead of a hard landing??
 			velocity = Vector2.ZERO
@@ -622,6 +624,50 @@ func die():
 
 	# Optional: Restart the level
 	# get_tree().reload_current_scene()
+
+# Effects upon Player landing a vault
+func play_landing_squash():
+	var squash_scale = Vector2(1.1, 0.6)
+	var squash_duration = 0.08
+	var rebound_duration = 0.08
+	var slide_distance = 4.0
+
+	# Start with squash
+	$AnimatedSprite2D.scale = squash_scale
+
+	# Try to slide forward slightly (only if unblocked)
+	var space_state = get_world_2d().direct_space_state
+	var forward = vault_direction.normalized()
+	var slide_pos = global_position + forward * slide_distance
+
+	var shape = CircleShape2D.new()
+	shape.radius = 6
+
+	var transform = Transform2D.IDENTITY
+	transform.origin = slide_pos
+
+	var params = PhysicsShapeQueryParameters2D.new()
+	params.shape = shape
+	params.transform = transform
+	params.exclude = [self]
+	params.collision_mask = (
+		Global.LAYER_WALL |
+		Global.LAYER_SPAWNER |
+		Global.LAYER_CRATE
+	)
+	params.collide_with_bodies = true
+
+	var result = space_state.intersect_shape(params, 1)
+
+	if result.size() == 0:
+		global_position = slide_pos  # Perform nudge if not blocked
+
+	await get_tree().create_timer(squash_duration).timeout
+
+	# Rebound to normal
+	$AnimatedSprite2D.scale = Vector2(1, 1)
+
+	await get_tree().create_timer(rebound_duration).timeout
 
 func play_vault_fail_feedback():
 	# Add shake, sound, or visual cue here
