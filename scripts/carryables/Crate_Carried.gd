@@ -18,15 +18,21 @@ func _physics_process(delta):
 		var motion = target_pos - global_position
 		var collision = move_and_collide(motion)
 
-		if collision and collision.get_collider().is_in_group("walls") and not player.is_vaulting:
-			var vault_started = player.vault_over_crate(global_position, player.last_move_direction)
-			if vault_started:
-				set_physics_process(false)
-				visible = false
-			else:
-				flash_blocked_feedback()
+		if collision and not player.is_vaulting:
+			var collider = collision.get_collider()
+
+			if collider.is_in_group("walls") or collider.is_in_group("spawners") or collider.is_in_group("crates"):
+				var vault_started = player.vault_over_crate(global_position, player.last_move_direction)
+				if vault_started:
+					set_physics_process(false)
+					visible = false
+				else:
+					player.velocity = Vector2.ZERO  # 🛑 Stop player too
+					player.global_position -= player.last_move_direction * 4  # Optional: bump back
+					flash_blocked_feedback()
 		
 		update_z_index(player.last_move_direction)
+
 
 func get_offset_based_on_direction(dir: Vector2) -> Vector2:
 	var spacing = 15.0
