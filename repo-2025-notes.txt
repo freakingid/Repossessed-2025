@@ -15,11 +15,8 @@ DONE * Vaulting will play an appropriate sound effect during the vault. Stub thi
 
 DONE * If we vault over an enemy, then once the vault is over we would like to play a taunting sound, such as the Player saying "Ha Ha". Stub this in.
 
-TODO * Make a title screen with that image
-
-TODO * If player vaults over something but lands on top of a Crate_Static, the player should be allowed to stay on top of the Crate_Static. If there are many Crate_Static obstacles together, with gaps less than the width of one Crate, the Player should be able to run atop them all. This makes the Player immune to ground-based Enemy melee attacks. The Player is still susceptible to Enemy Arrows, Bats Melee, and Shrapnel.
-
-BUG * If Static_Crate is next to wall from a previous drop, it is very close. Then if the Player is very close to the wall and comes down to collide with the Crate_Static -- making it turn into a Crate_Carried -- the vaulting routine starts even though we didn't technically run into a wall with the Crate. We were already close to the wall and probably the Crate_Carried got nudged over a bit when the wall-close Player picked up the Crate_Static.
+DONE * Make a title screen with image
+I have a PNG image I would like to use for a simple splash / title screen that displays when the game first starts up. 1536px x 1024px. I simply want to display the image for now. Later we will also play a title music track when the screen is shown, so you could stub that in. If the player clicks the mouse button on the screen, or hits the "Enter" button while the screen is up, we will move to start the game. For now, we will simply go to the first level. Later, we will go into a window where we can choose from "Options," "New Game," "Load Game," "Quit Game," and "Credits," and maybe some other things. Please describe what you think I want to do, suggest anything you think would make this better for the player, and then ask me if I want to go forward before you tell me step-by-step how to implement the splash screen.
 
 =====
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
@@ -958,6 +955,74 @@ d. All important special game pieces (crates, barrels)
 ===========================================================
 == LATER things to consider
 ===========================================================
+LATER * Fix Player moving down close to wall picking up crate and accidentally vaulting.
+Here is the original BUG note:
+---
+BUG * If Static_Crate is next to wall from a previous drop, it is very close. Then if the Player is very close to the wall and comes down to collide with the Crate_Static -- making it turn into a Crate_Carried -- the vaulting routine starts even though we didn't technically run into a wall with the Crate. This probably happens because the player is close to the wall, and when we pick up the Crate_Static, it turns into Crate_Carried, and its position is shifted to be inline with the player. That shift causes the Crate_Carried to collide with the Wall. Any ideas on how to make this not happen, rather simply??
+
+<quote>
+Absolutely — here’s a clean summary you can keep for your records or drop into your GDD dev notes:
+
+---
+
+## 🧩 Crate Pickup Wall Collision Bug: Summary & Fix
+
+### 🐛 **Problem**
+
+When the Player picks up a `Crate_Static` that’s placed right next to a wall or solid object:
+
+- The crate is converted into a `Crate_Carried`
+- By default, `Crate_Carried` aligns itself to a position slightly in front of the player (via `get_offset_based_on_direction`)
+- If the player is already up against a wall, this offset pushes the crate **into the wall**, triggering **an unintended vault**
+- This results in a vault being triggered **immediately upon pickup**, even though the player never moved into a wall
+
+---
+
+### ✅ **Solution**
+
+**Instead of moving the Crate to the Player**, we check for potential collision:
+
+- If aligning the crate to the player would result in a collision with a wall, spawner, or static crate:
+  - We **leave the crate where it is**
+  - And instead, we **move the Player backward** to match the crate’s position
+
+This prevents wall-overlaps, and therefore **prevents accidental vault triggers right after pickup**.
+
+---
+
+### 🔧 **How to Implement**
+
+In `Crate_Static.gd`, inside the `pickup(player)` function:
+
+```gdscript
+var direction = (player.global_position - global_position).normalized()
+var intended_crate_pos = player.global_position + direction * 15.0
+
+var shape: Shape2D = $CollisionShape2D.shape
+var space_state = get_world_2d().direct_space_state
+
+var query = PhysicsShapeQueryParameters2D.new()
+query.shape = shape
+query.transform = Transform2D(0, intended_crate_pos)
+query.collision_mask = Global.LAYER_WALL | Global.LAYER_SPAWNER | Global.LAYER_CRATE
+query.collide_with_bodies = true
+
+var result = space_state.intersect_shape(query, 1)
+
+if result.size() > 0:
+	# Crate would hit a wall — move player instead
+	var new_player_pos = global_position - direction * 15.0
+	player.global_position = new_player_pos
+```
+
+---
+
+### 💡 Additional Notes
+- No need for a grace timer or delayed vault logic
+- Keeps the physics feel tight and intuitive
+- Works for all directions and wall-adjacent crates
+- Easily extendable to fallback directions if desired
+</quote>
 
 LATER * Additions to Crates crushing Enemies
 <quote>
@@ -979,12 +1044,14 @@ LATER * Pool Enemy Lobber shots, Spider webs, other things they throw
 
 LATER * Pool Shrapnel
 
+=====
 LATER * See if we can improve the way Barrel_Rolled avoids getting momentum added by Arrow.
 ** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
 ** ChatGPT gave us an idea. I had it write a summary that we could present in a different chat at a later time to try efficient solution. That summary is "Enemy Arrows Push Rolling Barrels" in the "Repossessed 2025" folder of "Game Projects" in Google Drive.
 https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/edit?usp=drive_link
 ** 4/14/2025 I don't know if this is still valid, as we've changed node types here and there.
 
+=====
 LATER * When Player is standing still and drops a Crate, if facing Left or Right the Crate is dropped a bit further than I would like.
 
 <quote>
@@ -999,8 +1066,7 @@ We can build on this easily with internal metrics.
 Let me know if you'd like to log enemy lifespans in a per-spawner array or roll up some real-time stats!
 </quote>
 
-
-
-
-
+=====
+MAYBE * If player vaults over something but lands on top of a Crate_Static, the player should be allowed to stay on top of the Crate_Static. If there are many Crate_Static obstacles together, with gaps less than the width of one Crate, the Player should be able to run atop them all. This makes the Player immune to ground-based Enemy melee attacks. The Player is still susceptible to Enemy Arrows, Bats Melee, and Shrapnel.
+** I think this should be LATER
 
