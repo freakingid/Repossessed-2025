@@ -17,6 +17,13 @@ func _physics_process(delta):
 		var target_pos = player.global_position + get_offset_based_on_direction(player.last_move_direction)
 		var motion = target_pos - global_position
 		var collision = move_and_collide(motion)
+		
+		if collision and collision.get_collider().is_in_group("enemies"):
+			var enemy = collision.get_collider()
+			if enemy.has_method("attempt_push_or_crush"):
+				enemy.attempt_push_or_crush(motion)
+				# Retry the crate move in case the enemy cleared the path
+				collision = move_and_collide(motion)
 
 		if collision and not player.is_vaulting:
 			var collider = collision.get_collider()

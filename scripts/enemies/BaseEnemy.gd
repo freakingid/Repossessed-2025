@@ -10,6 +10,9 @@ class_name BaseEnemy
 
 signal despawned(reason: String, timestamp: float)
 var spawn_time: float = 0.0
+var push_velocity: Vector2 = Vector2.ZERO
+var push_duration := 0.1  # seconds
+var push_timer := 0.0
 
 @onready var nav_agent: NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -31,9 +34,9 @@ var is_dead := false
 var target_node: Node2D
 
 func _ready():
+	await get_tree().process_frame  # Wait one frame in case player isn't in scene yet
 	target_node = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
 
-	# Set proper z_index layering
 	if is_flying:
 		sprite.z_index = Global.Z_FLYING_ENEMIES
 	else:
@@ -43,9 +46,29 @@ func _physics_process(delta):
 	if is_dead:
 		return
 
+	if push_timer > 0.0:
+		push_timer -= delta
+
+		var attempted_motion = push_velocity * delta
+		var collision = move_and_collide(attempted_motion)
+
+		if collision:
+			var blocker = collision.get_collider()
+			if blocker.is_in_group("walls") or blocker.is_in_group("spawners") or blocker.is_in_group("crates"):
+				die()
+			elif blocker.is_in_group("enemies") and blocker.has_method("attempt_push_or_crush"):
+				blocker.attempt_push_or_crush(push_velocity)
+
+		if push_timer <= 0.0:
+			push_velocity = Vector2.ZERO
+
+		return  # Still in push mode this frame
+
+	# ✅ No push active — run normal AI
 	update_navigation(delta)
 	update_animation()
 	check_player_collision()
+
 
 func check_player_collision():
 	var collision = get_last_slide_collision()
@@ -80,7 +103,9 @@ func is_path_blocked(direction: Vector2) -> bool:
 	return false
 
 func move_directly_to_player(delta):
+	print("Calling move_directly_to_player from: ", self.name)
 	if target_node:
+		print(self.name, " sees player at ", target_node.global_position)
 		var direction = target_node.global_position - global_position
 		if direction.length() > 1:
 			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
@@ -190,3 +215,22 @@ func reset():
 	var sprite_node = get_node_or_null("AnimatedSprite2D")
 	if sprite_node:
 		sprite_node.modulate = Color(1, 1, 1)
+
+func attempt_push_or_crush(push_vector: Vector2) -> void:
+	if is_dead:
+		return
+
+	# Try to move now
+	var attempted_motion = push_vector
+	var collision = move_and_collide(attempted_motion)
+
+	if collision:
+		var blocker = collision.get_collider()
+		if blocker.is_in_group("walls") or blocker.is_in_group("spawners") or blocker.is_in_group("crates"):
+			die()
+		elif blocker.is_in_group("enemies") and blocker.has_method("attempt_push_or_crush"):
+			blocker.attempt_push_or_crush(push_vector)
+	else:
+		# Move succeeded, still add a short push timer for any follow-up
+		push_velocity = push_vector
+		push_timer = 0.1

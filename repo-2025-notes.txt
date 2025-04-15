@@ -1,32 +1,23 @@
-20250411
-Updated to 4/13/2025
+20250415
 =====
-NOTE * I was working with jumping over the walls and running into some issues. One potential problem was that the middle section of the wall was not a collision tile, so if you could somehow get in the middle of the wall, it was a legitimate place to be. I put an odd looking brick that is a collision tile down the middle of these walls just for position only. 
+DONE * If Player is carrying a Crate_Carried, and pushes the Crate_Carried into a crowd of Enemies, the Crate_Carried should push the Enemies back. Another option is the Enemies jump back away from the Crate_Carried. The main requirement is that the Enemies are essentially pushed by the Crate_Carried, and the Player and Crate_Carried stay in sync regarding their positions. Currently, the Crate_Carried ends up blocked by the Enemy, stops moving, and the Player will continue to move right through the Crate. Let me know what you think I want the behavior to be, and your description of what is happening now.
+** chatgpt quote:
+<quote>
+🧪 Optional: Add Push Cooldown (To Avoid Flicker)
+If you see jittery or repeated pushing, we can add a cooldown timer or state (like was_recently_pushed) to each enemy. Let me know if you want to add that too.
+</quote>
 
-TODO * Make a title screen with that image
-
-TODO * Ask chatgpt where to get sounds
-
-BUG * If Player is carrying a Crate_Carried, and pushes the Crate_Carried into a crowd of Enemies, the Crate_Carried should push the Enemies back, but should not damage them.
-
-TODO * If player vaults over something but lands on top of a Crate_Static, the player should be allowed to stay on top of the Crate_Static. If there are many Crate_Static obstacles together, with gaps less than the width of one Crate, the Player should be able to run atop them all. This makes the Player immune to ground-based Enemy melee attacks. The Player is still susceptible to Enemy Arrows, Bats Melee, and Shrapnel.
+TODO * When player is carrying a Crate_Carried while running, then presses a firing direction input to manually initiate vaulting over the crate, the crate is being dropped several pixels far in front of the Player. That is okay for simply dropping the crate while standing still, but I do not want the Crate to be dropped so far in front if we are going to vault over it. Ideally, I want the Crate to be dropped right where it was when we initiated the drop and vault.
 
 TODO * Vaulting will play an appropriate sound effect during the vault. Stub this in.
 
 TODO * If we vault over an enemy, then once the vault is over we would like to play a taunting sound, such as the Player saying "Ha Ha". Stub this in.
 
+TODO * Make a title screen with that image
+
+TODO * If player vaults over something but lands on top of a Crate_Static, the player should be allowed to stay on top of the Crate_Static. If there are many Crate_Static obstacles together, with gaps less than the width of one Crate, the Player should be able to run atop them all. This makes the Player immune to ground-based Enemy melee attacks. The Player is still susceptible to Enemy Arrows, Bats Melee, and Shrapnel.
+
 BUG * If Static_Crate is next to wall from a previous drop, it is very close. Then if the Player is very close to the wall and comes down to collide with the Crate_Static -- making it turn into a Crate_Carried -- the vaulting routine starts even though we didn't technically run into a wall with the Crate. We were already close to the wall and probably the Crate_Carried got nudged over a bit when the wall-close Player picked up the Crate_Static.
-
-DONE * Player can use vaulting to accidentally land outside the room. We need to prevent the Player from going outside the room bounds, whether it is from vaulting or any other means.
-** Now we are checking room bounds when deciding whether or not to allow vaulting.
-** We could optionally check room bounds at other times, but I thought it was too much and unnecessary to do in every single frame.
-** There was a complicating factor in that I am scaling the TileMapLayer down by 0.25. So we had to figure that math in.
-
-DONE * ask chatgpt to render an image of the player using a crate to being vaulting over a wall, using the same art style as the other image
-
-DONE * ask chatgpt to render an image of the player using a crate to being vaulting over a wall, using the same art style as the other image
-
-DONE * Find the image cgpt rendered of all the enemies.
 
 =====
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
@@ -54,21 +45,49 @@ TODO * Pool Enemy Arrows
 
 BUG * Skeleton Enemy can get stuck in corners
 
-BUG * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that.
+BUG * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that, like the Enemy's speed or position are now tied directly in sync with the player -- even though the Enemy's actual speed property is lower than that of the Player. The whole time this is happening, the Enemy is usually dealing melee damage to the player. Sometimes the Player can "brush off" the enmey by walking around a Wall corner close enough that the Enemy gets blocked by the Wall. Expected behavior is, the Player should be able to walk away from an Enemy whose speed property is lower than the Player's speed property.
 
 BUG * SkeletonShooter movement behavior needs refined a bit. They stop movement at odd times.
 
-<quote>
-Optional Add-ons for Spawner stats building
-Want to:
-1. Track average lifespan per spawner?
-2. Delay spawns if enemies die too quickly (anti-spawn-spam)?
-3. Trigger special events based on enemy death cause?
+BUG * When player died, it seems like the camera made a huge shift down to the lower-right corner of the level.
 
-We can build on this easily with internal metrics.
+TODO * Include screen shake upon barrel explosion.
+TODO * Check behavior of multiple barrels colliding and pushing each other.
 
-Let me know if you'd like to log enemy lifespans in a per-spawner array or roll up some real-time stats!
-</quote>
+TODO * How do we create multiple rooms in our game?
+a. Player properties such as score, health, current powerups, etcetera should all carry over between levels.
+b. Eventually, we will want the status of levels to be saved, so if the player reenters those levels later, they will contain the same objects, enemies, and so forth, in the same conditions as they were when the player last left the room.
+c. We will use a simple door node / sprite to move from one level to the next.
+
+TODO * Player animation and Carried Crate need updated to show better animation of Player carrying Crate
+
+TODO * I think the Big Shot powerup is not actually altering the size of the Shot, so we cannot actually see that we have the big shot.
+
+
+
+
+
+
+
+
+
+
+=====================================
+20250411
+Updated to 4/13/2025 and 4/14/2025
+=====
+NOTE * I was working with jumping over the walls and running into some issues. One potential problem was that the middle section of the wall was not a collision tile, so if you could somehow get in the middle of the wall, it was a legitimate place to be. I put an odd looking brick that is a collision tile down the middle of these walls just for position only. 
+
+DONE * Player can use vaulting to accidentally land outside the room. We need to prevent the Player from going outside the room bounds, whether it is from vaulting or any other means.
+** Now we are checking room bounds when deciding whether or not to allow vaulting.
+** We could optionally check room bounds at other times, but I thought it was too much and unnecessary to do in every single frame.
+** There was a complicating factor in that I am scaling the TileMapLayer down by 0.25. So we had to figure that math in.
+
+DONE * ask chatgpt to render an image of the player using a crate to being vaulting over a wall, using the same art style as the other image
+
+DONE * ask chatgpt to render an image of the player using a crate to being vaulting over a wall, using the same art style as the other image
+
+DONE * Find the image cgpt rendered of all the enemies.
 
 DONE * If player is carrying a Crate_Carried, but is not moving, and presses a fire button, we should just be dropping the Crate in front of the Player. Currently, the Player is trying to vault over the Crate in this situation. They should only try vaulting if they are Carrying the Crate_Carried and hit fire, or run into a wall.
 
@@ -203,14 +222,6 @@ WORKING * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
 
 DONE * Add Ghost Spawner and Ghost, with Pooling
 
-TODO * Add Enemy Spawners for Ghost, Skeleton, SkeletonShooter
-** Currently, they all derive from base class "BaseSpawner.gd"
-** GhostSpawner, SkeletonSpawner, SkeletonShooterSpawner
-
-TODO * Add Crate_Static, Crate_Carried
-
-TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
-
 
 
 
@@ -228,11 +239,6 @@ DONE * Add Skeletons to the game and test.
 ** This still needs improved, because Skeletons can get stuck on corners sometimes, but we are going to move on.
 
 DONE b. Random velocity for Ghosts to spread out. I think this is different than random speed?
-
-TODO * Fix the Design Documents. We saved at the beginning of 04082025, but I think ChatGPT has screwed them up somehow. In a dedicated chat that still understands Godot 4.3, we can ask cgpt to combine the documents.
-
-LATER a. Random speed for ghosts
-** This is just my simple idea
 
 
 
@@ -277,45 +283,15 @@ Would you like me to patch that random offset version into `BaseEnemy.gd` for `m
 
 
 
-TODO * Get Player shots working
-
-TODO * Skeleton
-
-TODO * Skeleton Shooter
-
-TODO * Get Skeleton Shooter firing working
-
-TODO * Ghost Spawner
-
-TODO * Skeleton Spawner
-
-TODO * Skeleton Shooter Spawner
-
-TODO * Step 4: Clean crate/barrel interaction logic
-After bullet cleanup, we’ll formalize barrel/crate reactivation and pickup/drop into reusable patterns.
-
-
-
-
-
-
 
 
 ========================================
 20250402
-TODO * Add shrapnel behavior on barrel explosion.
-
 DONE * I did not see the explosion. Maybe a z_index issue? Or something else
 ** This was a z_index issue.
 DONE * Shrapnel is spawned, but it is spawned over and over.
 ** The ShrapnelTimer did not have "one_shot" flag set.
 DONE * Shrapnel seems to have gravity and fall towards the bottom of the screen.
-
-BUG * It seems like skeleton shooters might always be firing 2 arrows at a time. Test further.
-
-BUG * When player died, it seems like the camera made a huge shift down to the lower-right corner of the level.
-
-TODO * Include screen shake upon barrel explosion.
 
 
 
@@ -344,85 +320,6 @@ DONE * Enemy Arrows pass right through Barrel_Carried, damage the Player who is 
 ** Needed the layer_barrel added to Collision Layer
 DONE * Enemy Arrows transfer momentum to Barrel_Rolled, but they should not. Arrows are not supposed to have enough mass to cause a change in velocity to a Barrel.
 ** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
-
-TODO * Check behavior of multiple barrels colliding and pushing each other.
-
-TODO * How do we create multiple rooms in our game?
-a. Player properties such as score, health, current powerups, etcetera should all carry over between levels.
-b. Eventually, we will want the status of levels to be saved, so if the player reenters those levels later, they will contain the same objects, enemies, and so forth, in the same conditions as they were when the player last left the room.
-c. We will use a simple door node / sprite to move from one level to the next.
-
-BUG * Player bullets with Bounce powerup do not properly bounce off of walls. They make contact with the wall and then do that funky vibrating thing.
-
-NOPE * It seems like more functions could be handled from BarrelUtils.gd for Barrel_Statid, Barrel_Rolled, and Barrel_Carried. Check it out.
-
-TODO * Player jumping over crate placed in front of them while they are running.
-** We are almost there, maybe accidentally. But the z_index of player shows them underneath the dropped barrel. Fix that, and make player sprite grow larger as it "jumps" and grow smaller as it "lands"
-
-TODO * How much damage do we want barrel to do to bullets?
-
-BUG * When enemies do not actually change position, their sprites need to stop animation. That is, show an idle animation (which we do not have yet.)
-
-BUG * When enemies are trying to get to the player but choose to move backwards, they need to change sprite direction so it looks like they are actually going backwards. Right now, they continue to look at the player, so it looks like they are backpedaling.
-
-BUG * Carried Crate should not be allowed to push over a Static Crate. I think this is similar to the Carried Crate not being blocked by walls.
-
-TODO * Player animation and Carried Crate need updated to show better animation of Player carrying Crate
-
-TODO * I think the Big Shot powerup is not actually altering the size of the Shot, so we cannot actually see that we have the big shot.
-
-TODO * Refactor how BaseEnemy and other Enemies set up _ready and stuff
-<quote>
-🛠 Recommended Refactor Strategy
-
-✅ Add this to BaseEnemy.gd:
-```
-func _ready():
-	if player:
-		player.melee_hit.connect(_on_player_melee_hit)
-	set_stats()
-	sprite.z_index = Global.Z_BASE_ENEMIES
-
-func set_stats():
-	# Default stats — override in child classes if needed
-	health = 3
-	speed = 25.0
-	damage = 1
-	score_value = 0
-```
-
-✅ In child classes (e.g., Zombie.gd, Ghost.gd):
-Simplify like this:
-```
-func set_stats():
-	health = Global.ZOMBIE.HEALTH
-	speed = Global.ZOMBIE.SPEED
-	damage = Global.ZOMBIE.DAMAGE
-	score_value = Global.ZOMBIE.SCORE
-```
-No need to override _ready() unless doing something else special.
-</quote>
-
-TODO * See if we can parent > Child Barrels to keep DRY
-
-TODO * Barrel Flames: Would you like help cleaning that up into a small shared set_barrel_state() method you can reuse across all transitions?
-
-TODO * Simplify is_carried_crate in Player.gd
-** We don't really need that boolean. We can just test the variable that is to hold the carried crate instance for == null
-
-TODO * Carried Crate z-index looks odd going left and right
-
-TODO * Check properties in Player.gd vs Bullet.gd that seem to be redundant.
-
-TODO * Check properties in SkeletonShooter.gd vs Arrow.gd that seem to be redundant.
-
-TODO * If Player is firing already when they contact a Crate_Static, the Crate_Static should not be picked up by the player. The crate should at that point be like a wall to the player, blocking their movement.
-
-TODO * Check for redundant, double effects when 2 objects collide: Only 1 object should manage damage, for example.
-
-BUG * Crate_Carried does not seem to collide with walls
-
-TEST * While carrying a crate, sometimes the player and the crate end up moving downward automatically. I noticed this if I try to push an enemy (like a Ghost) down. The push works great, but when I let go of the controls, the Player and the Crate continue moving downward, while I would expect them to stop moving.
 
 ========================================================
 == NOTES On Barrel and Crate Pickups
@@ -1061,6 +958,15 @@ d. All important special game pieces (crates, barrels)
 ===========================================================
 == LATER things to consider
 ===========================================================
+
+LATER * Additions to Crates crushing Enemies
+<quote>
+Crushed enemies could pop into particles
+Add a bounce or recoil sound when pushing chains happen
+Flash or jiggle the crate slightly when blocked
+Score bonuses or combos for multi-kills via crate
+</quote>
+
 LATER * Enhancements to vault looks
 <quote>
 Optional Enhancements
@@ -1081,6 +987,17 @@ https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/
 
 LATER * When Player is standing still and drops a Crate, if facing Left or Right the Crate is dropped a bit further than I would like.
 
+<quote>
+Optional Add-ons for Spawner stats building
+Want to:
+1. Track average lifespan per spawner?
+2. Delay spawns if enemies die too quickly (anti-spawn-spam)?
+3. Trigger special events based on enemy death cause?
+
+We can build on this easily with internal metrics.
+
+Let me know if you'd like to log enemy lifespans in a per-spawner array or roll up some real-time stats!
+</quote>
 
 
 

@@ -14,15 +14,15 @@ z_index = 1
 script = ExtResource("1_eiopn")
 
 [node name="Player" parent="." instance=ExtResource("1_s5xc4")]
-position = Vector2(185.043, -134.856)
+position = Vector2(129.622, 179.27)
 nova_shot_scene = ExtResource("2_wunoo")
 
 [node name="GhostSpawner" parent="." instance=ExtResource("4_6ftku")]
-position = Vector2(-307.542, -324.725)
-max_enemies = 0
+position = Vector2(120.183, -315.32)
+max_enemies = 2
 
 [node name="CrateStatic" parent="." instance=ExtResource("5_k187k")]
-position = Vector2(186.167, -35.3299)
+position = Vector2(121.127, -83.1273)
 
 [node name="CrateStatic2" parent="." instance=ExtResource("5_k187k")]
 position = Vector2(52.5939, 126.305)
