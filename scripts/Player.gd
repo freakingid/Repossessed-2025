@@ -291,6 +291,9 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 	vault_direction = direction.normalized()
 	vault_distance = 2.5 * Global.CRATE_SIZE
 
+	# 🔈 Stub: play vault sound
+	play_vault_sound()
+
 	# Determine if we should spin (horizontal/diagonal vault)
 	if abs(vault_direction.y) < 0.8:
 		should_spin_during_vault = true
@@ -685,11 +688,13 @@ func play_landing_squash():
 		global_position = slide_pos  # Perform nudge if not blocked
 
 	await get_tree().create_timer(squash_duration).timeout
-
 	# Rebound to normal
 	$AnimatedSprite2D.scale = Vector2(1, 1)
-
 	await get_tree().create_timer(rebound_duration).timeout
+	
+	# 🎯 If enemy was left behind, play a taunt sound
+	if should_taunt_after_vault():
+		play_taunt_sound()
 
 func play_vault_fail_feedback():
 	pass
@@ -719,11 +724,9 @@ func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2,
 	var space_state = get_world_2d().direct_space_state
 	var shape := CircleShape2D.new()
 	shape.radius = 8.0  # vault landing zone footprint
-
 	var landing_pos = vault_start + vault_direction.normalized() * vault_distance
 	var transform := Transform2D.IDENTITY
 	transform.origin = landing_pos
-
 	var shape_query := PhysicsShapeQueryParameters2D.new()
 	shape_query.shape = shape
 	shape_query.transform = transform
@@ -737,11 +740,40 @@ func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2,
 		Global.LAYER_SPAWNER |
 		Global.LAYER_WALL
 	)
-
 	var result = space_state.intersect_shape(shape_query, 1)
-
 	return result.size() > 0
 
+func should_taunt_after_vault() -> bool:
+	var space_state = get_world_2d().direct_space_state
+	var check_radius := 20.0
+
+	var shape := CircleShape2D.new()
+	shape.radius = check_radius
+
+	var origin := vault_crate_drop_position  # Where crate was dropped
+	var transform := Transform2D.IDENTITY
+	transform.origin = origin
+
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = shape
+	query.transform = transform
+	query.collide_with_bodies = true
+	query.collision_mask = Global.LAYER_ENEMY
+	query.exclude = [self]
+
+	var result := space_state.intersect_shape(query, 4)
+	return result.size() > 0
+
+
+func play_vault_sound():
+	# 🔈 TODO: Replace with actual vaulting SFX
+	print("Vault SFX: whoosh or jump")
+	# $VaultSoundPlayer.play()  # <- placeholder AudioStreamPlayer node
+
+func play_taunt_sound():
+	# 🔈 TODO: Replace with actual taunt voice line
+	print("Taunt SFX: 'Ha ha!' or similar")
+	# $TauntSoundPlayer.play()
 
 # Allow player to vault over certain objects rather than collide
 func disable_blocking_collisions():
