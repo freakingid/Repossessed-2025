@@ -258,7 +258,6 @@ func drop_crate(forced_position: Variant = null) -> Vector2:
 
 	return drop_position
 
-
 func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 	print("Player.vault_over_crate() called")
 	if is_vaulting:
@@ -297,8 +296,6 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 
 	# ✅ Vault triggered successfully
 	return true
-
-
 
 func drop_barrel():
 	if carried_barrel_instance == null:
@@ -360,6 +357,7 @@ func get_valid_drop_direction(dir: Vector2) -> Vector2:
 
 ## Process player shot direction
 func _process(_delta):
+	# Did we press an aim direction?
 	var aim_direction = Vector2(
 		Input.get_action_strength("aim_right") - Input.get_action_strength("aim_left"),
 		Input.get_action_strength("aim_down") - Input.get_action_strength("aim_up")
@@ -367,6 +365,8 @@ func _process(_delta):
 
 	# Is there fire direction input?
 	if aim_direction.length() > 0:
+		# Calculate if we are moving or not
+		var is_moving = velocity.length() > 0.1  # or use move_direction.length() > 0.1 if available
 		# Are we carrying anyting?
 		if is_carrying_barrel:
 			drop_barrel()
@@ -374,9 +374,18 @@ func _process(_delta):
 			await get_tree().create_timer(Global.BARREL.DROPWAIT).timeout
 			can_shoot = true
 		elif is_carrying_crate:
-			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 16
+			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 32
 
-			if vault_over_crate(proposed_landing_pos, last_move_direction):
+			if is_moving:
+				# Attempt vault only while moving
+				if vault_over_crate(proposed_landing_pos, last_move_direction):
+					can_shoot = false
+					await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
+					can_shoot = true
+			else:
+				# Standing still: just drop the crate
+				drop_crate(proposed_landing_pos)
+				# we need z_index of crate updated??
 				can_shoot = false
 				await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
 				can_shoot = true

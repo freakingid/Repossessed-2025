@@ -3,7 +3,7 @@ Updated to 4/13/2025
 =====
 NOTE * I was working with jumping over the walls and running into some issues. One potential problem was that the middle section of the wall was not a collision tile, so if you could somehow get in the middle of the wall, it was a legitimate place to be. I put an odd looking brick that is a collision tile down the middle of these walls just for position only. 
 
-BUG * If player is carrying a Crate_Carried, but is not moving, and presses a fire button, we should just be dropping the Crate in front of the Player. Currently, the Player is trying to vault over the Crate in this situation. They should only try vaulting if they are Carrying the Crate_Carried and hit fire, or run into a wall.
+DONE * If player is carrying a Crate_Carried, but is not moving, and presses a fire button, we should just be dropping the Crate in front of the Player. Currently, the Player is trying to vault over the Crate in this situation. They should only try vaulting if they are Carrying the Crate_Carried and hit fire, or run into a wall.
 
 BUG * If player carrying Crate_Carried runs the Crate_Carried into a Crate_Static, the Crate_Carried should not allow the Player to continue walking. What happens is, the Crate_Carried is blocked by the Crate_Static, which is proper behavior. But the Player can keep walking right into the middle of the Crate_Carried.
 ** note: We might have handled this similarly already when a Crate_Carried runs into a Wall.
@@ -968,38 +968,6 @@ Global
 
 
 
-===========================================================
-== LATER things to consider
-===========================================================
-LATER * Enhancements to vault looks
-<quote>
-Optional Enhancements
-🎨 Add a sprite trail effect that arcs while spinning
-🔉 Play a vault spin “whoosh” sound only for spinning vaults
-🎯 Use AnimatedSprite2D.play("spin") if you ever add a dedicated spin animation
-</quote>
-
-LATER * Pool Enemy Lobber shots, Spider webs, other things they throw
-
-LATER * Pool Shrapnel
-
-LATER * See if we can improve the way Barrel_Rolled avoids getting momentum added by Arrow.
-** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
-** ChatGPT gave us an idea. I had it write a summary that we could present in a different chat at a later time to try efficient solution. That summary is "Enemy Arrows Push Rolling Barrels" in the "Repossessed 2025" folder of "Game Projects" in Google Drive.
-https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/edit?usp=drive_link
-** 4/14/2025 I don't know if this is still valid, as we've changed node types here and there.
-
-
-
-
-
-
-
-
-
-
-
-
 
 =========================================================
 == Optimizations
@@ -1083,3 +1051,40 @@ d. All important special game pieces (crates, barrels)
 8. Make sure there is a trophy system / achievements
 
 9. what else before launch?
+
+
+
+
+
+
+
+
+===========================================================
+== LATER things to consider
+===========================================================
+LATER * Enhancements to vault looks
+<quote>
+Optional Enhancements
+🎨 Add a sprite trail effect that arcs while spinning
+🔉 Play a vault spin “whoosh” sound only for spinning vaults
+🎯 Use AnimatedSprite2D.play("spin") if you ever add a dedicated spin animation
+</quote>
+
+LATER * Pool Enemy Lobber shots, Spider webs, other things they throw
+
+LATER * Pool Shrapnel
+
+LATER * See if we can improve the way Barrel_Rolled avoids getting momentum added by Arrow.
+** We needed to disable physics collisions between Barrel_Rolled and Arrow. This seems like a nasty hack since it requires every new arrow to tell every existing Barrel_Rolled to ignore that new Arrow. It works for now.
+** ChatGPT gave us an idea. I had it write a summary that we could present in a different chat at a later time to try efficient solution. That summary is "Enemy Arrows Push Rolling Barrels" in the "Repossessed 2025" folder of "Game Projects" in Google Drive.
+https://docs.google.com/document/d/1KjGnxEASNrOPFPeJFELTTnXAFlhKHpkn_EUkjkWbndc/edit?usp=drive_link
+** 4/14/2025 I don't know if this is still valid, as we've changed node types here and there.
+
+LATER * When Player is standing still and drops a Crate, if facing Left or Right the Crate is dropped a bit further than I would like.
+
+
+
+
+
+
+
