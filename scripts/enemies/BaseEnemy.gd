@@ -68,6 +68,7 @@ func _physics_process(delta):
 	update_navigation(delta)
 	update_animation()
 	check_player_collision()
+	separate_from_player_if_stuck()  # ✅ Add this line
 
 
 func check_player_collision():
@@ -76,6 +77,25 @@ func check_player_collision():
 		var collider = collision.get_collider()
 		if collider and collider.is_in_group(Global.GROUPS.PLAYER):
 			collider.take_damage(damage, self)
+
+func separate_from_player_if_stuck() -> void:
+	var shape: Shape2D = $CollisionShape2D.shape
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+
+	var query: PhysicsShapeQueryParameters2D = PhysicsShapeQueryParameters2D.new()
+	query.shape = shape
+	query.transform = global_transform
+	query.collision_mask = 1  # Replace with Global.LAYER_PLAYER if defined
+	query.collide_with_bodies = true
+	query.exclude = [self]
+
+	var results: Array = space_state.intersect_shape(query, 4)
+
+	for result in results:
+		var collider: Node = result.get("collider")
+		if collider and collider.is_in_group(Global.GROUPS.PLAYER):
+			var push_vector: Vector2 = (global_position - collider.global_position).normalized() * 4.0
+			global_position += push_vector
 
 var rotation_attempt_angle := 15
 var rotation_attempts := []

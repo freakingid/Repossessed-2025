@@ -7,6 +7,8 @@ DONE * If Player is carrying a Crate_Carried, and pushes the Crate_Carried into 
 If you see jittery or repeated pushing, we can add a cooldown timer or state (like was_recently_pushed) to each enemy. Let me know if you want to add that too.
 </quote>
 
+DONE * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that, like the Enemy's speed or position are now tied directly in sync with the player -- even though the Enemy's actual speed property is lower than that of the Player. The whole time this is happening, the Enemy is usually dealing melee damage to the player. Sometimes the Player can "brush off" the enmey by walking around a Wall corner close enough that the Enemy gets blocked by the Wall. Expected behavior is, the Player should be able to walk away from an Enemy whose speed property is lower than the Player's speed property.
+
 TODO * When player is carrying a Crate_Carried while running, then presses a firing direction input to manually initiate vaulting over the crate, the crate is being dropped several pixels far in front of the Player. That is okay for simply dropping the crate while standing still, but I do not want the Crate to be dropped so far in front if we are going to vault over it. Ideally, I want the Crate to be dropped right where it was when we initiated the drop and vault.
 
 TODO * Vaulting will play an appropriate sound effect during the vault. Stub this in.
@@ -44,8 +46,6 @@ TODO * Pool Player Bullets
 TODO * Pool Enemy Arrows
 
 BUG * Skeleton Enemy can get stuck in corners
-
-BUG * Some enemies, if they make contact directly with the player, seem to stick to the player wherever the player moves after that, like the Enemy's speed or position are now tied directly in sync with the player -- even though the Enemy's actual speed property is lower than that of the Player. The whole time this is happening, the Enemy is usually dealing melee damage to the player. Sometimes the Player can "brush off" the enmey by walking around a Wall corner close enough that the Enemy gets blocked by the Wall. Expected behavior is, the Player should be able to walk away from an Enemy whose speed property is lower than the Player's speed property.
 
 BUG * SkeletonShooter movement behavior needs refined a bit. They stop movement at odd times.
 
