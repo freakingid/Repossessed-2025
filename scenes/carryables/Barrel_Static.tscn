@@ -60,6 +60,8 @@ animations = [{
 }]
 
 [node name="BarrelStatic" type="StaticBody2D" groups=["barrels", "barrels_static", "damageable", "pushable", "static_objects"]]
+collision_layer = 512
+collision_mask = 0
 script = ExtResource("1_sx2dv")
 carried_scene = ExtResource("2_v3f32")
 explosion_scene = ExtResource("3_lqo8w")

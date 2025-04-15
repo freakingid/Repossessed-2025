@@ -21,8 +21,10 @@ I have a PNG image I would like to use for a simple splash / title screen that d
 =====
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
 
-BUG * Ghosts can walk right through Barrel_Static.
-** Note: They do NOT walk through Crate_Static. Both are StaticBody2D, but probably have different layers and/or groups. Collision Layer and Mask are probably the culprit.
+BUG * Ghosts can walk right through Barrel_Static. They should be blocked by Barrel_Static, similar to how they are blocked by Crate_Static.
+
+BUG * Ghosts can walk right through Barrel_Carried. They should be blocked and pushed by Barrel_Carried, similar to how they are pushed by Crate_Carried.
+
 ** Note: Ghosts do NOT walk through Barrel_Rolled, which is expected behavior.
 
 BUG * Barrel_Carried does not collide with wall and prevent movement. The barrel simply overlaps the wall, and then Player does collide / stop with the wall.

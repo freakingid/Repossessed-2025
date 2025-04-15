@@ -277,7 +277,7 @@ height = 28.0
 [node name="Ghost" type="CharacterBody2D" groups=["damageable", "enemies", "ground_enemies", "pushable"]]
 z_index = 1
 collision_layer = 4
-collision_mask = 149
+collision_mask = 661
 script = ExtResource("1_ahq56")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
