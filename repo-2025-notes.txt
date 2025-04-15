@@ -3,75 +3,30 @@ Updated to 4/13/2025
 =====
 NOTE * I was working with jumping over the walls and running into some issues. One potential problem was that the middle section of the wall was not a collision tile, so if you could somehow get in the middle of the wall, it was a legitimate place to be. I put an odd looking brick that is a collision tile down the middle of these walls just for position only. 
 
-BUG * Player is allowed to vault right out of the room!
-** And then they are stuck with no way to get back in.
-** Should prevent vaulting out of bounds.
+TODO * Make a title screen with that image
+
+TODO * Ask chatgpt where to get sounds
 
 BUG * If Player is carrying a Crate_Carried, and pushes the Crate_Carried into a crowd of Enemies, the Crate_Carried should push the Enemies back, but should not damage them.
 
-DONE * If player is carrying a Crate_Carried, but is not moving, and presses a fire button, we should just be dropping the Crate in front of the Player. Currently, the Player is trying to vault over the Crate in this situation. They should only try vaulting if they are Carrying the Crate_Carried and hit fire, or run into a wall.
-
-DONE * If player carrying Crate_Carried runs the Crate_Carried into a Crate_Static or Enemy Spawner, the Crate_Carried should be blocked from movement (as it is now) but should also prevent the Player from any further movement. Right now, the Player will continue moving, right into the Crate_Carried.
-** note: We might have handled this similarly already when a Crate_Carried runs into a Wall.
-** Fix note: This accidentally got fixed in a way that we would try to Vault Over the Crate_Static that is blocking the Crate_Carried and its Player. I really like this!!
-
-DONE * If player runs into an Enemy Spawner while carrying a Crate_Carried, the Crate is properly blocked, but the Player continues on. This is similar to running into a Crate_Static. Also similar to running into a Wall, which I think we have already handled, and should give insight to an easy fix.
-
 TODO * If player vaults over something but lands on top of a Crate_Static, the player should be allowed to stay on top of the Crate_Static. If there are many Crate_Static obstacles together, with gaps less than the width of one Crate, the Player should be able to run atop them all. This makes the Player immune to ground-based Enemy melee attacks. The Player is still susceptible to Enemy Arrows, Bats Melee, and Shrapnel.
-
-DONE * Make the Player appear on a layer above the Wall when vaulting.
-** Maybe use LAYER_FLYING_ENEMY??
-** I tried that, but it didn't work.
-** Actual problem was debug showing of collision shapes
-
-DONE * If player begins vaulting because they were running with a crate and set it down, the vault might land them in the middle of some obstacle, such as a wall or enemy spawner.
-** This works now to not land into a wall. We simply cancel the vaulting, and bump the player back a bit, and I think we stubbed in some sound effect or at least left a comment.
-
-DONE * Vaulting feedback: If vault is cancelled, Player should vibrate and the Crate_Carried should flash in some way.
-
-DONE * Landed vaulting feedback: Show player sprite squish down and also slide a few pixels forward after landing the vault.
 
 TODO * Vaulting will play an appropriate sound effect during the vault. Stub this in.
 
 TODO * If we vault over an enemy, then once the vault is over we would like to play a taunting sound, such as the Player saying "Ha Ha". Stub this in.
 
-TEST * Make the Player do that same vaulting behavior when they simply drop a crate while they are running. This would allow them to jump over anything like an enemy or a barrel or whatever.
-** This seems to be working at the moment. Test it a ton. We can land in the middle of some enemies, but that's not a bug.
-** What if we land on another Crate? Or a Barrel?
-
-
-<quote>
-** My next request **
-> Option 3 (recommended): Still vault, but phase through the obstacle using temporary collision mask suppression
-
-That is what I want to try, in terms of checking for obstacles.
-</quote>
-
-DONE * If player begins vaulting because they were runnign with a crate and set it down, the player is still colliding with enemies rather than jumping over them. We probably need to make changes to collision layer during the vault to allow ignoring enemy collisions during that time??
-
-TODO * Consider a soft landing -- speed slowdown over a few frames -- after landing the vault.
-
-DONE * Make Player sprite rotate toward the direction of the jump if it is left or right.
-
-DONE * Vaulting player sprite looks like it is blending with the wall. Should appear on top of the wall layer.
-** This was just the debug shapes being drawn in test.
-
-DONE * If Player uses movement input while vaulting over a wall, it registers as trying to pick up the Crate_Static that was just dropped by the wall, causing another Crate Carried and then immediately a Crate Static, which is buried inside the wall after that. We need player input to not matter during the vault. We could accept some "Coyote Time" firing input so once the player lands they would fire their weapon immediately, *if* they had tried to fire while vaulting over the wall.
-** Still not ignoring movement, and now we also do not get the stopped crate at the wall until the player lands on the other side, so technically this is worse.
-
 BUG * If Static_Crate is next to wall from a previous drop, it is very close. Then if the Player is very close to the wall and comes down to collide with the Crate_Static -- making it turn into a Crate_Carried -- the vaulting routine starts even though we didn't technically run into a wall with the Crate. We were already close to the wall and probably the Crate_Carried got nudged over a bit when the wall-close Player picked up the Crate_Static.
 
-DONE * When dropping a crate while moving down (south) or down and to the left (southwest), the player drops the crate to their upper left (northwest). Expected behavior is to drop the crate in front of the player, in the direction of travel. For example, if the player is moving down, the crate should be dropped further down, which allows the moving player to "jump over" the crate.
+DONE * Player can use vaulting to accidentally land outside the room. We need to prevent the Player from going outside the room bounds, whether it is from vaulting or any other means.
+** Now we are checking room bounds when deciding whether or not to allow vaulting.
+** We could optionally check room bounds at other times, but I thought it was too much and unnecessary to do in every single frame.
+** There was a complicating factor in that I am scaling the TileMapLayer down by 0.25. So we had to figure that math in.
 
-DONE * Player bullets are not bouncing off of Crate_Static. They appear to behave just like hitting a wall, where they simple die.
+DONE * ask chatgpt to render an image of the player using a crate to being vaulting over a wall, using the same art style as the other image
 
-DONE * Crate_Carried does not collide with wall and prevent movement. The crate simply overlaps the wall, and then Player does collide / stop with the wall.
+DONE * ask chatgpt to render an image of the player using a crate to being vaulting over a wall, using the same art style as the other image
 
-DONE * Make Player drop Crate_Carried upon hitting wall, then jump over the Crate and the Wall.
-** We're going to manually set Global.CRATE_SIZE to the size of the Crate sprite. But it sure would be nice to set that automatically later.
-
-DONE * Make Crate Vaulting happen visually more slowly
-** Just change the vault_duration at top of Player.gd! Magic
+DONE * Find the image cgpt rendered of all the enemies.
 
 =====
 TODO * Add Barrel_Static, Barrel_Carried, Barrel_Rolled
@@ -85,15 +40,6 @@ BUG * Barrel_Carried does not collide with wall and prevent movement. The barrel
 BUG * Shrapnel collides with wall but doesn't bounce away much, which looks really odd.
 
 BUG * Nova should only be able to be fired once, and then a cooldown that happens after the first nova has completely finished
-
-DONE * Bullet gets error about hitbox
-
-
-
-
-
-
-
 
 ==========
 TODO * We talked about making Nova behavior change:
@@ -124,6 +70,53 @@ We can build on this easily with internal metrics.
 Let me know if you'd like to log enemy lifespans in a per-spawner array or roll up some real-time stats!
 </quote>
 
+DONE * If player is carrying a Crate_Carried, but is not moving, and presses a fire button, we should just be dropping the Crate in front of the Player. Currently, the Player is trying to vault over the Crate in this situation. They should only try vaulting if they are Carrying the Crate_Carried and hit fire, or run into a wall.
+
+DONE * If player carrying Crate_Carried runs the Crate_Carried into a Crate_Static or Enemy Spawner, the Crate_Carried should be blocked from movement (as it is now) but should also prevent the Player from any further movement. Right now, the Player will continue moving, right into the Crate_Carried.
+** note: We might have handled this similarly already when a Crate_Carried runs into a Wall.
+** Fix note: This accidentally got fixed in a way that we would try to Vault Over the Crate_Static that is blocking the Crate_Carried and its Player. I really like this!!
+
+DONE * If player runs into an Enemy Spawner while carrying a Crate_Carried, the Crate is properly blocked, but the Player continues on. This is similar to running into a Crate_Static. Also similar to running into a Wall, which I think we have already handled, and should give insight to an easy fix.
+
+DONE * Make the Player appear on a layer above the Wall when vaulting.
+** Maybe use LAYER_FLYING_ENEMY??
+** I tried that, but it didn't work.
+** Actual problem was debug showing of collision shapes
+
+DONE * If player begins vaulting because they were running with a crate and set it down, the vault might land them in the middle of some obstacle, such as a wall or enemy spawner.
+** This works now to not land into a wall. We simply cancel the vaulting, and bump the player back a bit, and I think we stubbed in some sound effect or at least left a comment.
+
+DONE * Vaulting feedback: If vault is cancelled, Player should vibrate and the Crate_Carried should flash in some way.
+
+DONE * Landed vaulting feedback: Show player sprite squish down and also slide a few pixels forward after landing the vault.
+
+DONE * Make the Player do that same vaulting behavior when they simply drop a crate while they are running. This would allow them to jump over anything like an enemy or a barrel or whatever.
+** This seems to be working at the moment. Test it a ton. We can land in the middle of some enemies, but that's not a bug.
+** What if we land on another Crate? Or a Barrel?
+
+DONE * If player begins vaulting because they were runnign with a crate and set it down, the player is still colliding with enemies rather than jumping over them. We probably need to make changes to collision layer during the vault to allow ignoring enemy collisions during that time??
+
+DONE * Make Player sprite rotate toward the direction of the jump if it is left or right.
+
+DONE * Vaulting player sprite looks like it is blending with the wall. Should appear on top of the wall layer.
+** This was just the debug shapes being drawn in test.
+
+DONE * If Player uses movement input while vaulting over a wall, it registers as trying to pick up the Crate_Static that was just dropped by the wall, causing another Crate Carried and then immediately a Crate Static, which is buried inside the wall after that. We need player input to not matter during the vault. We could accept some "Coyote Time" firing input so once the player lands they would fire their weapon immediately, *if* they had tried to fire while vaulting over the wall.
+** Still not ignoring movement, and now we also do not get the stopped crate at the wall until the player lands on the other side, so technically this is worse.
+
+DONE * When dropping a crate while moving down (south) or down and to the left (southwest), the player drops the crate to their upper left (northwest). Expected behavior is to drop the crate in front of the player, in the direction of travel. For example, if the player is moving down, the crate should be dropped further down, which allows the moving player to "jump over" the crate.
+
+DONE * Player bullets are not bouncing off of Crate_Static. They appear to behave just like hitting a wall, where they simple die.
+
+DONE * Crate_Carried does not collide with wall and prevent movement. The crate simply overlaps the wall, and then Player does collide / stop with the wall.
+
+DONE * Make Player drop Crate_Carried upon hitting wall, then jump over the Crate and the Wall.
+** We're going to manually set Global.CRATE_SIZE to the size of the Crate sprite. But it sure would be nice to set that automatically later.
+
+DONE * Make Crate Vaulting happen visually more slowly
+** Just change the vault_duration at top of Player.gd! Magic
+
+DONE * Bullet gets error about hitbox
 
 
 
@@ -132,6 +125,7 @@ Let me know if you'd like to log enemy lifespans in a per-spawner array or roll 
 
 
 
+=================
 20250410
 
 DONE * Fixed and refactored some issues with Bat Enemy.

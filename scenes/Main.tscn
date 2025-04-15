@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=9 format=4 uid="uid://drndiygpgjsov"]
 
+[ext_resource type="Script" path="res://scripts/rooms/main.gd" id="1_eiopn"]
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="1_s5xc4"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="2_wunoo"]
@@ -9,6 +10,8 @@
 [ext_resource type="Script" path="res://scripts/LevelManager.gd" id="6_najxp"]
 
 [node name="Node2D" type="Node2D"]
+z_index = 1
+script = ExtResource("1_eiopn")
 
 [node name="Player" parent="." instance=ExtResource("1_s5xc4")]
 position = Vector2(185.043, -134.856)

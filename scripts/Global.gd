@@ -195,3 +195,9 @@ class GROUPS:
 	const STATIC_OBJECTS = "static_objects"
 	const PROJECTILES = "projectiles"
 	const SPAWNERS = "spawners"
+
+# This will be updated by each room scene when loaded
+static var ROOM_BOUNDS: Rect2 = Rect2(Vector2.ZERO, Vector2(640, 360))
+
+static func is_inside_room_bounds(pos: Vector2) -> bool:
+	return ROOM_BOUNDS.has_point(pos)

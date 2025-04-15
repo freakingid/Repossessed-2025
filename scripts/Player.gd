@@ -272,6 +272,19 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 		global_position -= last_move_direction * 4  # Small nudge backward to indicate bump
 		return false
 
+	# Try to make sure we wouldn't land outside room boundaries
+	var projected_landing = crate_position + direction.normalized() * 2.5 * Global.CRATE_SIZE
+	# for debug
+	print("Projected landing:", projected_landing)
+	print("ROOM_BOUNDS:", Global.ROOM_BOUNDS)
+	print("Inside bounds?", Global.is_inside_room_bounds(projected_landing))
+	
+	if not Global.is_inside_room_bounds(projected_landing):
+		print("Vault canceled: landing outside room bounds.")
+		play_vault_fail_feedback()
+		velocity = Vector2.ZERO
+		return false
+
 	# ✅ Begin vault sequence
 	is_vaulting = true
 	vault_timer = 0.0
@@ -679,15 +692,16 @@ func play_landing_squash():
 	await get_tree().create_timer(rebound_duration).timeout
 
 func play_vault_fail_feedback():
+	pass
 	# Add shake, sound, or visual cue here
-	print("This is where we would play a vaulting fail tone")
+	# print("This is where we would play a vaulting fail tone")
 	#$VaultFailSound.play()
-	print("This is where we would show a brief vaulting fail flash")
+	# print("This is where we would show a brief vaulting fail flash")
 	#$SpriteFlash.flash_red()  # if you have a sprite flash node or method
 
 func try_vault_from(start_pos: Vector2, direction: Vector2) -> bool:
 	if vault_landing_should_cancel(start_pos, direction, 2.5 * Global.CRATE_SIZE):
-		print("Vault canceled.")
+		# print("Vault canceled.")
 		play_vault_fail_feedback()
 		velocity = Vector2.ZERO
 		return false
