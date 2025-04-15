@@ -3,19 +3,19 @@ Updated to 4/13/2025
 =====
 NOTE * I was working with jumping over the walls and running into some issues. One potential problem was that the middle section of the wall was not a collision tile, so if you could somehow get in the middle of the wall, it was a legitimate place to be. I put an odd looking brick that is a collision tile down the middle of these walls just for position only. 
 
-DONE * If player is carrying a Crate_Carried, but is not moving, and presses a fire button, we should just be dropping the Crate in front of the Player. Currently, the Player is trying to vault over the Crate in this situation. They should only try vaulting if they are Carrying the Crate_Carried and hit fire, or run into a wall.
-
 BUG * Player is allowed to vault right out of the room!
 ** And then they are stuck with no way to get back in.
 ** Should prevent vaulting out of bounds.
+
+BUG * If Player is carrying a Crate_Carried, and pushes the Crate_Carried into a crowd of Enemies, the Crate_Carried should push the Enemies back, but should not damage them.
+
+DONE * If player is carrying a Crate_Carried, but is not moving, and presses a fire button, we should just be dropping the Crate in front of the Player. Currently, the Player is trying to vault over the Crate in this situation. They should only try vaulting if they are Carrying the Crate_Carried and hit fire, or run into a wall.
 
 DONE * If player carrying Crate_Carried runs the Crate_Carried into a Crate_Static or Enemy Spawner, the Crate_Carried should be blocked from movement (as it is now) but should also prevent the Player from any further movement. Right now, the Player will continue moving, right into the Crate_Carried.
 ** note: We might have handled this similarly already when a Crate_Carried runs into a Wall.
 ** Fix note: This accidentally got fixed in a way that we would try to Vault Over the Crate_Static that is blocking the Crate_Carried and its Player. I really like this!!
 
-BUG * If player runs into an Enemy Spawner while carrying a Crate_Carried, the Crate is properly blocked, but the Player continues on. This is similar to running into a Crate_Static. Also similar to running into a Wall, which I think we have already handled, and should give insight to an easy fix.
-
-BUG * If Player is carrying a Crate_Carried, and pushes the Crate_Carried into a crowd of Enemies, the Crate_Carried should push the Enemies back, but should not damage them.
+DONE * If player runs into an Enemy Spawner while carrying a Crate_Carried, the Crate is properly blocked, but the Player continues on. This is similar to running into a Crate_Static. Also similar to running into a Wall, which I think we have already handled, and should give insight to an easy fix.
 
 TODO * If player vaults over something but lands on top of a Crate_Static, the player should be allowed to stay on top of the Crate_Static. If there are many Crate_Static obstacles together, with gaps less than the width of one Crate, the Player should be able to run atop them all. This makes the Player immune to ground-based Enemy melee attacks. The Player is still susceptible to Enemy Arrows, Bats Melee, and Shrapnel.
 

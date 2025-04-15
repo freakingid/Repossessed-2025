@@ -20,18 +20,23 @@ func _physics_process(delta):
 
 		if collision and not player.is_vaulting:
 			var collider = collision.get_collider()
+			var blocker = collider
+			if not collider.is_in_group("walls") and not collider.is_in_group("crates") and not collider.is_in_group("spawners"):
+				if collider.get_parent():
+					blocker = collider.get_parent()
 
-			if collider.is_in_group("walls") or collider.is_in_group("spawners") or collider.is_in_group("crates"):
+			if blocker.is_in_group("walls") or blocker.is_in_group("crates") or blocker.is_in_group("spawners"):
 				var vault_started = player.vault_over_crate(global_position, player.last_move_direction)
 				if vault_started:
 					set_physics_process(false)
 					visible = false
 				else:
-					player.velocity = Vector2.ZERO  # 🛑 Stop player too
-					player.global_position -= player.last_move_direction * 4  # Optional: bump back
+					player.velocity = Vector2.ZERO
+					player.global_position -= player.last_move_direction * 4
 					flash_blocked_feedback()
-		
+
 		update_z_index(player.last_move_direction)
+
 
 
 func get_offset_based_on_direction(dir: Vector2) -> Vector2:
@@ -50,6 +55,6 @@ func update_z_index(dir: Vector2):
 func flash_blocked_feedback():
 	if has_node("Sprite2D"):  # or AnimatedSprite2D if you're using that
 		var sprite = $Sprite2D
-		sprite.modulate = Color(2, 0.3, 0.3)  # reddish flash
+		sprite.modulate = Color(2, 0.3, 0.3, 0.5)  # reddish flash
 		await get_tree().create_timer(0.1).timeout
-		sprite.modulate = Color(1, 1, 1)  # reset
+		sprite.modulate = Color(1, 1, 1, 1)  # reset
