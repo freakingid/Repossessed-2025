@@ -12,10 +12,10 @@ var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
 var drop_invincibility_timer := 0.0
 
 func _ready():
-	sprite.z_index = Global.Z_PLAYER_AND_CRATES
+	sprite.z_index = Global.Z_BARRELS
 
 	if flame_sprite:
-		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME
+		flame_sprite.z_index = Global.Z_BARRELS_FLAME
 		BarrelUtils.update_flame(flame_sprite, health, max_health)  # ✅ Add this
 
 	collision_layer = Global.LAYER_BARREL

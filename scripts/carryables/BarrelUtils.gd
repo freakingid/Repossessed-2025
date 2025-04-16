@@ -83,6 +83,6 @@ static func init_barrel(barrel: Node, layer: int, mask: int, group: String) -> v
 	barrel.add_to_group(group)
 	barrel.health = barrel.max_health
 	if barrel.has_node("Sprite2D"):
-		barrel.get_node("Sprite2D").z_index = Global.Z_PLAYER_AND_CRATES
+		barrel.get_node("Sprite2D").z_index = Global.Z_BARRELS
 	if barrel.has_node("FlameSprite"):
-		barrel.get_node("FlameSprite").z_index = Global.Z_PLAYER_AND_CRATES + 1
+		barrel.get_node("FlameSprite").z_index = Global.Z_BARRELS_FLAME

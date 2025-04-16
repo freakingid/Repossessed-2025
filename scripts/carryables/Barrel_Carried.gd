@@ -10,9 +10,9 @@ var health: int = Global.BARREL.HEALTH
 var player: Node2D
 
 func _ready():
-	sprite.z_index = Global.Z_PLAYER_AND_CRATES
+	sprite.z_index = Global.Z_BARRELS
 	if flame_sprite:
-		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME
+		flame_sprite.z_index = Global.Z_BARRELS_FLAME
 		BarrelUtils.set_barrel_state(self, flame_sprite, health, max_health)
 
 	collision_layer = Global.LAYER_BARREL
@@ -35,13 +35,15 @@ func _physics_process(_delta):
 
 	# Adjust z_index to appear in front or behind player
 	if player.last_move_direction.y > 0:
-		sprite.z_index = Global.Z_PLAYER_AND_CRATES + 1
+		# Player moving up, Barrel should be visually underneath
+		sprite.z_index = Global.Z_CARRIED_CRATE_IN_FRONT
 		if flame_sprite:
-			flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES + 2
+			flame_sprite.z_index = Global.Z_CARRIED_CRATE_IN_FRONT_FLAME
 	else:
-		sprite.z_index = Global.Z_PLAYER_AND_CRATES - 1
+		# Player moving down, Barrel should be visually on top
+		sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND
 		if flame_sprite:
-			flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES
+			flame_sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND_FLAME
 
 func take_damage(amount: int):
 	health -= amount

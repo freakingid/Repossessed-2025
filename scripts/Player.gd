@@ -108,7 +108,7 @@ func _ready():
 		Global.LAYER_BARREL
 	)
 	
-	sprite.z_index = Global.Z_PLAYER_AND_CRATES
+	sprite.z_index = Global.Z_PLAYER
 	$HealthBar.z_index = Global.Z_UI_FLOATING
 
 
@@ -146,7 +146,7 @@ func _physics_process(_delta):
 			# update player sprite and draw order and collision
 			$AnimatedSprite2D.scale = Vector2(1, 1)
 			$AnimatedSprite2D.rotation = 0
-			sprite.z_index = Global.Z_PLAYER_AND_CRATES
+			sprite.z_index = Global.Z_PLAYER
 			# allow to collide with obstacles again
 			restore_blocking_collisions()
 			await play_landing_squash()

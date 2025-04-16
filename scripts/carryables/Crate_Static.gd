@@ -12,7 +12,7 @@ func _ready():
 		Global.LAYER_ENEMY_PROJECTILE |
 		Global.LAYER_SPAWNER
 	)
-	$Sprite2D.z_index = Global.Z_PLAYER_AND_CRATES
+	$Sprite2D.z_index = Global.Z_CRATES
 
 func pickup(player: Node):
 	if player.is_vaulting:

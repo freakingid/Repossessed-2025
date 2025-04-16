@@ -18,9 +18,9 @@ func _ready():
 	for projectile in get_tree().get_nodes_in_group("enemy_projectiles"):
 		add_collision_exception_with(projectile)
 
-	sprite.z_index = Global.Z_PLAYER_AND_CRATES
+	sprite.z_index = Global.Z_BARRELS
 	if flame_sprite:
-		flame_sprite.z_index = Global.Z_PLAYER_AND_CRATES_FLAME
+		flame_sprite.z_index = Global.Z_BARRELS_FLAME
 		BarrelUtils.set_barrel_state(self, flame_sprite, health, max_health)
 
 	collision_layer = Global.LAYER_BARREL

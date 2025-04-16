@@ -16,20 +16,27 @@ const LAYER_SHRAPNEL = 1 << 10             # Layer 11
 
 # Visual layering constants (z_index values)
 # I think we are using CARRIED_CRATE also for _BARREL
-const Z_TILEMAP                   = 0
-const Z_BACKGROUND_DECALS        = 5   # Shadow overlays above floor
-const Z_DROPPED_ITEMS             = 10
-const Z_BASE_ENEMIES              = 20
-const Z_CARRIED_CRATE_BEHIND      = 25
-const Z_CARRIED_CRATE_BEHIND_FLAME = 26
-const Z_PLAYER_AND_CRATES         = 30
-const Z_PLAYER_AND_CRATES_FLAME   = 31
-const Z_CARRIED_CRATE_IN_FRONT    = 35
-const Z_CARRIED_CRATE_IN_FRONT_FLAME = 36
-const Z_SHRAPNEL                   = 37
-const Z_FLYING_ENEMIES            = 40
-const Z_OVERHEAD_DECORATIONS      = 50
-const Z_UI_FLOATING              = 100
+const Z_TILEMAP                        = 0
+const Z_BACKGROUND_DECALS             = 10  # Shadow overlays above floor
+const Z_DROPPED_ITEMS                 = 20
+const Z_BASE_ENEMIES                  = 30
+const Z_CARRIED_CRATE_BEHIND          = 40
+const Z_CARRIED_BARREL_BEHIND         = 40
+const Z_CARRIED_CRATE_BEHIND_FLAME    = 50
+const Z_CARRIED_BARREL_BEHIND_FLAME   = 50
+const Z_CRATES                        = 55
+const Z_BARRELS                       = 55
+const Z_CRATES_FLAME                  = 56
+const Z_BARRELS_FLAME                 = 56
+const Z_PLAYER                        = 60
+const Z_CARRIED_BARREL_IN_FRONT       = 80
+const Z_CARRIED_CRATE_IN_FRONT        = 80
+const Z_CARRIED_BARREL_IN_FRONT_FLAME = 90
+const Z_CARRIED_CRATE_IN_FRONT_FLAME  = 90
+const Z_SHRAPNEL                      = 100
+const Z_FLYING_ENEMIES                = 110
+const Z_OVERHEAD_DECORATIONS          = 120
+const Z_UI_FLOATING                   = 130
 
 # Crates and Barrels
 const CRATE_SIZE = 29 # 1.5 x 19px sprite

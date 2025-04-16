@@ -7,7 +7,32 @@ DONE * Barrel_Carried correctly shows flame animation that represents status of 
 DONE * If Player is able to run into Barrel_Rolled, Barrel_Rolled gets pushed by the player and never slows down enough to become a Barrel_Static until Player stops colliding with Barrel. I was going to consider this a bug, but actually it seems to make sense. I do want Barrel_Rolled to turn into Barrel_Static sooner. I think we are waiting for velocity to be 0, but that means the Barrel_Rolled can be imperceptibly moving, interpreted by the player as a Barrel_Static, when it actually is not. Help me turn Barrel_Rolled into Barrel_Static earlier, so when it seems visually to be done moving, it really is a Barrel_Static. (Incidentally, I wish Barrel_Carried and Crate_Carried would push Enemies the way the Player is pushing Barrel_Rolled in this situation. Can you remember this? Perhaps if we look at how Player is pushing Barrel_Rolled, we can use similar logic later to improve how Crate_Carried and Barrel_Carried push Enemies.)
 ** Note, this isn't to my liking yet
 
-BUG * When Player approaches Barrel_Static and then picks it up, it becomes a Barrel_Carried. At that point, the position of the Barrel snaps to the Player, from a distance too far away to look visually good. When the Player contacts a Barrel_Static and it turns into a Barrel_Carried it needs to turn into that at the same visual location.
+DONE * When Player's node PickupDetector (Area2D with a CollisionShape2D) collides with a Barrel_Static, a number of things happen to turn that Barrel_Static into a Barrel_Carried. Then, Barrel_Carried location is kept in sync with Player in this snippet from Barrel_Carried._physics_process():
+```
+func _physics_process(_delta):
+	if not player:
+		return
+
+	# Position barrel slightly in front of the player
+	var offset = player.last_move_direction.normalized() * 10
+	global_position = player.global_position + offset
+```
+The problem is, visually this is awkward, because there is a distance between where Barrel_Static's pickup position and where Barrel_Carried is placed relative to the player. This causes the Barrel to "snap in place" visually when it transforms from Barrel_Static to Barrel_Carried. I would like the Barrel_Carried to visually start out in the same location as the Barrel_Static. I thought I might make the Player > PickupDetector smaller to facilitate this, but I want to ask what you think.
+** Solved by making the PickupDetector smaller and placing it near the Player's sprite's hands.
+
+DONE * Fix up some z-index layering for Player, Crate, Barrels, giving some room in-between for additions.
+
+BUG * Barrel_Carried can pass right through a Crate_Static, and so can the Player who is holding the Barrel_Carried
+
+BUG_LATER * If Player approaches Crate or Barrel from the top, possibly attempting to pick up, the player overlaps the Crate or Barrel for a few pixels before picking the item up and correcting the z-index.
+** Is this one of those cases where you have 2 sprites for 1 object, such as Crate or Barrel, and the top half is higher z-index than Player, and the bottom half is lower z-index than Player? If so, I will table this until Later.
+
+BUG_WAIT * Crate_Static seems to have a flame, but when I pick it up and it becomes Crate_Carred (or subsequently Crate_Rolled) it does not have a flame.
+** Check debug for actual health value.
+** note: I cannot reproduce this right now.
+
+
+
 
 NOTE * Player Push of Barrels might be good for Barrel Carried / Crate Carried push of Enemies
 <quote>
