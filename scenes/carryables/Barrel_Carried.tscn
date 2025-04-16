@@ -58,7 +58,6 @@ animations = [{
 }]
 
 [node name="BarrelCarried" type="CharacterBody2D" groups=["barrels", "barrels_carried", "damageable", "pushable"]]
-visible = false
 script = ExtResource("1_w071m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

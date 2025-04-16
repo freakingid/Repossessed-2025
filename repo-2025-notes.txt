@@ -4,6 +4,28 @@ DONE * When Player picks up Barrel_Static, it looks like Barrel_Carried is initi
 
 DONE * Barrel_Carried correctly shows flame animation that represents status of "health" property. Barrel_Rolled does, as well. However, when Barrel_Rolled stops moving, it turns back into a Barrel_Static. While that is correct behavior, the Barrel_Static no longer displays the flame animation. Instead, it shows one frame of the animation, not playing.
 
+DONE * If Player is able to run into Barrel_Rolled, Barrel_Rolled gets pushed by the player and never slows down enough to become a Barrel_Static until Player stops colliding with Barrel. I was going to consider this a bug, but actually it seems to make sense. I do want Barrel_Rolled to turn into Barrel_Static sooner. I think we are waiting for velocity to be 0, but that means the Barrel_Rolled can be imperceptibly moving, interpreted by the player as a Barrel_Static, when it actually is not. Help me turn Barrel_Rolled into Barrel_Static earlier, so when it seems visually to be done moving, it really is a Barrel_Static. (Incidentally, I wish Barrel_Carried and Crate_Carried would push Enemies the way the Player is pushing Barrel_Rolled in this situation. Can you remember this? Perhaps if we look at how Player is pushing Barrel_Rolled, we can use similar logic later to improve how Crate_Carried and Barrel_Carried push Enemies.)
+** Note, this isn't to my liking yet
+
+BUG * When Player approaches Barrel_Static and then picks it up, it becomes a Barrel_Carried. At that point, the position of the Barrel snaps to the Player, from a distance too far away to look visually good. When the Player contacts a Barrel_Static and it turns into a Barrel_Carried it needs to turn into that at the same visual location.
+
+NOTE * Player Push of Barrels might be good for Barrel Carried / Crate Carried push of Enemies
+<quote>
+📌 Follow-Up: Player push logic = good future model
+Yes — you're spot-on that this "soft pushing" behavior between Player and Barrel_Rolled gives us:
+* A natural-feeling push without forcibly setting position
+* Room for chain-pushing (Player → Barrel → other objects)
+
+We'll revisit this for:
+* Crate_Carried pushing enemies
+* Barrel_Carried pushing enemies
+
+Likely using move_and_collide() + apply_impulse() or velocity += push_vector.
+
+Let me know if you'd like help implementing the threshold logic right now, or reviewing your current Barrel_Rolled._physics_process() so I can give you a drop-in fix.
+</quote>
+
+
 ?? Can Player pick up Barrel and walk normally?
 
 ?? Does Barrel stop / collide with Walls?
@@ -13,6 +35,8 @@ DONE * Barrel_Carried correctly shows flame animation that represents status of 
 ?? Does Barrel_Rolled behave as expected?
 ??? Slow as it rolls?
 ??? Bounce off walls?
+??? Bounce off crates?
+??? Bounce off Spawners?
 
 ?? Does Barrel_Rolled turn into Barrel_Static successfully upon stopping?
 

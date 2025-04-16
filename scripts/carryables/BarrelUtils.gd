@@ -56,10 +56,8 @@ static func set_barrel_state(barrel: Node, flame_sprite: AnimatedSprite2D, h: in
 		flame_sprite.visible = should_burn
 
 		if should_burn:
-			print("Flame should burn")
 			flame_sprite.play()
 		else:
-			print("Flame should NOT burn")
 			flame_sprite.stop()
 			flame_sprite.scale = Vector2.ONE
 			flame_sprite.modulate = Color(1, 1, 1)

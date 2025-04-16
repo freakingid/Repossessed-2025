@@ -6,6 +6,8 @@ class_name Barrel_Rolled
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var flame_sprite: AnimatedSprite2D = $FlameSprite
 
+const ROLL_STOP_THRESHOLD := 64.0  # Tune this to taste — lower = stricter; also, squared
+
 var max_health: int = Global.BARREL.HEALTH
 var health: int = Global.BARREL.HEALTH
 var invincible_time := Global.BARREL.DROPWAIT  # Duration in seconds
@@ -39,9 +41,9 @@ func _physics_process(delta):
 	# After first kicked, barrel ignores damage for a time
 	if drop_invincibility_timer > 0.0:
 		drop_invincibility_timer -= delta
-
+		
 	# Manage how long we roll until we stop and turn into Barrel_Static
-	if linear_velocity.length_squared() < 64.0:
+	if linear_velocity.length_squared() < ROLL_STOP_THRESHOLD:
 		convert_to_static()
 
 func convert_to_static():
