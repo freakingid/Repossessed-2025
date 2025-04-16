@@ -50,7 +50,6 @@ func _physics_process(delta):
 
 func fire_arrow(target_pos: Vector2):
 	if arrow_scene == null:
-		print("[SkeletonShooter] No arrow scene assigned!")
 		return
 
 	var arrow = arrow_scene.instantiate()

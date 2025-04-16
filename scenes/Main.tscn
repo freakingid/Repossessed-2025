@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="Script" path="res://scripts/rooms/main.gd" id="1_eiopn"]
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="1_op41d"]
@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="3_kvjts"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/spawners/GhostSpawner.tscn" id="4_6ftku"]
 [ext_resource type="PackedScene" uid="uid://cmdq6h3pgo4ud" path="res://scenes/carryables/Crate_Static.tscn" id="5_k187k"]
+[ext_resource type="PackedScene" uid="uid://cxp6pjyhdyfi2" path="res://scenes/spawners/SkeletonShooterSpawner.tscn" id="5_w3hyx"]
 [ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/carryables/Barrel_Static.tscn" id="6_4xs7i"]
 [ext_resource type="Script" path="res://scripts/LevelManager.gd" id="6_najxp"]
 
@@ -20,7 +21,11 @@ nova_shot_scene = ExtResource("2_wunoo")
 
 [node name="GhostSpawner" parent="." instance=ExtResource("4_6ftku")]
 position = Vector2(120.183, -315.32)
-max_enemies = 0
+max_enemies = 1
+
+[node name="SkeletonShooterSpawner" parent="." instance=ExtResource("5_w3hyx")]
+position = Vector2(-175.248, -309.657)
+max_enemies = 1
 
 [node name="CrateStatic" parent="." instance=ExtResource("5_k187k")]
 position = Vector2(121.127, -83.1273)

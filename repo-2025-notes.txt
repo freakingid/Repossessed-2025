@@ -22,7 +22,71 @@ The problem is, visually this is awkward, because there is a distance between wh
 
 DONE * Fix up some z-index layering for Player, Crate, Barrels, giving some room in-between for additions.
 
+==============================
+Crate_Static
+YES 1. Can Player pick up? YES
+YES 2. Do Player shots bounce off? YES
+YES 3. Do Enemies have to go around? YES
+YES 4. Do Enemy shots bounce off?
+
+==============================
+Crate_Carried
+YES 1. Does Crate get carried in front of player correctly? YES
+YES 2. Can idle Player set down Crate? YES
+YES 3. Can running Player vault over Crate manually via fire button? YES
+YES 4. Does running Player vault over Wall, Spawner, and other Crate automatically upon run-in? YES
+=====
+BUG 5. Is player prevented from vaulting if they would land on something solid? NO
+YES 6. Does Crate pickup look smooth (in terms of snapping to player carrying position.) YES
+=====
+FIX 7. Does idle Crate set down look smooth? NO
+** Set the Crate closer to the player
+=====
+BUG 8. Do Enemy shots bounce off?
+** That's hard to say, because Skeletons (correctly) only fire at player when they have line of sight. It could still be possible for them to hit a Crate, but difficult to test. Maybe try running away from a skeleton, with a crate, then jump over it?
+** Okay, I tested by running away from a SkeletonShooter while I was carrying a crate, then I vaulted over the crate as soon as the SS shot an arrow. The arrow just died upon impact with the crate, instead of bouncing off.
+** But IS that a bug? We might want other shots to bounce off, but an arrow... wouldn't really bounce off.
+
+==============================
+Barrel Static
+YES 1. Can player pick up?
+YES 2. Do player shots damage barrel?
+YES 3. Does barrel show flames?
+YES 4. Does barrel die and spawn shrapnel?
+YES 5. Do enemies have to go around?
+=====
+BUG 6. Do enemy shots damage barrel?
+** SS Arrows go right through the Barrel no effect.
+YES 7. Does barrel pick up look smooth?
+
+==============================
+Barrel Carried
+1. Does Barrel get carried in front of player correctly?
+2. Can idle Player set down Barrel?
+3. Does barrel set down look smooth?
+4. Can running player kick Barrel forward (into Barrel Rolled?)
+5. Does barrel carried keep damage / flames from Barrel Static?
+6. Does Barrel Carried push enemies otu of the way?
+7. Does Barrel Carried collide and stop with Wall?
+8. With Crate?
+9. With Spwner?
+
+==============================
+Barrel Rolled
+1. Does Barrel Rolled keep damage / flames from Barrel Carried?
+2. Does Barrel Rolled bounce off of walls?
+3. Does Barrel Rolled bounce off of Crates?
+4. Bounce off of Spawners?
+5. Bounce off of Barrel_Static, and cause them to move a bit?
+6. Does Barrel Rolled eventually turn into Barrel Static?
+7. Does Barrel Rolled give Barrel Static proper damage / flames?
+8. Does Barrel Rolled push enemies out of the way?
+
+
+
+
 BUG * Barrel_Carried can pass right through a Crate_Static, and so can the Player who is holding the Barrel_Carried
+** There is talk in cgpt about move_and_slide stuff?
 
 BUG_LATER * If Player approaches Crate or Barrel from the top, possibly attempting to pick up, the player overlaps the Crate or Barrel for a few pixels before picking the item up and correcting the z-index.
 ** Is this one of those cases where you have 2 sprites for 1 object, such as Crate or Barrel, and the top half is higher z-index than Player, and the bottom half is lower z-index than Player? If so, I will table this until Later.
