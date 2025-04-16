@@ -2,8 +2,7 @@
 =====
 DONE * When Player picks up Barrel_Static, it looks like Barrel_Carried is initially visible right in the middle of the room, and is then moved to the proper position in front of the Player. Proper behavior would not show the Barrel_Carried until it is in the proper position in front of the Player.
 
-BUG * Barrel_Carried correctly shows flame animation that represents status of "health" property. Barrel_Rolled does, as well. However, when Barrel_Rolled stops moving, it turns back into a Barrel_Static. While that is correct behavior, the Barrel_Static no longer displays the flame animation. Instead, it shows one frame of the animation, not playing.
-** Look at the order things happen when converting Barrel_Rolled to Barrel_Static. I think the animation play might be getting stopped by update_flame in Barrel_Static, or something  like that.
+DONE * Barrel_Carried correctly shows flame animation that represents status of "health" property. Barrel_Rolled does, as well. However, when Barrel_Rolled stops moving, it turns back into a Barrel_Static. While that is correct behavior, the Barrel_Static no longer displays the flame animation. Instead, it shows one frame of the animation, not playing.
 
 ?? Can Player pick up Barrel and walk normally?
 

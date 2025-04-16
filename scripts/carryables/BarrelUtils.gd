@@ -13,25 +13,26 @@ static func update_flame(flame_sprite: AnimatedSprite2D, health: int, max_health
 	if ratio > 0.9:
 		flame_sprite.visible = false
 		flame_sprite.stop()
-		flame_sprite.frame = 0  # Force it to show the first (non-fire) frame
+		flame_sprite.frame = 0  # force to idle
 		flame_sprite.scale = Vector2.ONE
 		flame_sprite.modulate = Color(1, 1, 1)
-	elif ratio > 0.7:
-		flame_sprite.visible = true
-		flame_sprite.scale = Vector2.ONE * 0.4
-		flame_sprite.modulate = Color(1, 0, 0)
-	elif ratio > 0.5:
-		flame_sprite.visible = true
-		flame_sprite.scale = Vector2.ONE * 0.7
-		flame_sprite.modulate = Color(1, 0, 0)
-	elif ratio > 0.3:
-		flame_sprite.visible = true
-		flame_sprite.scale = Vector2.ONE * 1.0
-		flame_sprite.modulate = Color(1, 1, 0)
 	else:
 		flame_sprite.visible = true
-		flame_sprite.scale = Vector2.ONE * 1.4
-		flame_sprite.modulate = Color(1, 1, 0.9)
+		flame_sprite.play()  # ✅ <- THIS is the missing line
+
+		if ratio > 0.7:
+			flame_sprite.scale = Vector2.ONE * 0.4
+			flame_sprite.modulate = Color(1, 0, 0)
+		elif ratio > 0.5:
+			flame_sprite.scale = Vector2.ONE * 0.7
+			flame_sprite.modulate = Color(1, 0, 0)
+		elif ratio > 0.3:
+			flame_sprite.scale = Vector2.ONE * 1.0
+			flame_sprite.modulate = Color(1, 1, 0)
+		else:
+			flame_sprite.scale = Vector2.ONE * 1.4
+			flame_sprite.modulate = Color(1, 1, 0)
+
 
 # Shared explosion logic
 static func explode(explosion_owner: Node2D, explosion_scene: PackedScene) -> void:
