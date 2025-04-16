@@ -47,6 +47,13 @@ func pickup(player):
 	# Make an instance of the Barrel_Carried
 	var carried = carried_scene.instantiate()
 	carried.player = player
+	
+	# Position it immediately before adding to the scene
+	var offset = player.last_move_direction.normalized() * 10
+	carried.global_position = player.global_position + offset
+	# Now safe to show
+	carried.visible = true
+	
 	BarrelUtils.set_barrel_state(carried, carried.flame_sprite, health, max_health)
 	player.carried_barrel_instance = carried
 	get_tree().current_scene.call_deferred("add_child", carried)

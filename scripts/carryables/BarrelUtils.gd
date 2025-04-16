@@ -47,11 +47,18 @@ static func explode(explosion_owner: Node2D, explosion_scene: PackedScene) -> vo
 static func set_barrel_state(barrel: Node, flame_sprite: AnimatedSprite2D, h: int, max_h: int) -> void:
 	barrel.health = h
 	barrel.max_health = max_h
+
 	update_flame(flame_sprite, h, max_h)
+
 	if flame_sprite:
-		if flame_sprite.visible:
+		var should_burn = h < max_h  # or h < 100% of max_h
+		flame_sprite.visible = should_burn
+
+		if should_burn:
+			print("Flame should burn")
 			flame_sprite.play()
 		else:
+			print("Flame should NOT burn")
 			flame_sprite.stop()
 			flame_sprite.scale = Vector2.ONE
 			flame_sprite.modulate = Color(1, 1, 1)
