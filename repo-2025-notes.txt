@@ -4,13 +4,21 @@ LATER * Asthetics: When the Player is holding a Crate Carried and is standing st
 ** Working on this. We added a slide effect for after crate is dropped, but I cannot visually tell, so that needs tweaked.
 ** Also, we shorten the distance, but once we get too short, the crate is simply picked up again once you drop it. But it still looks too far away on the drop.
 
-BUG * Crate Carried moves right through Barrel Static.
+DONE * Crate Carried moves right through Barrel Static.
+** This bug was fixed (Crate Carroied is now blocked by Barrel Static), but the Player is not subsequently blocked by the Crate Carried. Do you understand what I'm saying the problem is, and what behavior we actually want?
 
 BUG * Barrel Carried moves right through Barrel Static and Crate Static.
+** I do not know if this is fixed, because now Barrel Carried is not visible. If I use the fire input to kick the Barrel Carried, then when it becomes a Barrel Rolled it is visible again, and correctly turns back into a Barrel Static when it comes to rest.
 
-BUG * Barrel Rolled moves right through Barrel Static but bounces off Crate Static
+DONE * Barrel Rolled moves right through Barrel Static but bounces off Crate Static
 
+BUG * When Crate Carried collides with Barrel Static, Barrel Static should be pushed a bit. I suppose at that point, it should become Barrel Rolled so it has all the right behaviors.
 
+TODO * When Crate Static becomes Crate Carried, I think we need to move it somewhere out of the play area. Right now we are just making it visible == false.
+
+TODO * I want to use object pooling for Crate Static, Crate Carried, Barrel Static, Barrel Carried, Barrel Rolling
+
+BUG * Player z_index is now incorrect when carrying Crate Carried
 
 <quote>
 DONE * Push chain logic for Crate_Carried against multiple enemies

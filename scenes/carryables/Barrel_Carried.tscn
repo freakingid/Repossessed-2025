@@ -58,9 +58,12 @@ animations = [{
 }]
 
 [node name="BarrelCarried" type="CharacterBody2D" groups=["barrels", "barrels_carried", "damageable", "pushable"]]
+light_mask = 0
+visibility_layer = 0
 script = ExtResource("1_w071m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 texture = ExtResource("2_v5yyh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

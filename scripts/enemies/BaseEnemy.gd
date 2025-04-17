@@ -122,7 +122,7 @@ func is_path_blocked(direction: Vector2) -> bool:
 			return true
 	return false
 
-func move_directly_to_player(delta):
+func move_directly_to_player(_delta):
 	if target_node:
 		var direction = target_node.global_position - global_position
 		if direction.length() > 1:

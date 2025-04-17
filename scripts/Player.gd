@@ -161,8 +161,6 @@ func _physics_process(_delta):
 				fire_direction_during_vault = null
 		return  # 🚨 SKIP all further input and physics
 
-
-
 	# ----------------------------------
 	# Regular movement (not vaulting)
 	# ----------------------------------
@@ -191,6 +189,12 @@ func _physics_process(_delta):
 	else:
 		speed_modifier = 1.0
 	velocity = move_direction.normalized() * speed * speed_modifier
+	
+	# If we are carrying and our carried item is blocked, we cannot move
+	if is_carrying_crate and carried_crate_instance:
+		if carried_crate_instance.test_move(carried_crate_instance.transform, velocity * _delta):
+			velocity = Vector2.ZERO
+
 	move_and_slide()
 
 	if drop_cooldown_timer > 0.0:
@@ -682,12 +686,12 @@ func play_landing_squash():
 	var shape = CircleShape2D.new()
 	shape.radius = 6
 
-	var transform = Transform2D.IDENTITY
-	transform.origin = slide_pos
+	var _transform = Transform2D.IDENTITY
+	_transform.origin = slide_pos
 
 	var params = PhysicsShapeQueryParameters2D.new()
 	params.shape = shape
-	params.transform = transform
+	params.transform = _transform
 	params.exclude = [self]
 	params.collision_mask = (
 		Global.LAYER_WALL |
@@ -734,16 +738,16 @@ func try_vault_from(start_pos: Vector2, direction: Vector2) -> bool:
 
 	return true
 
-func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2, vault_distance: float) -> bool:
+func vault_landing_should_cancel(vault_start: Vector2, _vault_direction: Vector2, _vault_distance: float) -> bool:
 	var space_state = get_world_2d().direct_space_state
 	var shape := CircleShape2D.new()
 	shape.radius = 8.0  # vault landing zone footprint
-	var landing_pos = vault_start + vault_direction.normalized() * vault_distance
-	var transform := Transform2D.IDENTITY
-	transform.origin = landing_pos
+	var landing_pos = vault_start + _vault_direction.normalized() * _vault_distance
+	var _transform := Transform2D.IDENTITY
+	_transform.origin = landing_pos
 	var shape_query := PhysicsShapeQueryParameters2D.new()
 	shape_query.shape = shape
-	shape_query.transform = transform
+	shape_query.transform = _transform
 	shape_query.exclude = [self]
 	shape_query.collide_with_bodies = true
 	# Vault-blocking obstacles go here
@@ -765,12 +769,12 @@ func should_taunt_after_vault() -> bool:
 	shape.radius = check_radius
 
 	var origin := vault_crate_drop_position  # Where crate was dropped
-	var transform := Transform2D.IDENTITY
-	transform.origin = origin
+	var _transform := Transform2D.IDENTITY
+	_transform.origin = origin
 
 	var query := PhysicsShapeQueryParameters2D.new()
 	query.shape = shape
-	query.transform = transform
+	query.transform = _transform
 	query.collide_with_bodies = true
 	query.collision_mask = Global.LAYER_ENEMY
 	query.exclude = [self]

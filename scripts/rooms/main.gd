@@ -12,14 +12,14 @@ func _ready():
 		used_rect.size -= Vector2i(4, 4)
 		
 		var tile_size = Vector2(tilemap_layer.tile_set.tile_size)  # Cast to Vector2
-		var scale = tilemap_layer.scale
+		var _scale = tilemap_layer.scale
 
 		var pos = Vector2(used_rect.position.x, used_rect.position.y)
 		var size = Vector2(used_rect.size.x, used_rect.size.y)
 
 		var world_bounds = Rect2(
-			pos * tile_size * scale,
-			size * tile_size * scale
+			pos * tile_size * _scale,
+			size * tile_size * _scale
 		)
 
 		Global.ROOM_BOUNDS = world_bounds

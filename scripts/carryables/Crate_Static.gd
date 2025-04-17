@@ -15,7 +15,9 @@ func _ready():
 		Global.LAYER_PLAYER_BULLET |
 		Global.LAYER_ENEMY |
 		Global.LAYER_ENEMY_PROJECTILE |
-		Global.LAYER_SPAWNER
+		Global.LAYER_BARREL |
+		Global.LAYER_SHRAPNEL |
+		Global.LAYER_CRATE
 	)
 	$Sprite2D.z_index = Global.Z_CRATES
 

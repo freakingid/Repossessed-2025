@@ -24,11 +24,13 @@ func _ready():
 
 	collision_layer = Global.LAYER_BARREL
 	collision_mask = (
+		Global.LAYER_CRATE |
+		Global.LAYER_BARREL |
 		Global.LAYER_PLAYER |
 		Global.LAYER_PLAYER_BULLET |
 		Global.LAYER_ENEMY |
 		Global.LAYER_ENEMY_PROJECTILE |
-		Global.LAYER_SPAWNER
+		Global.LAYER_SHRAPNEL
 	)
 
 	# Invinible to enemy shots for a short time after being dropped
@@ -40,9 +42,8 @@ func _physics_process(delta):
 
 ## What happens when the player picks up the Barrel?
 func pickup(player):
-	# Make us invisible
+	# Make Barrel Static (us) invisible
 	visible = false
-	
 	# Make us not collide
 	collision_layer = 0
 	collision_mask = 0
@@ -50,18 +51,20 @@ func pickup(player):
 
 	# Make an instance of the Barrel_Carried
 	var carried = carried_scene.instantiate()
+	# Barrel Carried needs to know what object (Player) it is carried by
 	carried.player = player
 	
-	# Position it immediately before adding to the scene
+	# Position Barrel Carried immediately before adding to the scene
 	var offset = player.last_move_direction.normalized() * 10
 	carried.global_position = player.global_position + offset
-	# Now safe to show
+	# Now safe to show Barrel Carried
 	carried.visible = true
 	
 	BarrelUtils.set_barrel_state(carried, carried.flame_sprite, health, max_health)
 	player.carried_barrel_instance = carried
 	get_tree().current_scene.call_deferred("add_child", carried)
 
+# Reactivates this Barrel Static when Barrel Rolled comes to a rest
 func reactivate(barrel_position: Vector2):
 	global_position = barrel_position
 	visible = true

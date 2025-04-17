@@ -19,7 +19,7 @@ func _ready():
 	if is_instance_valid(self):
 		queue_free()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	linear_velocity = direction.normalized() * speed
 
 func _on_body_entered(body):

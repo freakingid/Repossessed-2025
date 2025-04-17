@@ -28,7 +28,7 @@ func _ready():
 		flame_sprite.z_index = Global.Z_BARRELS_FLAME
 		BarrelUtils.set_barrel_state(self, flame_sprite, health, max_health)
 
-	collision_layer = Global.LAYER_BARREL
+	collision_layer = Global.LAYER_BARREL  # Reuse Layer 10
 	collision_mask = (
 		Global.LAYER_PLAYER |
 		Global.LAYER_PLAYER_BULLET |
@@ -36,7 +36,8 @@ func _ready():
 		Global.LAYER_ENEMY_PROJECTILE |
 		Global.LAYER_SPAWNER |
 		Global.LAYER_CRATE |
-		Global.LAYER_WALL
+		Global.LAYER_WALL |
+		Global.LAYER_BARREL
 	)
 
 	# Invinible to enemy shots for a short time after being dropped

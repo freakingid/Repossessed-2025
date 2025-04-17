@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dnfkt2e3akgpv" path="res://assets/sprites/carried_items/fpo-flame.png" id="4_sxxcw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia0gt"]
-size = Vector2(26, 32)
+size = Vector2(26, 31)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aalyu"]
 atlas = ExtResource("4_sxxcw")
@@ -60,7 +60,7 @@ animations = [{
 }]
 
 [node name="BarrelStatic" type="CharacterBody2D" groups=["barrels", "barrels_static", "damageable", "pushable", "static_objects"]]
-collision_layer = 512
+collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_sx2dv")
 carried_scene = ExtResource("2_v3f32")
@@ -71,6 +71,7 @@ modulate = Color(1, 0, 0, 1)
 texture = ExtResource("1_6o1vi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_ia0gt")
 
 [node name="FlameSprite" type="AnimatedSprite2D" parent="."]

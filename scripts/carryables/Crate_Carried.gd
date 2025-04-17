@@ -5,44 +5,65 @@ var player: Node = null  # assigned on pickup
 func _ready():
 	collision_layer = Global.LAYER_CRATE
 	collision_mask = (
-		Global.LAYER_ENEMY |
-		Global.LAYER_SPAWNER |
 		Global.LAYER_WALL |
-		Global.LAYER_ENEMY_PROJECTILE |
-		Global.LAYER_CRATE
+		Global.LAYER_SPAWNER |
+		Global.LAYER_CRATE |
+		Global.LAYER_BARREL |
+		Global.LAYER_ENEMY |
+		Global.LAYER_ENEMY_PROJECTILE
 	)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if player:
 		var target_pos = player.global_position + get_offset_based_on_direction(player.last_move_direction)
 		var motion = target_pos - global_position
 		var collision = move_and_collide(motion)
-		
-		if collision and collision.get_collider().is_in_group("enemies"):
-			var enemy = collision.get_collider()
-			if enemy.has_method("attempt_push_or_crush"):
-				enemy.attempt_push_or_crush(motion)
-				# Retry the crate move in case the enemy cleared the path
-				collision = move_and_collide(motion)
 
-		if collision and not player.is_vaulting:
+		if collision:
+			print("===============")
+			print("Crate Carried.collision ", Time.get_unix_time_from_system())
+
 			var collider = collision.get_collider()
-			var blocker = collider
-			if not collider.is_in_group("walls") and not collider.is_in_group("crates") and not collider.is_in_group("spawners"):
-				if collider.get_parent():
-					blocker = collider.get_parent()
+			print("collider == ", collider)
 
-			if blocker.is_in_group("walls") or blocker.is_in_group("crates") or blocker.is_in_group("spawners"):
-				var vault_started = player.vault_over_crate(global_position, player.last_move_direction)
-				if vault_started:
-					set_physics_process(false)
-					visible = false
-				else:
-					player.velocity = Vector2.ZERO
-					player.global_position -= player.last_move_direction * 4
-					flash_blocked_feedback()
+			if collider.is_in_group("barrels_static"):
+				print("Crate_Carried collided with Barrel_Static — converting to Barrel_Rolled")
 
-		update_z_index(player.last_move_direction)
+				var roll_dir = motion.normalized()
+				var rolled = preload("res://scenes/carryables/Barrel_Rolled.tscn").instantiate()
+				rolled.global_position = collider.global_position
+				rolled.linear_velocity = roll_dir * 100  # adjust strength as needed
+
+				var parent = collider.get_parent()
+				collider.queue_free()
+				parent.add_child(rolled)
+
+			elif collision.get_collider().is_in_group("enemies"):
+				print("Crate_Carried collided with Enemy")
+				var enemy = collision.get_collider()
+				if enemy.has_method("attempt_push_or_crush"):
+					enemy.attempt_push_or_crush(motion)
+					# Retry the crate move in case the enemy cleared the path
+					collision = move_and_collide(motion)
+
+			elif not player.is_vaulting:
+				print("Player is not vaulting")
+				var blocker = collider
+				if not collider.is_in_group("walls") and not collider.is_in_group("crates") and not collider.is_in_group("spawners"):
+					if collider.get_parent():
+						blocker = collider.get_parent()
+
+				if blocker.is_in_group("walls") or blocker.is_in_group("crates") or blocker.is_in_group("spawners"):
+					var vault_started = player.vault_over_crate(global_position, player.last_move_direction)
+					if vault_started:
+						set_physics_process(false)
+						visible = false
+					else:
+						player.velocity = Vector2.ZERO
+						player.global_position -= player.last_move_direction * 4
+						flash_blocked_feedback()
+
+			update_z_index(player.last_move_direction)
 
 
 

@@ -63,7 +63,7 @@ func _spawn_enemy() -> void:
 			enemy.despawned.connect(_on_enemy_destroyed)
 		emit_signal("enemy_spawned", enemy)
 
-func _on_enemy_destroyed(reason: String, timestamp: float) -> void:
+func _on_enemy_destroyed(_reason: String, _timestamp: float) -> void:
 	enemies_spawned = max(enemies_spawned - 1, 0)
 	# print("[Spawner] Enemy despawned. Reason:", reason, " at:", timestamp)
 

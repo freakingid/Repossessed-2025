@@ -16,17 +16,22 @@ var player: Node2D
 
 func _ready():
 	sprite.z_index = Global.Z_BARRELS
+	# Why are we having to add this??
+	sprite.visible = true
+	if flame_sprite:
+		flame_sprite.visible = true
+
 	if flame_sprite:
 		flame_sprite.z_index = Global.Z_BARRELS_FLAME
 		BarrelUtils.set_barrel_state(self, flame_sprite, health, max_health)
 
 	collision_layer = Global.LAYER_BARREL
 	collision_mask = (
-		Global.LAYER_PLAYER |
 		Global.LAYER_WALL |
-		Global.LAYER_ENEMY |
 		Global.LAYER_SPAWNER |
-		Global.LAYER_PLAYER_BULLET |
+		Global.LAYER_CRATE |
+		Global.LAYER_BARREL |
+		Global.LAYER_ENEMY |
 		Global.LAYER_ENEMY_PROJECTILE
 	)
 
@@ -49,6 +54,12 @@ func _physics_process(_delta):
 		sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND
 		if flame_sprite:
 			flame_sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND_FLAME
+	
+	print("====================")
+	print("Barrel_Carried end of _physics_process sprite.z_index == ", sprite.z_index)
+	print("and global_position == ", global_position)
+	print("and player.global_position == ", player.global_position)
+	print("Barrel_Carried.visible == ", self.visible)
 
 func take_damage(amount: int):
 	health -= amount
