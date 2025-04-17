@@ -2,7 +2,7 @@ extends CanvasLayer
 
 @onready var fade_rect: ColorRect = $FadeRect
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
+@onready var audio: AudioStreamPlayer = $MusicPlayer
 
 var input_enabled := false
 var transition_in_progress := false
@@ -23,8 +23,8 @@ func _unhandled_input(event):
 func play_title_music():
 	# 🔈 TODO: Replace with actual title music file
 	print("Stub: playing title music")
-	# audio.stream = preload("res://audio/title_theme.ogg")
-	# audio.play()
+	audio.stream = preload("res://assets/music/Void Estate down 1.ogg")
+	audio.play()
 
 func start_game_transition():
 	transition_in_progress = true

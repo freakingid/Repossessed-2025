@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bnxel66thls3j"]
+[gd_scene load_steps=5 format=3 uid="uid://fwo8dp816lrw"]
 
 [ext_resource type="Script" path="res://scripts/carryables/Crate.gd" id="1_856qx"]
 [ext_resource type="Texture2D" uid="uid://dyrvtwbr6khcr" path="res://assets/sprites/fpo-crate-19.png" id="2_32i75"]

@@ -59,7 +59,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="BarrelStatic" type="StaticBody2D" groups=["barrels", "barrels_static", "damageable", "pushable", "static_objects"]]
+[node name="BarrelStatic" type="CharacterBody2D" groups=["barrels", "barrels_static", "damageable", "pushable", "static_objects"]]
 collision_layer = 512
 collision_mask = 0
 script = ExtResource("1_sx2dv")

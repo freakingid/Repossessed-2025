@@ -1,4 +1,8 @@
-extends StaticBody2D
+# Barrel_Static.gd - REFACTORED
+# Node Type: CharacterBody2D (was StaticBody2D)
+# Behavior: Pushable, indestructible, reacts to physics collisions, shows flame overlay based on health
+
+extends CharacterBody2D  # Changed from StaticBody2D to allow interaction with crates and rolled barrels
 class_name Barrel_Static
 
 @export var carried_scene: PackedScene

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://06mtcucaopk1"
+path="res://.godot/imported/Void Estate.ogg-3b6e3363f89b3d495c32df2f4a661893.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/Void Estate.ogg"
+dest_files=["res://.godot/imported/Void Estate.ogg-3b6e3363f89b3d495c32df2f4a661893.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

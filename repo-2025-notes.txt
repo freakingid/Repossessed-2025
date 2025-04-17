@@ -4,7 +4,13 @@ LATER * Asthetics: When the Player is holding a Crate Carried and is standing st
 ** Working on this. We added a slide effect for after crate is dropped, but I cannot visually tell, so that needs tweaked.
 ** Also, we shorten the distance, but once we get too short, the crate is simply picked up again once you drop it. But it still looks too far away on the drop.
 
-BUG * Crate Carried moves right through Barrel Static, and so does Player who is carrying the Crate Carried. But, we haven't refactored Barrels yet. So I think we need to refactor Barrel Static, Barrel Carried, and Barrel Rolled first, then we'll come back and see how Crate Carried is interacting. Please tell me what you think we are doing for node changes etcetera regarding Barrels. Again, we have lots of logic in the current scripts, and do not want to lose that, in case it is useful. We can trim it out later if it is not needed.
+BUG * Crate Carried moves right through Barrel Static.
+
+BUG * Barrel Carried moves right through Barrel Static and Crate Static.
+
+BUG * Barrel Rolled moves right through Barrel Static but bounces off Crate Static
+
+
 
 <quote>
 DONE * Push chain logic for Crate_Carried against multiple enemies

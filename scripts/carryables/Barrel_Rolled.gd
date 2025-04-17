@@ -1,3 +1,8 @@
+# Barrel_Rolled.gd - VERIFIED
+# Node Type: RigidBody2D
+# Behavior: Rolls with physics, bounces, damages enemies and barrels, explodes on destruction
+# NOTE: Do not modify node type; RigidBody2D needed for physics bounce behavior
+
 extends RigidBody2D
 class_name Barrel_Rolled
 

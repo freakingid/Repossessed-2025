@@ -1,3 +1,8 @@
+# Barrel_Carried.gd - VERIFIED
+# Node Type: CharacterBody2D
+# Behavior: Follows player, cannot be vaulted, explodes on destruction, uses flame sprite visuals
+# TODO: Ensure collision with enemies/barrels is handled consistently
+
 extends CharacterBody2D
 class_name Barrel_Carried
 
