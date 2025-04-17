@@ -1,5 +1,25 @@
 20250416
 =====
+WORK * End of the day, we were converting some node types to try using the best kind for all the features we need. cgpt is helping out.
+
+Crate Static and Crate Carried
+** Actually only changing Crate Static
+** Seems to work pretty well
+
+WORK * Asthetics: When the Player is holding a Crate Carried and is standing still and drops the crate by using firestick input, the Crate is dropped too far away from the player to look good. The crate appears to just snap out of the Player's hand and quite a gap away. I would rather have the crate drop almost at the same point where the player is holding it, so long as it isn't going to collide automatically and just get picked up again. I suppose we could "drop it" and it slides forward a very little bit for the next few steps before coming to rest.
+** Working on this. We added a slide effect for after crate is dropped, but I cannot visually tell, so that needs tweaked.
+** Also, we shorten the distance, but once we get too short, the crate is simply picked up again once you drop it. But it still looks too far away on the drop.
+
+
+<quote>
+Push chain logic for Crate_Carried against multiple enemies
+
+Vault and drop behavior validation (post-node-change)
+
+(Optional) Push responsiveness or recoil for Crate_Static if impacted by Barrel_Carried
+</quote>
+
+=====================
 DONE * When Player picks up Barrel_Static, it looks like Barrel_Carried is initially visible right in the middle of the room, and is then moved to the proper position in front of the Player. Proper behavior would not show the Barrel_Carried until it is in the proper position in front of the Player.
 
 DONE * Barrel_Carried correctly shows flame animation that represents status of "health" property. Barrel_Rolled does, as well. However, when Barrel_Rolled stops moving, it turns back into a Barrel_Static. While that is correct behavior, the Barrel_Static no longer displays the flame animation. Instead, it shows one frame of the animation, not playing.

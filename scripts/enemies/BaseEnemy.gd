@@ -123,9 +123,7 @@ func is_path_blocked(direction: Vector2) -> bool:
 	return false
 
 func move_directly_to_player(delta):
-	print("Calling move_directly_to_player from: ", self.name)
 	if target_node:
-		print(self.name, " sees player at ", target_node.global_position)
 		var direction = target_node.global_position - global_position
 		if direction.length() > 1:
 			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10

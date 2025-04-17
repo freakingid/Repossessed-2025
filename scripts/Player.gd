@@ -237,7 +237,7 @@ func _on_PickupDetector_body_entered(body):
 	#is_carrying_crate = true
 
 ## ✅ Drop the crate
-func drop_crate(forced_position: Variant = null) -> Vector2:
+func drop_crate(forced_position: Variant = null, do_slide := true) -> Vector2:
 	print("drop_crate() called")
 	if carried_crate_instance == null:
 		print("carried_crate_instance == null")
@@ -245,12 +245,26 @@ func drop_crate(forced_position: Variant = null) -> Vector2:
 	
 	var drop_position: Vector2
 	if forced_position == null:
-		var drop_offset = get_valid_drop_direction(last_move_direction) * 16
+		var drop_offset = get_valid_drop_direction(last_move_direction) * 4  # shorter distance when not forced
 		drop_position = global_position + drop_offset
+		print("setting drop_position with drop_offset")
 	else:
+		print("setting drop_position WITHOUT drop_offset")
 		drop_position = forced_position as Vector2
-
+	
+	# Give the static crate a hint to slide forward if allowed
+	var slide_vector := Vector2.ZERO
+	if do_slide and not is_vaulting:
+		print("Setting up for do_slide")
+		# Slide gently in the facing direction
+		slide_vector = last_move_direction.normalized() * 24.0  # tweak value as needed
+		static_crate_instance.set_meta("drop_motion", slide_vector)
+	else:
+		print("Skipping do_slide")
+		static_crate_instance.set_meta("drop_motion", Vector2.ZERO)
 	static_crate_instance.reactivate(drop_position)
+
+	# Clear carried instance
 	carried_crate_instance.queue_free()
 	carried_crate_instance = null
 	is_carrying_crate = false
@@ -390,7 +404,7 @@ func _process(_delta):
 			await get_tree().create_timer(Global.BARREL.DROPWAIT).timeout
 			can_shoot = true
 		elif is_carrying_crate:
-			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 32
+			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 12 # Change drop distance
 
 			if is_moving:
 				# Attempt vault only while moving

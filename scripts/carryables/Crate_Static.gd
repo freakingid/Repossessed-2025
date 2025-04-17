@@ -2,8 +2,13 @@ extends CharacterBody2D
 
 @onready var sprite = $Sprite2D
 @onready var collision_shape = $CollisionShape2D
+var drop_motion: Vector2 = Vector2.ZERO
 
 func _ready():
+	# Only called once, but leave this in for safety, related to drop motion
+	if has_meta("drop_motion"):
+		drop_motion = get_meta("drop_motion")
+
 	collision_layer = Global.LAYER_CRATE
 	collision_mask = (
 		Global.LAYER_PLAYER |
@@ -13,6 +18,15 @@ func _ready():
 		Global.LAYER_SPAWNER
 	)
 	$Sprite2D.z_index = Global.Z_CRATES
+
+func _physics_process(delta):
+	if drop_motion.length() > 0.5:
+		var collision = move_and_collide(drop_motion * delta)
+		if collision:
+			drop_motion = Vector2.ZERO
+		else:
+			drop_motion = drop_motion.move_toward(Vector2.ZERO, 300 * delta)
+
 
 func pickup(player: Node):
 	if player.is_vaulting:
@@ -48,3 +62,11 @@ func reactivate(new_position: Vector2):
 	set_deferred("collision_layer", 128)
 	# bitwise values for layers 1, 2, 4, 7, 8
 	set_deferred("collision_mask", 1 | 2 | 4 | 64 | 128)
+	initialize_drop_motion()
+
+
+# Helps with dropping crate
+func initialize_drop_motion():
+	if has_meta("drop_motion"):
+		drop_motion = get_meta("drop_motion")
+		set_meta("drop_motion", null)  # clear it after reading
