@@ -5,20 +5,32 @@ LATER * Asthetics: When the Player is holding a Crate Carried and is standing st
 ** Also, we shorten the distance, but once we get too short, the crate is simply picked up again once you drop it. But it still looks too far away on the drop.
 
 DONE * Crate Carried moves right through Barrel Static.
-** This bug was fixed (Crate Carroied is now blocked by Barrel Static), but the Player is not subsequently blocked by the Crate Carried. Do you understand what I'm saying the problem is, and what behavior we actually want?
 
-BUG * Barrel Carried moves right through Barrel Static and Crate Static.
-** I do not know if this is fixed, because now Barrel Carried is not visible. If I use the fire input to kick the Barrel Carried, then when it becomes a Barrel Rolled it is visible again, and correctly turns back into a Barrel Static when it comes to rest.
+TEST * Crate Carried is not able to reliably push Barrel Static. It only does so on the corners, when the Player rotates nearby.
+** It seems this has something to do with the Crate not actually overlapping at the right time, whatever.
+** Seems fixed by adding an Area2D contact sensor, but need to allow pushing Barrel Rolled as well.
+
+BUG * Crate Carried needs to push Barrel Rolled upon collision
+
+BUG * When Crate Carried collides with Obstacle such as Wall or Crate Static, Player vault should be initiated to vault over the Crate and the Obstacle. Vaulting should test the landing spot, and if the Player would land on another Obstacle such as Wall or Crate or Barrel, the vault should be cancelled before it moves the player, and the Carried Crate should flash red. If Vaulting proceeds, the Carried Crate is dropped as a Static Crate.
+
+** At one point in the past, this was working fine.
+** $ git checkout 9da42c7 vaulting is fine but not cancelling when it should
+** $ git checkout a2dc86a vaulting is fine, cancels for long wall or trying to vault over 2 crates and a wall, but did not cancel when trying to vault over a wall and 2 crates?
+NOTE * This seems related to the Bug about Crate Carried not reliably triggering collisions with Barrel Static. Even visibly, it seems like Crate Carried stops just a few pixels shy of actually touching the collision shape for the Wall or Barrel.
+
+TEST * Barrel Carried moves right through Barrel Static and Crate Static.
+** I can't tell if it is fixed, because Barrel Carried continues to be invisible or placed wrong or z_index wrong, I don't know. See below.
+
+BUG * Barrel Carried is not visible in the room.
 
 DONE * Barrel Rolled moves right through Barrel Static but bounces off Crate Static
 
-BUG * When Crate Carried collides with Barrel Static, Barrel Static should be pushed a bit. I suppose at that point, it should become Barrel Rolled so it has all the right behaviors.
-
-TODO * When Crate Static becomes Crate Carried, I think we need to move it somewhere out of the play area. Right now we are just making it visible == false.
-
-TODO * I want to use object pooling for Crate Static, Crate Carried, Barrel Static, Barrel Carried, Barrel Rolling
-
 BUG * Player z_index is now incorrect when carrying Crate Carried
+
+LATER * When Crate Static becomes Crate Carried, I think we need to move it somewhere out of the play area. Right now we are just making it visible == false.
+
+LATER * I want to use object pooling for Crate Static, Crate Carried, Barrel Static, Barrel Carried, Barrel Rolling
 
 <quote>
 DONE * Push chain logic for Crate_Carried against multiple enemies

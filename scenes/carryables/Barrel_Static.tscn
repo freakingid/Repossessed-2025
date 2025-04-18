@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bt2tkxuudh0gf" path="res://scenes/Explosion.tscn" id="3_lqo8w"]
 [ext_resource type="Texture2D" uid="uid://dnfkt2e3akgpv" path="res://assets/sprites/carried_items/fpo-flame.png" id="4_sxxcw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ia0gt"]
-size = Vector2(26, 31)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lj7ba"]
+size = Vector2(30, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aalyu"]
 atlas = ExtResource("4_sxxcw")
@@ -71,8 +71,8 @@ modulate = Color(1, 0, 0, 1)
 texture = ExtResource("1_6o1vi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_ia0gt")
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_lj7ba")
 
 [node name="FlameSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -9)

@@ -1,14 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://caafq02ikml3i"]
+[gd_scene load_steps=6 format=3 uid="uid://caafq02ikml3i"]
 
 [ext_resource type="Script" path="res://scripts/carryables/Crate_Carried.gd" id="1_rbey0"]
 [ext_resource type="Texture2D" uid="uid://dyrvtwbr6khcr" path="res://assets/sprites/fpo-crate-19.png" id="2_sev01"]
+[ext_resource type="Script" path="res://scripts/carryables/Crate_Carried_Debugger.gd" id="3_ykght"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rogaw"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vuqfk"]
 size = Vector2(28, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqhq5"]
+size = Vector2(30, 30)
 
 [node name="CrateCarried" type="CharacterBody2D" groups=["crates", "crates_carried"]]
 collision_layer = 0
 collision_mask = 0
+motion_mode = 1
 script = ExtResource("1_rbey0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -16,4 +21,14 @@ scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_sev01")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_rogaw")
+shape = SubResource("RectangleShape2D_vuqfk")
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("crate")]
+script = ExtResource("3_ykght")
+crate = NodePath("..")
+
+[node name="BarrelContactSensor" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BarrelContactSensor"]
+shape = SubResource("RectangleShape2D_dqhq5")
+debug_color = Color(0.993494, 0, 0.236745, 0.42)

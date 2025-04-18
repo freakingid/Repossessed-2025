@@ -12,77 +12,59 @@ func _ready():
 		Global.LAYER_ENEMY |
 		Global.LAYER_ENEMY_PROJECTILE
 	)
+	$BarrelContactSensor.collision_layer = Global.LAYER_CRATE
+	$BarrelContactSensor.collision_mask = Global.LAYER_BARREL
+	$BarrelContactSensor.body_entered.connect(_on_barrel_sensor_body_entered)
+
+func _on_barrel_sensor_body_entered(body):
+	if body.is_in_group("barrels_static"):
+		print("Area2D sensor detected barrel contact")
+		handle_collision(body, player.last_move_direction.normalized() * 100)
 
 func _physics_process(_delta):
 	if player:
 		var target_pos = player.global_position + get_offset_based_on_direction(player.last_move_direction)
 		var motion = target_pos - global_position
-		var collision = move_and_collide(motion)
 
-		if collision:
-			print("===============")
-			print("Crate Carried.collision ", Time.get_unix_time_from_system())
+		# Optional smoothing to ease motion
+		motion = motion.lerp(Vector2.ZERO, 0.2)
 
-			var collider = collision.get_collider()
-			print("collider == ", collider)
+		if motion.length() > 1.0:
+			var result = move_and_collide(motion.normalized() * min(motion.length(), 5.0), false, 0.05)
 
-			if collider.is_in_group("barrels_static"):
-				print("Crate_Carried collided with Barrel_Static — converting to Barrel_Rolled")
+			if result:
+				handle_collision(result.get_collider(), motion)
+			else:
+				check_fallback_barrel_contact(motion.normalized())
 
-				var roll_dir = motion.normalized()
-				var rolled = preload("res://scenes/carryables/Barrel_Rolled.tscn").instantiate()
-				rolled.global_position = collider.global_position
-				rolled.linear_velocity = roll_dir * 100  # adjust strength as needed
+func handle_collision(collider, motion_vector):
+	if collider and collider.is_in_group("barrels_static"):
+		var rolled = preload("res://scenes/carryables/Barrel_Rolled.tscn").instantiate()
+		rolled.global_position = collider.global_position
+		rolled.linear_velocity = motion_vector.normalized() * 100
+		get_parent().add_child(rolled)
+		collider.queue_free()
 
-				var parent = collider.get_parent()
-				collider.queue_free()
-				parent.add_child(rolled)
-
-			elif collision.get_collider().is_in_group("enemies"):
-				print("Crate_Carried collided with Enemy")
-				var enemy = collision.get_collider()
-				if enemy.has_method("attempt_push_or_crush"):
-					enemy.attempt_push_or_crush(motion)
-					# Retry the crate move in case the enemy cleared the path
-					collision = move_and_collide(motion)
-
-			elif not player.is_vaulting:
-				print("Player is not vaulting")
-				var blocker = collider
-				if not collider.is_in_group("walls") and not collider.is_in_group("crates") and not collider.is_in_group("spawners"):
-					if collider.get_parent():
-						blocker = collider.get_parent()
-
-				if blocker.is_in_group("walls") or blocker.is_in_group("crates") or blocker.is_in_group("spawners"):
-					var vault_started = player.vault_over_crate(global_position, player.last_move_direction)
-					if vault_started:
-						set_physics_process(false)
-						visible = false
-					else:
-						player.velocity = Vector2.ZERO
-						player.global_position -= player.last_move_direction * 4
-						flash_blocked_feedback()
-
-			update_z_index(player.last_move_direction)
-
-
+func check_fallback_barrel_contact(motion_vector):
+	for barrel in get_tree().get_nodes_in_group("barrels_static"):
+		if global_position.distance_to(barrel.global_position) < 14.0:
+			print("Fallback contact: Converting Barrel_Static to Barrel_Rolled")
+			handle_collision(barrel, motion_vector)
+			break
 
 func get_offset_based_on_direction(dir: Vector2) -> Vector2:
 	var spacing = 15.0
 	return dir.normalized() * spacing
 
 func update_z_index(dir: Vector2):
-	# Visually layer the crate based on direction
 	if dir.y > 0:
-		# z_index = player.z_index + 1  # In front of player
 		$Sprite2D.z_index = Global.Z_CARRIED_CRATE_IN_FRONT
 	else:
-		# z_index = player.z_index - 1  # Behind player
 		$Sprite2D.z_index = Global.Z_CARRIED_CRATE_BEHIND
 
 func flash_blocked_feedback():
-	if has_node("Sprite2D"):  # or AnimatedSprite2D if you're using that
+	if has_node("Sprite2D"):
 		var sprite = $Sprite2D
-		sprite.modulate = Color(2, 0.3, 0.3, 0.5)  # reddish flash
+		sprite.modulate = Color(2, 0.3, 0.3, 0.5)
 		await get_tree().create_timer(0.1).timeout
-		sprite.modulate = Color(1, 1, 1, 1)  # reset
+		sprite.modulate = Color(1, 1, 1, 1)
