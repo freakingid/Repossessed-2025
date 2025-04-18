@@ -18,7 +18,6 @@ func _ready():
 
 func _on_barrel_sensor_body_entered(body):
 	if body.is_in_group("barrels_static"):
-		print("Area2D sensor detected barrel contact")
 		handle_collision(body, player.last_move_direction.normalized() * 100)
 
 func _physics_process(_delta):
@@ -42,8 +41,8 @@ func handle_collision(collider, motion_vector):
 		var rolled = preload("res://scenes/carryables/Barrel_Rolled.tscn").instantiate()
 		rolled.global_position = collider.global_position
 		rolled.linear_velocity = motion_vector.normalized() * 100
-		get_parent().add_child(rolled)
-		collider.queue_free()
+		get_parent().call_deferred("add_child", rolled)
+		collider.call_deferred("queue_free")
 
 func check_fallback_barrel_contact(motion_vector):
 	for barrel in get_tree().get_nodes_in_group("barrels_static"):

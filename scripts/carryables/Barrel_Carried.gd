@@ -55,12 +55,6 @@ func _physics_process(_delta):
 		if flame_sprite:
 			flame_sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND_FLAME
 	
-	print("====================")
-	print("Barrel_Carried end of _physics_process sprite.z_index == ", sprite.z_index)
-	print("and global_position == ", global_position)
-	print("and player.global_position == ", player.global_position)
-	print("Barrel_Carried.visible == ", self.visible)
-
 func take_damage(amount: int):
 	health -= amount
 	if flame_sprite:

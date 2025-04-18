@@ -191,8 +191,9 @@ func _physics_process(_delta):
 	velocity = move_direction.normalized() * speed * speed_modifier
 	
 	# If we are carrying and our carried item is blocked, we cannot move
-	if is_carrying_crate and carried_crate_instance:
-		if carried_crate_instance.test_move(carried_crate_instance.transform, velocity * _delta):
+	if carried_crate_instance \
+		and carried_crate_instance.is_inside_tree() \
+		and carried_crate_instance.test_move(carried_crate_instance.transform, velocity * _delta):
 			velocity = Vector2.ZERO
 
 	move_and_slide()
