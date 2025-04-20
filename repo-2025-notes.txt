@@ -1,3 +1,14 @@
+20250420
+=====
+It's 6:52p and I'm about to try a refactoring attempt that is mostly non-physics. That is, not Godot built-in physics. That will be branch non-physics-refactor
+
+
+
+
+
+
+
+
 20250417
 =====
 LATER * Asthetics: When the Player is holding a Crate Carried and is standing still and drops the crate by using firestick input, the Crate is dropped too far away from the player to look good. The crate appears to just snap out of the Player's hand and quite a gap away. I would rather have the crate drop almost at the same point where the player is holding it, so long as it isn't going to collide automatically and just get picked up again. I suppose we could "drop it" and it slides forward a very little bit for the next few steps before coming to rest.
@@ -12,7 +23,12 @@ TEST * Crate Carried is not able to reliably push Barrel Static. It only does so
 
 BUG * Crate Carried needs to push Barrel Rolled upon collision
 
-BUG * When Crate Carried collides with Obstacle such as Wall or Crate Static, Player vault should be initiated to vault over the Crate and the Obstacle. Vaulting should test the landing spot, and if the Player would land on another Obstacle such as Wall or Crate or Barrel, the vault should be cancelled before it moves the player, and the Carried Crate should flash red. If Vaulting proceeds, the Carried Crate is dropped as a Static Crate.
+BUG * Barrel Carried is not visible in the room.
+
+BUG * Player z_index is now incorrect when carrying Crate Carried
+
+BUG * Player vault not automatically initiated.
+When Crate Carried collides with Obstacle such as Wall or Crate Static, Player vault should be initiated to vault over the Crate and the Obstacle. Vaulting should test the landing spot, and if the Player would land on another Obstacle such as Wall or Crate or Barrel, the vault should be cancelled before it moves the player, and the Carried Crate should flash red. If Vaulting proceeds, the Carried Crate is dropped as a Static Crate.
 
 ** At one point in the past, this was working fine.
 ** $ git checkout 9da42c7 vaulting is fine but not cancelling when it should
@@ -22,11 +38,7 @@ NOTE * This seems related to the Bug about Crate Carried not reliably triggering
 TEST * Barrel Carried moves right through Barrel Static and Crate Static.
 ** I can't tell if it is fixed, because Barrel Carried continues to be invisible or placed wrong or z_index wrong, I don't know. See below.
 
-BUG * Barrel Carried is not visible in the room.
-
 DONE * Barrel Rolled moves right through Barrel Static but bounces off Crate Static
-
-BUG * Player z_index is now incorrect when carrying Crate Carried
 
 LATER * When Crate Static becomes Crate Carried, I think we need to move it somewhere out of the play area. Right now we are just making it visible == false.
 

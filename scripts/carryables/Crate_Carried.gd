@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
 var player: Node = null  # assigned on pickup
+# managing pushing of barel rolled
+var last_push_time := {}
+var push_cooldown := 0.2
 
 func _ready():
 	collision_layer = Global.LAYER_CRATE
@@ -18,7 +21,24 @@ func _ready():
 
 func _on_barrel_sensor_body_entered(body):
 	if body.is_in_group("barrels_static"):
-		handle_collision(body, player.last_move_direction.normalized() * 100)
+		handle_barrel_static_collision(body, player.last_move_direction.normalized())
+	elif body.is_in_group("barrels_rolled"):
+		push_rolled_barrel(body)
+
+func handle_barrel_static_collision(barrel: Node, direction: Vector2):
+	if not barrel or not barrel.is_in_group("barrels_static"):
+		return
+
+	# Prevent transforming same barrel more than once
+	if not barrel.is_inside_tree():
+		return
+
+	var rolled = preload("res://scenes/carryables/Barrel_Rolled.tscn").instantiate()
+	rolled.global_position = barrel.global_position
+	rolled.linear_velocity = direction * 100
+
+	get_parent().call_deferred("add_child", rolled)
+	barrel.call_deferred("queue_free")
 
 func _physics_process(_delta):
 	if player:
@@ -43,6 +63,14 @@ func handle_collision(collider, motion_vector):
 		rolled.linear_velocity = motion_vector.normalized() * 100
 		get_parent().call_deferred("add_child", rolled)
 		collider.call_deferred("queue_free")
+
+func push_rolled_barrel(barrel: RigidBody2D):
+	if not barrel or not barrel.is_inside_tree():
+		return
+
+	# Gentle push using velocity override (or impulse if preferred)
+	var push_vector = player.last_move_direction.normalized() * 80
+	barrel.linear_velocity = push_vector
 
 func check_fallback_barrel_contact(motion_vector):
 	for barrel in get_tree().get_nodes_in_group("barrels_static"):
