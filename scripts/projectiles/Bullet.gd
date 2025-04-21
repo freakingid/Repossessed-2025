@@ -33,9 +33,9 @@ func _physics_process(delta: float) -> void:
 
 		# Case 2: Collider is a child; check for meta pointing to damage_owner
 		if collider.has_meta("damage_owner"):
-			var owner = collider.get_meta("damage_owner")
-			if owner and owner.has_method("take_damage"):
-				owner.take_damage(damage)
+			var _owner = collider.get_meta("damage_owner")
+			if _owner and _owner.has_method("take_damage"):
+				_owner.take_damage(damage)
 				queue_free()
 				return
 

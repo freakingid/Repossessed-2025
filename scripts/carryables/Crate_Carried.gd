@@ -12,7 +12,7 @@ func _ready():
 		Global.LAYER_CRATE
 	)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if player:
 		var target_pos = player.global_position + get_offset_based_on_direction(player.last_move_direction)
 		var motion = target_pos - global_position

@@ -721,11 +721,11 @@ func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2,
 	var shape := CircleShape2D.new()
 	shape.radius = 8.0  # vault landing zone footprint
 	var landing_pos = vault_start + vault_direction.normalized() * vault_distance
-	var transform := Transform2D.IDENTITY
-	transform.origin = landing_pos
+	var _transform := Transform2D.IDENTITY
+	_transform.origin = landing_pos
 	var shape_query := PhysicsShapeQueryParameters2D.new()
 	shape_query.shape = shape
-	shape_query.transform = transform
+	shape_query.transform = _transform
 	shape_query.exclude = [self]
 	shape_query.collide_with_bodies = true
 	# Vault-blocking obstacles go here

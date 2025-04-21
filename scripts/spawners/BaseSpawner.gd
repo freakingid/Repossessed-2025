@@ -72,7 +72,6 @@ func _on_enemy_destroyed(reason: String, timestamp: float) -> void:
 	# print("[Spawner] Enemy despawned. Reason:", reason, " at:", timestamp)
 
 func take_damage(amount: int) -> void:
-	print("BaseSpawner taking damage: ", amount)
 	health -= amount
 	_flash_damage()
 	if health <= 0:

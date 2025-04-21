@@ -1,6 +1,6 @@
 extends "res://scripts/enemies/BaseEnemy.gd"
 
-func update_navigation(delta: float) -> void:
+func update_navigation(_delta: float) -> void:
 	if target_node:
 		var direction = target_node.global_position - global_position
 		if direction.length() > 1:

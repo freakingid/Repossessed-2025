@@ -133,7 +133,7 @@ func is_path_blocked(direction: Vector2) -> bool:
 			return true
 	return false
 
-func move_directly_to_player(delta):
+func move_directly_to_player(_delta):
 	if target_node:
 		var direction = target_node.global_position - global_position
 		if direction.length() > 1:
@@ -177,7 +177,14 @@ func die():
 	var gem = GEM_SCENE.instantiate()
 	gem.global_position = global_position
 	gem.gem_power = score_value
-	var parent = get_tree().current_scene if get_tree().current_scene else get_parent()
+	var parent: Node = null
+
+	if get_tree():
+		parent = get_tree().current_scene
+
+	if parent == null:
+		parent = get_parent()
+
 	if parent:
 		parent.call_deferred("add_child", gem)
 	else:

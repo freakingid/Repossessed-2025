@@ -7,18 +7,32 @@
 
 TODO * Add title screen music back.
 
-TODO * Review what objects need refactored in our non-physics version.
+=====
+TODO * Crate Vaulting
+DONE * Player manual vaulting over Crate Carried.
+DONE * Player auto vaulting over Crate Carried that hits Wall or Spawner or Crate Static.
+BUG * Player vaulting not cancelled when landing spot would result in collision with Wall, Static Crate, Spawner.
+** Desired behavior: Player vaulting cancelling when vaulting would land Player on Wall, Spawner or Crate Static, or maybe Barrel Static.
+** Note: I did see a vault cancelled debug message while testing something else.
 
-TEST * Player manual vaulting over Crate Carried.
-
-TEST * Player auto vaulting over Crate Carried that hits Wall or Spawner or Crate Static.
-
-TEST * Crate Carried pushes Enemies, whether 1 or several in a row.
-
+=====
+TODO * Barrel Pushing
 TEST * Crate Carried pushes Barrel Static, essentially turning it into Barrel Rolled?
 ** Note: let CGPT choose whether it actually turns into Barrel Rolled or not.
-
 TEST * Crate Carried pushes Barrel Rolled.
+
+=====
+DONE * Convert Arrow
+BUG * Arrow pushes a Barrel_Rolled along
+
+TODO * Convert Shrapnel
+** Like we did with Bullet and Arrow
+
+=====
+TODO * Crate Pushing single and multiple enemies
+IMPROVE * Crate Carried pushes Enemies, whether 1 or several in a row.
+** Crate pushes single enemy, but sometimes enemy can 'pop' from one spot to another, when player rotates a corner into the enemy.
+** Crate pushes multiple enemies quite nicely. There is still some popping around, though.
 
 =====
 DONE * Convert Bullet.
@@ -28,13 +42,9 @@ DONE * Bullets not damaging skeletons
 DONE * Bullets not damaging Barrels
 
 =====
-DONE * Convert Arrow
-BUG * Arrow pushes a Barrel_Rolled along
-
-=====
 TODO * Allow Skeleton Shooters to fire at player even when blocked by Crates or Barrels of different kinds. Continue to not fire if blocked by a Wall.
 
-TODO * Arrows should bounce off Crates.
+TODO * Arrows should bounce off Crates???
 
 TODO * Arrows should damage Barrels.
 
@@ -42,8 +52,6 @@ TODO * Arrows should be object pooled.
 
 TODO * Bullets should be object pooled.
 
-TODO * Convert Shrapnel
-** Like we did with Bullet and Arrow
 
 =====
 TEST * Barrel_Rolled
