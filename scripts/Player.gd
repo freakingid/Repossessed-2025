@@ -316,28 +316,30 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 func drop_barrel():
 	if carried_barrel_instance == null:
 		return
-	
 
 	var drop_direction = last_move_direction.normalized()
 	var drop_position = global_position + drop_direction * 16
 
 	# Decide if rolling or placing
 	if velocity.length() > 0:
-		# Spawn Barrel_Rolled
+		print("Going to spawn barrel rolled")
+		# Spawn Barrel_Rolled (KinematicMover-based)
 		var rolled_scene = preload("res://scenes/carryables/Barrel_Rolled.tscn")
 		var barrel = rolled_scene.instantiate()
 		barrel.global_position = drop_position
-		barrel.linear_velocity = drop_direction * 300  # Adjust launch speed
 
-		# ✅ Transfer health and flame
+		# Apply motion manually using new system
+		barrel.set_velocity_from_drop(drop_direction * Global.BARREL.KICK_SPEED)
+
+		# Transfer health + flame state
 		barrel.health = carried_barrel_instance.health
 		barrel.max_health = carried_barrel_instance.max_health
 		BarrelUtils.update_flame(barrel.flame_sprite, barrel.health, barrel.max_health)
 
 		get_tree().current_scene.call_deferred("add_child", barrel)
 	else:
-		# Reactivate static barrel
-		# Update Barrel Static with current health
+		print("Going to spawn barrel static")
+		# Reactivate static barrel and transfer state
 		static_barrel_instance.health = carried_barrel_instance.health
 		static_barrel_instance.max_health = carried_barrel_instance.max_health
 		static_barrel_instance.reactivate(drop_position)
@@ -346,6 +348,7 @@ func drop_barrel():
 	carried_barrel_instance.queue_free()
 	is_carrying_barrel = false
 	drop_cooldown_timer = 0.2
+
 
 func get_valid_drop_direction(dir: Vector2) -> Vector2:
 	var allowed_dirs = [

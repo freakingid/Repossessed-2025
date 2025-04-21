@@ -134,8 +134,10 @@ class PLAYER:
 	const BULLET_BASE_MAX_SHOTS = 3
 
 class BARREL:
+	const KICK_SPEED = 300
 	const HEALTH = 20
 	const DAMAGE = BARREL.HEALTH
+	# also used to avoid Player taking a hit from Barrel Rolled
 	const DROPWAIT = 0.3 # How long to wait after dropping barrel before we can fire
 
 class SHRAPNEL:

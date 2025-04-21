@@ -21,9 +21,11 @@ TEST * Crate Carried pushes Barrel Static, essentially turning it into Barrel Ro
 TEST * Crate Carried pushes Barrel Rolled.
 
 =====
-TODO * Convert Bullet.
+DONE * Convert Bullet.
 DONE ** Enemies not getting damaged?
 DONE ** bullets not damaging spawners
+BUG * Bullets not damaging skeletons
+BUG * Bullets not damaging Barrels
 
 =====
 DONE * Convert Arrow
@@ -44,9 +46,27 @@ TODO * Bullets should be object pooled.
 TODO * Convert Shrapnel
 ** Like we did with Bullet and Arrow
 
-TODO * Barrel_Rolled
+=====
+TEST * Barrel_Rolled
+TODO * options
+<quote>
+Let me know if you'd like to visualize the friction effect (e.g. sparks, skid marks)
+</quote>
 
 update crate carried
+
+BUG * Skeletons are not taking damage
+
+
+TODO * Barrel-related enhancements
+<quote cgpt>
+✅ Bonus Next Steps (optional)
+1. Add flashing visual when damaged
+2. Add screen shake when exploding
+3. Spawn shrapnel projectiles outwards
+4. Integrate with HitEffectUtils for enemy-style FX
+5. Tune bounce feel or visuals
+</quote>
 
 change barrel static to characterbody2d
 

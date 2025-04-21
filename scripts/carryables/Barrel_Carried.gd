@@ -36,14 +36,14 @@ func _physics_process(_delta):
 	# Adjust z_index to appear in front or behind player
 	if player.last_move_direction.y > 0:
 		# Player moving up, Barrel should be visually underneath
-		sprite.z_index = Global.Z_CARRIED_CRATE_IN_FRONT
+		sprite.z_index = Global.Z_CARRIED_BARREL_IN_FRONT
 		if flame_sprite:
-			flame_sprite.z_index = Global.Z_CARRIED_CRATE_IN_FRONT_FLAME
+			flame_sprite.z_index = Global.Z_CARRIED_BARREL_IN_FRONT_FLAME
 	else:
 		# Player moving down, Barrel should be visually on top
-		sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND
+		sprite.z_index = Global.Z_CARRIED_BARREL_BEHIND
 		if flame_sprite:
-			flame_sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND_FLAME
+			flame_sprite.z_index = Global.Z_CARRIED_BARREL_BEHIND_FLAME
 
 func take_damage(amount: int):
 	health -= amount
