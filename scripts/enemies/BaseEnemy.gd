@@ -35,6 +35,9 @@ var is_dead := false
 var target_node: Node2D
 
 func _ready():
+	print("READY: ", name)
+	_set_damage_meta_recursive(self)
+
 	await get_tree().process_frame  # Wait one frame in case player isn't in scene yet
 	target_node = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
 
@@ -42,6 +45,13 @@ func _ready():
 		sprite.z_index = Global.Z_FLYING_ENEMIES
 	else:
 		sprite.z_index = Global.Z_BASE_ENEMIES
+
+func _set_damage_meta_recursive(node: Node):
+	for child in node.get_children():
+		if child is CollisionShape2D or child is Sprite2D:
+			child.set_meta("damage_owner", self)
+			print(" → Set damage_owner on: ", child.name)
+		_set_damage_meta_recursive(child)
 
 func _physics_process(delta):
 	if is_dead:

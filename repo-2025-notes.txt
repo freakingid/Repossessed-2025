@@ -24,8 +24,8 @@ TEST * Crate Carried pushes Barrel Rolled.
 DONE * Convert Bullet.
 DONE ** Enemies not getting damaged?
 DONE ** bullets not damaging spawners
-BUG * Bullets not damaging skeletons
-BUG * Bullets not damaging Barrels
+DONE * Bullets not damaging skeletons
+DONE * Bullets not damaging Barrels
 
 =====
 DONE * Convert Arrow
@@ -33,7 +33,6 @@ BUG * Arrow pushes a Barrel_Rolled along
 
 =====
 TODO * Allow Skeleton Shooters to fire at player even when blocked by Crates or Barrels of different kinds. Continue to not fire if blocked by a Wall.
-
 
 TODO * Arrows should bounce off Crates.
 
