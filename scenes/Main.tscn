@@ -25,7 +25,6 @@ max_enemies = 0
 
 [node name="SkeletonShooterSpawner" parent="." instance=ExtResource("5_w3hyx")]
 position = Vector2(-175.248, -309.657)
-max_enemies = 0
 
 [node name="CrateStatic" parent="." instance=ExtResource("5_k187k")]
 position = Vector2(121.127, -83.1273)

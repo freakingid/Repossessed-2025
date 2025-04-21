@@ -1,35 +1,30 @@
-extends RigidBody2D
+extends KinematicMover
 
-var direction: Vector2 = Vector2.ZERO
-var speed := Global.SKELETON_SHOOTER.ARROW_SPEED
-var damage := Global.SKELETON_SHOOTER.ARROW_DAMAGE
-var lifespan := Global.SKELETON_SHOOTER.ARROW_LIFESPAN
+@export var speed: float = Global.SKELETON_SHOOTER.ARROW_SPEED
+@export var damage: int = Global.SKELETON_SHOOTER.ARROW_DAMAGE
+@export var lifetime: float = Global.SKELETON_SHOOTER.ARROW_LIFESPAN
+
+var time_alive: float = 0.0
 
 func _ready():
-	# Disable bounce behavior
-	var mat := PhysicsMaterial.new()
-	mat.bounce = 0
-	physics_material_override = mat
+	# Face the direction of motion
+	motion_velocity = Vector2.RIGHT.rotated(rotation) * speed
 
-	# Orient the sprite in the direction of travel
-	rotation = direction.angle()
-
-	# Arrow self-destruct after time
-	await get_tree().create_timer(lifespan).timeout
-	if is_instance_valid(self):
-		queue_free()
-
-func _physics_process(delta):
-	linear_velocity = direction.normalized() * speed
-
-func _on_body_entered(body):
-	if body == null:
-		return
-
-	if body.is_in_group(Global.GROUPS.PLAYER):
-		body.take_damage(damage)
+func _physics_process(delta: float) -> void:
+	time_alive += delta
+	if time_alive > lifetime:
 		queue_free()
 		return
 
-	if body.is_in_group(Global.GROUPS.STATIC_OBJECTS):
+	var collision = move_and_collide(motion_velocity * delta)
+	if collision:
+		var collider = collision.get_collider()
+
+		if collider.is_in_group("player"):
+			if collider.has_method("take_damage"):
+				collider.take_damage(damage)
+			queue_free()
+			return
+
+		# Optional: Stop when hitting anything else (walls, crates)
 		queue_free()

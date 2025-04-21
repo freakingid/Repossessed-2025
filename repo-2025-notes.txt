@@ -21,13 +21,33 @@ TEST * Crate Carried pushes Barrel Static, essentially turning it into Barrel Ro
 TEST * Crate Carried pushes Barrel Rolled.
 
 =====
-Yes, let's convert Bullet.
+TODO * Convert Bullet.
 DONE ** Enemies not getting damaged?
 DONE ** bullets not damaging spawners
 
-Arrow, Shrapnel.
-then Barrel_Rolled
+=====
+DONE * Convert Arrow
+BUG * Arrow pushes a Barrel_Rolled along
+
+=====
+TODO * Allow Skeleton Shooters to fire at player even when blocked by Crates or Barrels of different kinds. Continue to not fire if blocked by a Wall.
+
+
+TODO * Arrows should bounce off Crates.
+
+TODO * Arrows should damage Barrels.
+
+TODO * Arrows should be object pooled.
+
+TODO * Bullets should be object pooled.
+
+TODO * Convert Shrapnel
+** Like we did with Bullet and Arrow
+
+TODO * Barrel_Rolled
+
 update crate carried
+
 change barrel static to characterbody2d
 
 TODO * For Sound Effects for FX hitting enemy:

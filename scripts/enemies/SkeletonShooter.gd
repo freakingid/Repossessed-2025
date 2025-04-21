@@ -48,14 +48,19 @@ func _physics_process(delta):
 
 	update_animation()
 
-func fire_arrow(target_pos: Vector2):
+func fire_arrow(target_pos: Vector2) -> void:
 	if arrow_scene == null:
 		return
 
 	var arrow = arrow_scene.instantiate()
 	arrow.global_position = global_position
-	arrow.direction = (target_pos - global_position).normalized()
+
+	# Point arrow toward target
+	var dir = (target_pos - global_position).normalized()
+	arrow.rotation = dir.angle()
+
 	get_tree().current_scene.call_deferred("add_child", arrow)
+
 
 func reset() -> void:
 	super.reset()
