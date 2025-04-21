@@ -1,40 +1,61 @@
-extends CharacterBody2D
+# Bullet.gd
+extends KinematicMover
 
-var speed := Global.PLAYER.BULLET_SPEED
-var damage := Global.PLAYER.BULLET_DAMAGE
-var lifespan := Global.PLAYER.BULLET_LIFESPAN
-var can_bounce := false
-var direction: Vector2 = Vector2.ZERO
+@export var speed: float = Global.PLAYER.BULLET_SPEED
+@export var damage: int = Global.PLAYER.BULLET_DAMAGE
+@export var max_bounces: int = 5
+@export var lifetime: float = Global.PLAYER.BULLET_LIFESPAN
 
-func _ready():
-	add_to_group(Global.GROUPS.PLAYER_PROJECTILES)
-	add_to_group(Global.GROUPS.DAMAGING)
-	add_to_group(Global.GROUPS.PROJECTILES)
+var bounces_remaining: int
+var time_alive: float = 0.0
 
-	await get_tree().create_timer(lifespan).timeout
-	if is_instance_valid(self):
+func _ready() -> void:
+	# Start moving in the direction the bullet is facing
+	motion_velocity = Vector2.RIGHT.rotated(rotation) * speed
+	bounces_remaining = max_bounces
+
+func _physics_process(delta: float) -> void:
+	time_alive += delta
+	if time_alive > lifetime:
 		queue_free()
+		return
 
-func _physics_process(delta):
-	var motion = direction.normalized() * speed * delta
-	var collision = move_and_collide(motion)
-	
+	var collision = move_and_collide(motion_velocity * delta)
 	if collision:
 		var collider = collision.get_collider()
 
-		# Handle damage
-		var target = collider
-		if not collider.has_method("take_damage") and collider.get_parent() and collider.get_parent().has_method("take_damage"):
-			target = collider.get_parent()
+		# DAMAGE ENEMY
+		if collider.has_meta("damage_owner"):
+			var owner = collider.get_meta("damage_owner")
+			if owner.has_method("take_damage"):
+				owner.take_damage(damage)
+				queue_free()
+				return
 
-		if target.is_in_group(Global.GROUPS.DAMAGEABLE):
-			target.take_damage(damage)
+		# BOUNCE OFF CRATES / WALLS
+		var bounce_normal = collision.get_normal()
+		if should_bounce_off(collider):
+			motion_velocity = BounceUtils.calculate_bounce(motion_velocity, bounce_normal)
+			bounces_remaining -= 1
+			motion_velocity *= 0.9
+		else:
 			queue_free()
 			return
 
-		# Handle bounce
-		if collider.is_in_group(Global.GROUPS.CRATES) or (collider.is_in_group(Global.GROUPS.STATIC_OBJECTS) and can_bounce):
-			var normal = collision.get_normal()
-			direction = direction.bounce(normal)
-		else:
-			queue_free()
+
+func should_bounce_off(collider: Object) -> bool:
+	# Only bounce off crates and walls (if power-up active)
+	if collider.is_in_group("crates"):
+		bounces_remaining -= 1
+		return true
+	elif collider.is_in_group("walls") and player_has_bounce_powerup():
+		bounces_remaining -= 1
+		return true
+	return false
+
+func player_has_bounce_powerup() -> bool:
+	# Replace this with a proper check to your player state
+	var player = get_tree().get_first_node_in_group("player")
+	if player and player.has_method("has_powerup"):
+		return player.has_powerup("Bounce Shot")
+	return false

@@ -1,3 +1,57 @@
+20250420
+======================================================
+== Non-physics refactor
+======================================================
+* Trying to refactor without using Godot physics. Prior to this, we have used a hybrid approach where some movement was physics engine, some was direct. We are going to try *no* use of physics engine. This is because too many things are not working the way we want, usually based on limitations to move_and_slide with collisions. For example, trying to get a Crate Carried to push a Barrel Static and a Barrel Rolled correctly.
+
+
+TODO * Add title screen music back.
+
+TODO * Review what objects need refactored in our non-physics version.
+
+TEST * Player manual vaulting over Crate Carried.
+
+TEST * Player auto vaulting over Crate Carried that hits Wall or Spawner or Crate Static.
+
+TEST * Crate Carried pushes Enemies, whether 1 or several in a row.
+
+TEST * Crate Carried pushes Barrel Static, essentially turning it into Barrel Rolled?
+** Note: let CGPT choose whether it actually turns into Barrel Rolled or not.
+
+TEST * Crate Carried pushes Barrel Rolled.
+
+=====
+Yes, let's convert Bullet.
+DONE ** Enemies not getting damaged?
+DONE ** bullets not damaging spawners
+
+Arrow, Shrapnel.
+then Barrel_Rolled
+update crate carried
+change barrel static to characterbody2d
+
+TODO * For Sound Effects for FX hitting enemy:
+<quote>
+🔊 (Optional for Later) Sound Handling
+You could:
+Add an AudioStreamPlayer2D to the effect scene (EnemyHitEffect.tscn)
+OR create a SoundManager.gd singleton with a play() method to trigger hit sounds
+Let me know if you want help building that next.
+</quote>
+
+TODO * Build a Gem Spawn Manager
+** Gems are spawned from killed enemies.
+CGPT says:
+<quote>
+Wants to build a gem spawn manager for Repossessed later. The manager will handle spawning gem drops from enemies and potentially other sources, providing a reliable parent node and centralized logic instead of relying on get_tree().current_scene or get_parent(). This is to avoid errors during scene transitions or early deaths, and to support future pooling, animation, or pickup logic.
+</quote>
+
+
+
+
+
+
+
 20250416
 =====
 DONE * When Player picks up Barrel_Static, it looks like Barrel_Carried is initially visible right in the middle of the room, and is then moved to the proper position in front of the Player. Proper behavior would not show the Barrel_Carried until it is in the proper position in front of the Player.

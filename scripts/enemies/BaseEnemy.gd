@@ -13,6 +13,7 @@ var spawn_time: float = 0.0
 var push_velocity: Vector2 = Vector2.ZERO
 var push_duration := 0.1  # seconds
 var push_timer := 0.0
+var is_flashing := false
 
 @onready var nav_agent: NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -123,9 +124,7 @@ func is_path_blocked(direction: Vector2) -> bool:
 	return false
 
 func move_directly_to_player(delta):
-	print("Calling move_directly_to_player from: ", self.name)
 	if target_node:
-		print(self.name, " sees player at ", target_node.global_position)
 		var direction = target_node.global_position - global_position
 		if direction.length() > 1:
 			var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
@@ -141,13 +140,26 @@ func get_player_global_position() -> Vector2:
 		return target_node.global_position
 	return global_position
 
-func take_damage(amount: int):
+func take_damage(amount: int) -> void:
 	if is_dead:
 		return
 
+	# Visual + audio hit response
+	HitEffectUtils.spawn_enemy_hit_effect(global_position)
+
+	# Optional flash for feedback
+	if not is_flashing:
+		is_flashing = true
+		modulate = Color(1, 0.3, 0.3)
+		await get_tree().create_timer(0.1).timeout
+		modulate = Color(1, 1, 1)
+		is_flashing = false
+
+	# Reduce health
 	health -= amount
 	if health <= 0:
 		die()
+
 
 func die():
 	is_dead = true
@@ -155,7 +167,11 @@ func die():
 	var gem = GEM_SCENE.instantiate()
 	gem.global_position = global_position
 	gem.gem_power = score_value
-	get_tree().current_scene.call_deferred("add_child", gem)
+	var parent = get_tree().current_scene if get_tree().current_scene else get_parent()
+	if parent:
+		parent.call_deferred("add_child", gem)
+	else:
+		push_warning("Could not spawn gem — no valid parent")
 
 	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
 	if player:
@@ -254,3 +270,13 @@ func attempt_push_or_crush(push_vector: Vector2) -> void:
 		# Move succeeded, still add a short push timer for any follow-up
 		push_velocity = push_vector
 		push_timer = 0.1
+
+@onready var hit_fx_scene = preload("res://scenes/fx/EnemyHitEffect.tscn")  # adjust path
+
+func spawn_hit_effect() -> void:
+	var fx = hit_fx_scene.instantiate()
+	fx.global_position = global_position
+	get_tree().current_scene.add_child(fx)
+	# TODO: Play hit sound
+	if has_node("HitSound"):  # optional child AudioStreamPlayer2D
+		$HitSound.play()

@@ -424,53 +424,46 @@ func _process(_delta):
 func shoot(direction: Vector2):
 	# Check how many bullets exist
 	if get_tree().get_nodes_in_group("player_projectiles").size() >= max_shots_in_level:
-		return  # Prevent shooting if max bullets exist
+		return
 
-	# Ensure bullet scene is valid
 	if bullet_scene == null:
 		print("Error: bullet_scene is NULL")
-		return  # Prevent crash
+		return
 
-	# Create the bullet
+	# Primary bullet
 	var bullet = bullet_scene.instantiate()
-	bullet.position = $Marker2D.global_position
-	bullet.direction = direction # Error message fired here
-	bullet.add_to_group("player_projectiles")  # Ensure it is trackable
+	bullet.global_position = $Marker2D.global_position
+	bullet.rotation = direction.angle()
+	bullet.add_to_group("player_projectiles")
 
-	# Apply powerup effects
+	# Powerup effects
 	if has_big_shot:
-		bullet.scale *= 2  # Make bullet bigger
+		bullet.scale *= 2
 		bullet.damage *= 2
 		bullet.health *= 2
-		bullet.lifespan *= 2
+		bullet.lifetime *= 2  # renamed from lifespan
 
 	if has_bounce_shot:
-		bullet.bounce_shot = true
-		# Bounce shot extends lifespan, but only if big shot isn’t already boosting it
+		bullet.max_bounces = 10  # or some appropriate number
 		if not has_big_shot:
-			bullet.lifespan *= 2
+			bullet.lifetime *= 2
 
-	# Add bullet to scene
 	get_tree().current_scene.add_child(bullet)
 
-	# Handle triple shot
+	# Triple Shot
 	if has_triple_shot:
-		var left_bullet = bullet_scene.instantiate()
-		left_bullet.position = bullet.position
-		left_bullet.direction = direction.rotated(deg_to_rad(-15))
-		left_bullet.add_to_group("player_projectiles")  # Ensure it is trackable
-		get_tree().current_scene.add_child(left_bullet)
+		for angle_offset in [-15, 15]:
+			var extra_bullet = bullet_scene.instantiate()
+			extra_bullet.global_position = bullet.global_position
+			extra_bullet.rotation = direction.angle() + deg_to_rad(angle_offset)
+			extra_bullet.add_to_group("player_projectiles")
+			get_tree().current_scene.add_child(extra_bullet)
 
-		var right_bullet = bullet_scene.instantiate()
-		right_bullet.position = bullet.position
-		right_bullet.direction = direction.rotated(deg_to_rad(15))
-		right_bullet.add_to_group("player_projectiles")  # Ensure it is trackable
-		get_tree().current_scene.add_child(right_bullet)
-
-	# Cooldown before next shot
+	# Cooldown
 	can_shoot = false
 	await get_tree().create_timer(fire_rate).timeout
 	can_shoot = true
+
 
 func apply_powerup(powerup_type: String):
 	match powerup_type:

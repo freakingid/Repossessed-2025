@@ -35,6 +35,7 @@ const Z_CARRIED_BARREL_IN_FRONT_FLAME = 90
 const Z_CARRIED_CRATE_IN_FRONT_FLAME  = 90
 const Z_SHRAPNEL                      = 100
 const Z_FLYING_ENEMIES                = 110
+const Z_CHARACTER_FX                  = 112
 const Z_OVERHEAD_DECORATIONS          = 120
 const Z_UI_FLOATING                   = 130
 

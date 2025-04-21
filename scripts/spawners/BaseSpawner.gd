@@ -27,6 +27,10 @@ func _ready():
 		max_enemies = Global.get_max_capacity_for_scene(enemy_scene.resource_path)
 	if health < 0:
 		health = Global.DEFAULT_SPAWNER_HEALTH
+	# assign which node takes damage
+	for child in get_children():
+		child.set_meta("damage_owner", self)
+
 	original_modulate = get_node("Sprite2D").modulate
 	_start_spawning()
 	
@@ -68,7 +72,7 @@ func _on_enemy_destroyed(reason: String, timestamp: float) -> void:
 	# print("[Spawner] Enemy despawned. Reason:", reason, " at:", timestamp)
 
 func take_damage(amount: int) -> void:
-	# print("BaseSpawner taking damage: ", amount)
+	print("BaseSpawner taking damage: ", amount)
 	health -= amount
 	_flash_damage()
 	if health <= 0:
