@@ -1,11 +1,76 @@
+20250422
+==========================================
+DONE * Add title screen music back.
+
+TESTING
+=====
+* Player can fire
+Y shots hit and harm enemies
+Y hit and harm spawners
+Y bounce off crates
+Y hit and damage barrels
+
+* Player can pick up crates
+Y carry crates
+Y set crates down when standing
+Y vault over crates when running
+
+* Crates autovault
+Y when hitting wall
+Y autovault when hitting another crate
+N cancel autovault when landing collided
+
+* Carried crates pushing
+Y push single enemy
+Y Push multiple enemies
+N Push single barrel
+N Push multiple barrels
+
+* Carried barrels
+Y Player can pick up barrel?
+Y can carry barrel
+Y can set down standing still
+Y can kick forward running
+N can collide barrel with wall
+N can collide barrel with crate
+N can collide barrel with another barrel
+
+BUG * Carried barrel moves right through Crate static
+
+BUG * Carried barrel moves right through Barrel Static
+
+BUG * Carried barrel moves right through Wall
+
+BUG * Barrel Rolled moves right through Player
+
+TODO MAYBE * When carrying a crate and moving, then attempting to set crate down, if player presses in direction of moving, that should vault. If player presses opposite direction, maybe we should just drop the crate?
+
+BUG * Some enemies die right as they come out of the Spawner. I do not think they are being hit by a Player bullet.
+
+BUG * Error when Barrel Static explodes into shrapnel
+** The error might be shrapnel related, because the shrapnel is already in the room when the error happens.
+
+BUG * Crate autovaulting doesn't cancel when player would land on another Crate.
+** Works fine when trying to vault into a long wall.
+** If a crate is on the other side of a wall, and we try to autovault into the wall, i would expect autovault to cancel, so we don't land on the crate that is sitting on the other side of the wall. This used to happen in a different build, but no longer cancels.
+
+TODO * Carried Crate pushing enemies, especially multiple enemies, can look jerky. Enemies can pop from their current location to a new location drastically. I would like to smooth this out somehow. Rather than popping to a location, perhaps they are shoved aside in some way?
+
+TODO * Carried Crate should "push" Barrel Static.
+** I think Barrel Static should be turned into a Barrel Rolled, essentially.
+?? Can Player throw a carried barrel? would be similar.
+
+
+
+
+
+
+
 20250420
 ======================================================
 == Non-physics refactor
 ======================================================
 * Trying to refactor without using Godot physics. Prior to this, we have used a hybrid approach where some movement was physics engine, some was direct. We are going to try *no* use of physics engine. This is because too many things are not working the way we want, usually based on limitations to move_and_slide with collisions. For example, trying to get a Crate Carried to push a Barrel Static and a Barrel Rolled correctly.
-
-
-TODO * Add title screen music back.
 
 =====
 TODO * Crate Vaulting

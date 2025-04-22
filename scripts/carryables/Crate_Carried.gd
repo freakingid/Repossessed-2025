@@ -9,7 +9,8 @@ func _ready():
 		Global.LAYER_SPAWNER |
 		Global.LAYER_WALL |
 		Global.LAYER_ENEMY_PROJECTILE |
-		Global.LAYER_CRATE
+		Global.LAYER_CRATE |
+		Global.LAYER_BARREL
 	)
 
 func _physics_process(_delta):

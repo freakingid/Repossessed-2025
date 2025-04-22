@@ -22,7 +22,8 @@ func _ready():
 		Global.LAYER_ENEMY |
 		Global.LAYER_SPAWNER |
 		Global.LAYER_PLAYER_BULLET |
-		Global.LAYER_ENEMY_PROJECTILE
+		Global.LAYER_ENEMY_PROJECTILE |
+		Global.LAYER_BARREL
 	)
 
 func _physics_process(_delta):

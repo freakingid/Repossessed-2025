@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://basst1oq65gm8"]
+[gd_scene load_steps=8 format=3 uid="uid://basst1oq65gm8"]
 
 [ext_resource type="Texture2D" uid="uid://bnhvgorr0asqx" path="res://assets/artwork/repo-cover-01.png" id="1_ugh2s"]
 [ext_resource type="Script" path="res://scripts/rooms/TitleScreen.gd" id="2_whjmt"]
+[ext_resource type="AudioStream" uid="uid://bqenlc8pmtb3k" path="res://assets/music/Repossessed-suno.mp3" id="3_y6nde"]
 
 [sub_resource type="Animation" id="Animation_yv3c5"]
 length = 0.001
@@ -81,6 +82,8 @@ size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_y6nde")
+autoplay = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
