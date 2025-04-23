@@ -35,6 +35,20 @@ N can collide barrel with wall
 N can collide barrel with crate
 N can collide barrel with another barrel
 
+TEST * Some enemies die right as they come out of the Spawner. I do not think they are being hit by a Player bullet.
+
+DONE * Error when some enemies die
+** The error might be shrapnel related, because the shrapnel is already in the room when the error happens.
+** We made a GemManager singleton so anyone can drop gems.
+
+** ChatGPT gave us some optional suggestions:
+<quote>
+Wrap player score logic in safe PlayerUtils.add_score_to_first_player()
+Keeps logic modular and reduces enemy reliance on group name resolution.
+
+Let me know if you'd like me to help break this into testable helper functions or extend this cleanup to other lifecycle methods like take_damage().
+</quote>
+
 BUG * Carried barrel moves right through Crate static
 
 BUG * Carried barrel moves right through Barrel Static
@@ -43,12 +57,9 @@ BUG * Carried barrel moves right through Wall
 
 BUG * Barrel Rolled moves right through Player
 
-TODO MAYBE * When carrying a crate and moving, then attempting to set crate down, if player presses in direction of moving, that should vault. If player presses opposite direction, maybe we should just drop the crate?
-
-BUG * Some enemies die right as they come out of the Spawner. I do not think they are being hit by a Player bullet.
-
-BUG * Error when Barrel Static explodes into shrapnel
-** The error might be shrapnel related, because the shrapnel is already in the room when the error happens.
+BUG * Carried Crate should "push" Barrel Static.
+** I think Barrel Static should be turned into a Barrel Rolled, essentially.
+?? Can Player throw a carried barrel? would be similar.
 
 BUG * Crate autovaulting doesn't cancel when player would land on another Crate.
 ** Works fine when trying to vault into a long wall.
@@ -56,9 +67,6 @@ BUG * Crate autovaulting doesn't cancel when player would land on another Crate.
 
 TODO * Carried Crate pushing enemies, especially multiple enemies, can look jerky. Enemies can pop from their current location to a new location drastically. I would like to smooth this out somehow. Rather than popping to a location, perhaps they are shoved aside in some way?
 
-TODO * Carried Crate should "push" Barrel Static.
-** I think Barrel Static should be turned into a Barrel Rolled, essentially.
-?? Can Player throw a carried barrel? would be similar.
 
 
 

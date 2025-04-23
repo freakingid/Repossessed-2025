@@ -34,8 +34,11 @@ var DIRECTION_ANIMATIONS := {
 var is_dead := false
 var target_node: Node2D
 
+signal request_spawn_gem(position: Vector2, value: int)
+
+
 func _ready():
-	print("READY: ", name)
+	# print("READY: ", name)
 	_set_damage_meta_recursive(self)
 
 	await get_tree().process_frame  # Wait one frame in case player isn't in scene yet
@@ -50,7 +53,7 @@ func _set_damage_meta_recursive(node: Node):
 	for child in node.get_children():
 		if child is CollisionShape2D or child is Sprite2D:
 			child.set_meta("damage_owner", self)
-			print(" → Set damage_owner on: ", child.name)
+			# print(" → Set damage_owner on: ", child.name)
 		_set_damage_meta_recursive(child)
 
 func _physics_process(delta):
@@ -66,8 +69,10 @@ func _physics_process(delta):
 		if collision:
 			var blocker = collision.get_collider()
 			if blocker.is_in_group("walls") or blocker.is_in_group("spawners") or blocker.is_in_group("crates"):
+				print("Enemy._physics_process; mysterious death")
 				die()
 			elif blocker.is_in_group("enemies") and blocker.has_method("attempt_push_or_crush"):
+				print("Enemy._physics_process; collide with enemy now call attempt_push_or_crush in that enemy")
 				blocker.attempt_push_or_crush(push_velocity)
 
 		if push_timer <= 0.0:
@@ -174,37 +179,43 @@ func take_damage(amount: int) -> void:
 func die():
 	is_dead = true
 
-	var gem = GEM_SCENE.instantiate()
-	gem.global_position = global_position
-	gem.gem_power = score_value
-	var parent: Node = null
+	# Spawn gem at enemy position
+	GemSpawnManager.spawn_gem(global_position, score_value)
 
+	var parent = null
 	if get_tree():
 		parent = get_tree().current_scene
-
 	if parent == null:
 		parent = get_parent()
 
-	if parent:
-		parent.call_deferred("add_child", gem)
-	else:
-		push_warning("Could not spawn gem — no valid parent")
-
-	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
+	# Award score to player if possible
+	var player = null
+	if get_tree():
+		player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
 	if player:
 		player.add_score(score_value)
-		
+
+	# Handle despawn or queue_free
 	if has_meta("source_scene"):
+		# Hide visuals and disable logic
 		visible = false
 		set_physics_process(false)
+
+		# Emit despawn signal with timestamp
 		var now = Time.get_ticks_msec() / 1000.0
 		emit_signal("despawned", "died_from_damage", now)
-		var sprite_node := get_node_or_null("AnimatedSprite2D")
+
+		# Optional red flash before recycling
+		var sprite_node = get_node_or_null("AnimatedSprite2D")
 		if sprite_node:
-			sprite_node.modulate = Color(1, 0, 0)  # Optional flash before hide
+			sprite_node.modulate = Color(1, 0, 0)
+
+		# Return enemy to pool
 		EnemyPool.recycle_enemy(self, get_meta("source_scene"))
 	else:
+		# Permanently remove if not pooled
 		queue_free()
+
 
 func has_line_of_sight() -> bool:
 	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
@@ -280,8 +291,10 @@ func attempt_push_or_crush(push_vector: Vector2) -> void:
 	if collision:
 		var blocker = collision.get_collider()
 		if blocker.is_in_group("walls") or blocker.is_in_group("spawners") or blocker.is_in_group("crates"):
+			print("Enemy died crushed by wall or spawner or crate")
 			die()
 		elif blocker.is_in_group("enemies") and blocker.has_method("attempt_push_or_crush"):
+			print("Enemy is pushed into another Enemy")
 			blocker.attempt_push_or_crush(push_vector)
 	else:
 		# Move succeeded, still add a short push timer for any follow-up

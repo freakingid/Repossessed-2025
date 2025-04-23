@@ -55,6 +55,10 @@ func _spawn_enemy() -> void:
 	var enemy = EnemyPool.fetch_enemy(enemy_scene)
 	if enemy:
 		enemy.set_meta("source_scene", enemy_scene)
+	var callable = Callable(GemSpawnManager, "spawn_gem")
+	if not enemy.is_connected("request_spawn_gem", callable):
+		enemy.connect("request_spawn_gem", callable)
+
 		if enemy.has_method("reset"):
 			enemy.reset()
 
