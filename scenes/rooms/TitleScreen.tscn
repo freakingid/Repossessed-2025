@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://basst1oq65gm8"]
 
-[ext_resource type="Texture2D" uid="uid://bnhvgorr0asqx" path="res://assets/artwork/repo-cover-01.png" id="1_ugh2s"]
-[ext_resource type="Script" path="res://scripts/rooms/TitleScreen.gd" id="2_whjmt"]
-[ext_resource type="AudioStream" uid="uid://bqenlc8pmtb3k" path="res://assets/music/Repossessed-suno.mp3" id="3_y6nde"]
+[ext_resource type="Script" path="res://scripts/rooms/TitleScreen.gd" id="1_2di80"]
+[ext_resource type="Texture2D" uid="uid://bnhvgorr0asqx" path="res://assets/artwork/repo-cover-01.png" id="2_20nrd"]
+[ext_resource type="AudioStream" uid="uid://bqenlc8pmtb3k" path="res://assets/audio/music/Repossessed-suno.mp3" id="3_djb8o"]
 
 [sub_resource type="Animation" id="Animation_yv3c5"]
 length = 0.001
@@ -57,7 +57,7 @@ _data = {
 }
 
 [node name="TitleScreen" type="CanvasLayer"]
-script = ExtResource("2_whjmt")
+script = ExtResource("1_2di80")
 
 [node name="Background" type="TextureRect" parent="."]
 z_index = 2
@@ -66,7 +66,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_ugh2s")
+texture = ExtResource("2_20nrd")
 expand_mode = 3
 
 [node name="FadeRect" type="ColorRect" parent="."]
@@ -81,9 +81,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_y6nde")
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_djb8o")
 autoplay = true
+bus = &"Music"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

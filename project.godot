@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Repossessed 2025"
-run/main_scene="res://scenes/TitleScreen.tscn"
+run/main_scene="res://scenes/rooms/TitleScreen.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://assets/audio/default_bus_layout.tres"
 
 [autoload]
 
@@ -21,6 +25,8 @@ Global="*res://scripts/Global.gd"
 EnemyPool="*res://scripts/enemies/EnemyPool.gd"
 HitEffectUtils="*res://scripts/fx/HitEffectsUtil.gd"
 GemSpawnManager="*res://scripts/spawners/GemSpawnManager.gd"
+AudioSettingsManager="*res://scripts/Managers/AudioSettingsManager.gd"
+SoundManager="*res://scripts/Managers/SoundManager.gd"
 
 [display]
 

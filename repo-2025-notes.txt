@@ -2,6 +2,17 @@
 ==========================================
 DONE * Add title screen music back.
 
+WORK * Added screens:
+Title
+> Menu
+> > New Game
+> > Options
+> > Quit
+
+** Having trouble getting all the buttons centered.
+** Then will need to make sure buttons are trying to open the correct scene.
+
+
 TESTING
 =====
 * Player can fire

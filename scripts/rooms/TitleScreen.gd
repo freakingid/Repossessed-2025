@@ -2,7 +2,7 @@ extends CanvasLayer
 
 @onready var fade_rect: ColorRect = $FadeRect
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
+@onready var audio: AudioStreamPlayer = $MusicPlayer
 
 var input_enabled := false
 var transition_in_progress := false
@@ -30,4 +30,4 @@ func start_game_transition():
 	transition_in_progress = true
 	anim_player.play("fade_out")
 	await anim_player.animation_finished
-	get_tree().change_scene_to_file("res://scenes/Main.tscn")  # Replace with your actual level path
+	get_tree().change_scene_to_file("res://scenes/rooms/MenuScreen.tscn")  # Replace with your actual level path

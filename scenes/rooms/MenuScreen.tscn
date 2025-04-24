@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://bslbjt6clj7qy"]
+
+[ext_resource type="Script" path="res://scripts/rooms/MenuScreen.gd" id="1_q5622"]
+
+[node name="MenuScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q5622")
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MenuButtons" type="VBoxContainer" parent="MainContainer/CenterContainer"]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="NewGameButton" type="Button" parent="MainContainer/CenterContainer/MenuButtons"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "New Game"
+
+[node name="OptionsButton" type="Button" parent="MainContainer/CenterContainer/MenuButtons"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="MainContainer/CenterContainer/MenuButtons"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Quit"
+
+[node name="QuitConfirm" type="ConfirmationDialog" parent="."]
+dialog_text = "Are you sure you want to quit?"
