@@ -1,71 +1,80 @@
-[gd_scene format=3 uid="uid://dbrcv75n8wyof"]
+[gd_scene load_steps=2 format=3 uid="uid://cu7pnmbgf080g"]
+
+[ext_resource type="Script" path="res://scripts/rooms/OptionsScreen.gd" id="1_rbvlb"]
 
 [node name="OptionsScreen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-
-[node name="MainContainer" type="MarginContainer" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+script = ExtResource("1_rbvlb")
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="CenterContainer" type="CenterContainer" parent="MainContainer"]
 layout_mode = 2
 
 [node name="SettingsList" type="VBoxContainer" parent="MainContainer/CenterContainer"]
+custom_minimum_size = Vector2(400, 300)
 layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="MasterVolumeSetting" type="HBoxContainer" parent="MainContainer/CenterContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
 [node name="MasterLabel" type="Label" parent="MainContainer/CenterContainer/SettingsList/MasterVolumeSetting"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Master Volume"
 
 [node name="MasterSlider" type="HSlider" parent="MainContainer/CenterContainer/SettingsList/MasterVolumeSetting"]
 layout_mode = 2
 size_flags_horizontal = 3
-value = 50.0
 
 [node name="MusicVolumeSetting" type="HBoxContainer" parent="MainContainer/CenterContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
 [node name="MusicLabel" type="Label" parent="MainContainer/CenterContainer/SettingsList/MusicVolumeSetting"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Music Volume"
 
 [node name="MusicSlider" type="HSlider" parent="MainContainer/CenterContainer/SettingsList/MusicVolumeSetting"]
 layout_mode = 2
 size_flags_horizontal = 3
-value = 50.0
 
-[node name="EffectsVolumeSetting" type="HBoxContainer" parent="MainContainer/CenterContainer/SettingsList"]
+[node name="SFXVolumeSetting" type="HBoxContainer" parent="MainContainer/CenterContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="EffectsLabel" type="Label" parent="MainContainer/CenterContainer/SettingsList/EffectsVolumeSetting"]
+[node name="SFXLabel" type="Label" parent="MainContainer/CenterContainer/SettingsList/SFXVolumeSetting"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Effects Volume"
+text = "SFX Volume"
 
-[node name="EffectsSlider" type="HSlider" parent="MainContainer/CenterContainer/SettingsList/EffectsVolumeSetting"]
+[node name="SFXSlider" type="HSlider" parent="MainContainer/CenterContainer/SettingsList/SFXVolumeSetting"]
 layout_mode = 2
 size_flags_horizontal = 3
-value = 50.0
 
 [node name="VoiceVolumeSetting" type="HBoxContainer" parent="MainContainer/CenterContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
 [node name="VoiceLabel" type="Label" parent="MainContainer/CenterContainer/SettingsList/VoiceVolumeSetting"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Voice Volume"
 
 [node name="VoiceSlider" type="HSlider" parent="MainContainer/CenterContainer/SettingsList/VoiceVolumeSetting"]
 layout_mode = 2
 size_flags_horizontal = 3
-value = 50.0
 
 [node name="BackButton" type="Button" parent="MainContainer/CenterContainer/SettingsList"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Back"

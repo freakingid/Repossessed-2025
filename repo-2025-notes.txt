@@ -2,15 +2,33 @@
 ==========================================
 DONE * Add title screen music back.
 
-WORK * Added screens:
+DONE * Added screens:
 Title
 > Menu
 > > New Game
 > > Options
 > > Quit
+** We are also saving config changes to a file that is automatically loaded for the SoundManager.
 
-** Having trouble getting all the buttons centered.
-** Then will need to make sure buttons are trying to open the correct scene.
+4/24/2025
+NOTE: Think this out below, the stuff about ESCape and pausing the game and all that.
+
+TODO * Move "Quit" button to TitleScreen scene.
+
+TODO * Pressing "ESCape" button on TitleScreen is the same as hitting the "Quit" button, which should still display the "Confirmation" like it does now on MenuScreen.
+
+TODO * Pressing ESCape during gameplay should:
+1. Pause the game.
+2. Display an "Options" button that takes us to "Options" scene.
+3. Display a "Quit to Title" button that initially gives us a "Confirmation" yes / no dialog. If player selects "Yes," the game is ended and the program returns us to the Title screen. If player selects "No," 
+TODO * Pressing ESCape during gameplay should:
+1. Pause the game.
+2. Show the "Menu" screen.
+2a. That allows the player to change options if needed.
+2b. That allows the player to Quit if needed.
+2c. If player chooses to return to Title scene, that 
+3. Menu screen should have a new button "Back to Game" that, if pressed, returns us to the game scene and unpauses the game.
+
 
 
 TESTING

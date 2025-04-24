@@ -18,7 +18,7 @@ func _ready():
 	music_slider.value_changed.connect(_on_music_changed)
 	sfx_slider.value_changed.connect(_on_sfx_changed)
 	voice_slider.value_changed.connect(_on_voice_changed)
-	back_button.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/ui/MenuScreen.tscn"))
+	back_button.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/rooms/MenuScreen.tscn"))
 
 func _on_master_changed(value):
 	AudioSettingsManager.master_volume = value
@@ -39,3 +39,7 @@ func _on_voice_changed(value):
 	AudioSettingsManager.voice_volume = value
 	AudioSettingsManager.save_settings()
 	SoundManager.set_voice_volume(value)
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		back_button.emit_signal("pressed")
