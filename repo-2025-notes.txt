@@ -1,4 +1,4 @@
-20250422
+20250424
 ==========================================
 DONE * Add title screen music back.
 
@@ -11,7 +11,10 @@ Title
 ** We are also saving config changes to a file that is automatically loaded for the SoundManager.
 
 4/24/2025
-NOTE: Think this out below, the stuff about ESCape and pausing the game and all that.
+===========================
+STORY * Menu dialog changes
+===========================
+NOTE: Think this out below, the stuff about ESCape and pausing the game and all that. What you read right now is not correct.
 
 TODO * Move "Quit" button to TitleScreen scene.
 
