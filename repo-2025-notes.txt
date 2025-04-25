@@ -2,17 +2,25 @@
 ========================================
 STORY * Today we are going to try using parenting for carried objects.
 
-is_carrying_crate
-** there are times we set this flag in old code
-** Now this is handled differently. The flag seems to be:
-```
-carried_crate_source != null
-```
-** Need to check this, if cgpt isn't already guiding us.
-
 WORK * Crate Carried
 ** We can pick up the crate static
-BUG * While carried, the Crate sprite appears on top of the Player sprite.
+BUG * While carried, the Crate sprite appears on top of the Player sprite. We were handling this before in Crate_Carried.gd by checking which object was hight up on the screen in the Y direction -- Carried Crate or Player -- and changing the z-index of the Crate Carried accordingly. Can you help me do that to get the right layering of Player and Carried Crate? If the player is moving up the screen, the player sprite should draw on top of the Crate. If the player is moving down the screen, the Player sprite should draw underneath the Crate.
+Here are the z-index constants I use for setting z-index on crate and barrels both in front of and behind the player. There is also a z-index for the flame that is drawn on top of a barrel sometimes.
+
+```
+const Z_CARRIED_CRATE_BEHIND          = 40
+const Z_CARRIED_BARREL_BEHIND         = 40
+const Z_CARRIED_BARREL_BEHIND_FLAME   = 50
+const Z_CRATES                        = 55
+const Z_BARRELS                       = 55
+const Z_BARRELS_FLAME                 = 56
+const Z_PLAYER                        = 60
+const Z_CARRIED_BARREL_IN_FRONT       = 80
+const Z_CARRIED_CRATE_IN_FRONT        = 80
+const Z_CARRIED_BARREL_IN_FRONT_FLAME = 90
+```
+
+
 DONE * Difficult for Player to drop Crate, because they pick it right back up again. Perhaps they need to drop it further away so 
 ** Fixed by adjusting collisionshape2d sizes
 
