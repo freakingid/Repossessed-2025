@@ -1,9 +1,10 @@
-[gd_scene load_steps=40 format=3 uid="uid://cxlq6i3gdrfuy"]
+[gd_scene load_steps=42 format=3 uid="uid://cxlq6i3gdrfuy"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_y0jdu"]
 [ext_resource type="PackedScene" uid="uid://dng5uhwdosd3s" path="res://scenes/projectiles/Bullet.tscn" id="2_pqtk7"]
 [ext_resource type="Texture2D" uid="uid://d2i1unu3sw3pm" path="res://assets/sprites/characters/player-32.png" id="3_j4dqg"]
 [ext_resource type="Texture2D" uid="uid://siljxdowm5hm" path="res://assets/textures/fpo-healthbar-100x20.png" id="4_7h5x7"]
+[ext_resource type="Texture2D" uid="uid://dyrvtwbr6khcr" path="res://assets/sprites/fpo-crate-19.png" id="5_n3c1e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dmimi"]
 atlas = ExtResource("3_j4dqg")
@@ -280,8 +281,12 @@ height = 32.0
 radius = 4.0
 height = 8.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qeqfo"]
+size = Vector2(28, 28)
+
 [node name="Player" type="CharacterBody2D" groups=["damageable", "damaging", "player"]]
-collision_mask = 116
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_y0jdu")
 bullet_scene = ExtResource("2_pqtk7")
 
@@ -289,8 +294,12 @@ bullet_scene = ExtResource("2_pqtk7")
 sprite_frames = SubResource("SpriteFrames_4rk7l")
 animation = &"walk_e"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="move_collider_small" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_vlpuv")
+
+[node name="move_collider_large" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_vlpuv")
+disabled = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
 
@@ -334,9 +343,23 @@ texture_progress = ExtResource("4_7h5x7")
 collision_mask = 640
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupDetector"]
-position = Vector2(0, 6)
+position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_6u6rt")
 debug_color = Color(0.52964, 0.0306345, 0.93558, 0.42)
+
+[node name="CarriedCrate" type="Node2D" parent="." groups=["crate_hitboxes"]]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="CarriedCrate"]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_n3c1e")
+
+[node name="Area2D" type="Area2D" parent="CarriedCrate"]
+collision_layer = 128
+collision_mask = 1090
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CarriedCrate/Area2D"]
+shape = SubResource("RectangleShape2D_qeqfo")
 
 [connection signal="melee_hit" from="." to="." method="_on_melee_hit"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

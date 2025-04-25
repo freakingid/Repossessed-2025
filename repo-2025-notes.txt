@@ -1,3 +1,27 @@
+20250425
+========================================
+STORY * Today we are going to try using parenting for carried objects.
+
+is_carrying_crate
+** there are times we set this flag in old code
+** Now this is handled differently. The flag seems to be:
+```
+carried_crate_source != null
+```
+** Need to check this, if cgpt isn't already guiding us.
+
+WORK * Crate Carried
+** We can pick up the crate static
+BUG * While carried, the Crate sprite appears on top of the Player sprite.
+DONE * Difficult for Player to drop Crate, because they pick it right back up again. Perhaps they need to drop it further away so 
+** Fixed by adjusting collisionshape2d sizes
+
+BUG * When Crate is dropped, we cannot see it, but we can pick it up again if we run into where it should be. Player shots also bounce off the invisible Crate.
+
+
+
+
+
 20250424
 ==========================================
 DONE * Add title screen music back.

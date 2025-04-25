@@ -16,11 +16,11 @@ func _ready():
 	$Sprite2D.z_index = Global.Z_CRATES
 
 func pickup(player: Node):
+	print("📦 pickup() called on Crate_Static")
 	if player.is_vaulting:
 		print("Player is vaulting, so not allowed to Crate_Static.pickup() even though we tried")
 		return  # 🚫 Don't allow pickup while vaulting
-		
-	print("Crate_Static: pickup")
+
 	# Disable this crate visually and physically
 	sprite.visible = false
 	collision_shape.call_deferred("set_disabled", true)
@@ -29,15 +29,7 @@ func pickup(player: Node):
 	set_deferred("collision_mask", 0)
 
 	# Instance and assign carried version
-	var carried_crate = preload("res://scenes/carryables/Crate_Carried.tscn").instantiate()
-	carried_crate.player = player
-	# Set initial position based on player + offset
-	var offset = carried_crate.get_offset_based_on_direction(player.last_move_direction)
-	carried_crate.global_position = player.global_position + offset
-
-	# Assign and add to scene
-	player.carried_crate_instance = carried_crate
-	get_tree().current_scene.call_deferred("add_child", carried_crate)
+	player.begin_carrying_crate(self)
 
 func reactivate(new_position: Vector2):
 	print("Crate_Static: reactivate")

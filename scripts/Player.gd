@@ -1,5 +1,12 @@
 extends CharacterBody2D
 
+# BEGIN adding reparenting
+@onready var carried_crate_node = $CarriedCrate
+@onready var move_collider_small = $move_collider_small
+@onready var move_collider_large = $move_collider_large
+var carried_crate_source: Node = null  # Reference to original Crate_Static node
+# END adding reparenting
+
 signal direction_changed(new_direction: Vector2)
 
 var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
@@ -93,6 +100,31 @@ var bullet_lifespan: float
 }
 
 func _ready():
+	# Setup for carried crate
+	# Reference the Area2D inside CarriedCrate
+	var crate_area := $CarriedCrate/Area2D	
+	# Set the collision layer (which layer this Area2D is on)
+	# Example: Global.LAYER_CRATE_HITBOX (define this as needed)
+	crate_area.collision_layer = Global.LAYER_CRATE
+	# Set the collision mask (which layers this Area2D will detect)
+	# Example: Detects enemy projectiles and shrapnel
+	crate_area.collision_mask = (
+		Global.LAYER_ENEMY_PROJECTILE |
+		Global.LAYER_PLAYER_BULLET |
+		Global.LAYER_SHRAPNEL
+	)
+	
+	# Setup collision layer and mask
+	self.collision_layer = Global.LAYER_PLAYER
+	self.collision_mask = (
+		Global.LAYER_WALL |
+		Global.LAYER_SPAWNER |
+		Global.LAYER_ENEMY
+	)
+	
+	# move collider large is for carrying only
+	move_collider_large.disabled = true
+	
 	# Set default weapon values (to allow normal shooting without powerups)
 	fire_rate = base_fire_rate
 	max_shots_in_level = base_max_shots
@@ -186,7 +218,7 @@ func _physics_process(_delta):
 
 	update_animation()
 
-	if is_carrying_crate:
+	if carried_crate_source != null:
 		speed_modifier = 0.9
 	else:
 		speed_modifier = 1.0
@@ -204,25 +236,28 @@ func _physics_process(_delta):
 
 
 ## ✅ Auto pickup crate on collision
-func _on_PickupDetector_body_entered(body):
-	if is_carrying_crate == false and is_carrying_barrel == false:  # can only pickup if we are not carrying anything
+func _on_PickupDetector_body_entered(body: Node) -> void:
+	print("Player pickup detector body entered TOP")
+	
+	if carried_crate_source == null and is_carrying_barrel == false:  # can only pick up if empty-handed
+		
 		if body.is_in_group("crates_static"):
 			var direction_to_crate = (body.global_position - global_position).normalized()
 			if direction_to_crate.dot(last_move_direction) > 0.7:  # facing toward crate
 				if drop_cooldown_timer <= 0.0:
-					static_crate_instance = body
-					is_carrying_crate = true
-					body.pickup(self)
+					print("Attempting to pick up Crate_Static")
+					begin_carrying_crate(body)  # <<< NEW
+					
 		elif body.is_in_group("barrels_static"):
 			var direction_to_barrel = (body.global_position - global_position).normalized()
-			if direction_to_barrel.dot(last_move_direction) > 0.7 and drop_cooldown_timer <= 0.0:
+			if direction_to_barrel.dot(last_move_direction) > 0.7:
 				if drop_cooldown_timer <= 0.0:
-					static_barrel_instance = body
-					is_carrying_barrel = true
-					body.pickup(self)
+					print("Attempting to pick up Barrel_Static")
+					begin_carrying_barrel(body)  # <<< You’ll need a similar method like begin_carrying_barrel()
+
 
 #func pickup_crate(crate_static: Node2D):
-	#if is_carrying_crate:
+	#if carried_crate_source != null:
 		#return
 #
 	## Hide or free the static crate
@@ -237,26 +272,27 @@ func _on_PickupDetector_body_entered(body):
 	#is_carrying_crate = true
 
 ## ✅ Drop the crate
-func drop_crate(forced_position: Variant = null) -> Vector2:
-	print("drop_crate() called")
-	if carried_crate_instance == null:
-		print("carried_crate_instance == null")
-		return global_position  # fallback
-	
-	var drop_position: Vector2
-	if forced_position == null:
-		var drop_offset = get_valid_drop_direction(last_move_direction) * 16
-		drop_position = global_position + drop_offset
-	else:
-		drop_position = forced_position as Vector2
-
-	static_crate_instance.reactivate(drop_position)
-	carried_crate_instance.queue_free()
-	carried_crate_instance = null
-	is_carrying_crate = false
-	drop_cooldown_timer = 0.2
-
-	return drop_position
+# Perhaps obsolete 4/25/2025 due to reparenting
+#func drop_crate(forced_position: Variant = null) -> Vector2:
+	#print("drop_crate() called")
+	#if carried_crate_instance == null:
+		#print("carried_crate_instance == null")
+		#return global_position  # fallback
+	#
+	#var drop_position: Vector2
+	#if forced_position == null:
+		#var drop_offset = get_valid_drop_direction(last_move_direction) * 16
+		#drop_position = global_position + drop_offset
+	#else:
+		#drop_position = forced_position as Vector2
+#
+	#static_crate_instance.reactivate(drop_position)
+	#carried_crate_instance.queue_free()
+	#carried_crate_instance = null
+	#is_carrying_crate = false
+	#drop_cooldown_timer = 0.2
+#
+	#return drop_position
 
 func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 	print("Player.vault_over_crate() called")
@@ -392,7 +428,7 @@ func _process(_delta):
 			can_shoot = false
 			await get_tree().create_timer(Global.BARREL.DROPWAIT).timeout
 			can_shoot = true
-		elif is_carrying_crate:
+		elif carried_crate_source != null:
 			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 32
 
 			if is_moving:
@@ -787,3 +823,69 @@ func restore_blocking_collisions():
 	set_collision_mask_value(4, true) # enemy spawners
 	set_collision_mask_value(5, true) # walls
 	set_collision_layer_value(1, true)  # Player
+
+# BEGIN reparenting work
+func begin_carrying_crate(crate_node: Node) -> void:
+	print("Player.begin_carrying_crate")
+	if is_vaulting or carried_crate_source != null:
+		return
+	
+	carried_crate_source = crate_node
+	carried_crate_node.visible = true
+	
+	# Position based on current direction
+	var offset = last_move_direction.normalized() * 15
+	carried_crate_node.position = offset
+	
+	# Enable crate hitbox, set Z index
+	carried_crate_node.get_node("Area2D/CollisionShape2D").disabled = false
+	carried_crate_node.get_node("Sprite2D").z_index = Global.Z_CARRIED_CRATE_IN_FRONT
+	
+	# Switch collision shape
+	move_collider_small.disabled = true
+	move_collider_large.disabled = false
+	
+	# Deactivate crate source
+	crate_node.set_deferred("visible", false)
+	crate_node.set_physics_process(false)
+	crate_node.set_deferred("collision_layer", 0)
+	crate_node.set_deferred("collision_mask", 0)
+
+func drop_crate(drop_position: Vector2) -> void:
+	if carried_crate_source == null:
+		return
+	
+	# Move static crate back to world
+	carried_crate_source.reactivate(drop_position)
+	carried_crate_source = null
+	
+	# Hide carried version
+	carried_crate_node.visible = false
+	carried_crate_node.get_node("Area2D/CollisionShape2D").disabled = true
+	
+	# Restore player collision shape
+	move_collider_small.disabled = false
+	move_collider_large.disabled = true
+
+func begin_carrying_barrel(barrel_node: Node) -> void:
+	if is_vaulting or carried_crate_source != null or is_carrying_barrel:
+		return
+	
+	static_barrel_instance = barrel_node  # Save the original static barrel
+	
+	# Show barrel visual carried by player (future: you will create CarriedBarrel Node2D like CarriedCrate)
+	# For now, just mark that we're carrying
+	is_carrying_barrel = true
+	
+	# Deactivate the static barrel (hide it, disable collisions)
+	barrel_node.set_deferred("visible", false)
+	barrel_node.set_physics_process(false)
+	barrel_node.set_deferred("collision_layer", 0)
+	barrel_node.set_deferred("collision_mask", 0)
+	
+	# [Later]: Enable CarriedBarrel visuals and damage hitbox here.
+	# [Later]: Set position offset based on facing direction.
+	
+	print("✅ begin_carrying_barrel() completed")
+
+# END reparenting work
