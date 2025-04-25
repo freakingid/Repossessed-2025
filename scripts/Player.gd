@@ -893,16 +893,17 @@ func begin_carrying_barrel(barrel_node: Node) -> void:
 
 func update_carried_crate_z_index() -> void:
 	if not carried_crate_node.visible:
-		return  # Nothing to adjust
+		return
 	
 	var sprite = carried_crate_node.get_node("Sprite2D")
 	
-	if last_move_direction.y < 0:
-		# Moving down: Crate should be behind Player
+	if last_move_direction.y < 0.1:
+		# Moving up, left, right, or upward diagonals → Player above
 		sprite.z_index = Global.Z_CARRIED_CRATE_BEHIND
 	else:
-		# Moving up or sideways: Crate should be in front of Player
+		# Moving down or downward diagonals → Crate above
 		sprite.z_index = Global.Z_CARRIED_CRATE_IN_FRONT
+
 
 func update_carried_crate_position() -> void:
 	if not carried_crate_node.visible:
@@ -911,8 +912,13 @@ func update_carried_crate_position() -> void:
 	var spacing = 15.0  # How far in front of player the crate should float
 	
 	if last_move_direction.length() == 0:
-		return  # Standing still; no need to adjust
+		return  # Standing still; no offset change
 	
-	carried_crate_node.position = last_move_direction.normalized() * spacing
+	var target_offset = last_move_direction.normalized() * spacing
+	var smoothing_speed = 10.0  # Higher = faster snap; Lower = floatier
+	
+	# Smoothly interpolate towards target offset
+	carried_crate_node.position = carried_crate_node.position.lerp(target_offset, smoothing_speed * get_physics_process_delta_time())
+
 
 # END reparenting work
