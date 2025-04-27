@@ -835,21 +835,20 @@ func begin_carrying_crate(crate_node: Node) -> void:
 	carried_crate_source = crate_node
 	carried_crate_node.visible = true
 	
-	# Position carried crate in front of player
+	# Position crate relative to player
 	var offset = last_move_direction.normalized() * 15
 	carried_crate_node.position = offset
 	
-	# Enable crate hitbox
-	carried_crate_node.get_node("Area2D/CollisionShape2D").disabled = false
+	# Enable carried crate hitbox and sprite
+	carried_crate_node.get_node("Area2D/CollisionShape2D").set_deferred("disabled", false)
 	carried_crate_node.get_node("Sprite2D").z_index = Global.Z_CARRIED_CRATE_IN_FRONT
 	
-	# Switch collision shape to large
-	move_collider_small.disabled = true
-	move_collider_large.disabled = false
+	# Switch to large movement collider
+	move_collider_small.set_deferred("disabled", true)
+	move_collider_large.set_deferred("disabled", false)
 	
-	# 🚨 Deactivate static crate cleanly
+	# Deactivate the source crate properly
 	crate_node.deactivate()
-
 
 func drop_crate(drop_position: Vector2) -> void:
 	if carried_crate_source == null:
