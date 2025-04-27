@@ -26,17 +26,7 @@ DONE * Difficult for Player to drop Crate, because they pick it right back up ag
 
 DONE * When Crate is dropped, we cannot see it, but we can pick it up again if we run into where it should be. Player shots also bounce off the invisible Crate that we Dropped. So, it seems like it is there, but we just cannot see it for some reason.
 
-BUG * Manual vaulting behavior, started by Player running while carrying crate and then pressing a fire button to initiate vault, results in an error. Error is:
-
-```
-Invalid access to property or key 'global_position' on a base object of type 'Nil'.
-```
-
-Thrown in this line of "Player._process()" :
-
-```
-if vault_over_crate(carried_crate_instance.global_position, last_move_direction):
-```
+DONE * Manual vaulting behavior, started by Player running while carrying crate and then pressing a fire button to initiate vault, results in an error. Error is:
 
 TODO * Maybe Skeletons throw bones instead of shoot arrows.
 

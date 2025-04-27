@@ -436,7 +436,7 @@ func _process(_delta):
 
 			if is_moving:
 				# Attempt vault only while moving
-				if vault_over_crate(carried_crate_instance.global_position, last_move_direction):
+				if vault_over_crate(global_position + carried_crate_node.position, last_move_direction):
 					can_shoot = false
 					await get_tree().create_timer(Global.CRATE.DROPWAIT).timeout
 					can_shoot = true
