@@ -829,30 +829,27 @@ func restore_blocking_collisions():
 
 # BEGIN reparenting work
 func begin_carrying_crate(crate_node: Node) -> void:
-	print("Player.begin_carrying_crate")
 	if is_vaulting or carried_crate_source != null:
 		return
 	
 	carried_crate_source = crate_node
 	carried_crate_node.visible = true
 	
-	# Position based on current direction
+	# Position carried crate in front of player
 	var offset = last_move_direction.normalized() * 15
 	carried_crate_node.position = offset
 	
-	# Enable crate hitbox, set Z index
+	# Enable crate hitbox
 	carried_crate_node.get_node("Area2D/CollisionShape2D").disabled = false
 	carried_crate_node.get_node("Sprite2D").z_index = Global.Z_CARRIED_CRATE_IN_FRONT
 	
-	# Switch collision shape
+	# Switch collision shape to large
 	move_collider_small.disabled = true
 	move_collider_large.disabled = false
 	
-	# Deactivate crate source
-	crate_node.set_deferred("visible", false)
-	crate_node.set_physics_process(false)
-	crate_node.set_deferred("collision_layer", 0)
-	crate_node.set_deferred("collision_mask", 0)
+	# 🚨 Deactivate static crate cleanly
+	crate_node.deactivate()
+
 
 func drop_crate(drop_position: Vector2) -> void:
 	if carried_crate_source == null:

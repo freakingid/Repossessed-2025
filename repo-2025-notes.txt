@@ -24,9 +24,25 @@ const Z_CARRIED_BARREL_IN_FRONT_FLAME = 90
 DONE * Difficult for Player to drop Crate, because they pick it right back up again. Perhaps they need to drop it further away so 
 ** Fixed by adjusting collisionshape2d sizes
 
-BUG * When Crate is dropped, we cannot see it, but we can pick it up again if we run into where it should be. Player shots also bounce off the invisible Crate.
+DONE * When Crate is dropped, we cannot see it, but we can pick it up again if we run into where it should be. Player shots also bounce off the invisible Crate that we Dropped. So, it seems like it is there, but we just cannot see it for some reason.
 
+BUG * Manual vaulting behavior, started by Player running while carrying crate and then pressing a fire button to initiate vault, results in an error. Error is:
 
+```
+Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+```
+
+Thrown in this line of "Player._process()" :
+
+```
+if vault_over_crate(carried_crate_instance.global_position, last_move_direction):
+```
+
+TODO * Maybe Skeletons throw bones instead of shoot arrows.
+
+TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
+
+TODO * Crate_Static.reactivate() needs to use collision mask and layer constants instead of literals.
 
 
 
