@@ -938,32 +938,34 @@ func update_collider_after_drop() -> void:
 func update_movement_collider() -> void:
 	# If not carrying a crate or barrel, restore small collider and exit
 	if carried_crate_source == null and not is_carrying_barrel:
-		move_collider_small.disabled = false
+		## move_collider_up.set_deferred("disabled", true)
+
+		move_collider_small.set_deferred("disabled", false)
 
 		# Disable all carry-based colliders
-		move_collider_up.disabled = true
-		move_collider_down.disabled = true
-		move_collider_left.disabled = true
-		move_collider_right.disabled = true
-		move_collider_up_right.disabled = true
-		move_collider_up_left.disabled = true
-		move_collider_down_right.disabled = true
-		move_collider_down_left.disabled = true
+		move_collider_up.set_deferred("disabled", true)
+		move_collider_down.set_deferred("disabled", true)
+		move_collider_left.set_deferred("disabled", true)
+		move_collider_right.set_deferred("disabled", true)
+		move_collider_up_right.set_deferred("disabled", true)
+		move_collider_up_left.set_deferred("disabled", true)
+		move_collider_down_right.set_deferred("disabled", true)
+		move_collider_down_left.set_deferred("disabled", true)
 
 		return  # ✅ Nothing more to do
 
 	# --- Otherwise, carrying a crate or barrel ---
-	move_collider_small.disabled = true
+	move_collider_small.set_deferred("disabled", true)
 
 	# Disable all directionals first
-	move_collider_up.disabled = true
-	move_collider_down.disabled = true
-	move_collider_left.disabled = true
-	move_collider_right.disabled = true
-	move_collider_up_right.disabled = true
-	move_collider_up_left.disabled = true
-	move_collider_down_right.disabled = true
-	move_collider_down_left.disabled = true
+	move_collider_up.set_deferred("disabled", true)
+	move_collider_down.set_deferred("disabled", true)
+	move_collider_left.set_deferred("disabled", true)
+	move_collider_right.set_deferred("disabled", true)
+	move_collider_up_right.set_deferred("disabled", true)
+	move_collider_up_left.set_deferred("disabled", true)
+	move_collider_down_right.set_deferred("disabled", true)
+	move_collider_down_left.set_deferred("disabled", true)
 
 	var dir = last_move_direction.normalized()
 	var x = dir.x
@@ -971,22 +973,22 @@ func update_movement_collider() -> void:
 
 	# Prioritize diagonals
 	if x > 0.5 and y < -0.5:
-		move_collider_up_right.disabled = false
+		move_collider_up_right.set_deferred("disabled", false)
 	elif x < -0.5 and y < -0.5:
-		move_collider_up_left.disabled = false
+		move_collider_up_left.set_deferred("disabled", false)
 	elif x > 0.5 and y > 0.5:
-		move_collider_down_right.disabled = false
+		move_collider_down_right.set_deferred("disabled", false)
 	elif x < -0.5 and y > 0.5:
-		move_collider_down_left.disabled = false
+		move_collider_down_left.set_deferred("disabled", false)
 	# Then cardinal
 	elif y < -0.7:
-		move_collider_up.disabled = false
+		move_collider_up.set_deferred("disabled", false)
 	elif y > 0.7:
-		move_collider_down.disabled = false
+		move_collider_down.set_deferred("disabled", false)
 	elif x > 0.7:
-		move_collider_right.disabled = false
+		move_collider_right.set_deferred("disabled", false)
 	elif x < -0.7:
-		move_collider_left.disabled = false
+		move_collider_left.set_deferred("disabled", false)
 
 
 

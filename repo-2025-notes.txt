@@ -1,7 +1,7 @@
 20250429
 ========================================
 =====
-TEST * Gem spawn manager has bug message:
+DONE * Gem spawn manager has bug message:
 
 ```
 E 0:00:27:0326   GemSpawnManager.gd:13 @ spawn_gem(): Can't change this state while flushing queries. Use call_deferred() or set_deferred() to change monitoring state instead.
@@ -14,7 +14,7 @@ E 0:00:27:0326   GemSpawnManager.gd:13 @ spawn_gem(): Can't change this state wh
 ```
 
 =====
-TEST * BaseEnemy throwing some errors:
+DONE * BaseEnemy throwing some errors:
 
 ```
 E 0:00:27:0422   BaseEnemy.gd:186 @ die(): Parameter "data.tree" is null.
@@ -31,7 +31,7 @@ E 0:00:27:0422   BaseEnemy.gd:193 @ die(): Parameter "data.tree" is null.
 ```
 
 =====
-BUG * Player error with update_movement_collider
+DONE * Player error with update_movement_collider
 ```
 E 0:00:15:0905   Player.gd:956 @ update_movement_collider(): Can't change this state while flushing queries. Use call_deferred() or set_deferred() to change monitoring state instead.
   <C++ Error>    Condition "body->get_space() && flushing_queries" is true.
