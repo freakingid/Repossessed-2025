@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://cxlq6i3gdrfuy"]
+[gd_scene load_steps=50 format=3 uid="uid://cxlq6i3gdrfuy"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_y0jdu"]
 [ext_resource type="PackedScene" uid="uid://dng5uhwdosd3s" path="res://scenes/projectiles/Bullet.tscn" id="2_pqtk7"]
@@ -277,6 +277,30 @@ animations = [{
 radius = 8.0
 height = 32.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_am0gk"]
+size = Vector2(16, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xl53i"]
+size = Vector2(16, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6tib"]
+size = Vector2(36, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wglr2"]
+size = Vector2(36, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gumof"]
+size = Vector2(28, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j41ku"]
+size = Vector2(28, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fr65g"]
+size = Vector2(28, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nblf7"]
+size = Vector2(28, 12)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6u6rt"]
 radius = 4.0
 height = 8.0
@@ -297,8 +321,49 @@ animation = &"walk_e"
 [node name="move_collider_small" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_vlpuv")
 
-[node name="move_collider_large" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_vlpuv")
+[node name="move_collider_up" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_am0gk")
+disabled = true
+debug_color = Color(0.755148, 0, 0.304787, 0.42)
+
+[node name="move_collider_down" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_xl53i")
+disabled = true
+
+[node name="move_collider_left" type="CollisionShape2D" parent="."]
+position = Vector2(-8, 0)
+shape = SubResource("RectangleShape2D_g6tib")
+disabled = true
+
+[node name="move_collider_right" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_wglr2")
+disabled = true
+
+[node name="move_collider_up_right" type="CollisionShape2D" parent="."]
+position = Vector2(6, -6)
+rotation = -0.785398
+shape = SubResource("RectangleShape2D_gumof")
+disabled = true
+
+[node name="move_collider_up_left" type="CollisionShape2D" parent="."]
+position = Vector2(-6, -6)
+rotation = 0.785398
+shape = SubResource("RectangleShape2D_j41ku")
+disabled = true
+
+[node name="move_collider_down_right" type="CollisionShape2D" parent="."]
+position = Vector2(6, 6)
+rotation = 0.785398
+shape = SubResource("RectangleShape2D_fr65g")
+disabled = true
+
+[node name="move_collider_down_left" type="CollisionShape2D" parent="."]
+position = Vector2(-6, 6)
+rotation = -0.785398
+shape = SubResource("RectangleShape2D_nblf7")
 disabled = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
@@ -340,6 +405,7 @@ scale = Vector2(0.3, 0.3)
 texture_progress = ExtResource("4_7h5x7")
 
 [node name="PickupDetector" type="Area2D" parent="."]
+visible = false
 collision_mask = 640
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupDetector"]

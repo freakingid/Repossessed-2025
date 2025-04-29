@@ -1,3 +1,36 @@
+20250429
+========================================
+=====
+BUG * Carried Crate goes right through Static crate, and so does the Player.
+
+=====
+BUG * Carried Crate does not auto vault the Player when running into a Wall.
+
+DONE * Crates being carried by Player do not collide with wall and block movement of player and Crate. Desired behavior when carried crate hits wall would be to attempt automatically vaulting, and cancel that vault if the player would land on top of a solid obstacle like a Wall, Crate, Spawner. Note, consider this bug might be something to do with Player > move_collider_large, because I don't think we ever made it larger. The thing is, move_collider_large is going to need to effectively rotate with the player and Crate when a crate is being carried, so the move_collider_large actually represents the total silhouette of Player + Crate. Please advise and guide me.
+** Working on this.
+** Collision shape works for up, down, left, right. Does not work right now for the diagonals.
+** Then we need to address that auto-vaulting is not happening, even though the straight-on collision shapes are working (liek Right, for example)
+** 4/29/2025 **
+* This is working pretty well. I noticed that when traveling diagonally, the diagonal hitboxes are not activated, so the Player can run too far into the wall. This might be simple to fix.
+
+=====
+TODO * ESCape button during gameplay should pause the game. ESCape during pause should continue game. ENTER during pause should attempt to quit the game, with Yes / No confirmation dialog. Y should trigger Yes, N should trigger No.
+
+TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
+
+TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
+
+TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
+
+
+
+
+
+
+
+
+
+
 20250425
 ========================================
 STORY * Today we are going to try using parenting for carried objects.
@@ -28,11 +61,12 @@ DONE * When Crate is dropped, we cannot see it, but we can pick it up again if w
 
 DONE * Manual vaulting behavior, started by Player running while carrying crate and then pressing a fire button to initiate vault, results in an error. Error is:
 
-TODO * Maybe Skeletons throw bones instead of shoot arrows.
+DONE * Crate_Static.reactivate() needs to use collision mask and layer constants instead of literals.
 
-TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
 
-TODO * Crate_Static.reactivate() needs to use collision mask and layer constants instead of literals.
+
+
+
 
 
 
@@ -1453,3 +1487,89 @@ Let me know if you'd like to log enemy lifespans in a per-spawner array or roll 
 MAYBE * If player vaults over something but lands on top of a Crate_Static, the player should be allowed to stay on top of the Crate_Static. If there are many Crate_Static obstacles together, with gaps less than the width of one Crate, the Player should be able to run atop them all. This makes the Player immune to ground-based Enemy melee attacks. The Player is still susceptible to Enemy Arrows, Bats Melee, and Shrapnel.
 ** I think this should be LATER
 
+
+
+
+
+
+
+============================================================
+== Sound Effects
+== SFX
+============================================================
+9.3 Initial Sound Effect Needs and Starter Soundry Prompts
+Based on Repossessed's current design systems, the following is a recommended starting list of sound effects needed, along with sample prompts for Soundry AI or manual creation:
+
+Player Sounds
+Footsteps (tile/stone floor):
+"Retro arcade stone floor footsteps, cartoon-style, short crisp tap, 16-bit texture"
+
+Vault Landing Puff:
+"Cartoonish landing puff, short burst of retro air, arcade style, soft and bouncy"
+
+Player Melee Hit:
+"Retro arcade melee impact, punchy thud, slight cartoon exaggeration"
+
+Player Ranged Fire:
+"Retro arcade shooter, small energy projectile launch, crisp and zippy"
+
+Weapon & Power-Up Sounds
+Nova Shot (Radial Pulse):
+"Expanding retro pulse sound, energetic and light, arcade magic tone"
+
+Lightning Strike Activation:
+"Sharp retro zap with slight crackle, short and powerful, cartoon magic"
+
+Power-Up Pickup:
+"Happy 16-bit chime, quick upward arpeggio, playful"
+
+Enemy Sounds
+Ghost Attack Swipe:
+"Wispy retro swipe sound, eerie but light, fast"
+
+Skeleton Walk (Clatter Footsteps):
+"Light clattering footsteps, bone-like, retro 16-bit arcade style"
+
+Skeleton Shooter Fire:
+"Retro small arrow launch, sharp pluck sound, quick"
+
+Bat Flap:
+"Fast flapping wings, retro arcade cartoon style"
+
+Bat Dive Bomb:
+"Rapid dive woosh, compressed 16-bit retro vibe"
+
+Spider Web Shot:
+"Sticky splat throw, retro texture, slimy but cartoony"
+
+Zombie Moan:
+"Slow cartoonish zombie moan, not scary, retro muffled"
+
+Barrel and Crate Sounds
+Crate Drop:
+"Heavy wooden thud, short, retro compressed impact"
+
+Barrel Explosion:
+"Retro cartoon barrel explosion, punchy, compressed, short fiery burst"
+
+Shrapnel Hit:
+"Small ricochet ping, metal sound, 16-bit arcade style"
+
+Environmental Sounds
+Spawner Activation:
+"Mysterious retro portal hum, subtle looping"
+
+Hidden Soul Token Pickup:
+"Mystical 16-bit sparkle chime, short and rewarding"
+
+UI and Misc
+Menu Confirm Click:
+"Retro arcade menu confirm sound, soft blip, positive"
+
+Menu Cancel Back:
+"Retro arcade cancel sound, quick descending blip"
+
+Bonus Tips:
+For every movement, impact, and special action, it's helpful to have slight variations (2–3 versions) to avoid sound repetition fatigue.
+
+Make weapon and impact sounds slightly exaggerated — realism is less important than "feels good" timing and punchiness.

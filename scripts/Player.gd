@@ -4,6 +4,14 @@ extends CharacterBody2D
 @onready var carried_crate_node = $CarriedCrate
 @onready var move_collider_small = $move_collider_small
 @onready var move_collider_large = $move_collider_large
+@onready var move_collider_up = $move_collider_up
+@onready var move_collider_down = $move_collider_down
+@onready var move_collider_left = $move_collider_left
+@onready var move_collider_right = $move_collider_right
+@onready var move_collider_up_right = $move_collider_up_right
+@onready var move_collider_up_left = $move_collider_up_left
+@onready var move_collider_down_right = $move_collider_down_right
+@onready var move_collider_down_left = $move_collider_down_left
 var carried_crate_source: Node = null  # Reference to original Crate_Static node
 # END adding reparenting
 
@@ -100,6 +108,19 @@ var bullet_lifespan: float
 }
 
 func _ready():
+	# Disable all movement colliders initially
+	move_collider_up.disabled = true
+	move_collider_down.disabled = true
+	move_collider_left.disabled = true
+	move_collider_right.disabled = true
+	move_collider_up_right.disabled = true
+	move_collider_up_left.disabled = true
+	move_collider_down_right.disabled = true
+	move_collider_down_left.disabled = true
+	
+	# Enable the small normal collider by default
+	move_collider_small.disabled = false
+	
 	# Setup for carried crate
 	# Reference the Area2D inside CarriedCrate
 	var crate_area := $CarriedCrate/Area2D	
@@ -121,10 +142,7 @@ func _ready():
 		Global.LAYER_SPAWNER |
 		Global.LAYER_ENEMY
 	)
-	
-	# move collider large is for carrying only
-	move_collider_large.disabled = true
-	
+		
 	# Set default weapon values (to allow normal shooting without powerups)
 	fire_rate = base_fire_rate
 	max_shots_in_level = base_max_shots
@@ -219,6 +237,8 @@ func _physics_process(_delta):
 	update_animation()
 	update_carried_crate_z_index()
 	update_carried_crate_position()
+	update_movement_collider()
+
 
 
 	if carried_crate_source != null:
@@ -845,7 +865,7 @@ func begin_carrying_crate(crate_node: Node) -> void:
 	
 	# Switch to large movement collider
 	move_collider_small.set_deferred("disabled", true)
-	move_collider_large.set_deferred("disabled", false)
+	update_movement_collider()
 	
 	# Deactivate the source crate properly
 	crate_node.deactivate()
@@ -863,8 +883,8 @@ func drop_crate(drop_position: Vector2) -> void:
 	carried_crate_node.get_node("Area2D/CollisionShape2D").disabled = true
 	
 	# Restore player collision shape
-	move_collider_small.disabled = false
-	move_collider_large.disabled = true
+	update_collider_after_drop()  # 🔥 instead of manually toggling collider states
+	## update_movement_collider()
 
 func begin_carrying_barrel(barrel_node: Node) -> void:
 	if is_vaulting or carried_crate_source != null or is_carrying_barrel:
@@ -899,6 +919,76 @@ func update_carried_crate_z_index() -> void:
 	else:
 		# Moving down or downward diagonals → Crate above
 		sprite.z_index = Global.Z_CARRIED_CRATE_IN_FRONT
+
+## Used after dropping a crate or barrel to update movement colliders
+func update_collider_after_drop() -> void:
+	# Re-enable normal movement collider
+	move_collider_small.set_deferred("disabled", false)
+
+	# Disable all directional colliders
+	move_collider_up.disabled = true
+	move_collider_down.disabled = true
+	move_collider_left.disabled = true
+	move_collider_right.disabled = true
+	move_collider_up_right.disabled = true
+	move_collider_up_left.disabled = true
+	move_collider_down_right.disabled = true
+	move_collider_down_left.disabled = true
+
+## Used every step to activate correct movement collider
+func update_movement_collider() -> void:
+	# If not carrying a crate or barrel, restore small collider and exit
+	if carried_crate_source == null and not is_carrying_barrel:
+		move_collider_small.disabled = false
+
+		# Disable all carry-based colliders
+		move_collider_up.disabled = true
+		move_collider_down.disabled = true
+		move_collider_left.disabled = true
+		move_collider_right.disabled = true
+		move_collider_up_right.disabled = true
+		move_collider_up_left.disabled = true
+		move_collider_down_right.disabled = true
+		move_collider_down_left.disabled = true
+
+		return  # ✅ Nothing more to do
+
+	# --- Otherwise, carrying a crate or barrel ---
+	move_collider_small.disabled = true
+
+	# Disable all directionals first
+	move_collider_up.disabled = true
+	move_collider_down.disabled = true
+	move_collider_left.disabled = true
+	move_collider_right.disabled = true
+	move_collider_up_right.disabled = true
+	move_collider_up_left.disabled = true
+	move_collider_down_right.disabled = true
+	move_collider_down_left.disabled = true
+
+	var dir = last_move_direction.normalized()
+	var x = dir.x
+	var y = dir.y
+
+	# Prioritize diagonals
+	if x > 0.5 and y < -0.5:
+		move_collider_up_right.disabled = false
+	elif x < -0.5 and y < -0.5:
+		move_collider_up_left.disabled = false
+	elif x > 0.5 and y > 0.5:
+		move_collider_down_right.disabled = false
+	elif x < -0.5 and y > 0.5:
+		move_collider_down_left.disabled = false
+	# Then cardinal
+	elif y < -0.7:
+		move_collider_up.disabled = false
+	elif y > 0.7:
+		move_collider_down.disabled = false
+	elif x > 0.7:
+		move_collider_right.disabled = false
+	elif x < -0.7:
+		move_collider_left.disabled = false
+
 
 
 func update_carried_crate_position() -> void:
