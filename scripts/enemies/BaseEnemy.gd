@@ -9,6 +9,8 @@ class_name BaseEnemy
 @export var animation_speed_reference: float = 60.0
 
 signal despawned(reason: String, timestamp: float)
+signal died(global_position: Vector2, score_value: int)
+
 var spawn_time: float = 0.0
 var push_velocity: Vector2 = Vector2.ZERO
 var push_duration := 0.1  # seconds
@@ -186,15 +188,13 @@ func die():
 	queue_free()
 
 func _handle_death_cleanup():
-	# Double check safety
 	if not is_inside_tree():
 		return
-
-	# Safe to spawn gem now
-	if GemSpawnManager:
-		GemSpawnManager.spawn_gem(global_position, score_value)
-
-	# Safe to access tree now
+	
+	# Emit the died signal
+	emit_signal("died", global_position, score_value)
+	
+	# Normal despawn logic
 	var tree = get_tree()
 	var parent = null
 	if tree:
@@ -208,7 +208,6 @@ func _handle_death_cleanup():
 	if player:
 		player.add_score(score_value)
 
-	# Handle despawn or free
 	if has_meta("source_scene"):
 		visible = false
 		set_physics_process(false)
@@ -221,9 +220,6 @@ func _handle_death_cleanup():
 			sprite_node.modulate = Color(1, 0, 0)
 
 		EnemyPool.recycle_enemy(self, get_meta("source_scene"))
-	# We already queue_free() immediately in die()
-
-
 
 func has_line_of_sight() -> bool:
 	var player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)

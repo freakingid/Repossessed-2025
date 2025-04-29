@@ -12,6 +12,12 @@ extends Node
 func _ready():
 	preload_used_enemy_types()
 
+	# Connect manually placed enemies
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		var died_callable = Callable(GemSpawnManager, "_on_enemy_died")
+		if not enemy.is_connected("died", died_callable):
+			enemy.connect("died", died_callable)
+
 func preload_used_enemy_types():
 	var seen_paths := {}
 	var spawners := get_tree().get_nodes_in_group(Global.GROUPS.SPAWNERS)
