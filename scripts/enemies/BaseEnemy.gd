@@ -178,43 +178,51 @@ func take_damage(amount: int) -> void:
 
 func die():
 	is_dead = true
+	
+	# Defer spawn gem to avoid physics errors
+	call_deferred("_handle_death_cleanup")
+	
+	# Immediate kill queue
+	queue_free()
 
-	# Spawn gem at enemy position
-	GemSpawnManager.spawn_gem(global_position, score_value)
+func _handle_death_cleanup():
+	# Double check safety
+	if not is_inside_tree():
+		return
 
+	# Safe to spawn gem now
+	if GemSpawnManager:
+		GemSpawnManager.spawn_gem(global_position, score_value)
+
+	# Safe to access tree now
+	var tree = get_tree()
 	var parent = null
-	if get_tree():
-		parent = get_tree().current_scene
+	if tree:
+		parent = tree.current_scene
 	if parent == null:
 		parent = get_parent()
 
-	# Award score to player if possible
 	var player = null
-	if get_tree():
-		player = get_tree().get_first_node_in_group(Global.GROUPS.PLAYER)
+	if tree:
+		player = tree.get_first_node_in_group(Global.GROUPS.PLAYER)
 	if player:
 		player.add_score(score_value)
 
-	# Handle despawn or queue_free
+	# Handle despawn or free
 	if has_meta("source_scene"):
-		# Hide visuals and disable logic
 		visible = false
 		set_physics_process(false)
 
-		# Emit despawn signal with timestamp
 		var now = Time.get_ticks_msec() / 1000.0
 		emit_signal("despawned", "died_from_damage", now)
 
-		# Optional red flash before recycling
 		var sprite_node = get_node_or_null("AnimatedSprite2D")
 		if sprite_node:
 			sprite_node.modulate = Color(1, 0, 0)
 
-		# Return enemy to pool
 		EnemyPool.recycle_enemy(self, get_meta("source_scene"))
-	else:
-		# Permanently remove if not pooled
-		queue_free()
+	# We already queue_free() immediately in die()
+
 
 
 func has_line_of_sight() -> bool:

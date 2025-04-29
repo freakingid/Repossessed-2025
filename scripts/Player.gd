@@ -3,7 +3,6 @@ extends CharacterBody2D
 # BEGIN adding reparenting
 @onready var carried_crate_node = $CarriedCrate
 @onready var move_collider_small = $move_collider_small
-@onready var move_collider_large = $move_collider_large
 @onready var move_collider_up = $move_collider_up
 @onready var move_collider_down = $move_collider_down
 @onready var move_collider_left = $move_collider_left

@@ -10,4 +10,4 @@ func spawn_gem(position: Vector2, value: int) -> void:
 	var gem = gem_scene.instantiate()
 	gem.global_position = position
 	gem.gem_power = value
-	add_child(gem)  # Assumes GemSpawnManager is added to the scene tree
+	call_deferred("add_child", gem)  # ✅ Safe to call during physics step
