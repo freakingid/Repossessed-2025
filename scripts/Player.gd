@@ -105,6 +105,21 @@ var bullet_lifespan: float
 	"walk_n": Vector2.UP,
 	"walk_ne": Vector2(1, -1).normalized()
 }
+@onready var base_collision_mask := (
+	Global.LAYER_WALL |
+	Global.LAYER_BARREL |
+	Global.LAYER_SPAWNER |
+	Global.LAYER_ENEMY |
+	Global.LAYER_CRATE  # for solid blocking
+)
+
+const PLAYER_CARRY_COLLISION_MASK = (
+	Global.LAYER_WALL |
+	Global.LAYER_BARREL |
+	Global.LAYER_SPAWNER |
+	Global.LAYER_ENEMY |
+	Global.LAYER_CRATE  # 🟡 this will be conditionally toggled
+)
 
 func _ready():
 	# Disable all movement colliders initially
@@ -134,13 +149,9 @@ func _ready():
 		Global.LAYER_SHRAPNEL
 	)
 	
-	# Setup collision layer and mask
+	# Setup collision layer and mask for Player portion
 	self.collision_layer = Global.LAYER_PLAYER
-	self.collision_mask = (
-		Global.LAYER_WALL |
-		Global.LAYER_SPAWNER |
-		Global.LAYER_ENEMY
-	)
+	update_player_collision_mask()
 		
 	# Set default weapon values (to allow normal shooting without powerups)
 	fire_rate = base_fire_rate
@@ -865,6 +876,7 @@ func begin_carrying_crate(crate_node: Node) -> void:
 	# Switch to large movement collider
 	move_collider_small.set_deferred("disabled", true)
 	update_movement_collider()
+	update_player_collision_mask()
 	
 	# Deactivate the source crate properly
 	crate_node.deactivate()
@@ -883,7 +895,7 @@ func drop_crate(drop_position: Vector2) -> void:
 	
 	# Restore player collision shape
 	update_collider_after_drop()  # 🔥 instead of manually toggling collider states
-	## update_movement_collider()
+	update_player_collision_mask()
 
 func begin_carrying_barrel(barrel_node: Node) -> void:
 	if is_vaulting or carried_crate_source != null or is_carrying_barrel:
@@ -933,6 +945,15 @@ func update_collider_after_drop() -> void:
 	move_collider_up_left.disabled = true
 	move_collider_down_right.disabled = true
 	move_collider_down_left.disabled = true
+
+func update_player_collision_mask() -> void:
+	if carried_crate_source == null and not is_carrying_barrel:
+		# Not carrying: ignore Crate_Static — allows overlapping for PickupDetector
+		collision_mask = PLAYER_CARRY_COLLISION_MASK & ~Global.LAYER_CRATE
+	else:
+		# Carrying: solid crates block Player and allow vaulting
+		collision_mask = PLAYER_CARRY_COLLISION_MASK
+
 
 ## Used every step to activate correct movement collider
 func update_movement_collider() -> void:
