@@ -1,48 +1,36 @@
+20250501
+=====
+* We reverted back from changes we did yesterday regarding Crate Carried in the new reparenting setup.
+```
+* [2025-05-01] [8005f5e] | Restore state from cb5cc0f as a new commit {{Paul Kaiser}}  (HEAD -> reparenting-work)
+* [2025-04-30] [4350089] | Crate Carried now blocked by Crate Static {{Paul Kaiser}}  (origin/reparenting-work)
+* [2025-04-29] [cb5cc0f] | Fix Player update_movement_collider tree errors {{Paul Kaiser}}
+* [2025-04-29] [5facb5f] | Fix some BaseEnemy and Gem spawn errors {{Paul Kaiser}}
+```
+
+cb5cc0f: That is what we had before fixes, which allowed Crate Carried to move through Crate Static.
+4350089: That is our fix, which involved changing collision layers dynamically based on whether or not Player was carrying anything.
+8005f5e: this is back to cb5cc0f, because I want to try a different fix without losing the 435... fix commit.
+
+NOTE: Then, when pursuing the new method of tying CarriedCrate to colliding with Crate Static... we realized our original work in 4350089 is really just fine.
+*so* we are going to reset to 4350089, because we never pushed 8005f5e to remote. So it will cease to exist after reset hard.
+
+=====
+BUG * Carried Crate moves right through Static Crate.
+
+
+
+
+
+
+
+
+
+
+
+
 20250429
 ========================================
-=====
-DONE * Carried Crate goes right through Static crate, and so does the Player.
-
-=====
-BUG * Carried Crate does not auto vault the Player when running into a Wall.
-
-=====
-BUG * Carried Crate does not auto vault the Player when running into a Crate Static.
-
-
-======================================
-== Then do Barrels
-======================================
-
-TEST * Some enemies die right as they come out of the Spawner. I do not think they are being hit by a Player bullet.
-
-BUG * Carried barrel moves right through Crate static
-
-BUG * Carried barrel moves right through Barrel Static
-
-BUG * Carried barrel moves right through Wall
-
-BUG * Barrel Rolled moves right through Player
-
-BUG * Carried Crate should "push" Barrel Static.
-** I think Barrel Static should be turned into a Barrel Rolled, essentially.
-?? Can Player throw a carried barrel? would be similar.
-
-BUG * Crate autovaulting doesn't cancel when player would land on another Crate.
-** Works fine when trying to vault into a long wall.
-** If a crate is on the other side of a wall, and we try to autovault into the wall, i would expect autovault to cancel, so we don't land on the crate that is sitting on the other side of the wall. This used to happen in a different build, but no longer cancels.
-
-TODO * Carried Crate pushing enemies, especially multiple enemies, can look jerky. Enemies can pop from their current location to a new location drastically. I would like to smooth this out somehow. Rather than popping to a location, perhaps they are shoved aside in some way?
-
-=====
-TODO * ESCape button during gameplay should pause the game. ESCape during pause should continue game. ENTER during pause should attempt to quit the game, with Yes / No confirmation dialog. Y should trigger Yes, N should trigger No.
-
-TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
-
-TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
-
-TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
-
 =====
 DONE * Gem spawn manager has bug message:
 
@@ -84,12 +72,27 @@ E 0:00:15:0905   Player.gd:956 @ update_movement_collider(): Can't change this s
                  Player.gd:271 @ _on_PickupDetector_body_entered()
 ```
 
+=====
+BUG * Carried Crate goes right through Static crate, and so does the Player.
+
+=====
+BUG * Carried Crate does not auto vault the Player when running into a Wall.
+
 DONE * Crates being carried by Player do not collide with wall and block movement of player and Crate. Desired behavior when carried crate hits wall would be to attempt automatically vaulting, and cancel that vault if the player would land on top of a solid obstacle like a Wall, Crate, Spawner. Note, consider this bug might be something to do with Player > move_collider_large, because I don't think we ever made it larger. The thing is, move_collider_large is going to need to effectively rotate with the player and Crate when a crate is being carried, so the move_collider_large actually represents the total silhouette of Player + Crate. Please advise and guide me.
 ** Working on this.
 ** Collision shape works for up, down, left, right. Does not work right now for the diagonals.
 ** Then we need to address that auto-vaulting is not happening, even though the straight-on collision shapes are working (liek Right, for example)
 ** 4/29/2025 **
 * This is working pretty well. I noticed that when traveling diagonally, the diagonal hitboxes are not activated, so the Player can run too far into the wall. This might be simple to fix.
+
+=====
+TODO * ESCape button during gameplay should pause the game. ESCape during pause should continue game. ENTER during pause should attempt to quit the game, with Yes / No confirmation dialog. Y should trigger Yes, N should trigger No.
+
+TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
+
+TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
+
+TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
 
 
 
@@ -208,6 +211,8 @@ N can collide barrel with wall
 N can collide barrel with crate
 N can collide barrel with another barrel
 
+TEST * Some enemies die right as they come out of the Spawner. I do not think they are being hit by a Player bullet.
+
 DONE * Error when some enemies die
 ** The error might be shrapnel related, because the shrapnel is already in the room when the error happens.
 ** We made a GemManager singleton so anyone can drop gems.
@@ -219,6 +224,24 @@ Keeps logic modular and reduces enemy reliance on group name resolution.
 
 Let me know if you'd like me to help break this into testable helper functions or extend this cleanup to other lifecycle methods like take_damage().
 </quote>
+
+BUG * Carried barrel moves right through Crate static
+
+BUG * Carried barrel moves right through Barrel Static
+
+BUG * Carried barrel moves right through Wall
+
+BUG * Barrel Rolled moves right through Player
+
+BUG * Carried Crate should "push" Barrel Static.
+** I think Barrel Static should be turned into a Barrel Rolled, essentially.
+?? Can Player throw a carried barrel? would be similar.
+
+BUG * Crate autovaulting doesn't cancel when player would land on another Crate.
+** Works fine when trying to vault into a long wall.
+** If a crate is on the other side of a wall, and we try to autovault into the wall, i would expect autovault to cancel, so we don't land on the crate that is sitting on the other side of the wall. This used to happen in a different build, but no longer cancels.
+
+TODO * Carried Crate pushing enemies, especially multiple enemies, can look jerky. Enemies can pop from their current location to a new location drastically. I would like to smooth this out somehow. Rather than popping to a location, perhaps they are shoved aside in some way?
 
 
 
