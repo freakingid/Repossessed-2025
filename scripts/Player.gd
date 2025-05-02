@@ -16,6 +16,11 @@ var carried_crate_source: Node = null  # Reference to original Crate_Static node
 
 signal direction_changed(new_direction: Vector2)
 
+# Some debug properties
+var vault_debug_position := Vector2.ZERO
+var vault_debug_radius := 8.0
+var vault_debug_timer := 1.0
+
 var last_move_direction: Vector2 = Vector2.DOWN  # or whatever default
 var is_vaulting := false
 var fire_direction_during_vault: Variant = null
@@ -249,24 +254,30 @@ func _physics_process(_delta):
 	update_carried_crate_position()
 	update_movement_collider()
 
-
-
+	# Are we carrying a crate? If so, we will walk a bit slower.
 	if carried_crate_source != null:
+		# Yes, carrying a crate
 		speed_modifier = 0.9
 	else:
+		# No, not carrying a crate
 		speed_modifier = 1.0
+
+	# Now move Player
 	velocity = move_direction.normalized() * speed * speed_modifier
 	move_and_slide()
 
 	if drop_cooldown_timer > 0.0:
 		drop_cooldown_timer -= _delta
 
+	# See if we hit stuff. So far we just look for enemies for auto-melee damage
 	var collision = get_last_slide_collision()
 	if collision:
 		var collider = collision.get_collider()
 		if collider and collider.is_in_group("enemies") and not invincible:
 			emit_signal("melee_hit", collider)
-
+		else:
+			# maybe we need to auto vault if collided with obstacle
+			check_auto_vault(collider)
 
 ## ✅ Auto pickup crate on collision
 func _on_PickupDetector_body_entered(body: Node) -> void:
@@ -445,6 +456,9 @@ func get_valid_drop_direction(dir: Vector2) -> Vector2:
 
 ## Process player shot direction
 func _process(_delta):
+	if vault_debug_timer > 0.0:
+		vault_debug_timer -= _delta
+		queue_redraw()  # triggers _draw
 	# Did we press an aim direction?
 	var aim_direction = Vector2(
 		Input.get_action_strength("aim_right") - Input.get_action_strength("aim_left"),
@@ -769,6 +783,24 @@ func play_vault_fail_feedback():
 	# print("This is where we would show a brief vaulting fail flash")
 	#$SpriteFlash.flash_red()  # if you have a sprite flash node or method
 
+func check_auto_vault(_collider) -> void:
+	# print("check_auto_vault TOP")
+	if carried_crate_source == null:
+		print("carried_crate_source == null; returning without vault")
+		return  # Not carrying crate
+
+	if is_vaulting:
+		print("is_vaulting == true; returning without vault")
+		return  # Already vaulting
+
+	#if velocity.length() < 5.0:
+		#print("Moving less than 5.0; returning without vault")
+		#return  # Not moving enough to count as intentional movement
+
+	if _collider and (_collider.is_in_group("crates_static") or _collider.is_in_group("walls") or _collider.is_in_group("spawners")):
+		var crate_world_position = global_position + carried_crate_node.position
+		vault_over_crate(crate_world_position, last_move_direction)
+
 func try_vault_from(start_pos: Vector2, direction: Vector2) -> bool:
 	if vault_landing_should_cancel(start_pos, direction, 2.5 * Global.CRATE_SIZE):
 		# print("Vault canceled.")
@@ -789,7 +821,8 @@ func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2,
 	var space_state = get_world_2d().direct_space_state
 	var shape := CircleShape2D.new()
 	shape.radius = 8.0  # vault landing zone footprint
-	var landing_pos = vault_start + vault_direction.normalized() * vault_distance
+	var landing_adjust := 12.0  # tweak this value as needed
+	var landing_pos = vault_start + vault_direction.normalized() * (vault_distance - landing_adjust)
 	var _transform := Transform2D.IDENTITY
 	_transform.origin = landing_pos
 	var shape_query := PhysicsShapeQueryParameters2D.new()
@@ -803,8 +836,14 @@ func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2,
 		# | Global.LAYER_SPIKES
 	shape_query.collision_mask = (
 		Global.LAYER_SPAWNER |
-		Global.LAYER_WALL
+		Global.LAYER_WALL |
+		Global.LAYER_CRATE
 	)
+	# start debug
+	vault_debug_position = landing_pos
+	vault_debug_radius = shape.radius
+	vault_debug_timer = 0.15  # show for 0.15 seconds
+	# stop debug
 	var result = space_state.intersect_shape(shape_query, 1)
 	return result.size() > 0
 
@@ -1030,3 +1069,7 @@ func update_carried_crate_position() -> void:
 
 
 # END reparenting work
+
+func _draw() -> void:
+	if vault_debug_timer > 0.0:
+		draw_circle(to_local(vault_debug_position), vault_debug_radius, Color.YELLOW)

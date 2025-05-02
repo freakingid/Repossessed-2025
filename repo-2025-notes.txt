@@ -1,5 +1,22 @@
 20250501
 =====
+
+=====
+BUG * If player carrying crate gets really close to a Crate static and then sets the carried crate down, the carried crate gets set right on top of / inside the existing Crate static. Crates should not be allowed to drop on top of each other.
+First ideal: When player drops a carried crate, it should drop exactly where it appears to be carried. Right now, it is dropped many pixels in front of the player.
+Second ideal: If that doesn't work, then we could check for collisions when we are about to drop the crate, and just make sure the crate gets dropped right at the edge of the collided object (such as static crate)
+
+=====
+Story: Title / Options screens
+TitleScreen: Right now we hit "Enter" on the keyboard to go to the "MenuScreen." I would like for clicking the mouse button to do the same as "Enter" in this case.
+
+I would like the TitleScreen music to continue playing across MenuScreen, OptionsScreen, TitleScreen movement, until finally we use "New Game" on OptionsScreen to begin a game.
+
+=====
+TODO * ESCape button during gameplay should pause the game. ESCape during pause should continue game. ENTER during pause should attempt to quit the game, with Yes / No confirmation dialog. Y should trigger Yes, N should trigger No.
+
+
+
 * We reverted back from changes we did yesterday regarding Crate Carried in the new reparenting setup.
 ```
 * [2025-05-01] [8005f5e] | Restore state from cb5cc0f as a new commit {{Paul Kaiser}}  (HEAD -> reparenting-work)
@@ -16,7 +33,24 @@ NOTE: Then, when pursuing the new method of tying CarriedCrate to colliding with
 *so* we are going to reset to 4350089, because we never pushed 8005f5e to remote. So it will cease to exist after reset hard.
 
 =====
-BUG * Carried Crate moves right through Static Crate.
+DONE * Carried Crate goes right through Static crate, and so does the Player.
+
+=====
+DONE * Carried Crate does not auto vault the Player when running into a Wall.
+** Autovault works on walls
+** Autovault works on crates
+** Autovault cancels when trying to vault into long side of wall
+DONE * Autovault does NOT cancel when trying to vault over a wall and there is a Crate Static in the landing zone.
+** Try putting 2 crates there and see what happens.
+*** Okay, that blocks the vault. So the vault test zone must just be off a bit.
+
+
+TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
+
+TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
+
+TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
+
 
 
 
@@ -72,29 +106,12 @@ E 0:00:15:0905   Player.gd:956 @ update_movement_collider(): Can't change this s
                  Player.gd:271 @ _on_PickupDetector_body_entered()
 ```
 
-=====
-BUG * Carried Crate goes right through Static crate, and so does the Player.
-
-=====
-BUG * Carried Crate does not auto vault the Player when running into a Wall.
-
 DONE * Crates being carried by Player do not collide with wall and block movement of player and Crate. Desired behavior when carried crate hits wall would be to attempt automatically vaulting, and cancel that vault if the player would land on top of a solid obstacle like a Wall, Crate, Spawner. Note, consider this bug might be something to do with Player > move_collider_large, because I don't think we ever made it larger. The thing is, move_collider_large is going to need to effectively rotate with the player and Crate when a crate is being carried, so the move_collider_large actually represents the total silhouette of Player + Crate. Please advise and guide me.
 ** Working on this.
 ** Collision shape works for up, down, left, right. Does not work right now for the diagonals.
 ** Then we need to address that auto-vaulting is not happening, even though the straight-on collision shapes are working (liek Right, for example)
 ** 4/29/2025 **
 * This is working pretty well. I noticed that when traveling diagonally, the diagonal hitboxes are not activated, so the Player can run too far into the wall. This might be simple to fix.
-
-=====
-TODO * ESCape button during gameplay should pause the game. ESCape during pause should continue game. ENTER during pause should attempt to quit the game, with Yes / No confirmation dialog. Y should trigger Yes, N should trigger No.
-
-TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
-
-TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
-
-TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
-
-
 
 
 
