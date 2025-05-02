@@ -7,6 +7,16 @@ First ideal: When player drops a carried crate, it should drop exactly where it 
 Second ideal: If that doesn't work, then we could check for collisions when we are about to drop the crate, and just make sure the crate gets dropped right at the edge of the collided object (such as static crate)
 
 =====
+DONE * Added 2nd music track, for the first game level, which is Main.tscn for now
+
+=====
+TODO * Playing sound effects
+** Here is how to do it:
+```
+SoundManager.play_sfx(preload("res://audio/sfx/crate_drop.wav"), crate.global_position)
+```
+
+=====
 Story: Title / Options screens
 TitleScreen: Right now we hit "Enter" on the keyboard to go to the "MenuScreen." I would like for clicking the mouse button to do the same as "Enter" in this case.
 

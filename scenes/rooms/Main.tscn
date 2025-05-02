@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=13 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="Script" path="res://scripts/rooms/main.gd" id="1_ki1bk"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="2_40o8p"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="8_jqfjk"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="9_r5hps"]
 [ext_resource type="Script" path="res://scripts/Managers/LevelManager.gd" id="10_xsv7t"]
+[ext_resource type="Script" path="res://scripts/Managers/LevelMusic.gd" id="11_jng3i"]
+[ext_resource type="AudioStream" uid="uid://14trvkge06if" path="res://assets/audio/music/Ghost-Level-001.mp3" id="12_w1af2"]
 
 [node name="Node2D" type="Node2D"]
 z_index = 1
@@ -57,3 +59,7 @@ rendering_quadrant_size = 64
 
 [node name="LevelManager" type="Node" parent="."]
 script = ExtResource("10_xsv7t")
+
+[node name="LevelMusic" type="Node" parent="."]
+script = ExtResource("11_jng3i")
+music_stream = ExtResource("12_w1af2")

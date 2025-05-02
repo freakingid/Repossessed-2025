@@ -14,6 +14,7 @@ func _ready():
 	quit_confirm.confirmed.connect(_on_quit_confirmed)
 
 func _on_new_game_pressed():
+	SoundManager.stop_music()
 	get_tree().change_scene_to_file("res://scenes/rooms/Main.tscn")
 
 func _on_options_pressed():

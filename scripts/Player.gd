@@ -837,7 +837,8 @@ func vault_landing_should_cancel(vault_start: Vector2, vault_direction: Vector2,
 	shape_query.collision_mask = (
 		Global.LAYER_SPAWNER |
 		Global.LAYER_WALL |
-		Global.LAYER_CRATE
+		Global.LAYER_CRATE |
+		Global.LAYER_BARREL
 	)
 	# start debug
 	vault_debug_position = landing_pos
