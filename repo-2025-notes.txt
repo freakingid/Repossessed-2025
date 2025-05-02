@@ -17,13 +17,11 @@ SoundManager.play_sfx(preload("res://audio/sfx/crate_drop.wav"), crate.global_po
 ```
 
 =====
-Story: Title / Options screens
-TitleScreen: Right now we hit "Enter" on the keyboard to go to the "MenuScreen." I would like for clicking the mouse button to do the same as "Enter" in this case.
-
-I would like the TitleScreen music to continue playing across MenuScreen, OptionsScreen, TitleScreen movement, until finally we use "New Game" on OptionsScreen to begin a game.
-
-=====
-TODO * ESCape button during gameplay should pause the game. ESCape during pause should continue game. ENTER during pause should attempt to quit the game, with Yes / No confirmation dialog. Y should trigger Yes, N should trigger No.
+TODO * ESCape button during gameplay should pause the game and display a "Quit game?" dialog box with yes / no buttons.
+ESCape button again should be the same as clicking "No," which unpauses the game.
+"Y" on the keyboard is the same as "Yes" button, meaning the player wants to quit the game and return to the title screen.
+"N" on the keybaord is the same as "No" button, which unpauses the game.
+I want to use the button focus system Godot has so I can also focus / click the buttons using Controller dpad, keyboard arrow keys and Enter key, etc.
 
 
 

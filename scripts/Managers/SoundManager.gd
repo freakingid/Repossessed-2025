@@ -73,3 +73,6 @@ func _get_available_sfx_player() -> AudioStreamPlayer2D:
 		if not player.playing:
 			return player
 	return null
+
+func is_music_playing() -> bool:
+	return music_player != null and music_player.playing
