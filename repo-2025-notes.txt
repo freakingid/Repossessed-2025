@@ -10,11 +10,21 @@ Second ideal: If that doesn't work, then we could check for collisions when we a
 DONE * Added 2nd music track, for the first game level, which is Main.tscn for now
 
 =====
-TODO * Playing sound effects
+DONE * Added player bullet fire sfx 4 random
+
+
+=====
+NOTE * Playing sound effects
 ** Here is how to do it:
 ```
 SoundManager.play_sfx(preload("res://audio/sfx/crate_drop.wav"), crate.global_position)
 ```
+
+** Here is how to play a non-positional sound effect:
+```
+SoundManager.play_global_sfx(preload("res://audio/sfx/player_fire.wav"))
+```
+
 
 =====
 TODO * ESCape button during gameplay should pause the game and display a "Quit game?" dialog box with yes / no buttons.

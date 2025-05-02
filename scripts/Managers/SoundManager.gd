@@ -4,6 +4,7 @@ const MAX_SFX_PLAYERS := 20
 
 var sfx_players: Array[AudioStreamPlayer2D] = []
 var music_player: AudioStreamPlayer = null
+var global_sfx_player: AudioStreamPlayer
 
 func _ready():
 	AudioSettingsManager.load_settings()
@@ -45,6 +46,11 @@ func _init_players():
 		add_child(player)
 		sfx_players.append(player)
 
+	# SFX non-positional
+	global_sfx_player = AudioStreamPlayer.new()
+	global_sfx_player.bus = "SFX"
+	add_child(global_sfx_player)
+
 func play_music(stream: AudioStream, loop := true):
 	if music_player.playing:
 		music_player.stop()
@@ -67,6 +73,12 @@ func play_sfx(stream: AudioStream, position: Vector2, random_pitch := true):
 		player.volume_db = 0  # Again, bus controls overall loudness
 		player.pitch_scale = randf_range(0.95, 1.05) if random_pitch else 1.0
 		player.play()
+
+func play_global_sfx(stream: AudioStream, random_pitch := true):
+	global_sfx_player.stop()
+	global_sfx_player.stream = stream
+	global_sfx_player.pitch_scale = randf_range(0.95, 1.05) if random_pitch else 1.0
+	global_sfx_player.play()
 
 func _get_available_sfx_player() -> AudioStreamPlayer2D:
 	for player in sfx_players:

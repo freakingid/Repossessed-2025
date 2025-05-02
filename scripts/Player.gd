@@ -13,6 +13,12 @@ extends CharacterBody2D
 @onready var move_collider_down_left = $move_collider_down_left
 var carried_crate_source: Node = null  # Reference to original Crate_Static node
 # END adding reparenting
+@onready var bullet_sfx = [
+	preload("res://assets/audio/sfx/player-shoots/player-slingshot-01.mp3"),
+	preload("res://assets/audio/sfx/player-shoots/player-slingshot-02.mp3"),
+	preload("res://assets/audio/sfx/player-shoots/player-slingshot-03.mp3"),
+	preload("res://assets/audio/sfx/player-shoots/player-slingshot-04.mp3")
+]
 
 signal direction_changed(new_direction: Vector2)
 
@@ -545,6 +551,9 @@ func shoot(direction: Vector2):
 			extra_bullet.add_to_group("player_projectiles")
 			get_tree().current_scene.add_child(extra_bullet)
 
+	# Player Bullet SFX
+	play_bullet_sound()
+	
 	# Cooldown
 	can_shoot = false
 	await get_tree().create_timer(fire_rate).timeout
@@ -1071,6 +1080,12 @@ func update_carried_crate_position() -> void:
 
 # END reparenting work
 
+## SOUND FUNCTIONS
+func play_bullet_sound():
+	var sfx = bullet_sfx.pick_random()
+	SoundManager.play_sfx(sfx, global_position)
+
+## DEBUG FUNCTIONS
 func _draw() -> void:
 	if vault_debug_timer > 0.0:
 		draw_circle(to_local(vault_debug_position), vault_debug_radius, Color.YELLOW)

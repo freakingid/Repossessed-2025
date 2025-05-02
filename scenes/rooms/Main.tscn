@@ -1,12 +1,10 @@
-[gd_scene load_steps=13 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="Script" path="res://scripts/rooms/main.gd" id="1_ki1bk"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="2_40o8p"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="3_cy0y0"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/spawners/GhostSpawner.tscn" id="4_fywft"]
-[ext_resource type="PackedScene" uid="uid://cxp6pjyhdyfi2" path="res://scenes/spawners/SkeletonShooterSpawner.tscn" id="5_7jpom"]
 [ext_resource type="PackedScene" uid="uid://cmdq6h3pgo4ud" path="res://scenes/carryables/Crate_Static.tscn" id="6_ai8i2"]
-[ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/carryables/Barrel_Static.tscn" id="7_arl5g"]
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="8_jqfjk"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="9_r5hps"]
 [ext_resource type="Script" path="res://scripts/Managers/LevelManager.gd" id="10_xsv7t"]
@@ -22,12 +20,16 @@ position = Vector2(129.622, 179.27)
 nova_shot_scene = ExtResource("3_cy0y0")
 
 [node name="GhostSpawner" parent="." instance=ExtResource("4_fywft")]
-position = Vector2(120.183, -315.32)
-max_enemies = 0
+position = Vector2(365, -337)
 
-[node name="SkeletonShooterSpawner" parent="." instance=ExtResource("5_7jpom")]
-position = Vector2(-175.248, -309.657)
-max_enemies = 0
+[node name="GhostSpawner2" parent="." instance=ExtResource("4_fywft")]
+position = Vector2(-344, -342)
+
+[node name="GhostSpawner3" parent="." instance=ExtResource("4_fywft")]
+position = Vector2(-337, 350)
+
+[node name="GhostSpawner4" parent="." instance=ExtResource("4_fywft")]
+position = Vector2(367, 349)
 
 [node name="CrateStatic" parent="." instance=ExtResource("6_ai8i2")]
 position = Vector2(121.127, -83.1273)
@@ -37,15 +39,6 @@ position = Vector2(52.5939, 126.305)
 
 [node name="CrateStatic3" parent="." instance=ExtResource("6_ai8i2")]
 position = Vector2(355.659, -57.7792)
-
-[node name="BarrelStatic" parent="." instance=ExtResource("7_arl5g")]
-position = Vector2(-149.765, -115.219)
-
-[node name="BarrelStatic2" parent="." instance=ExtResource("7_arl5g")]
-position = Vector2(-105.403, 24.4743)
-
-[node name="BarrelStatic3" parent="." instance=ExtResource("7_arl5g")]
-position = Vector2(187.198, 57.5099)
 
 [node name="HUD" parent="." instance=ExtResource("8_jqfjk")]
 
