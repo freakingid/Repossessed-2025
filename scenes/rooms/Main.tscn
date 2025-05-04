@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
+[gd_scene load_steps=12 format=4 uid="uid://drndiygpgjsov"]
 
 [ext_resource type="Script" path="res://scripts/rooms/main.gd" id="1_ki1bk"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="2_40o8p"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="3_cy0y0"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/spawners/GhostSpawner.tscn" id="4_fywft"]
+[ext_resource type="PackedScene" uid="uid://cdh5j6xouytoi" path="res://scenes/enemies/Ghost.tscn" id="5_dete0"]
 [ext_resource type="PackedScene" uid="uid://cmdq6h3pgo4ud" path="res://scenes/carryables/Crate_Static.tscn" id="6_ai8i2"]
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="8_jqfjk"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="9_r5hps"]
@@ -34,6 +35,66 @@ max_enemies = 0
 [node name="GhostSpawner4" parent="." instance=ExtResource("4_fywft")]
 position = Vector2(367, 349)
 max_enemies = 0
+
+[node name="Ghost" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(-268, 354)
+motion_type = 1
+
+[node name="Ghost2" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(-230, 354)
+motion_type = 1
+
+[node name="Ghost3" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(-174, 351)
+motion_type = 1
+
+[node name="Ghost4" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(-118, 355)
+motion_type = 1
+
+[node name="Ghost5" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(-78, 356)
+motion_type = 1
+
+[node name="Ghost6" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(-27, 356)
+motion_type = 1
+
+[node name="Ghost7" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(19, 356)
+motion_type = 1
+
+[node name="Ghost8" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(66, 356)
+motion_type = 1
+
+[node name="Ghost9" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(117, 356)
+motion_type = 1
+
+[node name="Ghost10" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(167, 355)
+motion_type = 1
+
+[node name="Ghost11" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(215, 356)
+motion_type = 1
+
+[node name="Ghost12" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(263, 356)
+motion_type = 1
+
+[node name="Ghost13" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(305, 357)
+motion_type = 1
+
+[node name="Ghost14" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(353, 299)
+motion_type = 1
+
+[node name="Ghost15" parent="." instance=ExtResource("5_dete0")]
+position = Vector2(-337, 297)
+motion_type = 1
 
 [node name="CrateStatic" parent="." instance=ExtResource("6_ai8i2")]
 position = Vector2(121.127, -83.1273)

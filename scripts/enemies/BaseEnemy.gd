@@ -17,6 +17,18 @@ var push_duration := 0.1  # seconds
 var push_timer := 0.0
 var is_flashing := false
 
+enum MotionType {
+	NAVIGATE_TO_PLAYER,
+	CLOCKWISE_PATROL
+}
+
+@export var motion_type: MotionType = MotionType.NAVIGATE_TO_PLAYER
+@export_enum("Up", "Right", "Down", "Left")
+var patrol_start_direction := 0
+var patrol_direction := Vector2.ZERO
+
+
+
 @onready var nav_agent: NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -40,6 +52,7 @@ signal request_spawn_gem(position: Vector2, value: int)
 
 
 func _ready():
+	reset()
 	# print("READY: ", name)
 	_set_damage_meta_recursive(self)
 
@@ -117,6 +130,21 @@ func separate_from_player_if_stuck() -> void:
 
 var rotation_attempt_angle := 15
 var rotation_attempts := []
+
+func update_patrol_motion(_delta: float) -> void:
+	velocity = patrol_direction * speed
+	var collision_info = move_and_collide(velocity * get_physics_process_delta_time())
+	if collision_info:
+		# Rotate patrol direction 90 degrees clockwise
+		if patrol_direction == Vector2.UP:
+			patrol_direction = Vector2.RIGHT
+		elif patrol_direction == Vector2.RIGHT:
+			patrol_direction = Vector2.DOWN
+		elif patrol_direction == Vector2.DOWN:
+			patrol_direction = Vector2.LEFT
+		elif patrol_direction == Vector2.LEFT:
+			patrol_direction = Vector2.UP
+
 
 func update_navigation(delta):
 	if is_dead:
@@ -278,6 +306,12 @@ func reset():
 	set_physics_process(true)
 	health = max(health, 1)
 	velocity = Vector2.ZERO
+
+	match patrol_start_direction:
+		0: patrol_direction = Vector2.UP
+		1: patrol_direction = Vector2.RIGHT
+		2: patrol_direction = Vector2.DOWN
+		3: patrol_direction = Vector2.LEFT
 
 	# Defensive resolve of AnimatedSprite2D
 	var sprite_node = get_node_or_null("AnimatedSprite2D")
