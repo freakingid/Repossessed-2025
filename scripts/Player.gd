@@ -52,6 +52,7 @@ var carried_barrel_instance: Node = null
 var static_barrel_instance: Node = null
 var speed_modifier: float = 0.9 # slower speed when carrying
 
+
 var max_health: int = Global.PLAYER.HEALTH  # Max health for HUD bar percent calc
 var speed: float = Global.PLAYER.SPEED
 var damage: int = Global.PLAYER.DAMAGE  # ✅ Player's melee damage
@@ -62,7 +63,8 @@ var base_max_shots: int = Global.PLAYER.BULLET_BASE_MAX_SHOTS  # Total shots all
 var base_bullet_lifespan: float = Global.PLAYER.BULLET_LIFESPAN  # Bullet lifespan
 
 # ✅ Crate Handling Variables (Added)
-var drop_cooldown_timer: float = 0.0
+const DROP_COOLDOWN := 0.3  # seconds
+var drop_cooldown_timer: float = DROP_COOLDOWN
 
 # lightning parameters
 @export var lightning_radius: float = 100.0
@@ -297,6 +299,8 @@ func _on_PickupDetector_body_entered(body: Node) -> void:
 				if drop_cooldown_timer <= 0.0:
 					print("Attempting to pick up Crate_Static")
 					begin_carrying_crate(body)  # <<< NEW
+				else:
+					print("Cannot pickup crate because of crate cooldown timer")
 					
 		elif body.is_in_group("barrels_static"):
 			var direction_to_barrel = (body.global_position - global_position).normalized()
@@ -304,45 +308,6 @@ func _on_PickupDetector_body_entered(body: Node) -> void:
 				if drop_cooldown_timer <= 0.0:
 					print("Attempting to pick up Barrel_Static")
 					begin_carrying_barrel(body)  # <<< You’ll need a similar method like begin_carrying_barrel()
-
-
-#func pickup_crate(crate_static: Node2D):
-	#if carried_crate_source != null:
-		#return
-#
-	## Hide or free the static crate
-	#crate_static.visible = false
-	#crate_static.set_physics_process(false)
-#
-	## Spawn the carried crate
-	#carried_crate_instance = carried_crate_scene.instantiate()
-	#carried_crate_instance.player = self  # 🔗 Assign reference
-#
-	#get_parent().add_child(carried_crate_instance)  # Add to scene
-	#is_carrying_crate = true
-
-## ✅ Drop the crate
-# Perhaps obsolete 4/25/2025 due to reparenting
-#func drop_crate(forced_position: Variant = null) -> Vector2:
-	#print("drop_crate() called")
-	#if carried_crate_instance == null:
-		#print("carried_crate_instance == null")
-		#return global_position  # fallback
-	#
-	#var drop_position: Vector2
-	#if forced_position == null:
-		#var drop_offset = get_valid_drop_direction(last_move_direction) * 16
-		#drop_position = global_position + drop_offset
-	#else:
-		#drop_position = forced_position as Vector2
-#
-	#static_crate_instance.reactivate(drop_position)
-	#carried_crate_instance.queue_free()
-	#carried_crate_instance = null
-	#is_carrying_crate = false
-	#drop_cooldown_timer = 0.2
-#
-	#return drop_position
 
 func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 	print("Player.vault_over_crate() called")
@@ -462,6 +427,10 @@ func get_valid_drop_direction(dir: Vector2) -> Vector2:
 
 ## Process player shot direction
 func _process(_delta):
+	# drop cooldown timer is for waiting before picking up crate again
+	if drop_cooldown_timer > 0.0:
+		drop_cooldown_timer -= _delta
+
 	if vault_debug_timer > 0.0:
 		vault_debug_timer -= _delta
 		queue_redraw()  # triggers _draw
@@ -477,12 +446,14 @@ func _process(_delta):
 		var is_moving = velocity.length() > 0.1  # or use move_direction.length() > 0.1 if available
 		# Are we carrying anyting?
 		if is_carrying_barrel:
+			## TODO we should use drop cooldown timer here just like in crate below
 			drop_barrel()
 			can_shoot = false
 			await get_tree().create_timer(Global.BARREL.DROPWAIT).timeout
 			can_shoot = true
 		elif carried_crate_source != null:
-			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 32
+			print("Going to drop crate")
+			var proposed_landing_pos = global_position + get_valid_drop_direction(last_move_direction) * 16
 
 			if is_moving:
 				# Attempt vault only while moving
@@ -945,6 +916,11 @@ func drop_crate(drop_position: Vector2) -> void:
 	# Restore player collision shape
 	update_collider_after_drop()  # 🔥 instead of manually toggling collider states
 	update_player_collision_mask()
+	# Optional pushback after drop
+	var push_vector = -last_move_direction.normalized() * 8.0
+	move_and_collide(push_vector)
+	# start drop cooldown
+	drop_cooldown_timer = DROP_COOLDOWN
 
 func begin_carrying_barrel(barrel_node: Node) -> void:
 	if is_vaulting or carried_crate_source != null or is_carrying_barrel:

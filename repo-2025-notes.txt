@@ -2,9 +2,16 @@
 =====
 
 =====
-BUG * If player carrying crate gets really close to a Crate static and then sets the carried crate down, the carried crate gets set right on top of / inside the existing Crate static. Crates should not be allowed to drop on top of each other.
-First ideal: When player drops a carried crate, it should drop exactly where it appears to be carried. Right now, it is dropped many pixels in front of the player.
-Second ideal: If that doesn't work, then we could check for collisions when we are about to drop the crate, and just make sure the crate gets dropped right at the edge of the collided object (such as static crate)
+DONE * If player carrying crate gets really close to a Crate static and then sets the carried crate down, the carried crate gets set right on top of / inside the existing Crate static. Crates should not be allowed to drop on top of each other.
+
+First ideal: When player drops a carried crate, it should drop exactly where it appears to be carried. Right now, it is dropped many pixels in front of the player. (This is what we ended up doing, but added a drop cooldown timer so we did not immediately pick the crate back up, and we knock the player back a few pixels upon drop just in case.)
+LATER ** Also, later could add a puff of dust when being knocked back0
+
+TODO * Create a motion type that allows an enemy to move either up, right, down, or left until it hits a solid obstacle such as a wall, Crate, or enemy Spawner. That initial direction should be setable in the Godot Inspector. Then, the Ghost will change its direction to 90 degrees in the clockwise direction. Then the Ghost will move in that direction until it hits a solid obstacle. This behavior continues until the Ghost is defeated. While a ghost is using this kind of movement behavior, they are never directly pursuing the Player.
+
+TODO * We need to add an exit the player tries to get to. Once the exit is reached, the player is taken to the next level. Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to. As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit. Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
+
+
 
 =====
 DONE * Added 2nd music track, for the first game level, which is Main.tscn for now

@@ -21,15 +21,19 @@ nova_shot_scene = ExtResource("3_cy0y0")
 
 [node name="GhostSpawner" parent="." instance=ExtResource("4_fywft")]
 position = Vector2(365, -337)
+max_enemies = 0
 
 [node name="GhostSpawner2" parent="." instance=ExtResource("4_fywft")]
 position = Vector2(-344, -342)
+max_enemies = 0
 
 [node name="GhostSpawner3" parent="." instance=ExtResource("4_fywft")]
 position = Vector2(-337, 350)
+max_enemies = 0
 
 [node name="GhostSpawner4" parent="." instance=ExtResource("4_fywft")]
 position = Vector2(367, 349)
+max_enemies = 0
 
 [node name="CrateStatic" parent="." instance=ExtResource("6_ai8i2")]
 position = Vector2(121.127, -83.1273)
