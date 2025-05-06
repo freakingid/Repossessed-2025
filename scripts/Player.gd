@@ -766,11 +766,9 @@ func play_vault_fail_feedback():
 func check_auto_vault(_collider) -> void:
 	# print("check_auto_vault TOP")
 	if carried_crate_source == null:
-		print("carried_crate_source == null; returning without vault")
 		return  # Not carrying crate
 
 	if is_vaulting:
-		print("is_vaulting == true; returning without vault")
 		return  # Already vaulting
 
 	#if velocity.length() < 5.0:

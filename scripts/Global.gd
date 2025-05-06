@@ -41,13 +41,24 @@ const CRATE_SIZE = 29 # 1.5 x 19px sprite
 
 var score: int = 0
 
-# Ghost is often used as a base for other objects to have relative values
+class PLAYER:
+	const SPEED = 75
+	const DAMAGE = 2
+	const HEALTH = 50
+	const BULLET_SPEED = 250
+	const BULLET_DAMAGE = 1
+	const BULLET_HEALTH = 1
+	const BULLET_LIFESPAN = 1.5 # seconds
+	const BULLET_BASE_FIRE_RATE = 0.2
+	const BULLET_BASE_MAX_SHOTS = 3
+
 class GHOST:
-	const SPEED = 60.0
+	const SPEED = PLAYER.SPEED * 0.66
 	const DAMAGE = 1
 	const HEALTH = 1
 	const SCORE = 1
 	const MAX_CAPACITY = 25
+	const HEARING_RANGE = 96
 
 # Skeletons move a bit faster and can potentially get around walls
 class SKELETON:
@@ -118,17 +129,6 @@ class REAPER:
 	const HEALTH = 999
 	const SCORE = 1
 	const MAX_CAPACITY = 2
-
-class PLAYER:
-	const SPEED = GHOST.SPEED * 1.25
-	const DAMAGE = 2
-	const HEALTH = 50
-	const BULLET_SPEED = 250
-	const BULLET_DAMAGE = 1
-	const BULLET_HEALTH = 1
-	const BULLET_LIFESPAN = 1.5 # seconds
-	const BULLET_BASE_FIRE_RATE = 0.2
-	const BULLET_BASE_MAX_SHOTS = 3
 
 class BARREL:
 	const KICK_SPEED = 300

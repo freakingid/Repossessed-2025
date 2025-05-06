@@ -1,3 +1,22 @@
+20250505
+=====
+DONE * Ghost patrol needs to optionally pursue player when in range and in sight.
+** Right now, there is a ghost patrol mode where they only move horizontally or vertically until they hit an obstacle. Then they rotate to the next 90 degrees and continue that behavior. They never attack the player directly.
+** Now I want to add the option for them to switch to pursuit mode if the player is within a certain range and the player is "in front" of them.
+** I think if the player gets out of range, I want the ghost to switch back into patrol mode.
+
+=====
+TODO * We need to add an exit the player tries to get to. Once the exit is reached, the player is taken to the next level. Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to. As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit. Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
+
+TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
+
+TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
+
+TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
+
+
+
+
 20250501
 =====
 
@@ -8,10 +27,6 @@ First ideal: When player drops a carried crate, it should drop exactly where it 
 LATER ** Also, later could add a puff of dust when being knocked back0
 
 DONE * Create a motion type that allows an enemy to move either up, right, down, or left until it hits a solid obstacle such as a wall, Crate, or enemy Spawner. That initial direction should be setable in the Godot Inspector. Then, the Ghost will change its direction to 90 degrees in the clockwise direction. Then the Ghost will move in that direction until it hits a solid obstacle. This behavior continues until the Ghost is defeated. While a ghost is using this kind of movement behavior, they are never directly pursuing the Player.
-
-TODO * We need to add an exit the player tries to get to. Once the exit is reached, the player is taken to the next level. Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to. As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit. Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
-
-
 
 =====
 DONE * Added 2nd music track, for the first game level, which is Main.tscn for now
@@ -32,9 +47,8 @@ SoundManager.play_sfx(preload("res://audio/sfx/crate_drop.wav"), crate.global_po
 SoundManager.play_global_sfx(preload("res://audio/sfx/player_fire.wav"))
 ```
 
-
 =====
-TODO * ESCape button during gameplay should pause the game and display a "Quit game?" dialog box with yes / no buttons.
+DONE * ESCape button during gameplay should pause the game and display a "Quit game?" dialog box with yes / no buttons.
 ESCape button again should be the same as clicking "No," which unpauses the game.
 "Y" on the keyboard is the same as "Yes" button, meaning the player wants to quit the game and return to the title screen.
 "N" on the keybaord is the same as "No" button, which unpauses the game.
@@ -68,18 +82,6 @@ DONE * Carried Crate does not auto vault the Player when running into a Wall.
 DONE * Autovault does NOT cancel when trying to vault over a wall and there is a Crate Static in the landing zone.
 ** Try putting 2 crates there and see what happens.
 *** Okay, that blocks the vault. So the vault test zone must just be off a bit.
-
-
-TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
-
-TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
-
-TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
-
-
-
-
-
 
 
 
@@ -196,29 +198,8 @@ Title
 > > Quit
 ** We are also saving config changes to a file that is automatically loaded for the SoundManager.
 
+=====
 4/24/2025
-===========================
-STORY * Menu dialog changes
-===========================
-NOTE: Think this out below, the stuff about ESCape and pausing the game and all that. What you read right now is not correct.
-
-TODO * Move "Quit" button to TitleScreen scene.
-
-TODO * Pressing "ESCape" button on TitleScreen is the same as hitting the "Quit" button, which should still display the "Confirmation" like it does now on MenuScreen.
-
-TODO * Pressing ESCape during gameplay should:
-1. Pause the game.
-2. Display an "Options" button that takes us to "Options" scene.
-3. Display a "Quit to Title" button that initially gives us a "Confirmation" yes / no dialog. If player selects "Yes," the game is ended and the program returns us to the Title screen. If player selects "No," 
-TODO * Pressing ESCape during gameplay should:
-1. Pause the game.
-2. Show the "Menu" screen.
-2a. That allows the player to change options if needed.
-2b. That allows the player to Quit if needed.
-2c. If player chooses to return to Title scene, that 
-3. Menu screen should have a new button "Back to Game" that, if pressed, returns us to the game scene and unpauses the game.
-
-
 
 TESTING
 =====

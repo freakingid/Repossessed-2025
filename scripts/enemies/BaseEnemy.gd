@@ -18,16 +18,18 @@ var push_timer := 0.0
 var is_flashing := false
 
 enum MotionType {
-	NAVIGATE_TO_PLAYER,
-	CLOCKWISE_PATROL
+	MOVE_TO_PLAYER,
+	CLOCKWISE_PATROL,
+	AUTO_SWITCH
 }
+@export var motion_type: MotionType = MotionType.MOVE_TO_PLAYER
+var chase_cooldown := 2.0  # seconds
+var chase_timer := 0.0
 
-@export var motion_type: MotionType = MotionType.NAVIGATE_TO_PLAYER
 @export_enum("Up", "Right", "Down", "Left")
 var patrol_start_direction := 0
 var patrol_direction := Vector2.ZERO
-
-
+var active_motion_mode: MotionType = MotionType.CLOCKWISE_PATROL
 
 @onready var nav_agent: NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -167,6 +169,32 @@ func is_path_blocked(direction: Vector2) -> bool:
 		if collider and (collider.is_in_group(Global.GROUPS.STATIC_OBJECTS) or collider.is_in_group(Global.GROUPS.ENEMIES)):
 			return true
 	return false
+
+#func should_switch_to_player() -> bool:
+	#if not target_node:
+		#return false
+	#var to_player = (target_node.global_position - global_position).normalized()
+	#var angle_to_player = patrol_direction.angle_to(to_player)
+	#var distance_to_player = global_position.distance_to(target_node.global_position)
+#
+	#return abs(angle_to_player) < PI / 4 and distance_to_player < 96  # 96px = ~3 tiles
+
+func can_hear_player() -> bool:
+	if target_node:
+		if global_position.distance_to(target_node.global_position) < Global.GHOST.HEARING_RANGE:
+			return true
+	
+	return false
+
+func can_see_player() -> bool:
+	if not target_node:
+		return false
+		
+	var to_player = (target_node.global_position - global_position).normalized()
+	if abs(patrol_direction.angle_to(to_player)) < PI / 4:  # within 45 degrees
+		return true
+	else:
+		return false
 
 func move_directly_to_player(_delta):
 	if target_node:
