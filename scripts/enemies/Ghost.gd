@@ -39,6 +39,15 @@ func update_navigation(delta: float) -> void:
 		MotionType.CLOCKWISE_PATROL:
 			update_patrol_motion(delta)
 
+# Ghost pretty much dies on 1 hit, so playing a sound for take_damage does not make sense
+#func take_damage(_amount: int) -> void:
+	#SoundManager.play_sfx(preload("res://assets/audio/sfx/ghost-hit/ghost-hit-001.mp3"), self.global_position, true)
+	#super.take_damage(_amount)
+	
+func die():
+	SoundManager.play_sfx(preload("res://assets/audio/sfx/ghost-die/ghost-die-002.ogg"), self.global_position, true)
+	super.die()
+
 
 func reset() -> void:
 	super.reset()

@@ -9,6 +9,12 @@ extends KinematicMover
 var bounces_remaining: int
 var time_alive: float = 0.0
 
+@onready var bullet_bounce_sfx = [
+	preload("res://assets/audio/sfx/bullet-ricochet/bullet-ricochet-001.ogg"),
+	preload("res://assets/audio/sfx/bullet-ricochet/bullet-ricochet-002.ogg"),
+	preload("res://assets/audio/sfx/bullet-ricochet/bullet-ricochet-003.ogg")
+]
+
 func _ready() -> void:
 	# Start moving in the direction the bullet is facing
 	motion_velocity = Vector2.RIGHT.rotated(rotation) * speed
@@ -45,6 +51,8 @@ func _physics_process(delta: float) -> void:
 			motion_velocity = BounceUtils.calculate_bounce(motion_velocity, bounce_normal)
 			bounces_remaining -= 1
 			motion_velocity *= 0.9
+			# Play bullet bounce sfx
+			SoundManager.play_sfx(bullet_bounce_sfx.pick_random(), global_position, true)
 		else:
 			queue_free()
 			return

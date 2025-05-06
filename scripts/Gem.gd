@@ -11,6 +11,10 @@ var magnet_speed: float = 100.0  # Speed gems move toward the player
 @onready var sprite = $Sprite2D
 @onready var blink_timer = $Timer
 @onready var animation_player = $AnimationPlayer
+@onready var gem_sfx = [
+	preload("res://assets/audio/sfx/gem pickup/gem-pickup-001.ogg"),
+	preload("res://assets/audio/sfx/gem pickup/gem-pickup-002.ogg")
+]
 
 func _ready():
 	# Start lifespan countdown
@@ -39,6 +43,9 @@ func set_gem_color():
 func _on_Gem_body_entered(body):
 	if body.is_in_group("player"):
 		body.collect_gem(gem_power)
+		# play gem collect sound
+		# var sfx = gem_sfx.pick_random()
+		SoundManager.play_sfx(gem_sfx.pick_random(), global_position, true)
 		queue_free()  # Remove gem
 
 func _on_timer_timeout() -> void:

@@ -6,6 +6,26 @@ DONE * Ghost patrol needs to optionally pursue player when in range and in sight
 ** I think if the player gets out of range, I want the ghost to switch back into patrol mode.
 
 =====
+BUG * When auto vaulting, it seems like the player gets kicked back a bit from the crate being dropped.
+** That kickback is normal for manual dropping, but we need to disable the auto kickback when autovaulting happens.
+
+=====
+WORK * Add some sound effects
+done * Ghost hit
+done * Ghost die
+** Added, but something odd. I think it needs to start immediately, maybe the sound has a small pause?
+done * Gem picked up
+done * Player vault sound, but stretch it to full duration of vault
+** I did not stretch it out. Would need to be 0.8 seconds, FYI
+done * Crate picked up
+done * Crate dropped
+done * Player bullet ricochet
+
+=====
+FIX * Some sound effects
+* Player shot seems too loud
+
+=====
 TODO * We need to add an exit the player tries to get to. Once the exit is reached, the player is taken to the next level. Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to. As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit. Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
 
 TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.

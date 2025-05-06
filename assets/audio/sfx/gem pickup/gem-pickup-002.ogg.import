@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cef5r1hetj8jc"
+path="res://.godot/imported/gem-pickup-002.ogg-6973495c44f1ee011eff19b1e4cb1bd2.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/sfx/gem pickup/gem-pickup-002.ogg"
+dest_files=["res://.godot/imported/gem-pickup-002.ogg-6973495c44f1ee011eff19b1e4cb1bd2.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

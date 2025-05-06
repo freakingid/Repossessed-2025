@@ -19,6 +19,24 @@ var carried_crate_source: Node = null  # Reference to original Crate_Static node
 	preload("res://assets/audio/sfx/player-shoots/player-slingshot-03.mp3"),
 	preload("res://assets/audio/sfx/player-shoots/player-slingshot-04.mp3")
 ]
+@onready var vault_sfx = [
+	preload("res://assets/audio/sfx/player-vault/player-vault-001.ogg"),
+	preload("res://assets/audio/sfx/player-vault/player-vault-002.ogg"),
+	preload("res://assets/audio/sfx/player-vault/player-vault-003.ogg"),
+	preload("res://assets/audio/sfx/player-vault/player-vault-004.ogg")
+]
+@onready var crate_pickup_sfx = [
+	preload("res://assets/audio/sfx/crate-pickup/crate-pickup-001.ogg"),
+	preload("res://assets/audio/sfx/crate-pickup/crate-pickup-002.ogg"),
+	preload("res://assets/audio/sfx/crate-pickup/crate-pickup-003.ogg")
+]
+@onready var crate_drop_sfx = [
+	preload("res://assets/audio/sfx/crate-dropped/crate-drop-001.ogg"),
+	preload("res://assets/audio/sfx/crate-dropped/crate-drop-002.ogg"),
+	preload("res://assets/audio/sfx/crate-dropped/crate-drop-003.ogg"),
+	preload("res://assets/audio/sfx/crate-dropped/crate-drop-004.ogg")
+]
+
 
 signal direction_changed(new_direction: Vector2)
 
@@ -324,12 +342,7 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 		return false
 
 	# Try to make sure we wouldn't land outside room boundaries
-	var projected_landing = crate_position + direction.normalized() * 2.5 * Global.CRATE_SIZE
-	# for debug
-	print("Projected landing:", projected_landing)
-	print("ROOM_BOUNDS:", Global.ROOM_BOUNDS)
-	print("Inside bounds?", Global.is_inside_room_bounds(projected_landing))
-	
+	var projected_landing = crate_position + direction.normalized() * 2.5 * Global.CRATE_SIZE	
 	if not Global.is_inside_room_bounds(projected_landing):
 		print("Vault canceled: landing outside room bounds.")
 		play_vault_fail_feedback()
@@ -849,9 +862,8 @@ func should_taunt_after_vault() -> bool:
 
 
 func play_vault_sound():
-	# 🔈 TODO: Replace with actual vaulting SFX
-	print("Vault SFX: whoosh or jump")
-	# $VaultSoundPlayer.play()  # <- placeholder AudioStreamPlayer node
+	var sfx = vault_sfx.pick_random()
+	SoundManager.play_sfx(sfx, global_position, true)
 
 func play_taunt_sound():
 	# 🔈 TODO: Replace with actual taunt voice line
@@ -898,6 +910,9 @@ func begin_carrying_crate(crate_node: Node) -> void:
 	
 	# Deactivate the source crate properly
 	crate_node.deactivate()
+	
+	# Play crate pickup sfx
+	SoundManager.play_sfx(crate_pickup_sfx.pick_random(), global_position, true)
 
 func drop_crate(drop_position: Vector2) -> void:
 	if carried_crate_source == null:
@@ -917,6 +932,9 @@ func drop_crate(drop_position: Vector2) -> void:
 	# Optional pushback after drop
 	var push_vector = -last_move_direction.normalized() * 8.0
 	move_and_collide(push_vector)
+	# Play crate drop sfx
+	SoundManager.play_sfx(crate_drop_sfx.pick_random(), global_position, true)
+
 	# start drop cooldown
 	drop_cooldown_timer = DROP_COOLDOWN
 
