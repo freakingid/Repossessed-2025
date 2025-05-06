@@ -327,8 +327,7 @@ func _on_PickupDetector_body_entered(body: Node) -> void:
 					print("Attempting to pick up Barrel_Static")
 					begin_carrying_barrel(body)  # <<< You’ll need a similar method like begin_carrying_barrel()
 
-func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
-	print("Player.vault_over_crate() called")
+func vault_over_crate(crate_position: Vector2, direction: Vector2, _kickback: bool = true) -> bool:
 	if is_vaulting:
 		# Already in the middle of vaulting, so do not start anew
 		return false
@@ -372,7 +371,7 @@ func vault_over_crate(crate_position: Vector2, direction: Vector2) -> bool:
 
 	# Drop the carried crate as the vault begins
 	vault_crate_drop_position = crate_position
-	drop_crate(vault_crate_drop_position)
+	drop_crate(vault_crate_drop_position, _kickback)
 
 	# ✅ Vault triggered successfully
 	return true
@@ -790,7 +789,7 @@ func check_auto_vault(_collider) -> void:
 
 	if _collider and (_collider.is_in_group("crates_static") or _collider.is_in_group("walls") or _collider.is_in_group("spawners")):
 		var crate_world_position = global_position + carried_crate_node.position
-		vault_over_crate(crate_world_position, last_move_direction)
+		vault_over_crate(crate_world_position, last_move_direction, false)
 
 func try_vault_from(start_pos: Vector2, direction: Vector2) -> bool:
 	if vault_landing_should_cancel(start_pos, direction, 2.5 * Global.CRATE_SIZE):
@@ -914,7 +913,7 @@ func begin_carrying_crate(crate_node: Node) -> void:
 	# Play crate pickup sfx
 	SoundManager.play_sfx(crate_pickup_sfx.pick_random(), global_position, true)
 
-func drop_crate(drop_position: Vector2) -> void:
+func drop_crate(drop_position: Vector2, _kickback: bool = true) -> void:
 	if carried_crate_source == null:
 		return
 	
@@ -930,8 +929,10 @@ func drop_crate(drop_position: Vector2) -> void:
 	update_collider_after_drop()  # 🔥 instead of manually toggling collider states
 	update_player_collision_mask()
 	# Optional pushback after drop
-	var push_vector = -last_move_direction.normalized() * 8.0
-	move_and_collide(push_vector)
+	if _kickback:
+		var push_vector = -last_move_direction.normalized() * 8.0
+		move_and_collide(push_vector)
+
 	# Play crate drop sfx
 	SoundManager.play_sfx(crate_drop_sfx.pick_random(), global_position, true)
 

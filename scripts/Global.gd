@@ -58,7 +58,7 @@ class GHOST:
 	const HEALTH = 1
 	const SCORE = 1
 	const MAX_CAPACITY = 25
-	const HEARING_RANGE = 96
+	const HEARING_RANGE = 112
 
 # Skeletons move a bit faster and can potentially get around walls
 class SKELETON:

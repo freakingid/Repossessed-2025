@@ -1,13 +1,27 @@
+20250506
+=====
+DONE * When auto vaulting, it seems like the player gets kicked back a bit from the crate being dropped.
+** That kickback is normal for manual dropping, but we need to disable the auto kickback when autovaulting happens.
+
+=====
+TODO * We need to add an exit the player tries to get to. Once the exit is reached, the player is taken to the next level. Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to. As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit. Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
+
+TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
+
+TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
+
+TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
+
+DONE * Add "Ghost Startled" sound effect when ghost begins to chase player.
+
+
+
 20250505
 =====
 DONE * Ghost patrol needs to optionally pursue player when in range and in sight.
 ** Right now, there is a ghost patrol mode where they only move horizontally or vertically until they hit an obstacle. Then they rotate to the next 90 degrees and continue that behavior. They never attack the player directly.
 ** Now I want to add the option for them to switch to pursuit mode if the player is within a certain range and the player is "in front" of them.
 ** I think if the player gets out of range, I want the ghost to switch back into patrol mode.
-
-=====
-BUG * When auto vaulting, it seems like the player gets kicked back a bit from the crate being dropped.
-** That kickback is normal for manual dropping, but we need to disable the auto kickback when autovaulting happens.
 
 =====
 WORK * Add some sound effects
@@ -25,21 +39,14 @@ done * Player bullet ricochet
 FIX * Some sound effects
 * Player shot seems too loud
 
-=====
-TODO * We need to add an exit the player tries to get to. Once the exit is reached, the player is taken to the next level. Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to. As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit. Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
 
-TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
 
-TODO * Maybe Skeleton bones bounce off Crates but then shortly thereafter shrink and die, like they are falling to the ground. This is more stylistic than mechanic.
 
-TODO * There are BUG and TODO items below on other dates, I think. Bring those forward.
 
 
 
 
 20250501
-=====
-
 =====
 DONE * If player carrying crate gets really close to a Crate static and then sets the carried crate down, the carried crate gets set right on top of / inside the existing Crate static. Crates should not be allowed to drop on top of each other.
 

@@ -1,12 +1,10 @@
 extends "res://scripts/enemies/BaseEnemy.gd"
 
-#func update_navigation_OLD(_delta: float) -> void:
-	#if target_node:
-		#var direction = target_node.global_position - global_position
-		#if direction.length() > 1:
-			#var offset = Vector2(randf() - 0.5, randf() - 0.5) * 10
-			#velocity = (direction + offset).normalized() * speed
-			#move_and_slide()
+@onready var ghost_startled_sfx = [
+	preload("res://assets/audio/sfx/ghost-startled/ghost-startled-001.ogg"),
+	preload("res://assets/audio/sfx/ghost-startled/ghost-startled-002.ogg"),
+	preload("res://assets/audio/sfx/ghost-startled/ghost-startled-003.ogg")
+]
 
 func update_navigation(delta: float) -> void:
 	if motion_type == MotionType.AUTO_SWITCH:
@@ -21,6 +19,8 @@ func update_navigation(delta: float) -> void:
 			if can_hear_player() and can_see_player():
 				active_motion_mode = MotionType.MOVE_TO_PLAYER
 				chase_timer = chase_cooldown
+				# Play ghost startled sound
+				SoundManager.play_sfx(ghost_startled_sfx.pick_random(), global_position, true)
 				# Tint the enemy sprite red
 				if sprite:
 					sprite.modulate = Color(1.0, 0.5, 0.5)  # light red tint
