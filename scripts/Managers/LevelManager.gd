@@ -18,6 +18,11 @@ func _ready():
 		if not enemy.is_connected("died", died_callable):
 			enemy.connect("died", died_callable)
 
+	# Connect doors
+	for door in get_tree().get_nodes_in_group("exit_doors"):
+		door.connect("player_exited", Callable(GameManager, "transition_to_scene"))
+
+
 func preload_used_enemy_types():
 	var seen_paths := {}
 	var spawners := get_tree().get_nodes_in_group(Global.GROUPS.SPAWNERS)

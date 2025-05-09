@@ -4,7 +4,60 @@ DONE * When auto vaulting, it seems like the player gets kicked back a bit from 
 ** That kickback is normal for manual dropping, but we need to disable the auto kickback when autovaulting happens.
 
 =====
-TODO * We need to add an exit the player tries to get to. Once the exit is reached, the player is taken to the next level. Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to. As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit. Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
+BUG * MenuScreen does not appear centered. It appears upper left corner, nearly out of reach.
+
+=====
+BUG * Score, NovaPercent, Powerup slots (HUD items) are visible in the TitleScreen.
+
+=====
+TODO * There is a new title screen showing candy being thrown at the enemies.
+5/8/2025
+
+=====
+TODO * Generate candy sprites for Player Bullets.
+
+=====
+TODO * Potentially make Enemy Spawners only spawn if Player is within a certain distance. Like, far, but not infinite.
+
+=====
+TODO * Organize Level Scene template Ghost-01.tscn with Nodes to contain Enemies and other groups of nodes.
+
+=====
+TODO * NOTE we  might be connecting doors in multiple places. "connect doors" in script??
+
+=====
+TODO * I think the "HUD" node needs controlled in GameManager? Ask ChatGPT.
+
+=====
+TODO * We need to add an exit the player tries to get to in order to leave the level.
+Once the exit is reached, the player is taken to the next level.
+Note that multiple exits should be allowed in one level. Each of those exits can lead to a different level. This can allow the player to choose which next level they want to go to.
+As part of this, I need you to tell me how I create different levels in Godot 4.3. Perhaps they are all different Scenes? Then tell me how I can move the player to that next level when they find an exit.
+Of course the Player and any Management nodes such as LevelManager, SoundManager, etc should not be reset -- they should maintain state between rooms, just as the Player and its properties such as score and powerups, etc. should maintain state.
+I have created 5 different "doorway" sprites for variety. I will likely use them for specific levels, such as the "hedge tunnel" sprite leading to a forest level.
+**
+<quote>
+This ensures the scene is not confused with the actual root scene of your game (which should probably be called Main.tscn or GameRoot.tscn and contain global managers).
+</quote>
+** That is ChatGPT telling us we should have a main scene containing global managers to persist some things in our game. We need to do that.
+
+=====
+TODO * We need to make the game window larger. The current size of everything is fine, but the view the camera gives us is small. We want to see more of the gameplay area.
+** Can we easily go fullscreen?
+** Should fullscreen be optional?
+** What are best practices?
+
+=====
+TODO * Player Bullets should be pieces of candy and hallowen treats.
+** Make a variety of candy sprites.
+** When player fires, random candy sprite should be assigned to bullet.
+** Big Shot (larger bullet that persists until its health reaches 0) will probably just be a scaled-up version of existing candy sprite.
+
+=====
+TODO * Enemies placed directly in level need to be managed through instance pooling.
+** When we place Enemy Spawners in a level, they use our instance pooling to place / recycle enemies.
+** We need to be able to place enemies directly in a level, and have them use instance pooling as well.
+** This is probably as simple as using a Marker node of specific name, then having a script place an instance at that location. Ask ChatGPT how to do this.
 
 TODO * Maybe Skeletons throw bones instead of shoot arrows. Perhaps a different enemy shoots arrows.
 

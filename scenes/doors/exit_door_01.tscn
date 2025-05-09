@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cryhg8hhmfvkb"]
+
+[ext_resource type="Script" path="res://scripts/doors/ExitDoor01.gd" id="1_0iugf"]
+[ext_resource type="Texture2D" uid="uid://bpu1lb8eypeiv" path="res://assets/sprites/doors/stone-arch.png" id="1_ergum"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eoj0t"]
+size = Vector2(29, 33)
+
+[node name="ExitDoor01" type="Area2D" groups=["exit_doors"]]
+script = ExtResource("1_0iugf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+position = Vector2(-0.5, 7.5)
+shape = SubResource("RectangleShape2D_eoj0t")
+debug_color = Color(0.947847, 0.179878, 0.366799, 0.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_ergum")

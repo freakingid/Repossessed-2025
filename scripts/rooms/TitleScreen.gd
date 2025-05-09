@@ -27,4 +27,9 @@ func start_game_transition():
 	transition_in_progress = true
 	anim_player.play("fade_out")
 	await anim_player.animation_finished
-	get_tree().change_scene_to_file("res://scenes/rooms/MenuScreen.tscn")  # Replace with your actual level path
+	_on_start_button_pressed()
+	# old way
+	# get_tree().change_scene_to_file("res://scenes/rooms/MenuScreen.tscn")  # Replace with your actual level path
+
+func _on_start_button_pressed():
+	get_node("/root/Main").load_screen(preload("res://scenes/rooms/MenuScreen.tscn"))

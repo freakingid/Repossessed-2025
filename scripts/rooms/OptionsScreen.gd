@@ -20,7 +20,8 @@ func _ready():
 	music_slider.value_changed.connect(_on_music_changed)
 	sfx_slider.value_changed.connect(_on_sfx_changed)
 	voice_slider.value_changed.connect(_on_voice_changed)
-	back_button.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/rooms/MenuScreen.tscn"))
+	back_button.pressed.connect(func():
+		get_node("/root/Main").load_screen(preload("res://scenes/rooms/MenuScreen.tscn")))
 
 	for control in [master_slider, music_slider, sfx_slider, voice_slider, back_button]:
 		control.focus_mode = Control.FOCUS_ALL

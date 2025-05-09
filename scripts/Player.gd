@@ -124,7 +124,7 @@ var max_shots_in_level: int
 var bullet_lifespan: float
 
 @onready var sprite = $AnimatedSprite2D
-@onready var hud = get_tree().get_first_node_in_group("hud")
+# @onready var hud = get_tree().get_first_node_in_group("hud")
 @onready var health_bar = $HealthBar  # Ensure a ProgressBar exists as a child node
 @onready var DIRECTION_ANIMATIONS := {
 	"walk_e": Vector2.RIGHT,
@@ -558,8 +558,8 @@ func apply_powerup(powerup_type: String):
 	update_weapon_stats()
 
 	# Send updated powerup state to HUD
-	if hud:
-		hud.update_powerup_display({
+	if GameManager.hud:
+		GameManager.hud.update_powerup_display({
 			"big_shot": has_big_shot,
 			"rapid_shot": has_rapid_shot,
 			"triple_shot": has_triple_shot,
@@ -607,8 +607,8 @@ func use_nova_shot():
 	can_use_nova = true
 
 func add_score(points: int):
-	if hud:
-		hud.add_score(points)
+	if GameManager.hud:
+		GameManager.hud.add_score(points)
 	else:
 		print("HUD not found in add_score()!")
 
@@ -701,10 +701,10 @@ func update_animation():
 
 ## Update HUD specifically for gems collected
 func update_hud():
-	if hud:
+	if GameManager.hud:
 		var full_charges = floor(gem_power / float(max_nova_charge))  # Corrected floor division
 		var partial_charge = gem_power % max_nova_charge
-		hud.update_gem_power(full_charges, partial_charge)
+		GameManager.hud.update_gem_power(full_charges, partial_charge)
 
 func die():
 	print("Player has died!")  # Debugging message

@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="MainContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 
 [node name="MenuButtons" type="VBoxContainer" parent="MainContainer/CenterContainer"]

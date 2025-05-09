@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Repossessed 2025"
-run/main_scene="res://scenes/rooms/TitleScreen.tscn"
+run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -27,6 +27,7 @@ HitEffectUtils="*res://scripts/fx/HitEffectsUtil.gd"
 GemSpawnManager="*res://scripts/spawners/GemSpawnManager.gd"
 AudioSettingsManager="*res://scripts/Managers/AudioSettingsManager.gd"
 SoundManager="*res://scripts/Managers/SoundManager.gd"
+GameManager="*res://scripts/Managers/GameManager.gd"
 
 [display]
 
@@ -44,6 +45,7 @@ pushable=""
 enemies=""
 ground_enemies=""
 flying_enemies=""
+exit_doors=""
 
 [input]
 

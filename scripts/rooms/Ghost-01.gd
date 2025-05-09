@@ -25,6 +25,11 @@ func _ready():
 		Global.ROOM_BOUNDS = world_bounds
 	else:
 		push_warning("TileMapLayer not found or incorrect type.")
+	
+	# Prepare doors
+	for door in get_tree().get_nodes_in_group("ExitDoors"):
+		door.connect("player_exited", Callable(GameManager, "transition_to_scene"))
+
 
 func _draw():
 	draw_rect(Global.ROOM_BOUNDS, Color(0, 1, 0, 0.3), false)

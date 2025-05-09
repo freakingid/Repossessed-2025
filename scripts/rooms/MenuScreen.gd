@@ -19,13 +19,15 @@ func _ready():
 
 func _on_new_game_pressed():
 	SoundManager.stop_music()
-	get_tree().change_scene_to_file("res://scenes/rooms/Main.tscn")
+	GameManager.start_new_game("res://scenes/rooms/Ghost-01.tscn")
+	# old way before GameManger existed
+	# get_tree().change_scene_to_file("res://scenes/rooms/Main.tscn")
 
 func _on_options_pressed():
-	get_tree().change_scene_to_file("res://scenes/rooms/OptionsScreen.tscn")
+	get_node("/root/Main").load_screen(preload("res://scenes/rooms/OptionsScreen.tscn"))
 
 func _on_back_to_title_pressed():
-	get_tree().change_scene_to_file("res://scenes/rooms/TitleScreen.tscn")
+	get_node("/root/Main").load_screen(preload("res://scenes/rooms/TitleScreen.tscn"))
 
 func _on_quit_pressed():
 	quit_confirm.popup_centered()
