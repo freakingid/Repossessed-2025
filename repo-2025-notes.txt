@@ -1,3 +1,41 @@
+20260114
+==========================================
+* I decided to get back on to this project.
+* There is a branch about "reparenting" or whatever. I do not remember what I was trying to do there.
+* As of this date, I migrated the 4.3 version to 4.5.1, on "main" branch. So any of the other branches are now behind and probably not useful??
+
+=====
+* Now let's see if there are bugs or anything else we know to do.
+
+=====
+TODO * "ESCape" at title screen is doing nothing at all.
+
+=====
+TODO * "ESC" during game does nothing.
+
+=====
+CHECK * Debug vector arrows on enemies always point to the right, then 45 either side. What are they showing? I think they are not updating to show us anything useful at this time.
+
+=====
+CHECK * What is up with our rooms? How are we trying to build new levels? There was previously a time when each level would be a new Scene. Then I was going to have just one scene, but have it dynamically build out the room or something? But I think that is the point where the center of the game got messed up, so the camera was always just showing some corner.
+
+=====
+BUG * Skeleton Shooter arrows are not bouncing off Crates. They simply end at the crate. I think the plan was to have all projectiles (enemy missiles, player missiles, barrels, barrel shrapnel) bounce off crates.
+
+BUG * Carried barrel moves right through Crate static
+
+BUG * Carried barrel moves right through Barrel Static
+
+BUG * Skeleton shooters move right through Barrel Static
+
+===== CHECK BELOW BUGS TO SEE IF THEY STILL EXIST =====
+
+
+
+
+
+
+
 20250424
 ==========================================
 DONE * Add title screen music back.
@@ -80,10 +118,6 @@ Keeps logic modular and reduces enemy reliance on group name resolution.
 
 Let me know if you'd like me to help break this into testable helper functions or extend this cleanup to other lifecycle methods like take_damage().
 </quote>
-
-BUG * Carried barrel moves right through Crate static
-
-BUG * Carried barrel moves right through Barrel Static
 
 BUG * Carried barrel moves right through Wall
 

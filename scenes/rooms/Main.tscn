@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://drndiygpgjsov"]
 
-[ext_resource type="Script" path="res://scripts/rooms/main.gd" id="1_ki1bk"]
+[ext_resource type="Script" uid="uid://b2qsvk0vqpodl" path="res://scripts/rooms/main.gd" id="1_ki1bk"]
 [ext_resource type="PackedScene" uid="uid://cxlq6i3gdrfuy" path="res://scenes/Player.tscn" id="2_40o8p"]
 [ext_resource type="PackedScene" uid="uid://brc8s1xek7xpj" path="res://scenes/NovaShot.tscn" id="3_cy0y0"]
 [ext_resource type="PackedScene" uid="uid://53tpqj34abuj" path="res://scenes/spawners/GhostSpawner.tscn" id="4_fywft"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://0t1dglgn422w" path="res://scenes/carryables/Barrel_Static.tscn" id="7_arl5g"]
 [ext_resource type="PackedScene" uid="uid://bgw312ex8eet8" path="res://scenes/hud.tscn" id="8_jqfjk"]
 [ext_resource type="TileSet" uid="uid://dd2xuya8itagb" path="res://assets/tilesets/dungeon_tileset.tres" id="9_r5hps"]
-[ext_resource type="Script" path="res://scripts/Managers/LevelManager.gd" id="10_xsv7t"]
+[ext_resource type="Script" uid="uid://wuofcskp8axs" path="res://scripts/Managers/LevelManager.gd" id="10_xsv7t"]
 
 [node name="Node2D" type="Node2D"]
 z_index = 1
@@ -24,7 +24,6 @@ position = Vector2(120.183, -315.32)
 
 [node name="SkeletonShooterSpawner" parent="." instance=ExtResource("5_7jpom")]
 position = Vector2(-175.248, -309.657)
-max_enemies = 0
 
 [node name="CrateStatic" parent="." instance=ExtResource("6_ai8i2")]
 position = Vector2(121.127, -83.1273)
