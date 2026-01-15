@@ -27,11 +27,3 @@ script = ExtResource("2_xl81x")
 [node name="LevelMusic" type="Node" parent="."]
 script = ExtResource("3_hkmpb")
 music_stream = ExtResource("4_avu11")
-
-[node name="CurrentLevel" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2

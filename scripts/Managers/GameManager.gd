@@ -38,6 +38,12 @@ func transition_to_scene(scene_path: String, spawn_point_name: String = "PlayerS
 
 	world_node.add_child(new_level)
 	current_level_scene = new_level
+	
+	# Clear UI screen when entering gameplay
+	var ui_screen = get_node_or_null("/root/Main/UIScreen")
+	if ui_screen:
+		for child in ui_screen.get_children():
+			child.queue_free()
 
 	await new_level.ready
 	

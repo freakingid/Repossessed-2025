@@ -11,6 +11,9 @@ extends CharacterBody2D
 @onready var move_collider_up_left = $move_collider_up_left
 @onready var move_collider_down_right = $move_collider_down_right
 @onready var move_collider_down_left = $move_collider_down_left
+@onready var camera: Camera2D = $PlayerCamera
+
+
 var carried_crate_source: Node = null  # Reference to original Crate_Static node
 # END adding reparenting
 @onready var bullet_sfx = [
@@ -153,6 +156,8 @@ const PLAYER_CARRY_COLLISION_MASK = (
 )
 
 func _ready():
+	camera.make_current()
+
 	# Disable all movement colliders initially
 	move_collider_up.disabled = true
 	move_collider_down.disabled = true
